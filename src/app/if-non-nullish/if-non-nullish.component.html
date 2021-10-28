@@ -1,0 +1,20 @@
+
+<div *ifNonNullish="choupi as coucou; let toto">
+  LET / {{ coucou | json }} / {{ toto }}
+</div>
+
+<div *ifNonNullish="data2$ | async as coucou; let toto">
+  LET / {{ coucou | json }} / {{ toto }}
+</div>
+
+<div *ifNonNullish="data$ | async as coucou; let toto">
+  LET / {{ coucou | json }} / {{ toto }}
+</div>
+
+<div *ngIf="data$ | async as coucou; let toto">
+  IF / {{ coucou }} / {{ toto }}
+</div>
+
+<div *ngIf="data2$ | async as coucou; let toto">
+  IF / {{ coucou }} / {{ toto }}
+</div>

@@ -5,7 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "test": "jest",
+    "test:app": "jest ./src/**",
+    "test:projects": "jest ./projects/**",
     "build": "ng build",
+    "build:if-non-nullish": "ng build if-non-nullish",
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint",
     "format:check": "prettier --check .",
@@ -42,6 +45,7 @@
     "eslint-config-prettier": "^8.3.0",
     "jest": "^27.3.1",
     "jest-preset-angular": "^10.1.0",
+    "ng-packagr": "^12.1.1",
     "prettier": "2.4.1",
     "typescript": "~4.3.5"
   },

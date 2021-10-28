@@ -15,11 +15,3 @@ Run `ng build if-non-nullish` to build the project. The build artifacts will be 
 ## Publishing
 
 After building your library with `ng build if-non-nullish`, go to the dist folder `cd dist/if-non-nullish` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test if-non-nullish` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

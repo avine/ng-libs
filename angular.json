@@ -85,9 +85,21 @@
           "options": {
             "browserTarget": "avine:build"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "avine"
+  "defaultProject": "avine",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

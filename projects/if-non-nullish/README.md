@@ -1,5 +1,7 @@
 # IfNonNullish
 
+Angular structural directive for sharing non-nullish data (even falsy values like 0, false, '', ...).
+
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.0.
 
 ## Code scaffolding

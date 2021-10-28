@@ -1,6 +1,24 @@
 {
   "name": "@avine/ng-if-non-nullish",
-  "version": "0.0.1",
+  "description": "Angular structural directive for sharing non-nullish data (even falsy values like 0, false, '', ...)",
+  "version": "0.0.3",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avine/ng-libs.git"
+  },
+  "keywords": [
+    "angular",
+    "library",
+    "ng-if",
+    "ng-let"
+  ],
+  "author": "Stéphane Francel <contact@avine.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avine/ng-libs/issues"
+  },
+  "homepage": "https://github.com/avine/ng-libs#readme",
   "peerDependencies": {
     "@angular/common": "^12.2.0",
     "@angular/core": "^12.2.0"

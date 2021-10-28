@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "avine": {
+    "ng-libs": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/avine",
+            "outputPath": "dist/ng-libs",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "avine:build:production"
+              "browserTarget": "ng-libs:build:production"
             },
             "development": {
-              "browserTarget": "avine:build:development"
+              "browserTarget": "ng-libs:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "avine:build"
+            "browserTarget": "ng-libs:build"
           }
         },
         "lint": {
@@ -119,7 +119,7 @@
       }
     }
   },
-  "defaultProject": "avine",
+  "defaultProject": "ng-libs",
   "cli": {
     "defaultCollection": "@angular-eslint/schematics"
   }

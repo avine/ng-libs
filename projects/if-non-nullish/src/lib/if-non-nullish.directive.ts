@@ -7,16 +7,24 @@ import { IfNonNullishContext, IfNullish } from './if-non-nullish.types';
 })
 export class IfNonNullishDirective<T = string> {
   @Input()
-  set ifNonNullish(value: T) {
-    this.hasValue = value !== null && value !== undefined;
-    this.handle(value ?? this.default);
+  set ifNonNullish(regularValue: T) {
+    this.hasNoRegularValue = this.isNullish(regularValue);
+    this.handle(regularValue ?? this.defaultValue);
   }
 
   @Input()
-  set ifNonNullishDefault(value: T) {
-    this.default = value;
-    if (!this.hasValue) {
-      this.handle(this.default);
+  set ifNonNullishDefault(defaultValue: T) {
+    this.defaultValue = defaultValue;
+    if (this.hasNoRegularValue) {
+      this.handle(this.defaultValue);
+    }
+  }
+
+  @Input()
+  set ifNonNullishFallback(fallbackTemplate: TemplateRef<any>) {
+    this.fallbackTemplate = fallbackTemplate;
+    if (this.hasNoRegularValue && this.isNullish(this.defaultValue)) {
+      this.createFallbackView();
     }
   }
 
@@ -24,11 +32,13 @@ export class IfNonNullishDirective<T = string> {
 
   private context!: IfNonNullishContext<T>;
 
-  private default!: T;
+  private defaultValue!: T;
 
-  private hasValue = false;
+  private fallbackTemplate!: TemplateRef<any>;
 
-  private hasView = false;
+  private hasNoRegularValue = false;
+
+  private viewState: 'clear' | 'regular' | 'fallback' = 'clear';
 
   /**
    * Asserts the correct type of the context for the template that `NgIf` will render.
@@ -48,14 +58,18 @@ export class IfNonNullishDirective<T = string> {
   constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<IfNonNullishContext<T>>) {}
 
   private handle(value: T) {
-    if (value === null || value === undefined) {
-      if (this.hasView) {
-        this.clearView();
+    if (this.isNullish(value)) {
+      if (this.fallbackTemplate) {
+        if (this.viewState !== 'fallback') {
+          this.createFallbackView();
+        }
+      } else {
+        this.clearViewIfNeeded();
       }
     } else {
       this.upsertContext(value);
-      if (!this.hasView) {
-        this.createView();
+      if (this.viewState !== 'regular') {
+        this.createRegularView();
       }
     }
   }
@@ -69,13 +83,27 @@ export class IfNonNullishDirective<T = string> {
     }
   }
 
-  private createView() {
-    this.viewContainerRef.createEmbeddedView(this.templateRef, this.context);
-    this.hasView = true;
+  private clearViewIfNeeded() {
+    if (this.viewState === 'clear') {
+      return;
+    }
+    this.viewContainerRef.clear();
+    this.viewState = 'clear';
   }
 
-  private clearView() {
-    this.viewContainerRef.clear();
-    this.hasView = false;
+  private createRegularView() {
+    this.clearViewIfNeeded();
+    this.viewContainerRef.createEmbeddedView(this.templateRef, this.context);
+    this.viewState = 'regular';
+  }
+  
+  private createFallbackView() {
+    this.clearViewIfNeeded();
+    this.viewContainerRef.createEmbeddedView(this.fallbackTemplate);
+    this.viewState = 'fallback';
+  }
+
+  private isNullish(value: T): boolean {
+    return value === null || value === undefined;
   }
 }

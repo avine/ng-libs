@@ -5,24 +5,28 @@ import { IfNonNullishContext, IfNullish } from './if-non-nullish.types';
 @Directive({
   selector: '[ifNonNullish]',
 })
-export class IfNonNullishDirective<T = unknown> {
+export class IfNonNullishDirective<T = string> {
   @Input()
-  set ifNonNullish(value: T | IfNullish) {
-    if (value === null || value === undefined) {
-      if (this.hasView) {
-        this.clearView();
-      }
-    } else {
-      this.upsertContext(value);
-      if (!this.hasView) {
-        this.createView();
-      }
+  set ifNonNullish(value: T) {
+    this.hasValue = value !== null && value !== undefined;
+    this.handle(value ?? this.default);
+  }
+
+  @Input()
+  set ifNonNullishDefault(value: T) {
+    this.default = value;
+    if (!this.hasValue) {
+      this.handle(this.default);
     }
   }
 
   $implicit!: T;
 
   private context!: IfNonNullishContext<T>;
+
+  private default!: T;
+
+  private hasValue = false;
 
   private hasView = false;
 
@@ -41,10 +45,20 @@ export class IfNonNullishDirective<T = unknown> {
     return true;
   }
 
-  constructor(
-    private viewContainerRef: ViewContainerRef,
-    private templateRef: TemplateRef<IfNonNullishContext<T>>
-  ) {}
+  constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<IfNonNullishContext<T>>) {}
+
+  private handle(value: T) {
+    if (value === null || value === undefined) {
+      if (this.hasView) {
+        this.clearView();
+      }
+    } else {
+      this.upsertContext(value);
+      if (!this.hasView) {
+        this.createView();
+      }
+    }
+  }
 
   private upsertContext(value: T) {
     this.$implicit = value;

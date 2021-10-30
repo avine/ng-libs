@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IfNonNullishModule } from '@avine/ng-if-non-nullish';
 
 import { IfNonNullishComponent } from './if-non-nullish.component';
 
@@ -8,9 +9,9 @@ describe('IfNonNullishComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ IfNonNullishComponent ]
-    })
-    .compileComponents();
+      declarations: [IfNonNullishComponent],
+      imports: [IfNonNullishModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {

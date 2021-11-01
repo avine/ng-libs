@@ -36,7 +36,7 @@ export class IfNonNullishDirective<T = string> {
 
   private fallbackTemplate!: TemplateRef<any>;
 
-  private hasNoRegularValue = false;
+  private hasNoRegularValue = true;
 
   private viewState: 'regular' | 'fallback' | 'clear' = 'clear';
 

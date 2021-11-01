@@ -1,61 +1,109 @@
-import { of } from 'rxjs';
-
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { createDirectiveFactory } from '@ngneat/spectator/jest';
 
 import { IfNonNullishDirective } from './if-non-nullish.directive';
 
-@Component({
-  template: `
-    <div *ifNonNullish="true; let implicit" test-1>true is {{ implicit }} which is NonNullish</div>
-    <div *ifNonNullish="false; let implicit" test-2>false is {{ implicit }} which is NonNullish</div>
-
-    <div *ifNonNullish="true$ | async as value; let implicit" test-3>
-      {{ value }} is {{ implicit }} which is NonNullish
-    </div>
-    <div *ifNonNullish="false$ | async as value; let implicit" test-4>
-      {{ value }} is {{ implicit }} which is NonNullish
-    </div>
-
-    <div *ngIf="true" test-5>true is truthy</div>
-    <div *ngIf="false" test-6>false is not truthy</div>
-
-    <div *ifNonNullish="undefined" test-7>undefined is Nullish</div>
-    <div *ifNonNullish="null" test-8>null is Nullish</div>
-  `,
-})
-class TestComponent {
-  true$ = of(true);
-  false$ = of(false);
+@Component({})
+class HostComponent {
+  regular!: any;
+  default!: any;
 }
 
-describe('IfNonNullishDirective', () => {
-  let fixture: ComponentFixture<TestComponent>;
-
-  beforeEach(() => {
-    fixture = TestBed.configureTestingModule({
-      declarations: [IfNonNullishDirective, TestComponent],
-    }).createComponent(TestComponent);
-
-    fixture.detectChanges();
+describe('DirectiveProviderDirective', () => {
+  const createDirective = createDirectiveFactory({
+    directive: IfNonNullishDirective,
+    host: HostComponent,
   });
 
-  it('should create an instance', () => {
-    expect(queryTextContent('[test-1]')).toMatch('true is true which is NonNullish');
-    expect(queryTextContent('[test-2]')).toMatch('false is false which is NonNullish');
-
-    expect(queryTextContent('[test-3]')).toMatch('true is true which is NonNullish');
-    expect(queryTextContent('[test-4]')).toMatch('false is false which is NonNullish');
-
-    expect(queryTextContent('[test-5]')).toMatch('true is truthy');
-    expect(queryTextContent('[test-6]')).toBeNull();
-
-    expect(queryTextContent('[test-7]')).toBeNull();
-    expect(queryTextContent('[test-8]')).toBeNull();
+  it('should get the instance', () => {
+    const spectator = createDirective('<div *ifNonNullish></div>');
+    const instance = spectator.directive;
+    expect(instance).toBeDefined();
   });
 
-  function queryTextContent(selctor: string) {
-    return fixture.debugElement.query(By.css(selctor))?.nativeElement?.textContent || null;
-  }
+  describe('Regular value', () => {
+    it('should not render host when no data provided', () => {
+      const spectator = createDirective('<div *ifNonNullish></div>');
+      expect(spectator.query('div')).toBeNull();
+    });
+
+    it.each([null, undefined])('should not render host when data is nullish like %p', (data) => {
+      const spectator = createDirective('<div *ifNonNullish="regular"></div>', {
+        hostProps: { regular: data },
+      });
+      expect(spectator.query('div')).toBeNull();
+    });
+
+    it.each([false, '', 0])('should render host when data is not nullish like %p', (data) => {
+      const spectator = createDirective('<div *ifNonNullish="regular">Regular</div>', {
+        hostProps: { regular: data },
+      });
+      expect(spectator.query('div')?.textContent).toMatch('Regular');
+    });
+
+    it('should expose data using "as" syntax', () => {
+      const spectator = createDirective('<div *ifNonNullish="regular as value">{{ value }}</div>', {
+        hostProps: { regular: 'Regular' },
+      });
+      expect(spectator.query('div')?.textContent).toMatch('Regular');
+    });
+
+    it('should expose data using implicit syntax', () => {
+      const spectator = createDirective('<div *ifNonNullish="regular; let value">{{ value }}</div>', {
+        hostProps: { regular: 'Regular' },
+      });
+      expect(spectator.query('div')?.textContent).toMatch('Regular');
+    });
+  });
+
+  describe('Default value', () => {
+    it('should render default value when regular value is nullish', () => {
+      const spectator = createDirective('<div *ifNonNullish="regular as value; default:default">{{ value }}</div>', {
+        hostProps: { regular: null, default: 'Default' },
+      });
+      expect(spectator.query('div')?.textContent).toMatch('Default');
+    });
+
+    it('should render regular value over default value', () => {
+      const spectator = createDirective('<div *ifNonNullish="regular as value; default:default">{{ value }}</div>', {
+        hostProps: { regular: 'Regular', default: 'Default' },
+      });
+      expect(spectator.query('div')?.textContent).toMatch('Regular');
+    });
+  });
+
+  describe('Fallback template', () => {
+    it('should render fallback template when regular and default values are nullish', () => {
+      const spectator = createDirective(
+        `
+        <div *ifNonNullish="regular as value; default:default fallback:fallback">{{ value }}</div>
+        <ng-template #fallback><i>Fallback</i></ng-template>
+      `,
+        { hostProps: { regular: null, default: null } }
+      );
+      expect(spectator.query('i')?.textContent).toMatch('Fallback');
+    });
+
+    it('should not render fallback template when regular value is not nullish', () => {
+      const spectator = createDirective(
+        `
+        <div *ifNonNullish="regular as value; default:default fallback:fallback">{{ value }}</div>
+        <ng-template #fallback><i>Fallback</i></ng-template>
+      `,
+        { hostProps: { regular: 'Regular', default: null } }
+      );
+      expect(spectator.query('div')?.textContent).toMatch('Regular');
+    });
+
+    it('should not render fallback template when default value is not nullish', () => {
+      const spectator = createDirective(
+        `
+        <div *ifNonNullish="regular as value; default:default fallback:fallback">{{ value }}</div>
+        <ng-template #fallback><i>Fallback</i></ng-template>
+      `,
+        { hostProps: { regular: null, default: 'Default' } }
+      );
+      expect(spectator.query('div')?.textContent).toMatch('Default');
+    });
+  });
 });

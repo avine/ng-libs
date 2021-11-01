@@ -1,7 +1,7 @@
 {
   "name": "@avine/ng-if-non-nullish",
   "description": "Angular structural directive for sharing non-nullish data (even falsy values like 0, false, '', ...)",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": false,
   "repository": {
     "type": "git",

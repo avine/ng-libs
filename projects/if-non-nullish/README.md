@@ -1,6 +1,6 @@
 # IfNonNullish
 
-Nullish coalescing operator (`??`) as Angular structural directive (and more...).
+Nullish coalescing operator (??) as Angular structural directive and more...
 
 ## Installation
 
@@ -29,7 +29,9 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: ` <div *ifNonNullish="data$ | async as value">{{ value }}</div> `,
+  template: `
+    <div *ifNonNullish="data$ | async as value">{{ value }}</div>
+  `,
 })
 export class AppComponent {
   data$: Observable<null | false> = interval(1000).pipe(
@@ -43,9 +45,9 @@ Only nullish values like `null` or `undefined` are not rendered.
 
 ## Usage
 
-### With value
+### With data
 
-Render value using "as" syntax or "implicit" syntax.
+Render data using "as" syntax or "implicit" syntax.
 
 ```ts
 import { Component } from '@angular/core';
@@ -71,7 +73,9 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: ` <div *ifNonNullish="data as value; default: defaultValue">{{ value }}</div> `,
+  template: `
+    <div *ifNonNullish="data as value; default: defaultValue">{{ value }}</div>
+  `,
 })
 export class AppComponent {
   data = undefined;

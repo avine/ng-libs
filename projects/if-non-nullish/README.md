@@ -1,19 +1,101 @@
 # IfNonNullish
 
-Angular structural directive for sharing non-nullish data (even falsy values like 0, false, '', ...).
+**Angular structural directive for sharing non-nullish data (even falsy values like 0, false, '', ...).**
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.0.
+## Installation
 
-## Code scaffolding
+Import `IfNonNullishModule` in your `app.module.ts`:
 
-Run `ng generate component component-name --project if-non-nullish` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project if-non-nullish`.
+```ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { IfNonNullishModule } from '@avine/ng-if-non-nullish';
+import { AppComponent } from './app.component';
 
-> Note: Don't forget to add `--project if-non-nullish` or else it will be added to the default project in your `angular.json` file.
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, IfNonNullishModule],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
 
-## Build
+Use `ifNonNullish` directive in your `app.component.ts`:
 
-Run `ng build if-non-nullish` to build the project. The build artifacts will be stored in the `dist/` directory.
+```ts
+import { interval, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Component } from '@angular/core';
 
-## Publishing
+@Component({
+  selector: 'app-root',
+  template: `
+    <div *ifNonNullish="regularValue$ | async as value">{{ value }}</div>
+  `,
+})
+export class AppComponent {
+  regularValue$: Observable<false | null> = interval(1000).pipe(map((i) => (i % 2 ? false : null)));
+}
+```
 
-After building your library with `ng build if-non-nullish`, go to the dist folder `cd dist/if-non-nullish` and run `npm publish`.
+Unlike `ngIf` directive, falsy values like `false`, `""` or `0` will be rendered.
+Only nullish values like `null` or `undefined` are not rendered.
+
+# Usage
+
+## Regular value
+
+Render value using "as" syntax or "implicit" syntax.
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div *ifNonNullish="regularValue as value">{{ value }}</div>
+    <div *ifNonNullish="regularValue; let value">{{ value }}</div>
+  `,
+})
+export class AppComponent {
+  regularValue = 'Regular';
+}
+```
+
+## Default value
+
+Use `default:` input to provide a default value when regular value is nullish.
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div *ifNonNullish="regularValue as value; default:defaultValue">{{ value }}</div>
+  `,
+})
+export class AppComponent {
+  regularValue = undefined;
+  defaultValue = 'Default';
+}
+```
+
+## Fallback template
+
+Use `fallback:` input to provide a `templateRef` when regular and default values are nullish.
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div *ifNonNullish="regularValue as value; fallback:fallbackTemplate">{{ value }}</div>
+    <ng-template #fallbackTemplate><i>Fallback</i></ng-template>
+  `,
+})
+export class AppComponent {
+  regularValue = undefined;
+}
+```

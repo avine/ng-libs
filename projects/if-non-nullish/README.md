@@ -41,9 +41,9 @@ export class AppComponent {
 Unlike `ngIf` directive, falsy values like `false`, `""` or `0` are rendered.
 Only nullish values like `null` or `undefined` are not rendered.
 
-# Usage
+## Usage
 
-## With value
+### With value
 
 Render value using "as" syntax or "implicit" syntax.
 
@@ -62,7 +62,7 @@ export class AppComponent {
 }
 ```
 
-## With default value
+### With default value
 
 Use `default:` input to provide a default value when data is nullish.
 
@@ -79,7 +79,7 @@ export class AppComponent {
 }
 ```
 
-## With fallback template
+### With fallback template
 
 Use `fallback:` input to provide a `templateRef` when data and default values are nullish.
 

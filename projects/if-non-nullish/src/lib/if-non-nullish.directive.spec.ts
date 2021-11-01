@@ -5,11 +5,11 @@ import { IfNonNullishDirective } from './if-non-nullish.directive';
 
 @Component({})
 class HostComponent {
-  regular!: any;
+  data!: any;
   default!: any;
 }
 
-describe('DirectiveProviderDirective', () => {
+describe('IfNonNullishDirective', () => {
   const createDirective = createDirectiveFactory({
     directive: IfNonNullishDirective,
     host: HostComponent,
@@ -21,87 +21,87 @@ describe('DirectiveProviderDirective', () => {
     expect(instance).toBeDefined();
   });
 
-  describe('Regular value', () => {
+  describe('With value', () => {
     it('should not render host when no data provided', () => {
       const spectator = createDirective('<div *ifNonNullish></div>');
       expect(spectator.query('div')).toBeNull();
     });
 
     it.each([null, undefined])('should not render host when data is nullish like %p', (data) => {
-      const spectator = createDirective('<div *ifNonNullish="regular"></div>', {
-        hostProps: { regular: data },
+      const spectator = createDirective('<div *ifNonNullish="data"></div>', {
+        hostProps: { data },
       });
       expect(spectator.query('div')).toBeNull();
     });
 
     it.each([false, '', 0])('should render host when data is not nullish like %p', (data) => {
-      const spectator = createDirective('<div *ifNonNullish="regular">Regular</div>', {
-        hostProps: { regular: data },
+      const spectator = createDirective('<div *ifNonNullish="data">Data</div>', {
+        hostProps: { data },
       });
-      expect(spectator.query('div')?.textContent).toMatch('Regular');
+      expect(spectator.query('div')?.textContent).toMatch('Data');
     });
 
     it('should expose data using "as" syntax', () => {
-      const spectator = createDirective('<div *ifNonNullish="regular as value">{{ value }}</div>', {
-        hostProps: { regular: 'Regular' },
+      const spectator = createDirective('<div *ifNonNullish="data as value">{{ value }}</div>', {
+        hostProps: { data: 'Data' },
       });
-      expect(spectator.query('div')?.textContent).toMatch('Regular');
+      expect(spectator.query('div')?.textContent).toMatch('Data');
     });
 
     it('should expose data using implicit syntax', () => {
-      const spectator = createDirective('<div *ifNonNullish="regular; let value">{{ value }}</div>', {
-        hostProps: { regular: 'Regular' },
+      const spectator = createDirective('<div *ifNonNullish="data; let value">{{ value }}</div>', {
+        hostProps: { data: 'Data' },
       });
-      expect(spectator.query('div')?.textContent).toMatch('Regular');
+      expect(spectator.query('div')?.textContent).toMatch('Data');
     });
   });
 
-  describe('Default value', () => {
-    it('should render default value when regular value is nullish', () => {
-      const spectator = createDirective('<div *ifNonNullish="regular as value; default:default">{{ value }}</div>', {
-        hostProps: { regular: null, default: 'Default' },
+  describe('With default value', () => {
+    it('should render default value when value is nullish', () => {
+      const spectator = createDirective('<div *ifNonNullish="data as value; default:default">{{ value }}</div>', {
+        hostProps: { data: null, default: 'Default' },
       });
       expect(spectator.query('div')?.textContent).toMatch('Default');
     });
 
-    it('should render regular value over default value', () => {
-      const spectator = createDirective('<div *ifNonNullish="regular as value; default:default">{{ value }}</div>', {
-        hostProps: { regular: 'Regular', default: 'Default' },
+    it('should render value over default value', () => {
+      const spectator = createDirective('<div *ifNonNullish="data as value; default:default">{{ value }}</div>', {
+        hostProps: { data: 'Data', default: 'Default' },
       });
-      expect(spectator.query('div')?.textContent).toMatch('Regular');
+      expect(spectator.query('div')?.textContent).toMatch('Data');
     });
   });
 
-  describe('Fallback template', () => {
-    it('should render fallback template when regular and default values are nullish', () => {
+  describe('With fallback template', () => {
+    it('should render fallback template when value and default values are nullish', () => {
       const spectator = createDirective(
         `
-        <div *ifNonNullish="regular as value; default:default fallback:fallback">{{ value }}</div>
+        <div *ifNonNullish="data as value; default:default fallback:fallback">{{ value }}</div>
         <ng-template #fallback><i>Fallback</i></ng-template>
       `,
-        { hostProps: { regular: null, default: null } }
+        { hostProps: { data: null, default: null } }
       );
       expect(spectator.query('i')?.textContent).toMatch('Fallback');
     });
 
-    it('should not render fallback template when regular value is not nullish', () => {
+    it('should not render fallback template when value is not nullish', () => {
       const spectator = createDirective(
         `
-        <div *ifNonNullish="regular as value; default:default fallback:fallback">{{ value }}</div>
+        <div *ifNonNullish="data as value; default:default fallback:fallback">{{ value }}</div>
         <ng-template #fallback><i>Fallback</i></ng-template>
       `,
-        { hostProps: { regular: 'Regular', default: null } }
+        { hostProps: { data: 'Data', default: null } }
       );
-      expect(spectator.query('div')?.textContent).toMatch('Regular');
+      expect(spectator.query('div')?.textContent).toMatch('Data');
     });
 
     it('should not render fallback template when default value is not nullish', () => {
       const spectator = createDirective(
         `
-        <div *ifNonNullish="regular as value; default:default fallback:fallback">{{ value }}</div>
+        <div *ifNonNullish="data as value; default:default fallback:fallback">{{ value }}</div>
         <ng-template #fallback><i>Fallback</i></ng-template>
       `,
-        { hostProps: { regular: null, default: 'Default' } }
+        { hostProps: { data: null, default: 'Default' } }
       );
       expect(spectator.query('div')?.textContent).toMatch('Default');
     });

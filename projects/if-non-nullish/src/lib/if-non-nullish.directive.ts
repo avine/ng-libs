@@ -7,15 +7,15 @@ import { IfNonNullishContext, IfNullish } from './if-non-nullish.types';
 })
 export class IfNonNullishDirective<T = string> {
   @Input()
-  set ifNonNullish(regularValue: T) {
-    this.hasNoRegularValue = this.isNullish(regularValue);
-    this.render(regularValue ?? this.defaultValue);
+  set ifNonNullish(value: T) {
+    this.hasNoValue = this.isNullish(value);
+    this.render(value ?? this.defaultValue);
   }
 
   @Input()
   set ifNonNullishDefault(defaultValue: T) {
     this.defaultValue = defaultValue;
-    if (this.hasNoRegularValue) {
+    if (this.hasNoValue) {
       this.render(this.defaultValue);
     }
   }
@@ -23,7 +23,7 @@ export class IfNonNullishDirective<T = string> {
   @Input()
   set ifNonNullishFallback(fallbackTemplate: TemplateRef<any>) {
     this.fallbackTemplate = fallbackTemplate;
-    if (this.hasNoRegularValue && this.isNullish(this.defaultValue)) {
+    if (this.hasNoValue && this.isNullish(this.defaultValue)) {
       this.createFallbackView();
     }
   }
@@ -32,11 +32,11 @@ export class IfNonNullishDirective<T = string> {
 
   private context!: IfNonNullishContext<T>;
 
+  private hasNoValue = true;
+
   private defaultValue!: T;
 
   private fallbackTemplate!: TemplateRef<any>;
-
-  private hasNoRegularValue = true;
 
   private viewState: 'regular' | 'fallback' | 'clear' = 'clear';
 

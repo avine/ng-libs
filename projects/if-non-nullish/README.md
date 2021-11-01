@@ -1,6 +1,6 @@
 # IfNonNullish
 
-**Angular structural directive for sharing non-nullish data (even falsy values like 0, false, '', ...).**
+Nullish coalescing operator (`??`) as Angular structural directive (and more...).
 
 ## Installation
 
@@ -29,21 +29,21 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <div *ifNonNullish="regularValue$ | async as value">{{ value }}</div>
-  `,
+  template: ` <div *ifNonNullish="data$ | async as value">{{ value }}</div> `,
 })
 export class AppComponent {
-  regularValue$: Observable<false | null> = interval(1000).pipe(map((i) => (i % 2 ? false : null)));
+  data$: Observable<null | false> = interval(1000).pipe(
+    map((i) => i % 2 ? null : false)
+  );
 }
 ```
 
-Unlike `ngIf` directive, falsy values like `false`, `""` or `0` will be rendered.
+Unlike `ngIf` directive, falsy values like `false`, `""` or `0` are rendered.
 Only nullish values like `null` or `undefined` are not rendered.
 
 # Usage
 
-## Regular value
+## With value
 
 Render value using "as" syntax or "implicit" syntax.
 
@@ -53,37 +53,35 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <div *ifNonNullish="regularValue as value">{{ value }}</div>
-    <div *ifNonNullish="regularValue; let value">{{ value }}</div>
+    <div *ifNonNullish="data as value">{{ value }}</div>
+    <div *ifNonNullish="data; let value">{{ value }}</div>
   `,
 })
 export class AppComponent {
-  regularValue = 'Regular';
+  data = 'Data';
 }
 ```
 
-## Default value
+## With default value
 
-Use `default:` input to provide a default value when regular value is nullish.
+Use `default:` input to provide a default value when data is nullish.
 
 ```ts
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <div *ifNonNullish="regularValue as value; default:defaultValue">{{ value }}</div>
-  `,
+  template: ` <div *ifNonNullish="data as value; default: defaultValue">{{ value }}</div> `,
 })
 export class AppComponent {
-  regularValue = undefined;
+  data = undefined;
   defaultValue = 'Default';
 }
 ```
 
-## Fallback template
+## With fallback template
 
-Use `fallback:` input to provide a `templateRef` when regular and default values are nullish.
+Use `fallback:` input to provide a `templateRef` when data and default values are nullish.
 
 ```ts
 import { Component } from '@angular/core';
@@ -91,11 +89,11 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <div *ifNonNullish="regularValue as value; fallback:fallbackTemplate">{{ value }}</div>
+    <div *ifNonNullish="data as value; fallback: fallbackTemplate">{{ value }}</div>
     <ng-template #fallbackTemplate><i>Fallback</i></ng-template>
   `,
 })
 export class AppComponent {
-  regularValue = undefined;
+  data = undefined;
 }
 ```

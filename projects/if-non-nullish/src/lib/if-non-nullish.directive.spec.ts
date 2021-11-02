@@ -28,7 +28,7 @@ describe('IfNonNullishDirective', () => {
   });
 
   describe('Using primitives', () => {
-    describe('With data', () => {
+    describe('Rendering data', () => {
       it('should not render host when no data provided', () => {
         const spectator = createDirective('<div *ifNonNullish></div>');
         expect(spectator.query('div')).toBeNull();
@@ -63,7 +63,7 @@ describe('IfNonNullishDirective', () => {
       });
     });
 
-    describe('With default value', () => {
+    describe('Rendering default value', () => {
       it('should render default value when data is nullish', () => {
         const spectator = createDirective('<div *ifNonNullish="data as value; default: default">{{ value }}</div>', {
           hostProps: { data: null, default: 'Default' },
@@ -79,8 +79,8 @@ describe('IfNonNullishDirective', () => {
       });
     });
 
-    describe('With fallback template', () => {
-      it('should render fallback template when data and default are nullish', () => {
+    describe('Rendering fallback template', () => {
+      it('should render fallback template when data and default value are nullish', () => {
         const spectator = createDirective(
           `
         <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
@@ -116,7 +116,7 @@ describe('IfNonNullishDirective', () => {
   });
 
   describe('Using Observables', () => {
-    describe('With data', () => {
+    describe('Rendering data', () => {
       it('should render data over time', () => {
         const { data, next } = getMockData$<string | null>();
         const spectator = createDirective('<div *ifNonNullish="data | async as value">{{ value }}</div>', {
@@ -143,7 +143,7 @@ describe('IfNonNullishDirective', () => {
       });
     });
 
-    describe('With default value', () => {
+    describe('Rendering default value', () => {
       it('should render default value over time starting with default value', () => {
         const { data, next } = getMockData$<string | null>();
         const spectator = createDirective(
@@ -183,7 +183,7 @@ describe('IfNonNullishDirective', () => {
       });
     });
 
-    describe('With fallback template', () => {
+    describe('Rendering fallback template', () => {
       it('should work even when fallback template is not a template', () => {
         expect(() => createDirective(`<div *ifNonNullish="null; fallback: null"></div>`)).not.toThrow();
       });
@@ -272,7 +272,7 @@ describe('IfNonNullishDirective', () => {
         expect(createEmbeddedView).toHaveBeenCalledTimes(1);
       });
 
-      it('should never render fallback template when default value is available', () => {
+      it('should never render fallback template when default value is provided', () => {
         const { data, next } = getMockData$<string | null>('Data');
         const spectator = createDirective(
           `
@@ -296,7 +296,7 @@ describe('IfNonNullishDirective', () => {
 });
 
 function getMockData$<T>(firstValue?: T) {
-  const data = new ReplaySubject<T>();
+  const data = new ReplaySubject<T>(1);
   const next = (value: T) => data.next(value);
   if (firstValue) {
     next(firstValue);

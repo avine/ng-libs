@@ -66,7 +66,7 @@ export class IfNonNullishDirective<T = unknown> {
     } else if (this.fallbackTemplate) {
       this.renderFallbackView();
     } else {
-      this.clearViewIfNeeded();
+      this.clearView();
     }
   }
 
@@ -88,7 +88,7 @@ export class IfNonNullishDirective<T = unknown> {
   }
 
   private createRegularView() {
-    this.clearViewIfNeeded();
+    this.clearView();
     this.viewContainerRef.createEmbeddedView(this.templateRef, this.context);
     this.viewState = 'regular';
   }
@@ -101,12 +101,12 @@ export class IfNonNullishDirective<T = unknown> {
   }
 
   private createFallbackView() {
-    this.clearViewIfNeeded();
+    this.clearView();
     this.viewContainerRef.createEmbeddedView(this.fallbackTemplate);
     this.viewState = 'fallback';
   }
 
-  private clearViewIfNeeded() {
+  private clearView() {
     if (this.viewState === 'clear') {
       return;
     }

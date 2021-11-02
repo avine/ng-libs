@@ -10,9 +10,9 @@ class HostComponent {
   data!: any;
   default!: any;
 
-  @ViewChild('fallback1') fallback1!: TemplateRef<any>;
-  @ViewChild('fallback2') fallback2!: TemplateRef<any>;
-  fallback!: TemplateRef<any>;
+  @ViewChild('fallback1') fallback1!: TemplateRef<any> | null;
+  @ViewChild('fallback2') fallback2!: TemplateRef<any> | null;
+  fallback!: TemplateRef<any> | null;
 }
 
 describe('IfNonNullishDirective', () => {
@@ -83,20 +83,59 @@ describe('IfNonNullishDirective', () => {
       it('should render fallback template when data and default value are nullish', () => {
         const spectator = createDirective(
           `
-        <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
-        <ng-template #fallback><i>Fallback</i></ng-template>
-      `,
+          <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
+          <ng-template #fallback><i>Fallback</i></ng-template>
+        `,
           { hostProps: { data: null, default: null } }
         );
         expect(spectator.query('i')?.textContent).toMatch('Fallback');
       });
 
+      it('should render different fallback templates over time', () => {
+        const spectator = createDirective(
+          `
+          <div *ifNonNullish="data as value; fallback: fallback">{{ value }}</div>
+          <ng-template #fallback1><i>Fallback 1</i></ng-template>
+          <ng-template #fallback2><i>Fallback 2</i></ng-template>
+        `
+        );
+    
+        const hostComponent = spectator.hostComponent as HostComponent;
+    
+        hostComponent.fallback = hostComponent.fallback1;
+        spectator.detectChanges();
+        expect(spectator.query('i')?.textContent).toMatch('Fallback 1');
+    
+        hostComponent.fallback = hostComponent.fallback2;
+        spectator.detectChanges();
+        expect(spectator.query('i')?.textContent).toMatch('Fallback 2');
+      });
+
+      it('should clear view when fallback template becomes nullish', () => {
+        const spectator = createDirective(
+          `
+            <div *ifNonNullish="data as value; fallback: fallback">{{ value }}</div>
+            <ng-template #fallback1><i>Fallback 1</i></ng-template>
+          `
+        );
+    
+        const hostComponent = spectator.hostComponent as HostComponent;
+    
+        hostComponent.fallback = hostComponent.fallback1;
+        spectator.detectChanges();
+        expect(spectator.query('i')?.textContent).toMatch('Fallback 1');
+    
+        hostComponent.fallback = null;
+        spectator.detectChanges();
+        expect(spectator.query('i')).toBeNull();
+      });
+
       it('should not render fallback template when data is not nullish', () => {
         const spectator = createDirective(
           `
-        <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
-        <ng-template #fallback><i>Fallback</i></ng-template>
-      `,
+          <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
+          <ng-template #fallback><i>Fallback</i></ng-template>
+        `,
           { hostProps: { data: 'Data', default: null } }
         );
         expect(spectator.query('div')?.textContent).toMatch('Data');
@@ -105,9 +144,9 @@ describe('IfNonNullishDirective', () => {
       it('should not render fallback template when default value is not nullish', () => {
         const spectator = createDirective(
           `
-        <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
-        <ng-template #fallback><i>Fallback</i></ng-template>
-      `,
+          <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
+          <ng-template #fallback><i>Fallback</i></ng-template>
+        `,
           { hostProps: { data: null, default: 'Default' } }
         );
         expect(spectator.query('div')?.textContent).toMatch('Default');
@@ -184,10 +223,6 @@ describe('IfNonNullishDirective', () => {
     });
 
     describe('Rendering fallback template', () => {
-      it('should work even when fallback template is not a template', () => {
-        expect(() => createDirective(`<div *ifNonNullish="null; fallback: null"></div>`)).not.toThrow();
-      });
-
       it('should render fallback template starting with template', () => {
         const { data, next } = getMockData$<string | null>();
         const spectator = createDirective(
@@ -226,26 +261,6 @@ describe('IfNonNullishDirective', () => {
         next('Data');
         spectator.detectChanges();
         expect(spectator.query('div')?.textContent).toMatch('Data');
-      });
-
-      it('should render different fallback templates over time', () => {
-        const spectator = createDirective(
-          `
-            <div *ifNonNullish="data as value; fallback: fallback">{{ value }}</div>
-            <ng-template #fallback1><i>Fallback 1</i></ng-template>
-            <ng-template #fallback2><i>Fallback 2</i></ng-template>
-          `
-        );
-    
-        const hostComponent = spectator.hostComponent as HostComponent;
-    
-        hostComponent.fallback = hostComponent.fallback1;
-        spectator.detectChanges();
-        expect(spectator.query('i')?.textContent).toMatch('Fallback 1');
-    
-        hostComponent.fallback = hostComponent.fallback2;
-        spectator.detectChanges();
-        expect(spectator.query('i')?.textContent).toMatch('Fallback 2');
       });
 
       it('should not call createEmbeddedView for the template fallback when not necessary', () => {

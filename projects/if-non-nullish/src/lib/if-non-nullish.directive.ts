@@ -21,11 +21,8 @@ export class IfNonNullishDirective<T = unknown> {
   }
 
   @Input()
-  set ifNonNullishFallback(fallbackTemplate: TemplateRef<any> | any) {
-    if (!(fallbackTemplate instanceof TemplateRef)) {
-      return;
-    }
-    this.fallbackTemplate = fallbackTemplate;
+  set ifNonNullishFallback(fallbackTemplate: TemplateRef<any> | IfNullish) {
+    this.fallbackTemplate = fallbackTemplate ?? null;
     if (this.hasNoData && this.isNullish(this.default)) {
       this.createFallbackView();
     }
@@ -39,7 +36,7 @@ export class IfNonNullishDirective<T = unknown> {
 
   private default!: T;
 
-  private fallbackTemplate!: TemplateRef<any>;
+  private fallbackTemplate: TemplateRef<any> | null = null;
 
   private viewState: 'regular' | 'fallback' | 'clear' = 'clear';
 
@@ -63,10 +60,8 @@ export class IfNonNullishDirective<T = unknown> {
   private render(data: T) {
     if (!this.isNullish(data)) {
       this.renderRegularView(data);
-    } else if (this.fallbackTemplate) {
-      this.renderFallbackView();
     } else {
-      this.clearView();
+      this.renderFallbackView();
     }
   }
 
@@ -102,6 +97,9 @@ export class IfNonNullishDirective<T = unknown> {
 
   private createFallbackView() {
     this.clearView();
+    if (!this.fallbackTemplate) {
+      return;
+    }
     this.viewContainerRef.createEmbeddedView(this.fallbackTemplate);
     this.viewState = 'fallback';
   }

@@ -1,7 +1,7 @@
 import { interval, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-if-non-nullish',
@@ -10,13 +10,44 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IfNonNullishComponent {
-  data$ = interval(1000);
+  data!: string | null;
+  
+  dataIndex = 0;
+  
+  defaultValue!: string | null;
 
-  data2$ = interval(1000).pipe(map((n) => !!(n % 2)));
+  defaultValueIndex = 0;
 
-  data3$: Observable<boolean | null> = interval(1000).pipe(map((n) => (n % 2 ? false : null)));
+  fallbackTemplate!: TemplateRef<any> | null;
 
-  choupi: string | null | undefined = 'choupi';
+  @ViewChild('fallbackTemplateA') fallbackTemplateA!: TemplateRef<any>;
+  @ViewChild('fallbackTemplateB') fallbackTemplateB!: TemplateRef<any>;
+  
+  setData() {
+    this.data = 'Data ' + ++this.dataIndex;
+  }
 
-  default = true;
+  unsetData() {
+    this.data = null;
+  }
+
+  setDefaultValue() {
+    this.defaultValue = 'Default value ' + ++this.defaultValueIndex;
+  }
+
+  unsetDefaultValue() {
+    this.defaultValue = null;
+  }
+
+  setFallbackTemplate() {
+    if (this.fallbackTemplate === this.fallbackTemplateA) {
+      this.fallbackTemplate = this.fallbackTemplateB;
+    } else {
+      this.fallbackTemplate = this.fallbackTemplateA;
+    }
+  }
+
+  unsetFallbackTemplate() {
+    this.fallbackTemplate = null;
+  }
 }

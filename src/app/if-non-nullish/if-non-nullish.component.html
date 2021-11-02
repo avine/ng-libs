@@ -1,21 +1,24 @@
-<!-- Just a dummy demo. The real one will come soon... See directive specs for details... -->
-
-<button (click)="default = !default">Toggle default</button>
-
-<div *ifNonNullish="data3$ | async as coucou; default: default; let toto">
-  LET>> / {{ coucou | json }} / {{ toto }}
+<div style="padding: 1em; height: 1em; line-height: 1em;">
+  <div *ifNonNullish="data as value; default: defaultValue; fallback: fallbackTemplate">{{ value }}</div>
 </div>
 
-<div *ifNonNullish="choupi as coucou; let toto">LET / {{ coucou | json }} / {{ toto }}</div>
+<br />
 
-<div *ifNonNullish="data2$ | async as coucou; let toto">LET / {{ coucou | json }} / {{ toto }}</div>
+Data:
+<button (click)="setData()">push</button> &nbsp;
+<button (click)="unsetData()">unset</button>
 
-<div *ifNonNullish="data$ | async as coucou; let toto">LET / {{ coucou | json }} / {{ toto }}</div>
+<br /><br />
 
-<div *ngIf="data$ | async as coucou; let toto">IF / {{ coucou }} / {{ toto }}</div>
+Default value:
+<button (click)="setDefaultValue()">push</button> &nbsp;
+<button (click)="unsetDefaultValue()">unset</button>
 
-<div *ngIf="data2$ | async as coucou; let toto">IF / {{ coucou }} / {{ toto }}</div>
+<br /><br />
 
-<div *ifNonNullish="data3$ | async as coucou; fallback: loading">{{ coucou }}</div>
+Fallback template:
+<button (click)="setFallbackTemplate()">push</button> &nbsp;
+<button (click)="unsetFallbackTemplate()">unset</button>
 
-<ng-template #loading>Loading...</ng-template>
+<ng-template #fallbackTemplateA><div>Fallback template A</div></ng-template>
+<ng-template #fallbackTemplateB><div>Fallback template B</div></ng-template>

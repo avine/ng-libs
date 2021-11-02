@@ -45,7 +45,7 @@ Only nullish values like `null` or `undefined` are not rendered.
 
 ## Usage
 
-### With data
+### Rendering data
 
 Render data using "as" syntax or "implicit" syntax.
 
@@ -64,7 +64,7 @@ export class AppComponent {
 }
 ```
 
-### With default value
+### Rendering default value
 
 Use `default:` input to provide a default value when data is nullish.
 
@@ -83,7 +83,7 @@ export class AppComponent {
 }
 ```
 
-### With fallback template
+### Rendering fallback template
 
 Use `fallback:` input to provide a `templateRef` when data and default values are nullish.
 

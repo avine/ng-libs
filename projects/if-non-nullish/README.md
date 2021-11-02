@@ -1,6 +1,6 @@
 # IfNonNullish
 
-Nullish coalescing operator (??) as Angular structural directive and more...
+Nullish coalescing operator as Angular structural directive and more...
 
 ## Installation
 
@@ -42,6 +42,8 @@ export class AppComponent {
 
 Unlike `ngIf` directive, falsy values like `false`, `""` or `0` are rendered.
 Only nullish values like `null` or `undefined` are not rendered.
+
+So, in the example above, `false` will be rendered while `null` will not.
 
 ## Usage
 
@@ -85,7 +87,7 @@ export class AppComponent {
 
 ### Rendering fallback template
 
-Use `fallback:` input to provide a `templateRef` when data and default values are nullish.
+Use `fallback:` input to provide a `templateRef` when data and default value are nullish.
 
 ```ts
 import { Component } from '@angular/core';
@@ -101,3 +103,7 @@ export class AppComponent {
   data = undefined;
 }
 ```
+
+## License
+
+[MIT](https://github.com/avine/ng-libs/blob/main/projects/if-non-nullish/LICENSE)

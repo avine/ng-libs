@@ -106,4 +106,4 @@ export class AppComponent {
 
 ## License
 
-[MIT](https://github.com/avine/ng-libs/blob/main/projects/if-non-nullish/LICENSE)
+[MIT](https://github.com/avine/ng-libs/blob/main/LICENSE)

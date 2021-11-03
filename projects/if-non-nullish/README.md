@@ -76,7 +76,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <div *ifNonNullish="data as value; default: defaultValue">{{ value }}</div>
+    <div *ifNonNullish="data as value; default: defaultValue">
+      {{ value }}
+    </div>
   `,
 })
 export class AppComponent {
@@ -95,8 +97,12 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <div *ifNonNullish="data as value; fallback: fallbackTemplate">{{ value }}</div>
-    <ng-template #fallbackTemplate><i>Fallback</i></ng-template>
+    <div *ifNonNullish="data as value; fallback: fallbackTemplate">
+      {{ value }}
+    </div>
+    <ng-template #fallbackTemplate>
+      <i>Fallback</i>
+    </ng-template>
   `,
 })
 export class AppComponent {

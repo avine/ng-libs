@@ -110,6 +110,10 @@ export class AppComponent {
 }
 ```
 
+## Demo
+
+[Check out demo here](https://avine.github.io/ng-libs/)
+
 ## License
 
 [MIT](https://github.com/avine/ng-libs/blob/main/LICENSE)

@@ -8,6 +8,7 @@
     "test:app": "jest ./src/**",
     "test:projects": "jest ./projects/**",
     "build": "ng build",
+    "build:docs": "ng build --base-href /ng-libs/ --output-path docs",
     "build:if-non-nullish": "ng build if-non-nullish",
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint",

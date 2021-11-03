@@ -1,6 +1,3 @@
-import { interval, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
@@ -10,21 +7,21 @@ import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@ang
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IfNonNullishComponent {
-  data!: string | null;
-  
+  data: string | null = null;
+
   dataIndex = 0;
-  
-  defaultValue!: string | null;
+
+  defaultValue: string | null = null;
 
   defaultValueIndex = 0;
 
-  fallbackTemplate!: TemplateRef<any> | null;
+  fallbackTemplate: TemplateRef<any> | null = null;
 
   @ViewChild('fallbackTemplateA') fallbackTemplateA!: TemplateRef<any>;
   @ViewChild('fallbackTemplateB') fallbackTemplateB!: TemplateRef<any>;
-  
+
   setData() {
-    this.data = 'Data ' + ++this.dataIndex;
+    this.data = '🥝 Data ' + ++this.dataIndex;
   }
 
   unsetData() {
@@ -32,7 +29,7 @@ export class IfNonNullishComponent {
   }
 
   setDefaultValue() {
-    this.defaultValue = 'Default value ' + ++this.defaultValueIndex;
+    this.defaultValue = '🍌 Default value ' + ++this.defaultValueIndex;
   }
 
   unsetDefaultValue() {
@@ -49,5 +46,13 @@ export class IfNonNullishComponent {
 
   unsetFallbackTemplate() {
     this.fallbackTemplate = null;
+  }
+
+  setColor(data: any) {
+    return data !== null ? 'primary' : '';
+  }
+
+  disabled(data: any) {
+    return data === null;
   }
 }

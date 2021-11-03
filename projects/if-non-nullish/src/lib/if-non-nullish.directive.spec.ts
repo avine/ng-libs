@@ -99,13 +99,13 @@ describe('IfNonNullishDirective', () => {
           <ng-template #fallback2><i>Fallback 2</i></ng-template>
         `
         );
-    
+
         const hostComponent = spectator.hostComponent as HostComponent;
-    
+
         hostComponent.fallback = hostComponent.fallback1;
         spectator.detectChanges();
         expect(spectator.query('i')?.textContent).toMatch('Fallback 1');
-    
+
         hostComponent.fallback = hostComponent.fallback2;
         spectator.detectChanges();
         expect(spectator.query('i')?.textContent).toMatch('Fallback 2');
@@ -118,13 +118,13 @@ describe('IfNonNullishDirective', () => {
             <ng-template #fallback1><i>Fallback 1</i></ng-template>
           `
         );
-    
+
         const hostComponent = spectator.hostComponent as HostComponent;
-    
+
         hostComponent.fallback = hostComponent.fallback1;
         spectator.detectChanges();
         expect(spectator.query('i')?.textContent).toMatch('Fallback 1');
-    
+
         hostComponent.fallback = null;
         spectator.detectChanges();
         expect(spectator.query('i')).toBeNull();

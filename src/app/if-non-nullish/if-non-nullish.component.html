@@ -1,24 +1,31 @@
-<div style="padding: 1em; height: 1em; line-height: 1em;">
-  <div *ifNonNullish="data as value; default: defaultValue; fallback: fallbackTemplate">{{ value }}</div>
-</div>
+<h2 style="text-align: center;">IfNonNullishDirective</h2>
 
-<br />
+<mat-grid-list cols="3" rowHeight="200px">
+  <mat-grid-tile colspan="3" class="canvas">
+    <h3 *ifNonNullish="data as value; default: defaultValue; fallback: fallbackTemplate">{{ value }}</h3>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <div class="buttons-container">
+      <strong>Data</strong>
+      <button mat-raised-button [color]="setColor(data)" (click)="setData()">push</button>
+      <button mat-raised-button [disabled]="disabled(data)" (click)="unsetData()">unset</button>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <div class="buttons-container">
+      <strong>Default value</strong>
+      <button mat-raised-button [color]="setColor(defaultValue)" (click)="setDefaultValue()">push</button>
+      <button mat-raised-button [disabled]="disabled(defaultValue)" (click)="unsetDefaultValue()">unset</button>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <div class="buttons-container">
+      <strong>Fallback template</strong>
+      <button mat-raised-button [color]="setColor(fallbackTemplate)" (click)="setFallbackTemplate()">push</button>
+      <button mat-raised-button [disabled]="disabled(fallbackTemplate)" (click)="unsetFallbackTemplate()">unset</button>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
 
-Data:
-<button (click)="setData()">push</button> &nbsp;
-<button (click)="unsetData()">unset</button>
-
-<br /><br />
-
-Default value:
-<button (click)="setDefaultValue()">push</button> &nbsp;
-<button (click)="unsetDefaultValue()">unset</button>
-
-<br /><br />
-
-Fallback template:
-<button (click)="setFallbackTemplate()">push</button> &nbsp;
-<button (click)="unsetFallbackTemplate()">unset</button>
-
-<ng-template #fallbackTemplateA><div>Fallback template A</div></ng-template>
-<ng-template #fallbackTemplateB><div>Fallback template B</div></ng-template>
+<ng-template #fallbackTemplateA><h3>🍓 Fallback template A</h3></ng-template>
+<ng-template #fallbackTemplateB><h3>🍓 Fallback template B</h3></ng-template>

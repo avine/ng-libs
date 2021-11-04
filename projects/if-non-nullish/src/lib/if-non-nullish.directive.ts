@@ -9,14 +9,14 @@ export class IfNonNullishDirective<T = unknown> {
   @Input()
   set ifNonNullish(data: T) {
     this.hasNoData = this.isNullish(data);
-    this.render(data ?? this.default);
+    this.updateView(data ?? this.default);
   }
 
   @Input()
   set ifNonNullishDefault(data: T) {
     this.default = data;
     if (this.hasNoData) {
-      this.render(this.default);
+      this.updateView(this.default);
     }
   }
 
@@ -57,20 +57,27 @@ export class IfNonNullishDirective<T = unknown> {
 
   constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<IfNonNullishContext<T>>) {}
 
-  private render(data: T) {
+  private updateView(data: T) {
     if (!this.isNullish(data)) {
-      this.renderRegularView(data);
+      this.switchToRegularView(data);
     } else {
-      this.renderFallbackView();
+      this.switchToFallbackView();
     }
   }
 
-  private renderRegularView(data: T) {
+  private switchToRegularView(data: T) {
     this.upsertContext(data);
     if (this.viewState === 'regular') {
       return;
     }
     this.createRegularView();
+  }
+
+  private switchToFallbackView() {
+    if (this.viewState === 'fallback') {
+      return;
+    }
+    this.createFallbackView();
   }
 
   private upsertContext(data: T) {
@@ -86,13 +93,6 @@ export class IfNonNullishDirective<T = unknown> {
     this.clearView();
     this.viewContainerRef.createEmbeddedView(this.templateRef, this.context);
     this.viewState = 'regular';
-  }
-
-  private renderFallbackView() {
-    if (this.viewState === 'fallback') {
-      return;
-    }
-    this.createFallbackView();
   }
 
   private createFallbackView() {

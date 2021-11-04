@@ -34,8 +34,8 @@ import { Component } from '@angular/core';
   `,
 })
 export class AppComponent {
-  data$: Observable<null | false> = interval(1000).pipe(
-    map((i) => i % 2 ? null : false)
+  data$: Observable<false | null> = interval(1000).pipe(
+    map((i) => i % 2 ? false : null)
   );
 }
 ```
@@ -112,7 +112,7 @@ export class AppComponent {
 
 ## Demo
 
-[Check out demo here](https://avine.github.io/ng-libs/)
+Check out [demo here](https://avine.github.io/ng-libs/)
 
 ## License
 

@@ -1,3 +1,6 @@
+import { interval, Observable } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
@@ -7,52 +10,44 @@ import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@ang
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IfNonNullishComponent {
-  data: string | null = null;
-
-  dataIndex = 0;
-
-  defaultValue: string | null = null;
-
-  defaultValueIndex = 0;
-
-  fallbackTemplate: TemplateRef<any> | null = null;
-
   @ViewChild('fallbackTemplateA') fallbackTemplateA!: TemplateRef<any>;
   @ViewChild('fallbackTemplateB') fallbackTemplateB!: TemplateRef<any>;
 
-  setData() {
-    this.data = '🥝 Data ' + ++this.dataIndex;
+  private interval$ = interval(1000);
+
+  private hasData = false;
+
+  private hasDefaultValue = false;
+
+  private hasFallbackTemplate = false;
+
+  data$: Observable<boolean | number | null> = this.interval$.pipe(
+    map((i) => (i % 2 ? true : false)),
+    map((data) => this.hasData ? data : null),
+    distinctUntilChanged()
+  );
+
+  defaultValue$: Observable<boolean | number | null> = this.interval$.pipe(
+    map((i) => i % 2),
+    map((data) => this.hasDefaultValue ? data : null),
+    distinctUntilChanged()
+  );
+
+  fallbackTemplate$: Observable<TemplateRef<any> | null> = this.interval$.pipe(
+    map((i) => i % 2 ? this.fallbackTemplateA : this.fallbackTemplateB),
+    map((data) => this.hasFallbackTemplate ? data : null),
+    distinctUntilChanged()
+  );
+
+  useData(value: boolean) {
+    this.hasData = value;
   }
 
-  unsetData() {
-    this.data = null;
+  useDefaultValue(value: boolean) {
+    this.hasDefaultValue = value;
   }
 
-  setDefaultValue() {
-    this.defaultValue = '🍌 Default value ' + ++this.defaultValueIndex;
-  }
-
-  unsetDefaultValue() {
-    this.defaultValue = null;
-  }
-
-  setFallbackTemplate() {
-    if (this.fallbackTemplate === this.fallbackTemplateA) {
-      this.fallbackTemplate = this.fallbackTemplateB;
-    } else {
-      this.fallbackTemplate = this.fallbackTemplateA;
-    }
-  }
-
-  unsetFallbackTemplate() {
-    this.fallbackTemplate = null;
-  }
-
-  setColor(data: any) {
-    return data !== null ? 'primary' : '';
-  }
-
-  disabled(data: any) {
-    return data === null;
+  useFallbackTemplate(value: boolean) {
+    this.hasFallbackTemplate = value;
   }
 }

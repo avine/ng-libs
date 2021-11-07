@@ -1,31 +1,29 @@
-<h2 style="text-align: center;">IfNonNullishDirective</h2>
+<h2>IfNonNullishDirective</h2>
 
-<mat-grid-list cols="3" rowHeight="200px" class="grid">
-  <mat-grid-tile colspan="3" class="canvas">
-    <h3 *ifNonNullish="data as value; default: defaultValue; fallback: fallbackTemplate">{{ value }}</h3>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <div class="buttons-container">
-      <button mat-raised-button [color]="setColor(data)" (click)="setData()">push</button>
-      <button mat-raised-button [disabled]="disabled(data)" (click)="unsetData()">unset</button>
-      <strong>Data</strong>
+<div class="layout">
+  <div class="output">
+    <h3 *ifNonNullish="data$ | async as value; default: defaultValue$ | async; fallback: fallbackTemplate$ | async">
+      {{ value }}
+    </h3>
+  </div>
+  
+  <div class="slides">
+    <div>
+      <mat-slide-toggle (change)="useData($event.checked)">Data</mat-slide-toggle>
+      <h3>{{ data$ | async }}</h3>
     </div>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <div class="buttons-container">
-      <button mat-raised-button [color]="setColor(defaultValue)" (click)="setDefaultValue()">push</button>
-      <button mat-raised-button [disabled]="disabled(defaultValue)" (click)="unsetDefaultValue()">unset</button>
-      <strong>Default value</strong>
-    </div>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <div class="buttons-container">
-      <button mat-raised-button [color]="setColor(fallbackTemplate)" (click)="setFallbackTemplate()">push</button>
-      <button mat-raised-button [disabled]="disabled(fallbackTemplate)" (click)="unsetFallbackTemplate()">unset</button>
-      <strong>Fallback template</strong>
-    </div>
-  </mat-grid-tile>
-</mat-grid-list>
 
-<ng-template #fallbackTemplateA><h3>🍓 Fallback template A</h3></ng-template>
-<ng-template #fallbackTemplateB><h3>🍓 Fallback template B</h3></ng-template>
+    <div>
+      <mat-slide-toggle (change)="useDefaultValue($event.checked)">Default value</mat-slide-toggle>
+      <h3>{{ defaultValue$ | async }}</h3>
+    </div>
+    
+    <div>
+      <mat-slide-toggle (change)="useFallbackTemplate($event.checked)">Fallback template</mat-slide-toggle>
+      <ng-container *ngTemplateOutlet="fallbackTemplate$ | async"></ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #fallbackTemplateA><h3>A</h3></ng-template>
+<ng-template #fallbackTemplateB><h3>B</h3></ng-template>

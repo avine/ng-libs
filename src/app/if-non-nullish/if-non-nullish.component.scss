@@ -1,8 +1,12 @@
-h2 {
+.title {
   margin: 16px 0 36px;
   line-height: 48px;
   text-align: center;
   font-size: 36px;
+  
+  @media (max-width: 479px) {
+    font-size: 28px;
+  }
 }
 
 .layout {
@@ -16,22 +20,48 @@ h2 {
   text-align: center;
   min-height: 28px;
 
-  h3 {
+  .result {
     margin: 0;
     line-height: 28px;
     font-size: 28px;
   }
 }
 
-
 .slides {
   margin-top: 36px;
-  display: flex;
-  justify-content: space-around;
 
-  h3 {
-    margin-top: 18px;
-    text-align: center;
+  .result {
     color: grey;
+  }
+}
+
+@media (max-width: 719px) {
+  .slides {
+    padding: 0 36px;
+  }
+
+  .slide {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .result {
+      margin: 0;
+      padding-left: 16px;
+      line-height: 1em;
+    }
+  }
+}
+
+@media (min-width: 720px) {
+  .slides {
+    display: flex;
+    justify-content: space-around;
+
+    .result {
+      margin-top: 18px;
+      text-align: center;
+    }
   }
 }

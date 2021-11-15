@@ -31,8 +31,14 @@
   margin-top: 36px;
 
   .result {
+    min-height: 28px;
     color: grey;
   }
+}
+
+.footer {
+  margin-top: 36px;
+  text-align: center;
 }
 
 @media (max-width: 719px) {

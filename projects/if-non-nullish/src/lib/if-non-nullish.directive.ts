@@ -47,8 +47,6 @@ export class IfNonNullishDirective<T = unknown> {
     }
   }
 
-  $implicit!: T;
-
   private context!: IfNonNullishContext<T>;
 
   private hasNoData = true;
@@ -100,7 +98,6 @@ export class IfNonNullishDirective<T = unknown> {
   }
 
   private upsertContext(data: T) {
-    this.$implicit = data;
     if (this.context) {
       this.context.$implicit = this.context.ifNonNullish = data;
     } else {

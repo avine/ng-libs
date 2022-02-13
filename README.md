@@ -17,3 +17,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Libraries
 
 - [@avine/ng-if-non-nullish](./projects/if-non-nullish/README.md)
+- [@avine/ng-form-stepper](./projects/form-stepper/README.md)

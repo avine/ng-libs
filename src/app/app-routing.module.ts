@@ -1,12 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { FormStepperComponent } from './form-stepper/form-stepper.component';
 import { IfNonNullishComponent } from './if-non-nullish/if-non-nullish.component';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/if-non-nullish',
+    pathMatch: 'full',
+  },
+  {
+    path: 'if-non-nullish',
     component: IfNonNullishComponent,
+  },
+  {
+    path: 'form-stepper',
+    component: FormStepperComponent,
   },
 ];
 

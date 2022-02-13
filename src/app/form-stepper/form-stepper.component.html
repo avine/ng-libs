@@ -1,0 +1,29 @@
+<form-stepper-nav></form-stepper-nav>
+
+<form-stepper [formGroup]="formGroup">
+  <ng-container [formStepperSection]="fullName">
+    <div [formStepperStep]="firstName">
+      First name: <input [formControl]="firstName" />
+    </div>
+
+    <div [formStepperStep]="lastName">
+      Last name: <input [formControl]="lastName" />
+    </div>
+  </ng-container>
+
+  <ng-container [formStepperSection]="address">
+    <div [formStepperStep]="street">
+      Street: <input [formControl]="street" />
+    </div>
+
+    <div [formStepperStep]="zipCode">
+      Zip code: <input [formControl]="zipCode" />
+    </div>
+
+    <div [formStepperStep]="city">
+      City: <input [formControl]="city" />
+    </div>
+  </ng-container>
+</form-stepper>
+
+<pre>Value: {{ formGroup.value | json }}</pre>

@@ -18,7 +18,8 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "@avine/ng-if-non-nullish": ["projects/if-non-nullish/src/public-api.ts"]
+      "@avine/ng-if-non-nullish": ["projects/if-non-nullish/src/public-api.ts"],
+      "@avine/ng-form-stepper": ["projects/form-stepper/src/public-api.ts"]
     }
   },
   "angularCompilerOptions": {

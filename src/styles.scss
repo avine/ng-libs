@@ -11,7 +11,7 @@ body {
   position: relative;
   text-decoration: underline;
   color: #000;
-  
+
   &:hover {
     text-decoration: none;
   }
@@ -19,11 +19,11 @@ body {
 
 .link--external {
   &::after {
-    content: "";
+    content: '';
     display: inline-block;
     vertical-align: middle;
     position: relative;
-    left:  0.5em;
+    left: 0.5em;
     width: 1em;
     height: 1em;
     background-image: url(assets/external-link-alt-solid.svg);

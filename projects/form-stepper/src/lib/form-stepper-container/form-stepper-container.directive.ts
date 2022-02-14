@@ -14,6 +14,8 @@ export class FormStepperContainerDirective implements AfterViewInit {
 
   isStepValid$ = this.service.isStepValid$;
 
+  isLastStep$ = this.service.isLastStep$;
+
   prevStep = this.service.prevStep.bind(this.service);
 
   nextStep = this.service.nextStep.bind(this.service);

@@ -16,8 +16,8 @@ export class FormStepperComponent {
     address: this.formBuilder.group({
       street: ['', Validators.required],
       zipCodeAndCity: this.formBuilder.group({
-        zipCode: ['', Validators.required],
-        city: ['', Validators.required],
+        zipCode: [''],
+        city: [''],
       }),
     }),
   });

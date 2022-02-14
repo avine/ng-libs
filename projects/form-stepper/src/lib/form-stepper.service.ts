@@ -1,4 +1,4 @@
-import { BehaviorSubject, ReplaySubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Injectable, OnDestroy, TemplateRef } from '@angular/core';
@@ -17,9 +17,13 @@ export class FormStepperService implements OnDestroy {
 
   private _isStepValid$ = new ReplaySubject<boolean>(1);
 
+  private _isLastStep$ = new ReplaySubject<boolean>(1);
+
   stepTemplate$ = this._stepTemplate$.asObservable();
 
   isStepValid$ = this._isStepValid$.asObservable();
+
+  isLastStep$ = this._isLastStep$.asObservable();
 
   private stepSubscription!: Subscription;
 
@@ -57,12 +61,13 @@ export class FormStepperService implements OnDestroy {
 
     this._stepTemplate$.next(step.templateRef);
 
-    const updateStepStatusAndRefreshNav = (isValid: boolean) => {
+    const updateState = (isValid: boolean) => {
       this._isStepValid$.next(isValid);
+      this._isLastStep$.next(!!this.steps.length && this.stepIndex === this.steps.length - 1);
       this._nav$.next([...this._nav$.value]);
     };
 
-    updateStepStatusAndRefreshNav(step.control.valid);
+    updateState(step.control.valid);
 
     this.stepSubscription?.unsubscribe();
     this.stepSubscription = step.control.statusChanges
@@ -70,7 +75,7 @@ export class FormStepperService implements OnDestroy {
         distinctUntilChanged(),
         map((status) => status === 'VALID')
       )
-      .subscribe(updateStepStatusAndRefreshNav);
+      .subscribe(updateState);
   }
 
   navigateByStepIndex(stepIndex: number) {

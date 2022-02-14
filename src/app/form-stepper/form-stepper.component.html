@@ -15,7 +15,15 @@
 
     <div>
       <button (click)="stepper.prevStep()">Prev</button>
-      <button (click)="stepper.nextStep()" [disabled]="(stepper.isStepValid$ | async) === false">Next</button>
+
+      <!-- ! TODO: the [type] property does not work properly to submit the form at the right time... -->
+      <button
+        [type]="(stepper.isLastStep$ | async) ? 'submit' : 'button'"
+        [disabled]="(stepper.isStepValid$ | async) === false"
+        (click)="stepper.nextStep()"
+      >
+        Next ({{ stepper.isLastStep$ | async }})
+      </button>
     </div>
 
     <ng-container [formStepperSection]="fullName" title="Full name" urlPath="full-name">

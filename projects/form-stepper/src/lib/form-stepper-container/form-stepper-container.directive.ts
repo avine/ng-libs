@@ -1,9 +1,7 @@
-import { filter, tap } from 'rxjs/operators';
-
 import { AfterViewInit, ChangeDetectorRef, Directive } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
-import { FORM_STEPPER_LINK } from '../form-stepper.config';
+import { FORM_STEPPER_URL_PATH_PARAM } from '../form-stepper.config';
 import { FormStepperService } from '../form-stepper.service';
 
 @Directive({
@@ -20,24 +18,12 @@ export class FormStepperContainerDirective implements AfterViewInit {
 
   nextStep = this.service.nextStep.bind(this.service);
 
-  constructor(
-    private service: FormStepperService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {}
+  constructor(private service: FormStepperService, private activatedRoute: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
-    this.activatedRoute.paramMap.subscribe((paramMap) => {
-      paramMap.get(FORM_STEPPER_LINK);
-    });
-
     setTimeout(() => {
-      this.service.setStepIndex(0);
+      this.service.handleUrlPath(this.activatedRoute.snapshot.paramMap.get(FORM_STEPPER_URL_PATH_PARAM));
       this.changeDetectorRef.detectChanges();
     }, 0);
-
-    console.log(this.service)
-    // this.router.events.pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd),);
   }
 }

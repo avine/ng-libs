@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FORM_STEPPER_LINK } from '@avine/ng-form-stepper';
+import { FORM_STEPPER_URL_PATH_PARAM } from '@avine/ng-form-stepper';
 
 import { FormStepperComponent } from './form-stepper/form-stepper.component';
 import { IfNonNullishComponent } from './if-non-nullish/if-non-nullish.component';
@@ -16,7 +16,7 @@ const routes: Routes = [
     component: IfNonNullishComponent,
   },
   {
-    path: `form-stepper/:${FORM_STEPPER_LINK}`,
+    path: `form-stepper/:${FORM_STEPPER_URL_PATH_PARAM}`,
     component: FormStepperComponent,
   },
 ];

@@ -1,1 +1,1 @@
-export const FORM_STEPPER_LINK = 'formStepperLink';
+export const FORM_STEPPER_URL_PATH_PARAM = 'formStepperUrlPathParam';

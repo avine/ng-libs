@@ -1,6 +1,13 @@
 
-<form-stepper [formStepperFormGroup]="formGroup" #stepper>
-  <form-stepper-nav></form-stepper-nav>
+<ng-container [formStepperContainer]="formGroup" #stepper="stepper">
+  <div style="display: flex">
+    <div>
+      <ng-container *ngIf="stepper.currentStep$ | async as currentStep" [ngTemplateOutlet]="currentStep"></ng-container>
+    </div>
+    <div>
+      <form-stepper-nav></form-stepper-nav>
+    </div>
+  </div>
 
   <ng-container [formStepperSection]="fullName" title="Full name">
     <ng-template [formStepperStep]="firstName" title="First name">
@@ -20,7 +27,7 @@
       City: <input [formControl]="city" />
     </ng-template>
   </ng-container>
-</form-stepper>
+</ng-container>
 
 <div>
   <button (click)="stepper.prevStep()">Prev</button>

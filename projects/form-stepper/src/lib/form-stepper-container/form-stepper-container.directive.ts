@@ -1,23 +1,15 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Directive, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { FormStepperService } from './form-stepper.service';
+import { FormStepperService } from '../form-stepper.service';
 
-@Component({
-  selector: 'form-stepper',
-  templateUrl: 'form-stepper.component.html',
-  styleUrls: ['form-stepper.component.scss'],
+@Directive({
+  selector: '[formStepperContainer]',
+  exportAs: 'stepper',
   providers: [FormStepperService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormStepperComponent implements AfterViewInit {
-  @Input() set formStepperFormGroup(formGroup: FormGroup) {
+export class FormStepperContainerDirective implements AfterViewInit {
+  @Input() set formStepperContainer(formGroup: FormGroup) {
     this.service.setFormGroup(formGroup);
   }
 
@@ -34,7 +26,7 @@ export class FormStepperComponent implements AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.service.setStep(0);
-      //this.service.emitNav();
+      // this.service.emitNav();
       this.changeDetectorRef.detectChanges();
     }, 0);
   }

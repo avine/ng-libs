@@ -1,5 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Directive, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Directive } from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
 
@@ -9,24 +8,19 @@ import { FormStepperService } from '../form-stepper.service';
   providers: [FormStepperService],
 })
 export class FormStepperContainerDirective implements AfterViewInit {
-  @Input() set formStepperContainer(formGroup: FormGroup) {
-    this.service.setFormGroup(formGroup);
-  }
+  stepTemplate$ = this.service.stepTemplate$;
 
-  currentStep$ = this.service.currentStep$;
+  isStepValid$ = this.service.isStepValid$;
 
   prevStep = this.service.prevStep.bind(this.service);
 
   nextStep = this.service.nextStep.bind(this.service);
 
-  isCurrentStepValid$ = this.service.isCurrentStepValid$;
-
   constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.service.setStep(0);
-      // this.service.emitNav();
+      this.service.setStepIndex(0);
       this.changeDetectorRef.detectChanges();
     }, 0);
   }

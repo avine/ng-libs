@@ -19,6 +19,6 @@ export class FormStepperNavComponent {
     if (!step.control.touched) {
       return;
     }
-    this.service.setStep(stepIndex);
+    this.service.setStepIndex(stepIndex);
   }
 }

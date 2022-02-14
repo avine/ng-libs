@@ -20,13 +20,14 @@ export class FormStepperSectionDirective implements AfterViewInit {
   ngAfterViewInit() {
     const offset = this.service.steps.length;
     const steps: FormStepperStep[] = [];
-    this.stepDirectiveQueryList.forEach(({ formStepperStep: control, templateRef, title }) => {
-      const step: FormStepperStep = { control, templateRef, title };
+
+    this.stepDirectiveQueryList.forEach(({ title, formStepperStep: control, templateRef }) => {
+      const step: FormStepperStep = { title, control, templateRef };
       steps.push(step);
       this.service.addStep(step);
     });
 
-    this.service.nav.push({
+    this.service.addNavSection({
       title: this.title,
       section: this.formStepperSection,
       offset,

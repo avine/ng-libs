@@ -8,10 +8,10 @@ import { FormStepperSectionDirective } from './form-stepper-section/form-stepper
 import { FormStepperStepDirective } from './form-stepper-step/form-stepper-step.directive';
 
 const features = [
-  FormStepperNavComponent,
   FormStepperContainerDirective,
   FormStepperSectionDirective,
   FormStepperStepDirective,
+  FormStepperNavComponent,
 ];
 
 @NgModule({

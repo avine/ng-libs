@@ -1,8 +1,10 @@
-
-<ng-container [formStepperContainer]="formGroup" #stepper="stepper">
+<ng-container formStepperContainer #stepper="stepper">
   <div style="display: flex">
     <div>
-      <ng-container *ngIf="stepper.currentStep$ | async as currentStep" [ngTemplateOutlet]="currentStep"></ng-container>
+      <ng-container
+        *ngIf="stepper.stepTemplate$ | async as stepTemplate"
+        [ngTemplateOutlet]="stepTemplate"
+      ></ng-container>
     </div>
     <div>
       <form-stepper-nav></form-stepper-nav>
@@ -11,27 +13,34 @@
 
   <ng-container [formStepperSection]="fullName" title="Full name">
     <ng-template [formStepperStep]="firstName" title="First name">
-      First name: <input [formControl]="firstName" />
+      First name:<br />
+      <input [formControl]="firstName" />
     </ng-template>
 
     <ng-template [formStepperStep]="lastName" title="Last name">
-      Last name: <input [formControl]="lastName" />
+      Last name:<br />
+      <input [formControl]="lastName" />
     </ng-template>
   </ng-container>
 
   <ng-container [formStepperSection]="address" title="Address">
-    <ng-template [formStepperStep]="street" title="Street">Street: <input [formControl]="street" /></ng-template>
+    <ng-template [formStepperStep]="street" title="Street">
+      Street:<br />
+      <input [formControl]="street" />
+    </ng-template>
 
     <ng-template [formStepperStep]="zipCodeAndCity" title="Zip code and city">
-      Zip code: <input [formControl]="zipCode" /><br />
-      City: <input [formControl]="city" />
+      Zip code:<br />
+      <input [formControl]="zipCode" /><br />
+      City:<br />
+      <input [formControl]="city" />
     </ng-template>
   </ng-container>
 </ng-container>
 
 <div>
   <button (click)="stepper.prevStep()">Prev</button>
-  <button (click)="stepper.nextStep()" [disabled]="(stepper.isCurrentStepValid$ | async) === false">Next</button>
+  <button (click)="stepper.nextStep()" [disabled]="(stepper.isStepValid$ | async) === false">Next</button>
 </div>
 
 <pre>Value: {{ formGroup.value | json }}</pre>

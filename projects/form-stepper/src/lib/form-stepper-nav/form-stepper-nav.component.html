@@ -1,9 +1,15 @@
 <ol>
-  <li *ngFor="let item of nav$ | async" (click)="setStep($event, item.steps[0], item.offset)">
-    {{ item.title }} ({{ item.section.valid }})
+  <li *ngFor="let item of nav$ | async">
+    <button [disabled]="!item.steps[0].control.dirty" (click)="setStep($event, item.steps[0], item.offset)">
+      {{ item.title }}
+    </button>
+    ({{ item.section.valid }})
     <ul>
-      <li *ngFor="let step of item.steps; let index = index" (click)="setStep($event, step, item.offset + index)">
-        {{ step.title }} ({{ step.control.valid }})
+      <li *ngFor="let step of item.steps; let index = index">
+        <button [disabled]="!step.control.dirty" (click)="setStep($event, step, item.offset + index)">
+          {{ step.title }}
+        </button>
+        ({{ step.control.valid }})
       </li>
     </ul>
   </li>

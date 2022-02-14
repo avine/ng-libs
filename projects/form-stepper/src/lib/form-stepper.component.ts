@@ -3,13 +3,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren,
   Input,
-  QueryList,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { FormStepperSectionDirective } from './form-stepper-section/form-stepper-section.directive';
 import { FormStepperService } from './form-stepper.service';
 
 @Component({
@@ -24,9 +21,6 @@ export class FormStepperComponent implements AfterViewInit {
     this.service.setFormGroup(formGroup);
   }
 
-  @ContentChildren(FormStepperSectionDirective)
-  private sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
-
   currentStep$ = this.service.currentStep$;
 
   prevStep = this.service.prevStep.bind(this.service);
@@ -40,7 +34,7 @@ export class FormStepperComponent implements AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.service.setStep(0);
-      this.service.emitNav();
+      //this.service.emitNav();
       this.changeDetectorRef.detectChanges();
     }, 0);
   }

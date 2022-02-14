@@ -1,10 +1,10 @@
 <ol>
-  <li *ngFor="let item of nav$ | async">
-    {{ item.title }}
-    <ol>
-      <li *ngFor="let step of item.steps">
-        {{ step.title }}
+  <li *ngFor="let item of nav$ | async" (click)="setStep($event, item.steps[0], item.offset)">
+    {{ item.title }} ({{ item.section.valid }})
+    <ul>
+      <li *ngFor="let step of item.steps; let index = index" (click)="setStep($event, step, item.offset + index)">
+        {{ step.title }} ({{ step.control.valid }})
       </li>
-    </ol>
+    </ul>
   </li>
 </ol>

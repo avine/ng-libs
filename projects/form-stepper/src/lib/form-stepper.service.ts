@@ -55,11 +55,15 @@ export class FormStepperService {
     this._currentStep$.next(this.steps[this.stepIndex].templateRef);
 
     this._isCurrentStepValid$.next(this.steps[this.stepIndex].control.valid);
+    this.emitNav();
 
     this.subscription?.unsubscribe();
     this.subscription = this.steps[this.stepIndex].control.statusChanges
       .pipe(distinctUntilChanged(), map((status) => status === 'VALID'))
-      .subscribe((isValid) => this._isCurrentStepValid$.next(isValid));
+      .subscribe((isValid) => {
+        this._isCurrentStepValid$.next(isValid);
+        this.emitNav();
+      });
   }
 
   prevStep() {

@@ -1,9 +1,10 @@
-import { AfterViewInit, ContentChildren, Directive, ElementRef, Input, QueryList } from '@angular/core';
+import { AfterViewInit, ContentChildren, Directive, Input, QueryList } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FormStepperStepDirective } from '../form-stepper-step/form-stepper-step.directive';
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
+import { concatUrlPaths } from '../form-stepper.utils';
 
 @Directive({
   selector: '[formStepperSection]',
@@ -13,16 +14,23 @@ export class FormStepperSectionDirective implements AfterViewInit {
 
   @Input() title!: string;
 
+  @Input() urlPath!: string;
+
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
-  constructor(private service: FormStepperService, private el: ElementRef) {}
+  constructor(private service: FormStepperService) {}
 
   ngAfterViewInit() {
     const offset = this.service.steps.length;
     const steps: FormStepperStep[] = [];
 
-    this.stepDirectiveQueryList.forEach(({ title, formStepperStep: control, templateRef }) => {
-      const step: FormStepperStep = { title, control, templateRef };
+    this.stepDirectiveQueryList.forEach(({ title, urlPath, formStepperStep: control, templateRef }) => {
+      const step: FormStepperStep = {
+        title,
+        urlPath: concatUrlPaths(this.urlPath, urlPath),
+        control,
+        templateRef,
+      };
       steps.push(step);
       this.service.addStep(step);
     });

@@ -11,25 +11,25 @@
     </div>
   </div>
 
-  <ng-container [formStepperSection]="fullName" title="Full name">
-    <ng-template [formStepperStep]="firstName" title="First name">
+  <ng-container [formStepperSection]="fullName" title="Full name" urlPath="full-name">
+    <ng-template [formStepperStep]="firstName" title="First name" urlPath="first-name">
       First name:<br />
       <input [formControl]="firstName" />
     </ng-template>
 
-    <ng-template [formStepperStep]="lastName" title="Last name">
+    <ng-template [formStepperStep]="lastName" title="Last name" urlPath="last-name">
       Last name:<br />
       <input [formControl]="lastName" />
     </ng-template>
   </ng-container>
 
-  <ng-container [formStepperSection]="address" title="Address">
-    <ng-template [formStepperStep]="street" title="Street">
+  <ng-container [formStepperSection]="address" title="Address" urlPath="address">
+    <ng-template [formStepperStep]="street" title="Street" urlPath="street">
       Street:<br />
       <input [formControl]="street" />
     </ng-template>
 
-    <ng-template [formStepperStep]="zipCodeAndCity" title="Zip code and city">
+    <ng-template [formStepperStep]="zipCodeAndCity" title="Zip code and city" urlPath="zip-code-and-city">
       Zip code:<br />
       <input [formControl]="zipCode" /><br />
       City:<br />
@@ -44,3 +44,6 @@
 </div>
 
 <pre>Value: {{ formGroup.value | json }}</pre>
+
+<a routerLink="/form-stepper/blabla1">1</a>
+<a routerLink="/form-stepper/blabla2">2</a>

@@ -3,6 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 
 export interface FormStepperStep {
   title: string;
+  urlPath: string;
   control: AbstractControl;
   templateRef: TemplateRef<any>;
 }

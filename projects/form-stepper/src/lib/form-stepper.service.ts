@@ -28,8 +28,6 @@ export class FormStepperService {
 
   nav$ = this._nav$.asObservable();
 
-  constructor(private router: Router) {}
-
   addStep(step: FormStepperStep) {
     this.steps.push(step);
   }
@@ -45,17 +43,17 @@ export class FormStepperService {
 
     this._stepTemplate$.next(step.templateRef);
 
-    const updateStepStatus = (isValid: boolean) => {
+    const updateStepStatusAndRefreshNav = (isValid: boolean) => {
       this._isStepValid$.next(isValid);
-      this.emitNav();
+      this._nav$.next([...this._nav$.value]);
     };
 
-    updateStepStatus(step.control.valid);
+    updateStepStatusAndRefreshNav(step.control.valid);
 
     this.stepSubscription?.unsubscribe();
     this.stepSubscription = step.control.statusChanges
       .pipe(distinctUntilChanged(), map((status) => status === 'VALID'))
-      .subscribe(updateStepStatus);
+      .subscribe(updateStepStatusAndRefreshNav);
   }
 
   prevStep() {
@@ -68,9 +66,5 @@ export class FormStepperService {
 
   addNavSection(section: FormStepperNavSection) {
     this._nav$.next([...this._nav$.value, section]);
-  }
-
-  private emitNav() {
-    this._nav$.next([...this._nav$.value]);
   }
 }

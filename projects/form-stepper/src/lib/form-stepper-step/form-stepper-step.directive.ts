@@ -9,5 +9,7 @@ export class FormStepperStepDirective {
 
   @Input() title!: string;
 
+  @Input() urlPath!: string;
+
   constructor(public templateRef: TemplateRef<any>) {}
 }

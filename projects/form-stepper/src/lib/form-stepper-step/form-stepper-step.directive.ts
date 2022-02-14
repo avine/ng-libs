@@ -1,17 +1,15 @@
-import { AfterViewInit, Directive, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Directive, Input, TemplateRef } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 
 import { FormStepperService } from '../form-stepper.service';
 
 @Directive({
   selector: '[formStepperStep]',
 })
-export class FormStepperStepDirective implements AfterViewInit {
-  @Input() formStepperStep!: FormControl;
+export class FormStepperStepDirective {
+  @Input() formStepperStep!: AbstractControl;
 
-  constructor(private service: FormStepperService) {}
+  @Input() title!: string;
 
-  ngAfterViewInit() {
-    console.log(this.formStepperStep);
-  }
+  constructor(private service: FormStepperService, public templateRef: TemplateRef<any>) {}
 }

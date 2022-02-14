@@ -1,1 +1,10 @@
-<p>form-stepper-nav</p>
+<ol>
+  <li *ngFor="let item of nav$ | async">
+    {{ item.title }}
+    <ol>
+      <li *ngFor="let step of item.steps">
+        {{ step.title }}
+      </li>
+    </ol>
+  </li>
+</ol>

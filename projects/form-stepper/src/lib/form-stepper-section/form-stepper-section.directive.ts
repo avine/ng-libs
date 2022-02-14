@@ -10,12 +10,20 @@ import { FormStepperService } from '../form-stepper.service';
 export class FormStepperSectionDirective implements AfterViewInit {
   @Input() formStepperSection!: FormGroup;
 
+  @Input() title!: string;
+
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
   constructor(private service: FormStepperService, private el: ElementRef) {}
 
   ngAfterViewInit() {
-    console.log(this.stepDirectiveQueryList);
-    console.log(this.el);
+    this.stepDirectiveQueryList.forEach(({ formStepperStep: control, templateRef, title }) => {
+      this.service.addStep({ control, templateRef, title });
+    });
+
+    this.service.nav.push({
+      title: this.title,
+      steps: this.service.steps.slice(this.service.nav.length + 1),
+    });
   }
 }

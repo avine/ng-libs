@@ -1,1 +1,3 @@
 <ng-content></ng-content>
+
+<ng-container *ngIf="currentStep$ | async as currentStep" [ngTemplateOutlet]="currentStep"></ng-container>

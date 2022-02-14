@@ -9,5 +9,7 @@ import { FormStepperService } from '../form-stepper.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormStepperNavComponent {
+  nav$ = this.service.nav$;
+
   constructor(private service: FormStepperService) {}
 }

@@ -15,8 +15,10 @@ export class FormStepperComponent {
     }),
     address: this.formBuilder.group({
       street: ['', Validators.required],
-      zipCode: ['', Validators.required],
-      city: ['', Validators.required],
+      zipCodeAndCity: this.formBuilder.group({
+        zipCode: ['', Validators.required],
+        city: ['', Validators.required],
+      }),
     })
   });
 
@@ -26,8 +28,9 @@ export class FormStepperComponent {
 
   address = this.formGroup.get('address') as FormGroup;
   street = this.formGroup.get('address')?.get('street') as FormControl;
-  zipCode = this.formGroup.get('address')?.get('zipCode') as FormControl;
-  city = this.formGroup.get('address')?.get('city') as FormControl;
+  zipCodeAndCity = this.formGroup.get('address')?.get('zipCodeAndCity') as FormGroup;
+  zipCode = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('zipCode') as FormControl;
+  city = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('city') as FormControl;
 
   constructor(private formBuilder: FormBuilder) {}
 }

@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChildren, QueryList } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  Input,
+  QueryList,
+} from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { FormStepperSectionDirective } from './form-stepper-section/form-stepper-section.directive';
 import { FormStepperService } from './form-stepper.service';
@@ -11,11 +20,28 @@ import { FormStepperService } from './form-stepper.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormStepperComponent implements AfterViewInit {
-  @ContentChildren(FormStepperSectionDirective) sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
+  @Input() set formStepperFormGroup(formGroup: FormGroup) {
+    this.service.setFormGroup(formGroup);
+  }
 
-  constructor(private service: FormStepperService) {}
+  @ContentChildren(FormStepperSectionDirective)
+  private sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
+
+  currentStep$ = this.service.currentStep$;
+
+  prevStep = this.service.prevStep.bind(this.service);
+
+  nextStep = this.service.nextStep.bind(this.service);
+
+  isCurrentStepValid$ = this.service.isCurrentStepValid$;
+
+  constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
-    console.log(this.sectionDirectiveQueryList);
+    setTimeout(() => {
+      this.service.setStep(0);
+      this.service.emitNav();
+      this.changeDetectorRef.detectChanges();
+    }, 0);
   }
 }

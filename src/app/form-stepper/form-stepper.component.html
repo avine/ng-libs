@@ -1,29 +1,30 @@
-<form-stepper-nav></form-stepper-nav>
 
-<form-stepper [formGroup]="formGroup">
-  <ng-container [formStepperSection]="fullName">
-    <div [formStepperStep]="firstName">
+<form-stepper [formStepperFormGroup]="formGroup" #stepper>
+  <form-stepper-nav></form-stepper-nav>
+
+  <ng-container [formStepperSection]="fullName" title="Full name">
+    <ng-template [formStepperStep]="firstName" title="First name">
       First name: <input [formControl]="firstName" />
-    </div>
+    </ng-template>
 
-    <div [formStepperStep]="lastName">
+    <ng-template [formStepperStep]="lastName" title="Last name">
       Last name: <input [formControl]="lastName" />
-    </div>
+    </ng-template>
   </ng-container>
 
-  <ng-container [formStepperSection]="address">
-    <div [formStepperStep]="street">
-      Street: <input [formControl]="street" />
-    </div>
+  <ng-container [formStepperSection]="address" title="Address">
+    <ng-template [formStepperStep]="street" title="Street">Street: <input [formControl]="street" /></ng-template>
 
-    <div [formStepperStep]="zipCode">
-      Zip code: <input [formControl]="zipCode" />
-    </div>
-
-    <div [formStepperStep]="city">
+    <ng-template [formStepperStep]="zipCodeAndCity" title="Zip code and city">
+      Zip code: <input [formControl]="zipCode" /><br />
       City: <input [formControl]="city" />
-    </div>
+    </ng-template>
   </ng-container>
 </form-stepper>
+
+<div>
+  <button (click)="stepper.prevStep()">Prev</button>
+  <button (click)="stepper.nextStep()" [disabled]="(stepper.isCurrentStepValid$ | async) === false">Next</button>
+</div>
 
 <pre>Value: {{ formGroup.value | json }}</pre>

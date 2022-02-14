@@ -16,9 +16,11 @@ export class FormStepperNavComponent {
 
   setStep(event: Event, step: FormStepperStep, stepIndex: number) {
     event.stopPropagation();
-    if (!step.control.touched) {
-      return;
-    }
+
+    // if (!step.control.touched) {
+    //   return; // FIXME: is useless ????
+    // }
+
     this.service.navigateByStepIndex(stepIndex);
   }
 }

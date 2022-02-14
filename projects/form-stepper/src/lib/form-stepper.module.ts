@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 import { FormStepperContainerDirective } from './form-stepper-container/form-stepper-container.directive';
 import { FormStepperNavComponent } from './form-stepper-nav/form-stepper-nav.component';
@@ -15,7 +14,7 @@ const features = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule],
   declarations: features,
   exports: features,
 })

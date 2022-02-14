@@ -7,9 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormStepperNavSection, FormStepperStep } from './form-stepper.types';
 import { FORM_STEPPER_URL_PATH_PARAM } from './form-stepper.config';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class FormStepperService implements OnDestroy {
   steps: FormStepperStep[] = [];
 
@@ -81,7 +79,7 @@ export class FormStepperService implements OnDestroy {
       return;
     }
     const { urlPath } = this.steps[newStepIndex];
-    this.router.navigate(['/form-stepper', urlPath]);
+    this.router.navigate(['/form-stepper', urlPath]); // TODO: évaluer l'URL complète...
   }
 
   prevStep() {

@@ -33,4 +33,8 @@ export class FormStepperComponent {
   city = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('city') as FormControl;
 
   constructor(private formBuilder: FormBuilder) {}
+
+  submitForm() {
+    console.log(JSON.stringify(this.formGroup.value, undefined, 2));
+  }
 }

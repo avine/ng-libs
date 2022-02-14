@@ -18,7 +18,11 @@ export class FormStepperContainerDirective implements AfterViewInit {
 
   nextStep = this.service.nextStep.bind(this.service);
 
-  constructor(private service: FormStepperService, private activatedRoute: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private service: FormStepperService,
+    private activatedRoute: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit() {
     setTimeout(() => {

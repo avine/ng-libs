@@ -19,7 +19,7 @@ export class FormStepperComponent {
         zipCode: ['', Validators.required],
         city: ['', Validators.required],
       }),
-    })
+    }),
   });
 
   fullName = this.formGroup.get('fullName') as FormGroup;

@@ -16,12 +16,12 @@ export class IfNonNullishDirective<T = unknown> {
    * @description
    * Ideally, this function signature should have been `data: T` and not `data: any`.
    * But if we do so, we encounter the following problem with the Ivy language service:
-   * 
+   *
    * @Component({
    *   template: `
    *     <!-- When default input is defined, value has the expected type (string or number in this example) -->
    *     <ng-container *ifNonNullish="data as value; default: defaultValue"></ng-container>
-   * 
+   *
    *     <!-- But when default input is not defined, value is strangely of type any -->
    *     <ng-container *ifNonNullish="data as value"></ng-container>
    *   `

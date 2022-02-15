@@ -20,7 +20,7 @@
         Next
       </button>
 
-      <br />{{ state.allStepsViewed && formGroup.valid ? 'READY TO SUBMIT' : ''}}
+      <br />{{ state.hasReachedEnd && formGroup.valid ? 'READY TO SUBMIT' : ''}}
     </div>
 
     <ng-container [formStepperSection]="fullName" title="Full name" urlPath="full-name">

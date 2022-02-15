@@ -19,6 +19,7 @@ export interface FormStepperState {
   isCurrentStepValid: boolean;
   hasPrevStep: boolean;
   hasNextStep: boolean;
-  allStepsViewed: boolean;
+  maxStepIndexViewed: number;
+  hasReachedEnd: boolean;
   nav: FormStepperNavSection[];
 }

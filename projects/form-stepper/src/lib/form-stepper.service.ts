@@ -2,6 +2,7 @@ import { BehaviorSubject, ReplaySubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Injectable, OnDestroy, TemplateRef } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FORM_STEPPER_URL_PATH_PARAM } from './form-stepper.config';
@@ -13,13 +14,15 @@ export class FormStepperService implements OnDestroy {
 
   private stepIndex!: number;
 
+  private maxStepIndexViewed = 0;
+
+  private hasReachedEnd = false;
+
   private _stepTemplate$ = new ReplaySubject<TemplateRef<any>>(1);
 
   stepTemplate$ = this._stepTemplate$.asObservable();
 
   private stepSubscription!: Subscription;
-
-  private allStepsViewed = false;
 
   private nav: FormStepperNavSection[] = [];
 
@@ -27,7 +30,8 @@ export class FormStepperService implements OnDestroy {
     isCurrentStepValid: false,
     hasPrevStep: false,
     hasNextStep: false,
-    allStepsViewed: false,
+    maxStepIndexViewed: 0,
+    hasReachedEnd: false,
     nav: [],
   });
 
@@ -61,11 +65,8 @@ export class FormStepperService implements OnDestroy {
   }
 
   navigateByStepIndex(stepIndex: number) {
-    const newStepIndex = this.getNewStepIndex(stepIndex);
-    if (newStepIndex === null) {
-      return;
-    }
-    const { urlPath } = this.steps[newStepIndex];
+    const checkedStepIndex = this.getCheckedStepIndex(stepIndex);
+    const { urlPath } = this.steps[checkedStepIndex];
     this.router.navigate(['/form-stepper', urlPath]); // TODO: évaluer l'URL complète...
   }
 
@@ -80,12 +81,12 @@ export class FormStepperService implements OnDestroy {
   private handleUrlPath(currentUrlPath: string | null) {
     const stepIndex = this.steps.findIndex(({ urlPath }) => currentUrlPath === urlPath);
 
-    /*
-      ! TODO: does not work if a previous step is not required and then untouched
-      In this case, you simply can not go to next step until you touch the optional control...
-    */
     const hasSkippedSteps =
-      stepIndex > 0 ? this.steps.slice(0, stepIndex).some((step) => !step.control.touched) : false;
+      stepIndex > 0
+        ? this.steps
+            .slice(0, stepIndex)
+            .some((step) => step.control.hasValidator(Validators.required) && !step.control.touched)
+        : false;
 
     if (stepIndex === -1 || hasSkippedSteps) {
       this.navigateByStepIndex(0);
@@ -96,13 +97,10 @@ export class FormStepperService implements OnDestroy {
   }
 
   private setStepByIndex(stepIndex: number) {
-    const newStepIndex = this.getNewStepIndex(stepIndex);
-    if (newStepIndex === null) {
-      return;
-    }
-    this.stepIndex = newStepIndex;
-    if (this.stepIndex === this.steps.length - 1) {
-      this.allStepsViewed = true;
+    this.stepIndex = this.getCheckedStepIndex(stepIndex);
+    this.maxStepIndexViewed = Math.max(this.maxStepIndexViewed, this.stepIndex);
+    if (this.maxStepIndexViewed === this.steps.length - 1) {
+      this.hasReachedEnd = true;
     }
 
     const step = this.steps[this.stepIndex];
@@ -114,7 +112,8 @@ export class FormStepperService implements OnDestroy {
         isCurrentStepValid,
         hasPrevStep: this.stepIndex > 0,
         hasNextStep: this.stepIndex < this.steps.length - 1,
-        allStepsViewed: this.allStepsViewed,
+        maxStepIndexViewed: this.maxStepIndexViewed,
+        hasReachedEnd: this.hasReachedEnd,
         nav: [...this.nav],
       });
     };
@@ -130,11 +129,7 @@ export class FormStepperService implements OnDestroy {
       .subscribe(updateState);
   }
 
-  private getNewStepIndex(stepIndex: number): number | null {
-    const newStepIndex = Math.min(Math.max(0, stepIndex), this.steps.length - 1);
-    if (newStepIndex === this.stepIndex) {
-      return null;
-    }
-    return newStepIndex;
+  private getCheckedStepIndex(stepIndex: number): number {
+    return Math.min(Math.max(0, stepIndex), this.steps.length - 1);
   }
 }

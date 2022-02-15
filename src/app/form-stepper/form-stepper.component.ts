@@ -14,10 +14,10 @@ export class FormStepperComponent {
       lastName: ['', Validators.required],
     }),
     address: this.formBuilder.group({
-      street: ['', Validators.required],
+      street: [''],
       zipCodeAndCity: this.formBuilder.group({
-        zipCode: [''],
-        city: [''],
+        zipCode: ['', Validators.required],
+        city: ['', Validators.required],
       }),
     }),
   });

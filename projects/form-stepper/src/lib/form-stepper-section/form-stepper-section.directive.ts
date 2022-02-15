@@ -31,15 +31,15 @@ export class FormStepperSectionDirective implements AfterViewInit {
         control,
         templateRef,
       };
-      steps.push(step);
       this.service.addStep(step);
+      steps.push(step);
     });
 
     this.service.addNavSection({
       title: this.title,
       section: this.formStepperSection,
       offset,
-      steps: steps,
+      steps,
     });
   }
 }

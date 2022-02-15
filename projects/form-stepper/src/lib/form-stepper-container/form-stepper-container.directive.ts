@@ -1,7 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Directive } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { AfterViewInit, Directive } from '@angular/core';
 
-import { FORM_STEPPER_URL_PATH_PARAM } from '../form-stepper.config';
 import { FormStepperService } from '../form-stepper.service';
 
 @Directive({
@@ -18,16 +16,9 @@ export class FormStepperContainerDirective implements AfterViewInit {
 
   nextStep = this.service.nextStep.bind(this.service);
 
-  constructor(
-    private service: FormStepperService,
-    private activatedRoute: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  constructor(private service: FormStepperService) {}
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.service.handleUrlPath(this.activatedRoute.snapshot.paramMap.get(FORM_STEPPER_URL_PATH_PARAM));
-      this.changeDetectorRef.detectChanges();
-    }, 0);
+    setTimeout(() => this.service.init(), 0);
   }
 }

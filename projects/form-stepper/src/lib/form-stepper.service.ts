@@ -33,26 +33,69 @@ export class FormStepperService implements OnDestroy {
 
   state$ = this._state$.asObservable();
 
-  private urlPathSubscription = this.activatedRoute.paramMap
-    .pipe(map((paramMap) => paramMap.get(FORM_STEPPER_URL_PATH_PARAM)))
-    .subscribe((currentUrlPath) => {
-      if (!this.steps.length) {
-        return;
-      }
-      this.handleUrlPath(currentUrlPath);
-    });
+  private urlPathSubscription!: Subscription;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
+  init() {
+    this.urlPathSubscription = this.activatedRoute.paramMap
+      .pipe(map((paramMap) => paramMap.get(FORM_STEPPER_URL_PATH_PARAM)))
+      .subscribe((currentUrlPath) => {
+        if (!this.steps.length) {
+          return;
+        }
+        this.handleUrlPath(currentUrlPath);
+      });
+  }
+
   ngOnDestroy() {
-    this.urlPathSubscription.unsubscribe();
+    this.urlPathSubscription?.unsubscribe();
   }
 
   addStep(step: FormStepperStep) {
     this.steps.push(step);
   }
 
-  updateStepByIndex(stepIndex: number) {
+  addNavSection(section: FormStepperNavSection) {
+    this.nav.push(section);
+  }
+
+  navigateByStepIndex(stepIndex: number) {
+    const newStepIndex = this.getNewStepIndex(stepIndex);
+    if (newStepIndex === null) {
+      return;
+    }
+    const { urlPath } = this.steps[newStepIndex];
+    this.router.navigate(['/form-stepper', urlPath]); // TODO: évaluer l'URL complète...
+  }
+
+  prevStep() {
+    this.navigateByStepIndex(this.stepIndex - 1);
+  }
+
+  nextStep() {
+    this.navigateByStepIndex(this.stepIndex + 1);
+  }
+
+  private handleUrlPath(currentUrlPath: string | null) {
+    const stepIndex = this.steps.findIndex(({ urlPath }) => currentUrlPath === urlPath);
+
+    /*
+      ! TODO: does not work if a previous step is not required and then untouched
+      In this case, you simply can not go to next step until you touch the optional control...
+    */
+    const hasSkippedSteps =
+      stepIndex > 0 ? this.steps.slice(0, stepIndex).some((step) => !step.control.touched) : false;
+
+    if (stepIndex === -1 || hasSkippedSteps) {
+      this.navigateByStepIndex(0);
+      return;
+    }
+
+    this.setStepByIndex(stepIndex);
+  }
+
+  private setStepByIndex(stepIndex: number) {
     const newStepIndex = this.getNewStepIndex(stepIndex);
     if (newStepIndex === null) {
       return;
@@ -85,42 +128,6 @@ export class FormStepperService implements OnDestroy {
         map((status) => status === 'VALID')
       )
       .subscribe(updateState);
-  }
-
-  navigateByStepIndex(stepIndex: number) {
-    const newStepIndex = this.getNewStepIndex(stepIndex);
-    if (newStepIndex === null) {
-      return;
-    }
-    const { urlPath } = this.steps[newStepIndex];
-    this.router.navigate(['/form-stepper', urlPath]); // TODO: évaluer l'URL complète...
-  }
-
-  prevStep() {
-    this.navigateByStepIndex(this.stepIndex - 1);
-  }
-
-  nextStep() {
-    this.navigateByStepIndex(this.stepIndex + 1);
-  }
-
-  handleUrlPath(currentUrlPath: string | null) {
-    const stepIndex = this.steps.findIndex(({ urlPath }) => currentUrlPath === urlPath);
-
-    const hasSomePreviousStepsUnouched = this.steps
-      .slice(0, Math.max(0, stepIndex - 1))
-      .some((step) => !step.control.touched);
-
-    if (stepIndex === -1 || hasSomePreviousStepsUnouched) {
-      this.navigateByStepIndex(0);
-      return;
-    }
-
-    this.updateStepByIndex(stepIndex);
-  }
-
-  addNavSection(section: FormStepperNavSection) {
-    this.nav.push(section);
   }
 
   private getNewStepIndex(stepIndex: number): number | null {

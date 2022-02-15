@@ -24,13 +24,17 @@ export class FormStepperSectionDirective implements AfterViewInit {
     const offset = this.service.steps.length;
     const steps: FormStepperStep[] = [];
 
-    this.stepDirectiveQueryList.forEach(({ title, urlPath, formStepperStep: control, templateRef }) => {
+    this.stepDirectiveQueryList.forEach(({ title, urlPath, formStepperStep: control, templateRef }, index) => {
       const step: FormStepperStep = {
         title,
         urlPath: concatUrlPaths(this.urlPath, urlPath),
         control,
         templateRef,
+        sectionIndex: this.service.nav.length,
+        stepIndex: offset + index,
+        sectionProgression: { count: index + 1, total: this.stepDirectiveQueryList.length },
       };
+
       this.service.addStep(step);
       steps.push(step);
     });

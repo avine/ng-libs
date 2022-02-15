@@ -24,14 +24,17 @@ export class FormStepperService implements OnDestroy {
 
   private stepSubscription!: Subscription;
 
-  private nav: FormStepperNavSection[] = [];
+  /*private */nav: FormStepperNavSection[] = [];
 
   private _state$ = new BehaviorSubject<FormStepperState>({
+    currentSectionIndex: 0,
+    currentStepIndex: 0,
     isCurrentStepValid: false,
     hasPrevStep: false,
     hasNextStep: false,
     maxStepIndexViewed: 0,
     hasReachedEnd: false,
+    sectionProgression: { count: 0, total: 0 },
     nav: [],
   });
 
@@ -39,7 +42,9 @@ export class FormStepperService implements OnDestroy {
 
   private urlPathSubscription!: Subscription;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+    console.log('>>>', this)
+  }
 
   init() {
     this.urlPathSubscription = this.activatedRoute.paramMap
@@ -109,11 +114,14 @@ export class FormStepperService implements OnDestroy {
 
     const updateState = (isCurrentStepValid: boolean) => {
       this._state$.next({
+        currentSectionIndex: step.sectionIndex,
+        currentStepIndex: step.stepIndex,
         isCurrentStepValid,
         hasPrevStep: this.stepIndex > 0,
         hasNextStep: this.stepIndex < this.steps.length - 1,
         maxStepIndexViewed: this.maxStepIndexViewed,
         hasReachedEnd: this.hasReachedEnd,
+        sectionProgression: step.sectionProgression,
         nav: [...this.nav],
       });
     };

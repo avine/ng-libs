@@ -27,14 +27,13 @@ export class FormStepperService implements OnDestroy {
   /*private */nav: FormStepperNavSection[] = [];
 
   private _state$ = new BehaviorSubject<FormStepperState>({
-    currentSectionIndex: 0,
-    currentStepIndex: 0,
-    isCurrentStepValid: false,
+    sectionIndex: 0,
+    stepIndex: 0,
+    isStepValid: false,
     hasPrevStep: false,
     hasNextStep: false,
     maxStepIndexViewed: 0,
     hasReachedEnd: false,
-    sectionProgression: { count: 0, total: 0 },
     nav: [],
   });
 
@@ -112,16 +111,16 @@ export class FormStepperService implements OnDestroy {
 
     this._stepTemplate$.next(step.templateRef);
 
-    const updateState = (isCurrentStepValid: boolean) => {
+    const updateState = (isStepValid: boolean) => {
       this._state$.next({
-        currentSectionIndex: step.sectionIndex,
-        currentStepIndex: step.stepIndex,
-        isCurrentStepValid,
+        sectionIndex: step.sectionIndex,
+        stepIndex: step.stepIndex,
+        sectionProgression: step.sectionProgression,
+        isStepValid,
         hasPrevStep: this.stepIndex > 0,
         hasNextStep: this.stepIndex < this.steps.length - 1,
         maxStepIndexViewed: this.maxStepIndexViewed,
         hasReachedEnd: this.hasReachedEnd,
-        sectionProgression: step.sectionProgression,
         nav: [...this.nav],
       });
     };

@@ -13,6 +13,9 @@ export class FormStepperComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
     }),
+    contact: this.formBuilder.group({
+      email: ['', Validators.required],
+    }),
     address: this.formBuilder.group({
       street: [''],
       zipCodeAndCity: this.formBuilder.group({
@@ -25,6 +28,9 @@ export class FormStepperComponent {
   fullName = this.formGroup.get('fullName') as FormGroup;
   firstName = this.formGroup.get('fullName')?.get('firstName') as FormControl;
   lastName = this.formGroup.get('fullName')?.get('lastName') as FormControl;
+  
+  contact = this.formGroup.get('contact') as FormGroup;
+  email = this.formGroup.get('contact')?.get('email') as FormControl;
 
   address = this.formGroup.get('address') as FormGroup;
   street = this.formGroup.get('address')?.get('street') as FormControl;

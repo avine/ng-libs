@@ -8,18 +8,18 @@ export interface FormStepperStep {
   templateRef: TemplateRef<any>;
   sectionIndex: number;
   stepIndex: number;
-  sectionProgression: FormStepperSectionProgression;
+  sectionProgression?: FormStepperSectionProgression;
 }
 
 export interface FormStepperState {
-  currentSectionIndex: number;
-  currentStepIndex: number;
-  isCurrentStepValid: boolean;
+  sectionIndex: number;
+  stepIndex: number;
+  sectionProgression?: FormStepperSectionProgression;
+  isStepValid: boolean;
   hasPrevStep: boolean;
   hasNextStep: boolean;
   maxStepIndexViewed: number;
   hasReachedEnd: boolean;
-  sectionProgression: FormStepperSectionProgression;
   nav: FormStepperNavSection[];
 }
 

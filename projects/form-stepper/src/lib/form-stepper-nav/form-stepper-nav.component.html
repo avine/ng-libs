@@ -1,35 +1,30 @@
 <ul *ngIf="state$ | async as state">
   <li *ngFor="let section of state.nav; let sectionIndex = index">
     <button
+      type="button"
       [disabled]="section.offset >= state.maxStepIndexViewed && section.steps[0].control.pristine"
       (click)="setStep($event, section.offset)"
     >
       {{ section.title }}
     </button>
 
-    <span style="color: blue" *ngIf="state.currentSectionIndex === sectionIndex">
+    <span style="color: blue" *ngIf="state.sectionProgression && state.sectionIndex === sectionIndex">
       {{ state.sectionProgression.count }} / {{ state.sectionProgression.total }}
     </span>
 
     ({{ section.section.valid }})
 
     <ul>
-      <li *ngFor="let step of section.steps; let stepIndex = index">
+      <li *ngFor="let step of section.steps; let relativeStepIndex = index">
         <button
-          [disabled]="section.offset + stepIndex >= state.maxStepIndexViewed && step.control.pristine"
-          (click)="setStep($event, section.offset + stepIndex)"
+          type="button"
+          [disabled]="section.offset + relativeStepIndex >= state.maxStepIndexViewed && step.control.pristine"
+          (click)="setStep($event, section.offset + relativeStepIndex)"
         >
           {{ step.title }}
         </button>
 
-        <span
-          style="color: blue"
-          *ngIf="
-            state.currentStepIndex === section.offset + stepIndex && state.sectionProgression.count === stepIndex + 1
-          "
-        >
-          *
-        </span>
+        <span style="color: blue" *ngIf="state.stepIndex === section.offset + relativeStepIndex"> * </span>
 
         ({{ step.control.valid }})
       </li>

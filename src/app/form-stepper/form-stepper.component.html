@@ -16,7 +16,7 @@
     <div style="padding: 3rem; text-align: center" *ngIf="stepper.state$ | async as state">
       <button type="button" [disabled]="!state.hasPrevStep" (click)="stepper.prevStep()">Prev</button>
 
-      <button type="button" [disabled]="!state.hasNextStep || !state.isCurrentStepValid" (click)="stepper.nextStep()">
+      <button type="button" [disabled]="!state.hasNextStep || !state.isStepValid" (click)="stepper.nextStep()">
         Next
       </button>
 
@@ -32,6 +32,13 @@
       <ng-template [formStepperStep]="lastName" title="Last name" urlPath="last-name">
         Last name:<br />
         <input [formControl]="lastName" />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="contact" title="Contact" urlPath="contact">
+      <ng-template [formStepperStep]="email" title="Email" urlPath="email">
+        First name:<br />
+        <input [formControl]="email" />
       </ng-template>
     </ng-container>
 

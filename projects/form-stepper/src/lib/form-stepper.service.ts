@@ -1,11 +1,11 @@
-import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Injectable, OnDestroy, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { FormStepperNavSection, FormStepperStep } from './form-stepper.types';
 import { FORM_STEPPER_URL_PATH_PARAM } from './form-stepper.config';
+import { FormStepperNavSection, FormStepperState, FormStepperStep } from './form-stepper.types';
 
 @Injectable()
 export class FormStepperService implements OnDestroy {
@@ -15,21 +15,23 @@ export class FormStepperService implements OnDestroy {
 
   private _stepTemplate$ = new ReplaySubject<TemplateRef<any>>(1);
 
-  private _isStepValid$ = new ReplaySubject<boolean>(1);
-
-  private _isLastStep$ = new ReplaySubject<boolean>(1);
-
   stepTemplate$ = this._stepTemplate$.asObservable();
-
-  isStepValid$ = this._isStepValid$.asObservable();
-
-  isLastStep$ = this._isLastStep$.asObservable();
 
   private stepSubscription!: Subscription;
 
-  private _nav$ = new BehaviorSubject<FormStepperNavSection[]>([]);
+  private allStepsViewed = false;
 
-  nav$ = this._nav$.asObservable();
+  private nav: FormStepperNavSection[] = [];
+
+  private _state$ = new BehaviorSubject<FormStepperState>({
+    isCurrentStepValid: false,
+    hasPrevStep: false,
+    hasNextStep: false,
+    allStepsViewed: false,
+    nav: [],
+  });
+
+  state$ = this._state$.asObservable();
 
   private urlPathSubscription = this.activatedRoute.paramMap
     .pipe(map((paramMap) => paramMap.get(FORM_STEPPER_URL_PATH_PARAM)))
@@ -56,15 +58,22 @@ export class FormStepperService implements OnDestroy {
       return;
     }
     this.stepIndex = newStepIndex;
+    if (this.stepIndex === this.steps.length - 1) {
+      this.allStepsViewed = true;
+    }
 
     const step = this.steps[this.stepIndex];
 
     this._stepTemplate$.next(step.templateRef);
 
-    const updateState = (isValid: boolean) => {
-      this._isStepValid$.next(isValid);
-      this._isLastStep$.next(!!this.steps.length && this.stepIndex === this.steps.length - 1);
-      this._nav$.next([...this._nav$.value]);
+    const updateState = (isCurrentStepValid: boolean) => {
+      this._state$.next({
+        isCurrentStepValid,
+        hasPrevStep: this.stepIndex > 0,
+        hasNextStep: this.stepIndex < this.steps.length - 1,
+        allStepsViewed: this.allStepsViewed,
+        nav: [...this.nav],
+      });
     };
 
     updateState(step.control.valid);
@@ -111,7 +120,7 @@ export class FormStepperService implements OnDestroy {
   }
 
   addNavSection(section: FormStepperNavSection) {
-    this._nav$.next([...this._nav$.value, section]);
+    this.nav.push(section);
   }
 
   private getNewStepIndex(stepIndex: number): number | null {

@@ -12,9 +12,7 @@ import { FormStepperService } from '../form-stepper.service';
 export class FormStepperContainerDirective implements AfterViewInit {
   stepTemplate$ = this.service.stepTemplate$;
 
-  isStepValid$ = this.service.isStepValid$;
-
-  isLastStep$ = this.service.isLastStep$;
+  state$ = this.service.state$;
 
   prevStep = this.service.prevStep.bind(this.service);
 

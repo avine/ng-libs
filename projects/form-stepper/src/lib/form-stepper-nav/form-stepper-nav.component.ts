@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
-import { FormStepperStep } from '../form-stepper.types';
 
 @Component({
   selector: 'form-stepper-nav',
@@ -10,17 +9,12 @@ import { FormStepperStep } from '../form-stepper.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormStepperNavComponent {
-  nav$ = this.service.nav$;
+  state$ = this.service.state$;
 
   constructor(private service: FormStepperService) {}
 
-  setStep(event: Event, step: FormStepperStep, stepIndex: number) {
+  setStep(event: Event, stepIndex: number) {
     event.stopPropagation();
-
-    // if (!step.control.touched) {
-    //   return; // FIXME: is useless ????
-    // }
-
     this.service.navigateByStepIndex(stepIndex);
   }
 }

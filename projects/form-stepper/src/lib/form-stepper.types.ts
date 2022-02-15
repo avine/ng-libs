@@ -14,3 +14,11 @@ export interface FormStepperNavSection {
   offset: number;
   steps: FormStepperStep[];
 }
+
+export interface FormStepperState {
+  isCurrentStepValid: boolean;
+  hasPrevStep: boolean;
+  hasNextStep: boolean;
+  allStepsViewed: boolean;
+  nav: FormStepperNavSection[];
+}

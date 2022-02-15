@@ -1,29 +1,26 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
   <ng-container formStepperContainer #stepper="stepper">
-    <div style="display: flex">
-      <div>
+    <div style="display: flex; justify-content: center">
+      <div style="padding: 3rem">
         <ng-container
           *ngIf="stepper.stepTemplate$ | async as stepTemplate"
           [ngTemplateOutlet]="stepTemplate"
         ></ng-container>
       </div>
 
-      <div>
+      <div style="padding: 3rem">
         <form-stepper-nav></form-stepper-nav>
       </div>
     </div>
 
-    <div>
-      <button (click)="stepper.prevStep()">Prev</button>
+    <div style="padding: 3rem; text-align: center" *ngIf="stepper.state$ | async as state">
+      <button type="button" [disabled]="!state.hasPrevStep" (click)="stepper.prevStep()">Prev</button>
 
-      <!-- ! TODO: the [type] property does not work properly to submit the form at the right time... -->
-      <button
-        [type]="(stepper.isLastStep$ | async) ? 'submit' : 'button'"
-        [disabled]="(stepper.isStepValid$ | async) === false"
-        (click)="stepper.nextStep()"
-      >
-        Next ({{ stepper.isLastStep$ | async }})
+      <button type="button" [disabled]="!state.hasNextStep || !state.isCurrentStepValid" (click)="stepper.nextStep()">
+        Next
       </button>
+
+      <br />{{ state.allStepsViewed && formGroup.valid ? 'READY TO SUBMIT' : ''}}
     </div>
 
     <ng-container [formStepperSection]="fullName" title="Full name" urlPath="full-name">
@@ -54,7 +51,7 @@
   </ng-container>
 </form>
 
-<pre>Value: {{ formGroup.value | json }}</pre>
+<pre style="width: 300px; margin: auto">Value: {{ formGroup.value | json }}</pre>
 
 <a routerLink="/form-stepper/address-street">1</a>
 <a routerLink="/form-stepper/address-zip-code-and-city">2</a>

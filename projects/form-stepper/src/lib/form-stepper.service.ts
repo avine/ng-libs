@@ -79,16 +79,33 @@ export class FormStepperService implements OnDestroy {
   }
 
   navigateByStepIndex(stepIndex: number) {
-    const checkedStepIndex = this.getCheckedStepIndex(stepIndex);
-    let urlPath: string;
-    if (checkedStepIndex === -1) {
-      urlPath = this.onboarding.urlPath;
-    } else if (checkedStepIndex === this.steps.length) {
-      urlPath = this.summary.urlPath;
+    const nextStepIndex = this.getCheckedStepIndex(stepIndex);
+    let nextUrlPath: string;
+    if (nextStepIndex === -1) {
+      nextUrlPath = this.onboarding.urlPath;
+    } else if (nextStepIndex === this.steps.length) {
+      nextUrlPath = this.summary.urlPath;
     } else {
-      urlPath = this.steps[checkedStepIndex].urlPath;
+      nextUrlPath = this.steps[nextStepIndex].urlPath;
     }
-    this.router.navigate(['/form-stepper', urlPath]); // TODO: évaluer l'URL complète...
+
+    // Do the best to identify the current urlPath
+    let currentUrlPath: string | undefined;
+    if (this.stepIndex !== undefined && this.router.url.match(`/${this.steps[this.stepIndex]?.urlPath}`)) {
+      currentUrlPath = this.steps[this.stepIndex]?.urlPath;
+    } else if (this.onboarding && this.router.url.match(`/${this.onboarding.urlPath}`)) {
+      currentUrlPath = this.onboarding.urlPath;
+    } else if (this.summary && this.router.url.match(`/${this.summary.urlPath}`)) {
+      currentUrlPath = this.summary.urlPath;
+    } else {
+      currentUrlPath = this.steps.find(({ urlPath }) => this.router.url.match(`/${urlPath}`))?.urlPath;
+    }
+    if (!currentUrlPath) {
+      // Back to homepage when unable to identify the current urlPath
+      this.router.navigate(['/']);
+      return;
+    }
+    this.router.navigateByUrl(this.router.url.replace(`/${currentUrlPath}`, `/${nextUrlPath}`));
   }
 
   prevStep() {

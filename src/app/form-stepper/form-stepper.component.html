@@ -32,7 +32,7 @@
       <button type="submit">Submit</button>
     </ng-template>
 
-    <ng-container [formStepperSection]="fullName" title="Full name" urlPath="full-name">
+    <ng-container [formStepperSection]="fullName" title="Full name">
       <ng-template [formStepperStep]="firstName" title="First name" urlPath="first-name">
         First name:<br />
         <input [formControl]="firstName" />
@@ -44,14 +44,14 @@
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="contact" title="Contact" urlPath="contact">
+    <ng-container [formStepperSection]="contact" title="Contact">
       <ng-template [formStepperStep]="email" title="Email" urlPath="email">
         Email:<br />
         <input [formControl]="email" />
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="address" title="Address" urlPath="address">
+    <ng-container [formStepperSection]="address" title="Address">
       <ng-template [formStepperStep]="street" title="Street" urlPath="street">
         Street:<br />
         <input [formControl]="street" />
@@ -69,5 +69,6 @@
 
 <pre style="width: 300px; margin: auto">Value: {{ formGroup.value | json }}</pre>
 
-<a routerLink="/form-stepper/address-street">1</a>
-<a routerLink="/form-stepper/address-zip-code-and-city">2</a>
+<a routerLink="/form-stepper/street"> street </a>
+<a routerLink="/form-stepper/zip-code-and-city"> zip-code-and-city </a>
+<a routerLink="/form-stepper/oops"> oops </a>

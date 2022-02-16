@@ -4,7 +4,6 @@ import { FormGroup } from '@angular/forms';
 import { FormStepperStepDirective } from '../form-stepper-step/form-stepper-step.directive';
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
-import { concatUrlPaths } from '../form-stepper.utils';
 
 @Directive({
   selector: '[formStepperSection]',
@@ -13,8 +12,6 @@ export class FormStepperSectionDirective implements AfterViewInit {
   @Input() formStepperSection!: FormGroup;
 
   @Input() title!: string;
-
-  @Input() urlPath!: string;
 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
@@ -28,7 +25,7 @@ export class FormStepperSectionDirective implements AfterViewInit {
       ({ title, urlPath, formStepperStep: control, templateRef }, relativeStepIndex) => {
         const step: FormStepperStep = {
           title,
-          urlPath: concatUrlPaths(this.urlPath, urlPath),
+          urlPath,
           control,
           templateRef,
           sectionIndex: this.service.nav.length,

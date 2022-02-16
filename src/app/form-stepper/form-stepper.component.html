@@ -1,28 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <ng-container formStepperContainer #formStepper="formStepper">
-    <div style="display: flex; justify-content: center">
-      <div style="padding: 3rem">
-        <ng-container
-          *ngIf="formStepper.stepTemplate$ | async as stepTemplate"
-          [ngTemplateOutlet]="stepTemplate"
-        ></ng-container>
-      </div>
-
-      <div style="padding: 3rem">
-        <form-stepper-nav></form-stepper-nav>
-      </div>
-    </div>
-
-    <div style="padding: 3rem; text-align: center" *ngIf="formStepper.state$ | async as state">
-      <button type="button" [disabled]="!state.hasPrevStep" (click)="formStepper.prevStep()">Prev</button>
-
-      <button type="button" [disabled]="!state.hasNextStep || !state.isStepValid" (click)="formStepper.nextStep()">
-        Next
-      </button>
-
-      <br />{{ state.hasReachedEnd && formGroup.valid ? 'READY TO SUBMIT' : '' }}
-    </div>
-
+  <form-stepper-container>
     <ng-template formStepperOnboarding formStepperPath="onboarding">
       <h1>Onboarding</h1>
     </ng-template>
@@ -68,7 +45,7 @@
         <input [formControl]="city" />
       </ng-template>
     </ng-container>
-  </ng-container>
+  </form-stepper-container>
 </form>
 
 <pre style="width: 300px; margin: auto">Value: {{ formGroup.value | json }}</pre>

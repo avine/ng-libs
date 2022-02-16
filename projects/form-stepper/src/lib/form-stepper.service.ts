@@ -43,6 +43,10 @@ export class FormStepperService implements OnDestroy {
 
   state$ = this._state$.asObservable();
 
+  get state() {
+    return this._state$.value;
+  }
+
   private pathSubscription!: Subscription;
 
   private get firstStepIndex() {

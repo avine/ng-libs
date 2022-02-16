@@ -4,7 +4,7 @@ import { Directive, Input, TemplateRef } from '@angular/core';
   selector: '[formStepperSummary]'
 })
 export class FormStepperSummaryDirective {
-  @Input() urlPath!: string;
+  @Input() formStepperPath!: string;
 
   constructor(public templateRef: TemplateRef<any>) {}
 }

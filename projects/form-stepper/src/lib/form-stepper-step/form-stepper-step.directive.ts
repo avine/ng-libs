@@ -7,9 +7,9 @@ import { AbstractControl } from '@angular/forms';
 export class FormStepperStepDirective {
   @Input() formStepperStep!: AbstractControl;
 
-  @Input() title!: string;
+  @Input() formStepperTitle!: string;
 
-  @Input() urlPath!: string;
+  @Input() formStepperPath!: string;
 
   constructor(public templateRef: TemplateRef<any>) {}
 }

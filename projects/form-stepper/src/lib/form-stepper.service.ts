@@ -5,7 +5,7 @@ import { Injectable, OnDestroy, TemplateRef } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { FORM_STEPPER_URL_PATH_PARAM } from './form-stepper.config';
+import { FORM_STEPPER_PATH_PARAM } from './form-stepper.config';
 import { FormStepperExtraPage, FormStepperNavSection, FormStepperState, FormStepperStep } from './form-stepper.types';
 
 @Injectable()
@@ -43,7 +43,7 @@ export class FormStepperService implements OnDestroy {
 
   state$ = this._state$.asObservable();
 
-  private urlPathSubscription!: Subscription;
+  private pathSubscription!: Subscription;
 
   private get firstStepIndex() {
     return this.onboarding ? -1 : 0;
@@ -56,18 +56,18 @@ export class FormStepperService implements OnDestroy {
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   init() {
-    this.urlPathSubscription = this.activatedRoute.paramMap
-      .pipe(map((paramMap) => paramMap.get(FORM_STEPPER_URL_PATH_PARAM)))
-      .subscribe((currentUrlPath) => {
+    this.pathSubscription = this.activatedRoute.paramMap
+      .pipe(map((paramMap) => paramMap.get(FORM_STEPPER_PATH_PARAM)))
+      .subscribe((currentPath) => {
         if (!this.steps.length) {
           return;
         }
-        this.handleUrlPath(currentUrlPath);
+        this.handlePath(currentPath);
       });
   }
 
   ngOnDestroy() {
-    this.urlPathSubscription?.unsubscribe();
+    this.pathSubscription?.unsubscribe();
   }
 
   addStep(step: FormStepperStep) {
@@ -80,32 +80,32 @@ export class FormStepperService implements OnDestroy {
 
   navigateByStepIndex(stepIndex: number) {
     const nextStepIndex = this.getCheckedStepIndex(stepIndex);
-    let nextUrlPath: string;
+    let nextPath: string;
     if (nextStepIndex === -1) {
-      nextUrlPath = this.onboarding.urlPath;
+      nextPath = this.onboarding.path;
     } else if (nextStepIndex === this.steps.length) {
-      nextUrlPath = this.summary.urlPath;
+      nextPath = this.summary.path;
     } else {
-      nextUrlPath = this.steps[nextStepIndex].urlPath;
+      nextPath = this.steps[nextStepIndex].path;
     }
 
-    // Do the best to identify the current urlPath
-    let currentUrlPath: string | undefined;
-    if (this.stepIndex !== undefined && this.router.url.match(`/${this.steps[this.stepIndex]?.urlPath}`)) {
-      currentUrlPath = this.steps[this.stepIndex]?.urlPath;
-    } else if (this.onboarding && this.router.url.match(`/${this.onboarding.urlPath}`)) {
-      currentUrlPath = this.onboarding.urlPath;
-    } else if (this.summary && this.router.url.match(`/${this.summary.urlPath}`)) {
-      currentUrlPath = this.summary.urlPath;
+    // Do the best to identify the current path
+    let currentPath: string | undefined;
+    if (this.stepIndex !== undefined && this.router.url.match(`/${this.steps[this.stepIndex]?.path}`)) {
+      currentPath = this.steps[this.stepIndex]?.path;
+    } else if (this.onboarding && this.router.url.match(`/${this.onboarding.path}`)) {
+      currentPath = this.onboarding.path;
+    } else if (this.summary && this.router.url.match(`/${this.summary.path}`)) {
+      currentPath = this.summary.path;
     } else {
-      currentUrlPath = this.steps.find(({ urlPath }) => this.router.url.match(`/${urlPath}`))?.urlPath;
+      currentPath = this.steps.find(({ path }) => this.router.url.match(`/${path}`))?.path;
     }
-    if (!currentUrlPath) {
-      // Back to homepage when unable to identify the current urlPath
+    if (!currentPath) {
+      // Back to homepage when unable to identify the current path
       this.router.navigate(['/']);
       return;
     }
-    this.router.navigateByUrl(this.router.url.replace(`/${currentUrlPath}`, `/${nextUrlPath}`));
+    this.router.navigateByUrl(this.router.url.replace(`/${currentPath}`, `/${nextPath}`));
   }
 
   prevStep() {
@@ -116,31 +116,29 @@ export class FormStepperService implements OnDestroy {
     this.navigateByStepIndex(this.stepIndex + 1);
   }
 
-  private handleUrlPath(currentUrlPath: string | null) {
-    if (currentUrlPath === this.onboarding?.urlPath || currentUrlPath === this.summary?.urlPath) {
-      // ! TODO: Si c'est la page summary, il manque de vérifier `hasSkippedSteps`...
-      this.handleExtraPageUrlPath(currentUrlPath);
+  private handlePath(path: string | null) {
+    if (path === this.onboarding?.path || path === this.summary?.path && !this.hasSkippedSomePreviousSteps()) {
+      this.handleExtraPagePath(path);
       return;
     }
 
-    const stepIndex = this.steps.findIndex(({ urlPath }) => currentUrlPath === urlPath);
-
-    const hasSkippedSteps =
-      stepIndex > 0
-        ? this.steps
-            .slice(0, stepIndex)
-            .some((step) => step.control.hasValidator(Validators.required) && !step.control.touched)
-        : false;
-
-    if (stepIndex === -1 || hasSkippedSteps) {
+    const stepIndex = this.steps.findIndex((step) => path === step.path);
+    if (stepIndex === -1 || this.hasSkippedSomePreviousSteps(stepIndex)) {
       this.navigateByStepIndex(this.summary ? -1 : 0);
       return;
     }
-
     this.setStepByIndex(stepIndex);
   }
 
-  private handleExtraPageUrlPath(currentUrlPath: string) {
+  private hasSkippedSomePreviousSteps(stepIndex = this.steps.length - 1): boolean {
+    return stepIndex > 0
+      ? this.steps
+          .slice(0, stepIndex)
+          .some((step) => step.control.hasValidator(Validators.required) && !step.control.touched)
+      : false;
+  }
+
+  private handleExtraPagePath(path: string) {
     const commonState: Pick<FormStepperState, 'isStepValid' | 'maxStepIndexViewed' | 'hasReachedEnd' | 'nav'> = {
       isStepValid: true,
       maxStepIndexViewed: this.maxStepIndexViewed,
@@ -148,7 +146,7 @@ export class FormStepperService implements OnDestroy {
       nav: [...this.nav],
     };
 
-    if (currentUrlPath === this.onboarding?.urlPath) {
+    if (path === this.onboarding?.path) {
       this.stepIndex = -1;
       this._stepTemplate$.next(this.onboarding.templateRef);
       this._state$.next({
@@ -158,7 +156,7 @@ export class FormStepperService implements OnDestroy {
         hasNextStep: true,
         ...commonState,
       });
-    } else if (currentUrlPath === this.summary?.urlPath) {
+    } else if (path === this.summary?.path) {
       this.stepIndex = this.steps.length;
       this._stepTemplate$.next(this.summary.templateRef);
       this._state$.next({

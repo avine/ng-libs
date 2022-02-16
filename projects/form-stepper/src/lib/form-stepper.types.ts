@@ -3,7 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 
 export interface FormStepperStep {
   title: string;
-  urlPath: string;
+  path: string;
   control: AbstractControl;
   templateRef: TemplateRef<any>;
   sectionIndex: number;
@@ -36,6 +36,6 @@ export interface FormStepperNavSection {
 }
 
 export interface FormStepperExtraPage {
-  urlPath: string;
+  path: string;
   templateRef: TemplateRef<any>;
 }

@@ -20,44 +20,48 @@
         Next
       </button>
 
-      <br />{{ state.hasReachedEnd && formGroup.valid ? 'READY TO SUBMIT' : ''}}
+      <br />{{ state.hasReachedEnd && formGroup.valid ? 'READY TO SUBMIT' : '' }}
     </div>
 
-    <ng-template formStepperOnboarding urlPath="onboarding">
+    <ng-template formStepperOnboarding formStepperPath="onboarding">
       <h1>Onboarding</h1>
     </ng-template>
 
-    <ng-template formStepperSummary urlPath="summary">
+    <ng-template formStepperSummary formStepperPath="summary">
       <h1>Summary</h1>
       <button type="submit">Submit</button>
     </ng-template>
 
-    <ng-container [formStepperSection]="fullName" title="Full name">
-      <ng-template [formStepperStep]="firstName" title="First name" urlPath="first-name">
+    <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
+      <ng-template [formStepperStep]="firstName" formStepperTitle="First name" formStepperPath="first-name">
         First name:<br />
         <input [formControl]="firstName" />
       </ng-template>
 
-      <ng-template [formStepperStep]="lastName" title="Last name" urlPath="last-name">
+      <ng-template [formStepperStep]="lastName" formStepperTitle="Last name" formStepperPath="last-name">
         Last name:<br />
         <input [formControl]="lastName" />
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="contact" title="Contact">
-      <ng-template [formStepperStep]="email" title="Email" urlPath="email">
+    <ng-container [formStepperSection]="contact" formStepperTitle="Contact">
+      <ng-template [formStepperStep]="email" formStepperTitle="Email" formStepperPath="email">
         Email:<br />
         <input [formControl]="email" />
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="address" title="Address">
-      <ng-template [formStepperStep]="street" title="Street" urlPath="street">
+    <ng-container [formStepperSection]="address" formStepperTitle="Address">
+      <ng-template [formStepperStep]="street" formStepperTitle="Street" formStepperPath="street">
         Street:<br />
         <input [formControl]="street" />
       </ng-template>
 
-      <ng-template [formStepperStep]="zipCodeAndCity" title="Zip code and city" urlPath="zip-code-and-city">
+      <ng-template
+        [formStepperStep]="zipCodeAndCity"
+        formStepperTitle="Zip code and city"
+        formStepperPath="zip-code-and-city"
+      >
         Zip code:<br />
         <input [formControl]="zipCode" /><br />
         City:<br />

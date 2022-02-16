@@ -26,12 +26,12 @@ export class FormStepperContainerDirective implements AfterContentInit, AfterVie
 
   ngAfterContentInit() {
     if (this.onboardingDirective) {
-      const { urlPath, templateRef } = this.onboardingDirective;
-      this.service.onboarding = { urlPath, templateRef };
+      const { formStepperPath: path, templateRef } = this.onboardingDirective;
+      this.service.onboarding = { path, templateRef };
     }
     if (this.summaryDirective) {
-      const { urlPath, templateRef } = this.summaryDirective;
-      this.service.summary = { urlPath, templateRef };
+      const { formStepperPath: path, templateRef } = this.summaryDirective;
+      this.service.summary = { path, templateRef };
     }
   }
 

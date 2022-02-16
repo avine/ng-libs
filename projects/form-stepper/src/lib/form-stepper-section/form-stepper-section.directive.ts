@@ -11,7 +11,7 @@ import { FormStepperStep } from '../form-stepper.types';
 export class FormStepperSectionDirective implements AfterViewInit {
   @Input() formStepperSection!: FormGroup;
 
-  @Input() title!: string;
+  @Input() formStepperTitle!: string;
 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
@@ -22,11 +22,11 @@ export class FormStepperSectionDirective implements AfterViewInit {
     const steps: FormStepperStep[] = [];
 
     this.stepDirectiveQueryList.forEach(
-      ({ title, urlPath, formStepperStep: control, templateRef }, relativeStepIndex) => {
+      ({ formStepperTitle, formStepperPath, formStepperStep, templateRef }, relativeStepIndex) => {
         const step: FormStepperStep = {
-          title,
-          urlPath,
-          control,
+          title: formStepperTitle,
+          path: formStepperPath,
+          control: formStepperStep,
           templateRef,
           sectionIndex: this.service.nav.length,
           stepIndex: offset + relativeStepIndex,
@@ -41,7 +41,7 @@ export class FormStepperSectionDirective implements AfterViewInit {
     );
 
     this.service.addNavSection({
-      title: this.title,
+      title: this.formStepperTitle,
       section: this.formStepperSection,
       offset,
       steps,

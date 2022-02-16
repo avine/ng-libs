@@ -1,9 +1,9 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <ng-container formStepperContainer #stepper="stepper">
+  <ng-container formStepperContainer #formStepper="formStepper">
     <div style="display: flex; justify-content: center">
       <div style="padding: 3rem">
         <ng-container
-          *ngIf="stepper.stepTemplate$ | async as stepTemplate"
+          *ngIf="formStepper.stepTemplate$ | async as stepTemplate"
           [ngTemplateOutlet]="stepTemplate"
         ></ng-container>
       </div>
@@ -13,10 +13,10 @@
       </div>
     </div>
 
-    <div style="padding: 3rem; text-align: center" *ngIf="stepper.state$ | async as state">
-      <button type="button" [disabled]="!state.hasPrevStep" (click)="stepper.prevStep()">Prev</button>
+    <div style="padding: 3rem; text-align: center" *ngIf="formStepper.state$ | async as state">
+      <button type="button" [disabled]="!state.hasPrevStep" (click)="formStepper.prevStep()">Prev</button>
 
-      <button type="button" [disabled]="!state.hasNextStep || !state.isStepValid" (click)="stepper.nextStep()">
+      <button type="button" [disabled]="!state.hasNextStep || !state.isStepValid" (click)="formStepper.nextStep()">
         Next
       </button>
 

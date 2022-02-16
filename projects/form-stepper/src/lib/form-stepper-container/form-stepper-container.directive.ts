@@ -7,7 +7,7 @@ import { FormStepperService } from '../form-stepper.service';
 @Directive({
   selector: '[formStepperContainer]',
   providers: [FormStepperService],
-  exportAs: 'stepper',
+  exportAs: 'formStepper',
 })
 export class FormStepperContainerDirective implements AfterContentInit, AfterViewInit {
   stepTemplate$ = this.service.stepTemplate$;

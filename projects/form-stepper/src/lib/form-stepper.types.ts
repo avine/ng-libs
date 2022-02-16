@@ -34,3 +34,8 @@ export interface FormStepperNavSection {
   offset: number;
   steps: FormStepperStep[];
 }
+
+export interface FormStepperExtraPage {
+  urlPath: string;
+  templateRef: TemplateRef<any>;
+}

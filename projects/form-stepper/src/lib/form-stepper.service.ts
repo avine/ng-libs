@@ -6,7 +6,7 @@ import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FORM_STEPPER_URL_PATH_PARAM } from './form-stepper.config';
-import { FormStepperNavSection, FormStepperState, FormStepperStep } from './form-stepper.types';
+import { FormStepperExtraPage, FormStepperNavSection, FormStepperState, FormStepperStep } from './form-stepper.types';
 
 @Injectable()
 export class FormStepperService implements OnDestroy {
@@ -24,7 +24,11 @@ export class FormStepperService implements OnDestroy {
 
   private stepSubscription!: Subscription;
 
-  /*private */nav: FormStepperNavSection[] = [];
+  nav: FormStepperNavSection[] = [];
+
+  onboarding!: FormStepperExtraPage;
+
+  summary!: FormStepperExtraPage;
 
   private _state$ = new BehaviorSubject<FormStepperState>({
     sectionIndex: 0,
@@ -41,9 +45,15 @@ export class FormStepperService implements OnDestroy {
 
   private urlPathSubscription!: Subscription;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-    console.log('>>>', this)
+  private get firstStepIndex() {
+    return this.onboarding ? -1 : 0;
   }
+
+  private get lastStepIndex() {
+    return this.steps.length + (this.summary ? 0 : -1);
+  }
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   init() {
     this.urlPathSubscription = this.activatedRoute.paramMap
@@ -70,7 +80,14 @@ export class FormStepperService implements OnDestroy {
 
   navigateByStepIndex(stepIndex: number) {
     const checkedStepIndex = this.getCheckedStepIndex(stepIndex);
-    const { urlPath } = this.steps[checkedStepIndex];
+    let urlPath: string;
+    if (checkedStepIndex === -1) {
+      urlPath = this.onboarding.urlPath;
+    } else if (checkedStepIndex === this.steps.length) {
+      urlPath = this.summary.urlPath;
+    } else {
+      urlPath = this.steps[checkedStepIndex].urlPath;
+    }
     this.router.navigate(['/form-stepper', urlPath]); // TODO: évaluer l'URL complète...
   }
 
@@ -83,6 +100,12 @@ export class FormStepperService implements OnDestroy {
   }
 
   private handleUrlPath(currentUrlPath: string | null) {
+    if (currentUrlPath === this.onboarding?.urlPath || currentUrlPath === this.summary?.urlPath) {
+      // ! TODO: Si c'est la page summary, il manque de vérifier `hasSkippedSteps`...
+      this.handleExtraPageUrlPath(currentUrlPath);
+      return;
+    }
+
     const stepIndex = this.steps.findIndex(({ urlPath }) => currentUrlPath === urlPath);
 
     const hasSkippedSteps =
@@ -93,11 +116,42 @@ export class FormStepperService implements OnDestroy {
         : false;
 
     if (stepIndex === -1 || hasSkippedSteps) {
-      this.navigateByStepIndex(0);
+      this.navigateByStepIndex(this.summary ? -1 : 0);
       return;
     }
 
     this.setStepByIndex(stepIndex);
+  }
+
+  private handleExtraPageUrlPath(currentUrlPath: string) {
+    const commonState: Pick<FormStepperState, 'isStepValid' | 'maxStepIndexViewed' | 'hasReachedEnd' | 'nav'> = {
+      isStepValid: true,
+      maxStepIndexViewed: this.maxStepIndexViewed,
+      hasReachedEnd: this.hasReachedEnd,
+      nav: [...this.nav],
+    };
+
+    if (currentUrlPath === this.onboarding?.urlPath) {
+      this.stepIndex = -1;
+      this._stepTemplate$.next(this.onboarding.templateRef);
+      this._state$.next({
+        sectionIndex: -1,
+        stepIndex: -1,
+        hasPrevStep: false,
+        hasNextStep: true,
+        ...commonState,
+      });
+    } else if (currentUrlPath === this.summary?.urlPath) {
+      this.stepIndex = this.steps.length;
+      this._stepTemplate$.next(this.summary.templateRef);
+      this._state$.next({
+        sectionIndex: this.nav.length,
+        stepIndex: this.steps.length,
+        hasPrevStep: true,
+        hasNextStep: false,
+        ...commonState,
+      });
+    }
   }
 
   private setStepByIndex(stepIndex: number) {
@@ -117,8 +171,8 @@ export class FormStepperService implements OnDestroy {
         stepIndex: step.stepIndex,
         sectionProgression: step.sectionProgression,
         isStepValid,
-        hasPrevStep: this.stepIndex > 0,
-        hasNextStep: this.stepIndex < this.steps.length - 1,
+        hasPrevStep: this.stepIndex > this.firstStepIndex,
+        hasNextStep: this.stepIndex < this.lastStepIndex,
         maxStepIndexViewed: this.maxStepIndexViewed,
         hasReachedEnd: this.hasReachedEnd,
         nav: [...this.nav],
@@ -137,6 +191,6 @@ export class FormStepperService implements OnDestroy {
   }
 
   private getCheckedStepIndex(stepIndex: number): number {
-    return Math.min(Math.max(0, stepIndex), this.steps.length - 1);
+    return Math.min(Math.max(this.firstStepIndex, stepIndex), this.lastStepIndex);
   }
 }

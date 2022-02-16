@@ -23,6 +23,15 @@
       <br />{{ state.hasReachedEnd && formGroup.valid ? 'READY TO SUBMIT' : ''}}
     </div>
 
+    <ng-template formStepperOnboarding urlPath="onboarding">
+      <h1>Onboarding</h1>
+    </ng-template>
+
+    <ng-template formStepperSummary urlPath="summary">
+      <h1>Summary</h1>
+      <button type="submit">Submit</button>
+    </ng-template>
+
     <ng-container [formStepperSection]="fullName" title="Full name" urlPath="full-name">
       <ng-template [formStepperStep]="firstName" title="First name" urlPath="first-name">
         First name:<br />
@@ -37,7 +46,7 @@
 
     <ng-container [formStepperSection]="contact" title="Contact" urlPath="contact">
       <ng-template [formStepperStep]="email" title="Email" urlPath="email">
-        First name:<br />
+        Email:<br />
         <input [formControl]="email" />
       </ng-template>
     </ng-container>

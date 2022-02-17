@@ -16,4 +16,5 @@ export * from './lib/form-stepper-onboarding/form-stepper-onboarding.directive';
 export * from './lib/form-stepper-prev/form-stepper-prev.directive';
 export * from './lib/form-stepper-section/form-stepper-section.directive';
 export * from './lib/form-stepper-step/form-stepper-step.directive';
+export * from './lib/form-stepper-submit/form-stepper-submit.directive';
 export * from './lib/form-stepper-summary/form-stepper-summary.directive';

@@ -9,6 +9,10 @@
       <form-stepper-quicknav></form-stepper-quicknav>
     </ng-template>
 
+    <ng-template formStepperSubmit>
+      <button type="submit" [disabled]="submitInProgress">Submit</button>
+    </ng-template>
+
     <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
       <ng-template [formStepperStep]="firstName" formStepperTitle="First name" formStepperPath="first-name">
         First name:<br />

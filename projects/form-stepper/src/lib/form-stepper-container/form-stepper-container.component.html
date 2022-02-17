@@ -8,6 +8,8 @@
   <button type="button" formStepperNext>Next</button>
 </div>
 
-<div style="text-align: center">
-  <button type="submit" *ngIf="(state$ | async)?.hasReachedEnd && formStepperRoot.valid">Submit</button>
-</div>
+<ng-container *ngIf="submitDirective?.templateRef">
+  <div style="text-align: center" *ngIf="(state$ | async)?.hasReachedEnd && formStepperRoot.valid">
+    <ng-container [ngTemplateOutlet]="submitDirective.templateRef"></ng-container>
+  </div>  
+</ng-container>

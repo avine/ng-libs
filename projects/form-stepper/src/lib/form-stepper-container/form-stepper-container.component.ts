@@ -9,6 +9,7 @@ import {
 import { FormGroup } from '@angular/forms';
 
 import { FormStepperOnboardingDirective } from '../form-stepper-onboarding/form-stepper-onboarding.directive';
+import { FormStepperSubmitDirective } from '../form-stepper-submit/form-stepper-submit.directive';
 import { FormStepperSummaryDirective } from '../form-stepper-summary/form-stepper-summary.directive';
 import { FormStepperService } from '../form-stepper.service';
 
@@ -25,6 +26,8 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
   @ContentChild(FormStepperOnboardingDirective) onboardingDirective!: FormStepperOnboardingDirective;
 
   @ContentChild(FormStepperSummaryDirective) summaryDirective!: FormStepperSummaryDirective;
+
+  @ContentChild(FormStepperSubmitDirective) submitDirective!: FormStepperSubmitDirective;
 
   stepTemplate$ = this.service.stepTemplate$;
 

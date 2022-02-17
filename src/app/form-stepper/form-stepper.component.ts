@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -38,9 +38,16 @@ export class FormStepperComponent {
   zipCode = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('zipCode') as FormControl;
   city = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('city') as FormControl;
 
-  constructor(private formBuilder: FormBuilder) {}
+  submitInProgress = false;
+
+  constructor(private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
 
   submitForm() {
-    console.log(JSON.stringify(this.formGroup.value, undefined, 2));
+    this.submitInProgress = true;
+    console.log('Submitting', JSON.stringify(this.formGroup.value, undefined, 2));
+    setTimeout(() => {
+      this.submitInProgress = false;
+      this.changeDetectorRef.detectChanges();
+    }, 1000);
   }
 }

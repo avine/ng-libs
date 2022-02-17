@@ -1,0 +1,7 @@
+<div *ngIf="state$ | async as state" style="display: flex">
+  <div *ngFor="let section of state.nav" style="border: 1px solid #ccc; margin-right: 1rem; padding: 1rem;">
+    <div *ngFor="let step of section.steps">
+      <button (click)="navigateByStepIndex(step.stepIndex)">{{ step.title }}</button>
+    </div>
+  </div>
+</div>

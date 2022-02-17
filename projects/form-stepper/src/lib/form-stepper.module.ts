@@ -11,8 +11,14 @@ import { FormStepperOnboardingDirective } from './form-stepper-onboarding/form-s
 import { FormStepperPrevDirective } from './form-stepper-prev/form-stepper-prev.directive';
 import { FormStepperSectionDirective } from './form-stepper-section/form-stepper-section.directive';
 import { FormStepperStepDirective } from './form-stepper-step/form-stepper-step.directive';
+import { FormStepperSummaryComponent } from './form-stepper-summary/form-stepper-summary.component';
 
-const components = [FormStepperContainerComponent, FormStepperMainComponent, FormStepperNavComponent];
+const components = [
+  FormStepperContainerComponent,
+  FormStepperMainComponent,
+  FormStepperNavComponent,
+  FormStepperSummaryComponent,
+];
 
 const directives = [
   FormStepperConfirmationDirective,

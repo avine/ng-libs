@@ -8,6 +8,7 @@ export * from './lib/form-stepper.types';
 
 export * from './lib/form-stepper-main/form-stepper-main.component';
 export * from './lib/form-stepper-nav/form-stepper-nav.component';
+export * from './lib/form-stepper-summary/form-stepper-summary.component';
 
 export * from './lib/form-stepper-confirmation/form-stepper-confirmation.directive';
 export * from './lib/form-stepper-container/form-stepper-container.directive';

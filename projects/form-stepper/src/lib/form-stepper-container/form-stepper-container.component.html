@@ -7,3 +7,7 @@
   <button type="button" formStepperPrev>Prev</button>
   <button type="button" formStepperNext>Next</button>
 </div>
+
+<div style="text-align: center">
+  <button type="submit" *ngIf="(state$ | async)?.hasReachedEnd && formStepperRoot.valid">Submit</button>
+</div>

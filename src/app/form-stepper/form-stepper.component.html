@@ -1,12 +1,11 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <form-stepper-container>
+  <form-stepper-container [formStepperRoot]="formGroup">
     <ng-template formStepperOnboarding formStepperPath="onboarding">
       <h1>Onboarding</h1>
     </ng-template>
 
-    <ng-template formStepperSummary formStepperPath="summary">
-      <h1>Summary</h1>
-      <button type="submit">Submit</button>
+    <ng-template formStepperConfirmation formStepperPath="confirmation">
+      <h1>Confirmation</h1>
     </ng-template>
 
     <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">

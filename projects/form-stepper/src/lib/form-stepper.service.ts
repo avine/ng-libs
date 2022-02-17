@@ -28,7 +28,7 @@ export class FormStepperService implements OnDestroy {
 
   onboarding!: FormStepperExtraPage;
 
-  summary!: FormStepperExtraPage;
+  confirmation!: FormStepperExtraPage;
 
   private _state$ = new BehaviorSubject<FormStepperState>({
     sectionIndex: 0,
@@ -54,7 +54,7 @@ export class FormStepperService implements OnDestroy {
   }
 
   private get lastStepIndex() {
-    return this.steps.length + (this.summary ? 0 : -1);
+    return this.steps.length + (this.confirmation ? 0 : -1);
   }
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
@@ -88,7 +88,7 @@ export class FormStepperService implements OnDestroy {
     if (nextStepIndex === -1) {
       nextPath = this.onboarding.path;
     } else if (nextStepIndex === this.steps.length) {
-      nextPath = this.summary.path;
+      nextPath = this.confirmation.path;
     } else {
       nextPath = this.steps[nextStepIndex].path;
     }
@@ -99,8 +99,8 @@ export class FormStepperService implements OnDestroy {
       currentPath = this.steps[this.stepIndex]?.path;
     } else if (this.onboarding && this.router.url.match(`/${this.onboarding.path}`)) {
       currentPath = this.onboarding.path;
-    } else if (this.summary && this.router.url.match(`/${this.summary.path}`)) {
-      currentPath = this.summary.path;
+    } else if (this.confirmation && this.router.url.match(`/${this.confirmation.path}`)) {
+      currentPath = this.confirmation.path;
     } else {
       currentPath = this.steps.find(({ path }) => this.router.url.match(`/${path}`))?.path;
     }
@@ -121,14 +121,14 @@ export class FormStepperService implements OnDestroy {
   }
 
   private handlePath(path: string | null) {
-    if (path === this.onboarding?.path || path === this.summary?.path && !this.hasSkippedSomePreviousSteps()) {
+    if (path === this.onboarding?.path || path === this.confirmation?.path && !this.hasSkippedSomePreviousSteps()) {
       this.handleExtraPagePath(path);
       return;
     }
 
     const stepIndex = this.steps.findIndex((step) => path === step.path);
     if (stepIndex === -1 || this.hasSkippedSomePreviousSteps(stepIndex)) {
-      this.navigateByStepIndex(this.summary ? -1 : 0);
+      this.navigateByStepIndex(this.confirmation ? -1 : 0);
       return;
     }
     this.setStepByIndex(stepIndex);
@@ -143,6 +143,11 @@ export class FormStepperService implements OnDestroy {
   }
 
   private handleExtraPagePath(path: string) {
+    if (path === this.confirmation?.path) {
+      this.maxStepIndexViewed = this.lastStepIndex;
+      this.hasReachedEnd = true;
+    }
+
     const commonState: Pick<FormStepperState, 'isStepValid' | 'maxStepIndexViewed' | 'hasReachedEnd' | 'nav'> = {
       isStepValid: true,
       maxStepIndexViewed: this.maxStepIndexViewed,
@@ -160,9 +165,9 @@ export class FormStepperService implements OnDestroy {
         hasNextStep: true,
         ...commonState,
       });
-    } else if (path === this.summary?.path) {
+    } else if (path === this.confirmation?.path) {
       this.stepIndex = this.steps.length;
-      this._stepTemplate$.next(this.summary.templateRef);
+      this._stepTemplate$.next(this.confirmation.templateRef);
       this._state$.next({
         sectionIndex: this.nav.length,
         stepIndex: this.steps.length,
@@ -176,7 +181,7 @@ export class FormStepperService implements OnDestroy {
   private setStepByIndex(stepIndex: number) {
     this.stepIndex = this.getCheckedStepIndex(stepIndex);
     this.maxStepIndexViewed = Math.max(this.maxStepIndexViewed, this.stepIndex);
-    if (this.maxStepIndexViewed === this.steps.length - 1) {
+    if (this.maxStepIndexViewed === this.lastStepIndex) {
       this.hasReachedEnd = true;
     }
 

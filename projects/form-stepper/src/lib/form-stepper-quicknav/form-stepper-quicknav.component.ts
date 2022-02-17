@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormStepperService } from '../form-stepper.service';
 
 @Component({
-  selector: 'form-stepper-summary',
-  templateUrl: './form-stepper-summary.component.html',
-  styleUrls: ['./form-stepper-summary.component.scss'],
+  selector: 'form-stepper-quicknav',
+  templateUrl: './form-stepper-quicknav.component.html',
+  styleUrls: ['./form-stepper-quicknav.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormStepperSummaryComponent {
+export class FormStepperQuicknavComponent {
   state$ = this.service.state$;
 
   navigateByStepIndex = this.service.navigateByStepIndex.bind(this.service);

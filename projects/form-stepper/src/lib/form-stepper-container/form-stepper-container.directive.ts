@@ -1,7 +1,7 @@
 import { AfterContentInit, AfterViewInit, ContentChild, Directive } from '@angular/core';
 
-import { FormStepperConfirmationDirective } from '../form-stepper-confirmation/form-stepper-confirmation.directive';
 import { FormStepperOnboardingDirective } from '../form-stepper-onboarding/form-stepper-onboarding.directive';
+import { FormStepperSummaryDirective } from '../form-stepper-summary/form-stepper-summary.directive';
 import { FormStepperService } from '../form-stepper.service';
 
 @Directive({
@@ -12,7 +12,7 @@ import { FormStepperService } from '../form-stepper.service';
 export class FormStepperContainerDirective implements AfterContentInit, AfterViewInit {
   @ContentChild(FormStepperOnboardingDirective) onboardingDirective!: FormStepperOnboardingDirective;
 
-  @ContentChild(FormStepperConfirmationDirective) confirmationDirective!: FormStepperConfirmationDirective;
+  @ContentChild(FormStepperSummaryDirective) summaryDirective!: FormStepperSummaryDirective;
 
   stepTemplate$ = this.service.stepTemplate$;
 
@@ -29,9 +29,9 @@ export class FormStepperContainerDirective implements AfterContentInit, AfterVie
       const { formStepperPath: path, templateRef } = this.onboardingDirective;
       this.service.onboarding = { path, templateRef };
     }
-    if (this.confirmationDirective) {
-      const { formStepperPath: path, templateRef } = this.confirmationDirective;
-      this.service.confirmation = { path, templateRef };
+    if (this.summaryDirective) {
+      const { formStepperPath: path, templateRef } = this.summaryDirective;
+      this.service.summary = { path, templateRef };
     }
   }
 

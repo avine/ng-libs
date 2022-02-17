@@ -1,9 +1,9 @@
 import { Directive, Input, TemplateRef } from '@angular/core';
 
 @Directive({
-  selector: '[formStepperConfirmation]'
+  selector: '[formStepperSummary]'
 })
-export class FormStepperConfirmationDirective {
+export class FormStepperSummaryDirective {
   @Input() formStepperPath!: string;
 
   constructor(public templateRef: TemplateRef<any>) {}

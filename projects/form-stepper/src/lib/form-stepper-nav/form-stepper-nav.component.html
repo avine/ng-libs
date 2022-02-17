@@ -3,7 +3,7 @@
     <button
       type="button"
       [disabled]="section.offset >= state.maxStepIndexViewed && section.steps[0].control.pristine"
-      (click)="setStep($event, section.offset)"
+      (click)="navigateByStepIndex($event, section.offset)"
     >
       {{ section.title }}
     </button>
@@ -19,7 +19,7 @@
         <button
           type="button"
           [disabled]="section.offset + relativeStepIndex >= state.maxStepIndexViewed && step.control.pristine"
-          (click)="setStep($event, section.offset + relativeStepIndex)"
+          (click)="navigateByStepIndex($event, section.offset + relativeStepIndex)"
         >
           {{ step.title }}
         </button>

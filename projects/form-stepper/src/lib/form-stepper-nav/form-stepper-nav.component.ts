@@ -13,7 +13,7 @@ export class FormStepperNavComponent {
 
   constructor(private service: FormStepperService) {}
 
-  setStep(event: Event, stepIndex: number) {
+  navigateByStepIndex(event: Event, stepIndex: number) {
     event.stopPropagation();
     this.service.navigateByStepIndex(stepIndex);
   }

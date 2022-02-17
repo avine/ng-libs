@@ -1,1 +1,3 @@
+<h3 *ngIf="sectionTitle$ | async as sectionTitle">{{ sectionTitle }}</h3>
+
 <ng-container *ngIf="stepTemplate$ | async as stepTemplate" [ngTemplateOutlet]="stepTemplate"></ng-container>

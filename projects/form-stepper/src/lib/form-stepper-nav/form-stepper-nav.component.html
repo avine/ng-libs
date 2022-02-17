@@ -1,6 +1,10 @@
 <ul *ngIf="state$ | async as state">
   <li *ngIf="state.onboardingInfo">
-    <button type="button" (click)="navigateByStepIndex($event, state.onboardingInfo.index)">
+    <button 
+      type="button"
+      [class.valid]="state.maxStepIndexViewed >= 0"
+      [class.current]="state.stepIndex === -1"
+      (click)="navigateByStepIndex($event, state.onboardingInfo.index)">
       {{ state.onboardingInfo.title }}
     </button>
   </li>
@@ -8,31 +12,29 @@
   <li *ngFor="let section of state.nav; let sectionIndex = index">
     <button
       type="button"
+      [class.valid]="section.section.valid"
+      [class.current]="state.sectionIndex === sectionIndex"
       [disabled]="section.offset >= state.maxStepIndexViewed && section.steps[0].control.pristine"
       (click)="navigateByStepIndex($event, section.offset)"
     >
       {{ section.title }}
+
+      <span *ngIf="state.sectionProgression && state.sectionIndex === sectionIndex">
+        ({{ state.sectionProgression.count }}/{{ state.sectionProgression.total }})
+      </span>
     </button>
-
-    <span style="color: blue" *ngIf="state.sectionProgression && state.sectionIndex === sectionIndex">
-      {{ state.sectionProgression.count }} / {{ state.sectionProgression.total }}
-    </span>
-
-    ({{ section.section.valid }})
 
     <ul>
       <li *ngFor="let step of section.steps; let relativeStepIndex = index">
         <button
           type="button"
+          [class.valid]="section.offset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid"
+          [class.current]="state.stepIndex === section.offset + relativeStepIndex"
           [disabled]="section.offset + relativeStepIndex >= state.maxStepIndexViewed && step.control.pristine"
           (click)="navigateByStepIndex($event, section.offset + relativeStepIndex)"
         >
           {{ step.title }}
         </button>
-
-        <span style="color: blue" *ngIf="state.stepIndex === section.offset + relativeStepIndex"> * </span>
-
-        ({{ step.control.valid }})
       </li>
     </ul>
   </li>
@@ -40,7 +42,9 @@
   <li *ngIf="state.summaryInfo">
     <button
       type="button"
-      [disabled]="!state.hasReachedEnd"
+      [class.valid]="state.allStepsViewed"
+      [class.current]="state.stepIndex === state.lastStepIndex"
+      [disabled]="!state.allStepsViewed"
       (click)="navigateByStepIndex($event, state.summaryInfo.index)"
     >
       {{ state.summaryInfo.title }}

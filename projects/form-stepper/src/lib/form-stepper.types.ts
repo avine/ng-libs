@@ -7,19 +7,20 @@ export interface FormStepperStep {
   control: AbstractControl;
   templateRef: TemplateRef<any>;
   sectionIndex: number;
-  stepIndex: number;
   sectionProgression?: FormStepperSectionProgression;
+  stepIndex: number;
 }
 
 export interface FormStepperState {
   sectionIndex: number;
-  stepIndex: number;
   sectionProgression?: FormStepperSectionProgression;
+  stepIndex: number;
   isStepValid: boolean;
   hasPrevStep: boolean;
   hasNextStep: boolean;
+  lastStepIndex: number;
   maxStepIndexViewed: number;
-  hasReachedEnd: boolean;
+  allStepsViewed: boolean;
   onboardingInfo?: FormStepperExtraPageInfo;
   summaryInfo?: FormStepperExtraPageInfo;
   nav: FormStepperNavSection[];

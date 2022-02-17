@@ -14,9 +14,9 @@ export class FormStepperService implements OnDestroy {
 
   private stepIndex!: number;
 
-  private maxStepIndexViewed = 0;
+  private maxStepIndexViewed = -1;
 
-  private hasReachedEnd = false;
+  private allStepsViewed = false;
 
   private _stepTemplate$ = new ReplaySubject<TemplateRef<any>>(1);
 
@@ -36,8 +36,9 @@ export class FormStepperService implements OnDestroy {
     isStepValid: false,
     hasPrevStep: false,
     hasNextStep: false,
-    maxStepIndexViewed: 0,
-    hasReachedEnd: false,
+    lastStepIndex: 0,
+    maxStepIndexViewed: -1,
+    allStepsViewed: false,
     nav: [],
   });
 
@@ -145,7 +146,7 @@ export class FormStepperService implements OnDestroy {
   private handleExtraPagePath(path: string) {
     if (path === this.summary?.path) {
       this.maxStepIndexViewed = this.lastStepIndex;
-      this.hasReachedEnd = true;
+      this.allStepsViewed = true;
     }
 
     if (path === this.onboarding?.path) {
@@ -177,7 +178,7 @@ export class FormStepperService implements OnDestroy {
     this.stepIndex = this.getCheckedStepIndex(stepIndex);
     this.maxStepIndexViewed = Math.max(this.maxStepIndexViewed, this.stepIndex);
     if (this.maxStepIndexViewed === this.lastStepIndex) {
-      this.hasReachedEnd = true;
+      this.allStepsViewed = true;
     }
 
     const step = this.steps[this.stepIndex];
@@ -187,8 +188,8 @@ export class FormStepperService implements OnDestroy {
     const updateState = (isStepValid: boolean) => {
       this._state$.next({
         sectionIndex: step.sectionIndex,
-        stepIndex: step.stepIndex,
         sectionProgression: step.sectionProgression,
+        stepIndex: step.stepIndex,
         isStepValid,
         hasPrevStep: this.stepIndex > this.firstStepIndex,
         hasNextStep: this.stepIndex < this.lastStepIndex,
@@ -213,11 +214,12 @@ export class FormStepperService implements OnDestroy {
 
   private get commonState(): Pick<
     FormStepperState,
-    'maxStepIndexViewed' | 'hasReachedEnd' | 'onboardingInfo' | 'summaryInfo' | 'nav'
+    'lastStepIndex' | 'maxStepIndexViewed' | 'allStepsViewed' | 'onboardingInfo' | 'summaryInfo' | 'nav'
   > {
     return {
+      lastStepIndex: this.lastStepIndex,
       maxStepIndexViewed: this.maxStepIndexViewed,
-      hasReachedEnd: this.hasReachedEnd,
+      allStepsViewed: this.allStepsViewed,
       onboardingInfo: this.onboarding ? { title: this.onboarding.title, index: -1 } : undefined,
       summaryInfo: this.summary ? { title: this.summary.title, index: this.steps.length } : undefined,
       nav: [...this.nav],

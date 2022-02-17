@@ -1,0 +1,30 @@
+ul {
+  list-style: none;
+  padding: 0;
+
+  ul {
+    padding-left: 2rem;
+  }
+}
+
+li {
+  padding: 0.125rem 0;
+}
+
+button {
+  border: none;
+  background: none;
+  font: inherit;
+}
+
+button:not([disabled]) {
+  cursor: pointer;
+}
+
+.valid {
+  color: green;
+}
+
+.current {
+  background-color: #ddd;
+}

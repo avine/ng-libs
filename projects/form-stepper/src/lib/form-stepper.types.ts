@@ -20,6 +20,8 @@ export interface FormStepperState {
   hasNextStep: boolean;
   maxStepIndexViewed: number;
   hasReachedEnd: boolean;
+  onboardingInfo?: FormStepperExtraPageInfo;
+  summaryInfo?: FormStepperExtraPageInfo;
   nav: FormStepperNavSection[];
 }
 
@@ -28,14 +30,20 @@ export interface FormStepperSectionProgression {
   total: number;
 }
 
+export interface FormStepperExtraPage {
+  title: string;
+  path: string;
+  templateRef: TemplateRef<any>;
+}
+
+export interface FormStepperExtraPageInfo {
+  title: string;
+  index: number;
+}
+
 export interface FormStepperNavSection {
   title: string;
   section: FormGroup;
   offset: number;
   steps: FormStepperStep[];
-}
-
-export interface FormStepperExtraPage {
-  path: string;
-  templateRef: TemplateRef<any>;
 }

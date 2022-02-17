@@ -121,7 +121,7 @@ export class FormStepperService implements OnDestroy {
   }
 
   private handlePath(path: string | null) {
-    if (path === this.onboarding?.path || path === this.summary?.path && !this.hasSkippedSomePreviousSteps()) {
+    if (path === this.onboarding?.path || (path === this.summary?.path && !this.hasSkippedSomePreviousSteps())) {
       this.handleExtraPagePath(path);
       return;
     }
@@ -148,22 +148,16 @@ export class FormStepperService implements OnDestroy {
       this.hasReachedEnd = true;
     }
 
-    const commonState: Pick<FormStepperState, 'isStepValid' | 'maxStepIndexViewed' | 'hasReachedEnd' | 'nav'> = {
-      isStepValid: true,
-      maxStepIndexViewed: this.maxStepIndexViewed,
-      hasReachedEnd: this.hasReachedEnd,
-      nav: [...this.nav],
-    };
-
     if (path === this.onboarding?.path) {
       this.stepIndex = -1;
       this._stepTemplate$.next(this.onboarding.templateRef);
       this._state$.next({
         sectionIndex: -1,
         stepIndex: -1,
+        isStepValid: true,
         hasPrevStep: false,
         hasNextStep: true,
-        ...commonState,
+        ...this.commonState,
       });
     } else if (path === this.summary?.path) {
       this.stepIndex = this.steps.length;
@@ -171,9 +165,10 @@ export class FormStepperService implements OnDestroy {
       this._state$.next({
         sectionIndex: this.nav.length,
         stepIndex: this.steps.length,
+        isStepValid: true,
         hasPrevStep: true,
         hasNextStep: false,
-        ...commonState,
+        ...this.commonState,
       });
     }
   }
@@ -197,9 +192,7 @@ export class FormStepperService implements OnDestroy {
         isStepValid,
         hasPrevStep: this.stepIndex > this.firstStepIndex,
         hasNextStep: this.stepIndex < this.lastStepIndex,
-        maxStepIndexViewed: this.maxStepIndexViewed,
-        hasReachedEnd: this.hasReachedEnd,
-        nav: [...this.nav],
+        ...this.commonState,
       });
     };
 
@@ -216,5 +209,18 @@ export class FormStepperService implements OnDestroy {
 
   private getCheckedStepIndex(stepIndex: number): number {
     return Math.min(Math.max(this.firstStepIndex, stepIndex), this.lastStepIndex);
+  }
+
+  private get commonState(): Pick<
+    FormStepperState,
+    'maxStepIndexViewed' | 'hasReachedEnd' | 'onboardingInfo' | 'summaryInfo' | 'nav'
+  > {
+    return {
+      maxStepIndexViewed: this.maxStepIndexViewed,
+      hasReachedEnd: this.hasReachedEnd,
+      onboardingInfo: this.onboarding ? { title: this.onboarding.title, index: -1 } : undefined,
+      summaryInfo: this.summary ? { title: this.summary.title, index: this.steps.length } : undefined,
+      nav: [...this.nav],
+    };
   }
 }

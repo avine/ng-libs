@@ -1,4 +1,10 @@
 <ul *ngIf="state$ | async as state">
+  <li *ngIf="state.onboardingInfo">
+    <button type="button" (click)="navigateByStepIndex($event, state.onboardingInfo.index)">
+      {{ state.onboardingInfo.title }}
+    </button>
+  </li>
+
   <li *ngFor="let section of state.nav; let sectionIndex = index">
     <button
       type="button"
@@ -29,5 +35,15 @@
         ({{ step.control.valid }})
       </li>
     </ul>
+  </li>
+
+  <li *ngIf="state.summaryInfo">
+    <button
+      type="button"
+      [disabled]="!state.hasReachedEnd"
+      (click)="navigateByStepIndex($event, state.summaryInfo.index)"
+    >
+      {{ state.summaryInfo.title }}
+    </button>
   </li>
 </ul>

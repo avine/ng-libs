@@ -1,11 +1,10 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
   <form-stepper-container [formStepperRoot]="formGroup">
-    <ng-template formStepperOnboarding formStepperPath="onboarding">
-      <h1>Onboarding</h1>
+    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+      <p>Welcome to form stepper</p>
     </ng-template>
 
-    <ng-template formStepperSummary formStepperPath="summary">
-      <h1>Summary</h1>
+    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary">
       <form-stepper-quicknav></form-stepper-quicknav>
     </ng-template>
 

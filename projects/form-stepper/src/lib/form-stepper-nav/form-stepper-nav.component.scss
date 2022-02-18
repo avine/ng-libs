@@ -1,30 +1,56 @@
 ul {
   list-style: none;
-  padding: 0;
-
-  ul {
-    padding-left: 2rem;
-  }
-}
-
-li {
-  padding: 0.125rem 0;
+  margin: 0;
+  padding-left: 0;
 }
 
 button {
+  display: block;
+  border-radius: 99px;
   border: none;
   background: none;
-  font: inherit;
+  text-align: left;
+  color: inherit;
+  font-size: 100%;
+  font-family: inherit;
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
 }
 
-button:not([disabled]) {
-  cursor: pointer;
+.section {
+  overflow: hidden;
+  border-left: 3px solid #ccc;
+  padding-top: 0.25rem;
+  padding-left: 1rem;
 }
 
-.valid {
+.section__btn {
+  width: 100%;
+  padding: 0.25rem 2rem 0.25rem 1rem;
+}
+
+.step {
+  padding-top: 0.25rem;
+}
+
+.step__btn {
+  width: calc(100% - 1rem);
+  margin-left: 1rem;
+  padding: 0.25rem 1rem 0.25rem 1rem;
+}
+
+.section--valid {
+  border-left-color: green;
+}
+
+.section--valid,
+.step--valid {
   color: green;
 }
 
-.current {
-  background-color: #ddd;
+.section--current .section__btn,
+.step--current .step__btn {
+  background-color: #eee;
 }

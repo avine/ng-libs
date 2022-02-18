@@ -1,19 +1,24 @@
-<ul *ngIf="state$ | async as state">
-  <li *ngIf="state.onboardingInfo">
-    <button 
-      type="button"
-      [class.valid]="state.maxStepIndexViewed >= 0"
-      [class.current]="state.stepIndex === -1"
-      (click)="navigateByStepIndex($event, state.onboardingInfo.index)">
+<ul *ngIf="state$ | async as state" class="sections">
+  <li
+    *ngIf="state.onboardingInfo"
+    class="section"
+    [class.section--valid]="state.maxStepIndexViewed >= 0"
+    [class.section--current]="state.stepIndex === -1"
+  >
+    <button type="button" class="section__btn" (click)="navigateByStepIndex($event, state.onboardingInfo.index)">
       {{ state.onboardingInfo.title }}
     </button>
   </li>
 
-  <li *ngFor="let section of state.nav; let sectionIndex = index">
+  <li
+    *ngFor="let section of state.nav; let sectionIndex = index"
+    class="section"
+    [class.section--valid]="section.offset <= state.maxStepIndexViewed && section.control.valid"
+    [class.section--current]="state.sectionIndex === sectionIndex"
+  >
     <button
       type="button"
-      [class.valid]="section.offset <= state.maxStepIndexViewed && section.control.valid"
-      [class.current]="state.sectionIndex === sectionIndex"
+      class="section__btn"
       [disabled]="section.offset > state.maxStepIndexViewed && section.steps[0].control.pristine"
       (click)="navigateByStepIndex($event, section.offset)"
     >
@@ -24,12 +29,16 @@
       </span>
     </button>
 
-    <ul *ngIf="section.steps.length >= 2">
-      <li *ngFor="let step of section.steps; let relativeStepIndex = index">
+    <ul *ngIf="section.steps.length >= 2" class="steps">
+      <li
+        *ngFor="let step of section.steps; let relativeStepIndex = index"
+        class="step"
+        [class.step--valid]="section.offset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid"
+        [class.step--current]="state.stepIndex === section.offset + relativeStepIndex"
+      >
         <button
           type="button"
-          [class.valid]="section.offset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid"
-          [class.current]="state.stepIndex === section.offset + relativeStepIndex"
+          class="step__btn"
           [disabled]="section.offset + relativeStepIndex >= state.maxStepIndexViewed && step.control.pristine"
           (click)="navigateByStepIndex($event, section.offset + relativeStepIndex)"
         >
@@ -39,11 +48,15 @@
     </ul>
   </li>
 
-  <li *ngIf="state.summaryInfo">
+  <li
+    *ngIf="state.summaryInfo"
+    class="section"
+    [class.section--valid]="state.allStepsViewed"
+    [class.section--current]="state.stepIndex === state.lastStepIndex"
+  >
     <button
       type="button"
-      [class.valid]="state.allStepsViewed"
-      [class.current]="state.stepIndex === state.lastStepIndex"
+      class="section__btn"
       [disabled]="!state.allStepsViewed"
       (click)="navigateByStepIndex($event, state.summaryInfo.index)"
     >

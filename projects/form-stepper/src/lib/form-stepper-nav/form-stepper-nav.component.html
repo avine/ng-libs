@@ -24,7 +24,7 @@
       </span>
     </button>
 
-    <ul>
+    <ul *ngIf="section.steps.length >= 2">
       <li *ngFor="let step of section.steps; let relativeStepIndex = index">
         <button
           type="button"

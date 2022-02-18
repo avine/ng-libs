@@ -13,6 +13,8 @@ export class FormStepperSectionDirective implements AfterViewInit {
 
   @Input() formStepperTitle!: string;
 
+  @Input() formStepperNoQuicknav!: boolean;
+
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
   constructor(private service: FormStepperService) {}
@@ -45,6 +47,7 @@ export class FormStepperSectionDirective implements AfterViewInit {
       section: this.formStepperSection,
       offset,
       steps,
+      hasQuicknav: !this.formStepperNoQuicknav,
     });
   }
 }

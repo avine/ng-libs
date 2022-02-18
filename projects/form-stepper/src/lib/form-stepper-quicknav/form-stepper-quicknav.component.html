@@ -1,9 +1,11 @@
 <div *ngIf="nav$ | async as nav" style="display: flex">
-  <div *ngFor="let section of nav" style="border: 1px solid #ccc; margin-right: 1rem; padding: 1rem;">
-    {{ section.title }}
+  <ng-container *ngFor="let section of nav">
+    <div *ngIf="section.hasQuicknav" style="border: 1px solid #ccc; margin-right: 1rem; padding: 1rem;">
+      {{ section.title }}
 
-    <div *ngFor="let step of section.steps">
-      <button type="button" (click)="navigateByStepIndex(step.stepIndex)">{{ step.title }}</button>
+      <div *ngFor="let step of section.steps">
+        <button type="button" (click)="navigateByStepIndex(step.stepIndex)">{{ step.title }}</button>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </div>

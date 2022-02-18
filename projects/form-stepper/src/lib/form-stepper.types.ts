@@ -47,4 +47,5 @@ export interface FormStepperNavSection {
   section: FormGroup;
   offset: number;
   steps: FormStepperStep[];
+  hasQuicknav: boolean;
 }

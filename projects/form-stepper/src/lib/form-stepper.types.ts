@@ -44,7 +44,7 @@ export interface FormStepperExtraPageInfo {
 
 export interface FormStepperNavSection {
   title: string;
-  section: FormGroup;
+  control: FormGroup;
   offset: number;
   steps: FormStepperStep[];
   hasQuicknav: boolean;

@@ -44,7 +44,7 @@ export class FormStepperSectionDirective implements AfterViewInit {
 
     this.service.addNavSection({
       title: this.formStepperTitle,
-      section: this.formStepperSection,
+      control: this.formStepperSection,
       offset,
       steps,
       hasQuicknav: !this.formStepperNoQuicknav,

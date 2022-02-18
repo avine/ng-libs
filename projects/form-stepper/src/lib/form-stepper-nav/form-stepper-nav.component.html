@@ -12,9 +12,9 @@
   <li *ngFor="let section of state.nav; let sectionIndex = index">
     <button
       type="button"
-      [class.valid]="section.control.valid"
+      [class.valid]="section.offset <= state.maxStepIndexViewed && section.control.valid"
       [class.current]="state.sectionIndex === sectionIndex"
-      [disabled]="section.offset >= state.maxStepIndexViewed && section.steps[0].control.pristine"
+      [disabled]="section.offset > state.maxStepIndexViewed && section.steps[0].control.pristine"
       (click)="navigateByStepIndex($event, section.offset)"
     >
       {{ section.title }}

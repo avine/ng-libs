@@ -129,7 +129,7 @@ export class FormStepperService implements OnDestroy {
 
     const stepIndex = this.steps.findIndex((step) => path === step.path);
     if (stepIndex === -1 || this.hasSkippedSomePreviousSteps(stepIndex)) {
-      this.navigateByStepIndex(this.summary ? -1 : 0);
+      this.navigateByStepIndex(this.firstStepIndex);
       return;
     }
     this.setStepByIndex(stepIndex);

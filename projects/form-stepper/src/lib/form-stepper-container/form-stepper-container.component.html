@@ -3,13 +3,15 @@
   <form-stepper-nav style="padding: 3rem"></form-stepper-nav>
 </div>
 
-<div style="padding: 3rem; text-align: center">
+<div *ngIf="state$ | async as state" style="padding: 3rem; text-align: center">
   <button type="button" formStepperPrev>Prev</button>
-  <button type="button" formStepperNext>Next</button>
-</div>
 
-<ng-container *ngIf="submitDirective?.templateRef">
-  <div style="text-align: center" *ngIf="(state$ | async)?.allStepsViewed && formStepperRoot.valid">
-    <ng-container [ngTemplateOutlet]="submitDirective.templateRef"></ng-container>
-  </div>  
-</ng-container>
+  <ng-container
+    *ngIf="state.stepIndex === state.lastStepIndex && submitDirective?.templateRef && formStepperRoot.valid; else next"
+    [ngTemplateOutlet]="submitDirective.templateRef"
+  ></ng-container>
+
+  <ng-template #next>
+    <button type="button" formStepperNext>Next</button>
+  </ng-template>
+</div>

@@ -1,10 +1,10 @@
 <div style="display: flex; justify-content: center">
-  <form-stepper-main style="padding: 3rem; width: 300px"></form-stepper-main>
-  <form-stepper-nav style="padding: 3rem"></form-stepper-nav>
+  <form-stepper-main style="padding: 3rem; width: 400px"></form-stepper-main>
+  <form-stepper-nav style="padding: 3rem; width: 200px"></form-stepper-nav>
 </div>
 
 <div *ngIf="state$ | async as state" style="padding: 3rem; text-align: center">
-  <button type="button" formStepperPrev>Prev</button>
+  <button type="button" tabindex="-1" formStepperPrev>Prev</button>
 
   <ng-container
     *ngIf="state.stepIndex === state.lastStepIndex && submitDirective?.templateRef && formStepperRoot.valid; else next"
@@ -12,6 +12,6 @@
   ></ng-container>
 
   <ng-template #next>
-    <button type="button" formStepperNext>Next</button>
+    <button type="button" tabindex="-1" formStepperNext>Next</button>
   </ng-template>
 </div>

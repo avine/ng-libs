@@ -58,6 +58,8 @@ export class FormStepperService implements OnDestroy {
     return this.steps.length + (this.summary ? 0 : -1);
   }
 
+  currentStepControlElements = new Set<HTMLElement>();
+
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   init() {
@@ -81,6 +83,17 @@ export class FormStepperService implements OnDestroy {
 
   addNavSection(section: FormStepperNavSection) {
     this.nav.push(section);
+  }
+
+  addControlElement(element: HTMLElement) {
+    this.currentStepControlElements.add(element);
+    if (this.currentStepControlElements.size === 1) {
+      element?.focus();
+    }
+  }
+
+  removeControlElement(element: HTMLElement) {
+    this.currentStepControlElements.delete(element);
   }
 
   navigateByStepIndex(stepIndex: number) {
@@ -139,7 +152,7 @@ export class FormStepperService implements OnDestroy {
     return stepIndex > 0
       ? this.steps
           .slice(0, stepIndex)
-          .some((step) => step.control.hasValidator(Validators.required) && !step.control.touched)
+          .some((step) => step.control.hasValidator(Validators.required) && step.control.pristine)
       : false;
   }
 

@@ -1,7 +1,7 @@
 import { Directive, Input, TemplateRef } from '@angular/core';
 
 @Directive({
-  selector: '[formStepperSummary]'
+  selector: '[formStepperSummary]',
 })
 export class FormStepperSummaryDirective {
   @Input() formStepperTitle!: string;

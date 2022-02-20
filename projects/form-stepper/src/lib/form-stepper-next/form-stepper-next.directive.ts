@@ -3,7 +3,7 @@ import { Directive, HostBinding, HostListener } from '@angular/core';
 import { FormStepperService } from '../form-stepper.service';
 
 @Directive({
-  selector: '[formStepperNext]'
+  selector: '[formStepperNext]',
 })
 export class FormStepperNextDirective {
   @HostBinding('disabled') get isDisabled() {
@@ -14,5 +14,5 @@ export class FormStepperNextDirective {
     this.service.nextStep();
   }
 
-  constructor(private service: FormStepperService) { }
+  constructor(private service: FormStepperService) {}
 }

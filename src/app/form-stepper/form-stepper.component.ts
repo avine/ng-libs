@@ -28,7 +28,7 @@ export class FormStepperComponent {
   fullName = this.formGroup.get('fullName') as FormGroup;
   firstName = this.formGroup.get('fullName')?.get('firstName') as FormControl;
   lastName = this.formGroup.get('fullName')?.get('lastName') as FormControl;
-  
+
   contact = this.formGroup.get('contact') as FormGroup;
   email = this.formGroup.get('contact')?.get('email') as FormControl;
 
@@ -43,6 +43,9 @@ export class FormStepperComponent {
   constructor(private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
 
   submitForm() {
+    if (this.formGroup.invalid) {
+      return;
+    }
     this.submitInProgress = true;
     console.log('Submitting', JSON.stringify(this.formGroup.value, undefined, 2));
     setTimeout(() => {

@@ -1,6 +1,7 @@
 import { map } from 'rxjs/operators';
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 
 import { FormStepperService } from '../form-stepper.service';
 
@@ -16,4 +17,13 @@ export class FormStepperQuicknavComponent {
   navigateByStepIndex = this.service.navigateByStepIndex.bind(this.service);
 
   constructor(private service: FormStepperService) {}
+
+  getValue(control: AbstractControl) {
+    if (control instanceof FormGroup) {
+      return Object.values(control.value).join(', ');
+    } else if (control instanceof FormArray) {
+      return control.value.join(', ');
+    }
+    return control.value;
+  }
 }

@@ -165,7 +165,9 @@ export class FormStepperService implements OnDestroy {
 
   private hasSkippedSomePreviousSteps(stepIndex = this.steps.length): boolean {
     const isSkipped = (control: AbstractControl) =>
-      control.hasValidator(Validators.required) && !control.value && control.pristine;
+      (control.hasValidator(Validators.required) || control.hasValidator(Validators.requiredTrue)) &&
+      !control.value &&
+      control.pristine;
 
     return stepIndex > 0
       ? this.steps.slice(0, stepIndex).some((step) => {

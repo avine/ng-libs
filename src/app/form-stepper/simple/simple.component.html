@@ -1,0 +1,52 @@
+<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+  <form-stepper-container [formStepperRoot]="formGroup">
+    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+      <p>Simple form stepper with quicknav in the last step.</p>
+    </ng-template>
+
+    <ng-template formStepperSubmit>
+      <button type="submit" [disabled]="submitInProgress">Submit</button>
+    </ng-template>
+
+    <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
+      <ng-template [formStepperStep]="firstName" formStepperTitle="First name" formStepperPath="first-name">
+        First name:<br />
+        <input [formControl]="firstName" formStepperControl />
+      </ng-template>
+
+      <ng-template [formStepperStep]="lastName" formStepperTitle="Last name" formStepperPath="last-name">
+        Last name:<br />
+        <input [formControl]="lastName" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="contact" formStepperTitle="Contact">
+      <ng-template [formStepperStep]="email" formStepperTitle="Email" formStepperPath="email">
+        Email:<br />
+        <input [formControl]="email" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="consent" formStepperTitle="Consent" [formStepperNoQuicknav]="true">
+      <ng-template [formStepperStep]="cgu" formStepperTitle="Cgu" formStepperPath="cgu">
+        <form-stepper-quicknav></form-stepper-quicknav>
+        <input type="checkbox" [formControl]="cgu" formStepperControl /> CGU
+      </ng-template>
+    </ng-container>
+  </form-stepper-container>
+</form>
+
+<pre style="width: 400px; margin: auto">Value: {{ formGroup.value | json }}</pre>
+
+<a routerLink="/form-stepper/street"> street </a>
+<a routerLink="/form-stepper/zip-code-and-city"> zip-code-and-city </a>
+<a routerLink="/form-stepper/oops"> oops </a>
+
+<div class="footer">
+  <a
+    class="link link--external"
+    href="https://github.com/avine/ng-libs/blob/main/src/app/form-stepper/form-stepper.component.html"
+    target="_blank"
+    >view demo source code</a
+  >
+</div>

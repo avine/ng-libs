@@ -2,27 +2,26 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-one-level',
-  templateUrl: './one-level.component.html',
-  styleUrls: ['./one-level.component.scss'],
+  selector: 'app-two-levels',
+  templateUrl: './two-levels.component.html',
+  styleUrls: ['./two-levels.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OneLevelComponent {
+export class TwoLevelsComponent {
   formGroup = this.formBuilder.group({
     fullName: this.formBuilder.group({
-      firstName: ['Stéphane', Validators.required],
-      lastName: ['Francel', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
     }),
     contact: this.formBuilder.group({
       email: ['', Validators.required],
     }),
     address: this.formBuilder.group({
       street: [''],
-      zipCode: ['', Validators.required],
-      city: ['', Validators.required],
-    }),
-    consent: this.formBuilder.group({
-      cgu: ['', Validators.requiredTrue],
+      zipCodeAndCity: this.formBuilder.group({
+        zipCode: ['', Validators.required],
+        city: ['', Validators.required],
+      }),
     }),
   });
 
@@ -35,11 +34,9 @@ export class OneLevelComponent {
 
   address = this.formGroup.get('address') as FormGroup;
   street = this.formGroup.get('address')?.get('street') as FormControl;
-  zipCode = this.formGroup.get('address')?.get('zipCode') as FormControl;
-  city = this.formGroup.get('address')?.get('city') as FormControl;
-
-  consent = this.formGroup.get('consent') as FormGroup;
-  cgu = this.formGroup.get('consent')?.get('cgu') as FormControl;
+  zipCodeAndCity = this.formGroup.get('address')?.get('zipCodeAndCity') as FormGroup;
+  zipCode = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('zipCode') as FormControl;
+  city = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('city') as FormControl;
 
   submitInProgress = false;
 

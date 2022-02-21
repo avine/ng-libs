@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-form-stepper',
-  templateUrl: './form-stepper.component.html',
-  styleUrls: ['./form-stepper.component.scss'],
+  selector: 'app-simple',
+  templateUrl: './simple.component.html',
+  styleUrls: ['./simple.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormStepperComponent {
+export class SimpleComponent {
   formGroup = this.formBuilder.group({
     fullName: this.formBuilder.group({
       firstName: ['', Validators.required],
@@ -16,12 +16,8 @@ export class FormStepperComponent {
     contact: this.formBuilder.group({
       email: ['', Validators.required],
     }),
-    address: this.formBuilder.group({
-      street: [''],
-      zipCodeAndCity: this.formBuilder.group({
-        zipCode: ['', Validators.required],
-        city: ['', Validators.required],
-      }),
+    consent: this.formBuilder.group({
+      cgu: ['', Validators.requiredTrue],
     }),
   });
 
@@ -32,11 +28,8 @@ export class FormStepperComponent {
   contact = this.formGroup.get('contact') as FormGroup;
   email = this.formGroup.get('contact')?.get('email') as FormControl;
 
-  address = this.formGroup.get('address') as FormGroup;
-  street = this.formGroup.get('address')?.get('street') as FormControl;
-  zipCodeAndCity = this.formGroup.get('address')?.get('zipCodeAndCity') as FormGroup;
-  zipCode = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('zipCode') as FormControl;
-  city = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('city') as FormControl;
+  consent = this.formGroup.get('consent') as FormGroup;
+  cgu = this.formGroup.get('consent')?.get('cgu') as FormControl;
 
   submitInProgress = false;
 

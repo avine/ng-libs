@@ -2,13 +2,11 @@ import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@
 
 import { FormStepperService } from '../form-stepper.service';
 
-type FormStepperControlConfig = 'noPreventDefault' | '';
-
 @Directive({
   selector: '[formStepperControl]',
 })
 export class FormStepperControlDirective implements OnInit, OnDestroy {
-  @Input() formStepperControl!: FormStepperControlConfig;
+  @Input() formStepperControl!: 'noPreventDefault' | '';
 
   @HostListener('keydown.enter', ['$event']) onEnter(event: KeyboardEvent) {
     // Do not submit form on "enter"...

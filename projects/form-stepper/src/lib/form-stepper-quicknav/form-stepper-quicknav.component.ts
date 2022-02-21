@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators';
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 
 import { FormStepperService } from '../form-stepper.service';
@@ -12,6 +12,8 @@ import { FormStepperService } from '../form-stepper.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormStepperQuicknavComponent {
+  @Input() formStepperHideSections = false;
+
   nav$ = this.service.state$.pipe(map(({ nav }) => nav));
 
   navigateByStepIndex = this.service.navigateByStepIndex.bind(this.service);

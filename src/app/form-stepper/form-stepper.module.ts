@@ -5,9 +5,10 @@ import { FormStepperModule as FormStepperLibModule } from '@avine/ng-form-steppe
 
 import { FormStepperRoutingModule } from './form-stepper-routing.module';
 import { FormStepperComponent } from './form-stepper.component';
+import { OneLevelComponent } from './one-level/one-level.component';
 
 @NgModule({
   imports: [CommonModule, FormStepperRoutingModule, ReactiveFormsModule, FormStepperLibModule],
-  declarations: [FormStepperComponent],
+  declarations: [FormStepperComponent, OneLevelComponent],
 })
 export class FormStepperModule {}

@@ -1,14 +1,32 @@
-<div *ngIf="nav$ | async as nav">
-  <ng-container *ngFor="let section of nav">
-    <div *ngIf="section.hasQuicknav" style="border: 1px solid #ccc; margin-bottom: 1rem; padding: 1rem">
-      {{ section.title }}
+<ng-container [ngSwitch]="formStepperHideSections">
+  <ng-container *ngSwitchCase="false">
+    <div *ngIf="nav$ | async as nav" class="sections">
+      <ng-container *ngFor="let section of nav">
+        <div *ngIf="section.hasQuicknav" class="section">
+          {{ section.title }}
 
-      <p *ngFor="let step of section.steps">
-        <strong>{{ step.title }}</strong>
-        <br />
-        {{ getValue(step.control) }}
-        <button type="button" tabindex="-1" (click)="navigateByStepIndex(step.stepIndex)">Update</button>
-      </p>
+          <ng-container [ngTemplateOutlet]="steps" [ngTemplateOutletContext]="{ steps: section.steps }"></ng-container>
+        </div>
+      </ng-container>
     </div>
   </ng-container>
-</div>
+
+  <ng-container *ngSwitchCase="true">
+    <div *ngIf="nav$ | async as nav">
+      <ng-container *ngFor="let section of nav">
+        <ng-container *ngIf="section.hasQuicknav">
+          <ng-container [ngTemplateOutlet]="steps" [ngTemplateOutletContext]="{ steps: section.steps }"></ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #steps let-steps="steps">
+  <p *ngFor="let step of steps">
+    <strong>{{ step.title }}</strong>
+    <br />
+    {{ getValue(step.control) }}
+    <button type="button" tabindex="-1" (click)="navigateByStepIndex(step.stepIndex)">Update</button>
+  </p>
+</ng-template>

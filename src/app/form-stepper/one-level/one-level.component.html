@@ -1,0 +1,57 @@
+<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+  <form-stepper-container [formStepperRoot]="formGroup">
+    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+      <p>One level form stepper</p>
+    </ng-template>
+
+    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary">
+      <form-stepper-quicknav [formStepperHideSections]="true"></form-stepper-quicknav>
+    </ng-template>
+
+    <ng-template formStepperSubmit>
+      <button type="submit" [disabled]="submitInProgress">Submit</button>
+    </ng-template>
+
+    <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
+      <ng-template [formStepperStep]="fullName" formStepperTitle="Full name" formStepperPath="full-name">
+        First name:<br />
+        <input [formControl]="firstName" formStepperControl />
+        <br /><br />
+
+        Last name:<br />
+        <input [formControl]="lastName" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="contact" formStepperTitle="Contact">
+      <ng-template [formStepperStep]="contact" formStepperTitle="Contact" formStepperPath="contact">
+        Email:<br />
+        <input [formControl]="email" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="address" formStepperTitle="Address">
+      <ng-template [formStepperStep]="address" formStepperTitle="Address" formStepperPath="address">
+        Street:<br />
+        <input [formControl]="street" formStepperControl />
+        <br /><br />
+
+        Zip code:<br />
+        <input [formControl]="zipCode" formStepperControl />
+        <br /><br />
+
+        City:<br />
+        <input [formControl]="city" formStepperControl />
+        <br /><br />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="consent" formStepperTitle="Consent">
+      <ng-template [formStepperStep]="consent" formStepperTitle="Consent" formStepperPath="consent">
+        <input type="checkbox" [formControl]="cgu" formStepperControl /> Accept CGU
+      </ng-template>
+    </ng-container>
+  </form-stepper-container>
+</form>
+
+<pre style="width: 400px; margin: auto">Value: {{ formGroup.value | json }}</pre>

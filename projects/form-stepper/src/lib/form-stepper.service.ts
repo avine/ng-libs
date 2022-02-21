@@ -2,7 +2,7 @@ import { BehaviorSubject, ReplaySubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Injectable, OnDestroy, TemplateRef } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FORM_STEPPER_PATH_PARAM } from './form-stepper.config';
@@ -58,7 +58,21 @@ export class FormStepperService implements OnDestroy {
     return this.steps.length + (this.summary ? 0 : -1);
   }
 
-  currentStepControlElements = new Set<HTMLElement>();
+  private get currentStepControlsHaveNoValue(): boolean {
+    const control = this.steps[this.stepIndex]?.control;
+    if (!control) {
+      return false;
+    }
+    if (control instanceof FormGroup && Object.values(control.value).some((value) => !!value)) {
+      return false;
+    }
+    if (control instanceof FormControl && !!control.value) {
+      return false;
+    }
+    return true;
+  }
+
+  private currentStepControlElements = new Set<HTMLElement>();
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
@@ -87,8 +101,9 @@ export class FormStepperService implements OnDestroy {
 
   addControlElement(element: HTMLElement) {
     this.currentStepControlElements.add(element);
-    if (this.currentStepControlElements.size === 1) {
-      element?.focus();
+
+    if (this.currentStepControlElements.size === 1 && this.currentStepControlsHaveNoValue) {
+      element.focus?.();
     }
   }
 
@@ -148,11 +163,17 @@ export class FormStepperService implements OnDestroy {
     this.setStepByIndex(stepIndex);
   }
 
-  private hasSkippedSomePreviousSteps(stepIndex = this.steps.length - 1): boolean {
+  private hasSkippedSomePreviousSteps(stepIndex = this.steps.length): boolean {
+    const isSkipped = (control: AbstractControl) =>
+      control.hasValidator(Validators.required) && !control.value && control.pristine;
+
     return stepIndex > 0
-      ? this.steps
-          .slice(0, stepIndex)
-          .some((step) => step.control.hasValidator(Validators.required) && step.control.pristine)
+      ? this.steps.slice(0, stepIndex).some((step) => {
+          if (step.control instanceof FormGroup) {
+            return Object.values(step.control.controls).some(isSkipped);
+          }
+          return isSkipped(step.control);
+        })
       : false;
   }
 

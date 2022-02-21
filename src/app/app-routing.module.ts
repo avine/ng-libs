@@ -1,9 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FORM_STEPPER_PATH_PARAM } from '@avine/ng-form-stepper';
-
-import { FormStepperComponent } from './form-stepper/form-stepper.component';
-import { IfNonNullishComponent } from './if-non-nullish/if-non-nullish.component';
 
 const routes: Routes = [
   {
@@ -13,11 +9,11 @@ const routes: Routes = [
   },
   {
     path: 'if-non-nullish',
-    component: IfNonNullishComponent,
+    loadChildren: () => import('./if-non-nullish/if-non-nullish.module').then((module) => module.IfNonNullishModule),
   },
   {
-    path: `form-stepper/:${FORM_STEPPER_PATH_PARAM}`,
-    component: FormStepperComponent,
+    path: 'form-stepper',
+    loadChildren: () => import('./form-stepper/form-stepper.module').then((module) => module.FormStepperModule),
   },
 ];
 

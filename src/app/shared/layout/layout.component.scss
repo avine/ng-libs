@@ -1,0 +1,21 @@
+.header {
+  border-bottom: 1px solid #ddd;
+}
+
+.header__brand {
+  padding-left: 1rem;
+}
+
+.header__spacer {
+  flex: 1 1 auto;
+}
+
+.container {
+  width: 100vw;
+  height: calc(100vh - 64px);
+}
+
+.container__sidenav {
+  min-width: 300px;
+  padding: 1.5rem;
+}

@@ -1,0 +1,23 @@
+<mat-toolbar class="header">
+  <button mat-icon-button>
+    <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+  </button>
+
+  <h1 class="header__brand">ng-libs</h1>
+
+  <span class="header__spacer"></span>
+
+  <a href="https://github.com/avine/ng-libs" mat-icon-button>
+    <img src="assets/github-brands.svg" alt="Github" height="28" />
+  </a>
+</mat-toolbar>
+
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer mode="over" class="container__sidenav">
+    <app-menu></app-menu>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <ng-content></ng-content>
+  </mat-drawer-content>
+</mat-drawer-container>

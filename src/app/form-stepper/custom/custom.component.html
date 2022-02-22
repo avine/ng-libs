@@ -1,0 +1,60 @@
+<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+  <ng-container formStepperContainer #stepper="formStepper">
+    <div style="display: flex; justify-content: center">
+      <div style="padding: 3rem; width: 400px">
+        <h3 *ngIf="stepper.sectionTitle$ | async as sectionTitle">{{ sectionTitle }}</h3>
+
+        <ng-container
+          *ngIf="stepper.stepTemplate$ | async as stepTemplate"
+          [ngTemplateOutlet]="stepTemplate"
+        ></ng-container>
+      </div>
+
+      <form-stepper-nav style="padding: 3rem; width: 200px"></form-stepper-nav>
+    </div>
+
+    <div *ngIf="stepper.state$ | async as state" style="padding: 3rem; text-align: center">
+      <button type="button" tabindex="-1" formStepperPrev>Prev</button>
+
+      <ng-container *ngIf="state.stepIndex === state.lastStepIndex && formGroup.valid; else next">
+        <button type="submit">Submit</button>
+      </ng-container>
+
+      <ng-template #next>
+        <button type="button" tabindex="-1" formStepperNext>Next</button>
+      </ng-template>
+    </div>
+
+    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+      <p>Custom form stepper.</p>
+    </ng-template>
+
+    <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
+      <ng-template [formStepperStep]="firstName" formStepperTitle="First name" formStepperPath="first-name">
+        First name:<br />
+        <input [formControl]="firstName" formStepperControl />
+      </ng-template>
+
+      <ng-template [formStepperStep]="lastName" formStepperTitle="Last name" formStepperPath="last-name">
+        Last name:<br />
+        <input [formControl]="lastName" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="contact" formStepperTitle="Contact">
+      <ng-template [formStepperStep]="email" formStepperTitle="Email" formStepperPath="email">
+        Email:<br />
+        <input [formControl]="email" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="consent" formStepperTitle="Consent" [formStepperNoQuicknav]="true">
+      <ng-template [formStepperStep]="cgu" formStepperTitle="Cgu" formStepperPath="cgu">
+        <form-stepper-quicknav></form-stepper-quicknav>
+        <input type="checkbox" [formControl]="cgu" formStepperControl /> CGU
+      </ng-template>
+    </ng-container>
+  </ng-container>
+</form>
+
+<pre style="width: 400px; margin: auto">Value: {{ formGroup.value | json }}</pre>

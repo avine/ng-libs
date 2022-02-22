@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { FormStepperContainerComponent } from './form-stepper-container/form-stepper-container.component';
 import { FormStepperContainerDirective } from './form-stepper-container/form-stepper-container.directive';
@@ -14,6 +14,7 @@ import { FormStepperSectionDirective } from './form-stepper-section/form-stepper
 import { FormStepperStepDirective } from './form-stepper-step/form-stepper-step.directive';
 import { FormStepperSubmitDirective } from './form-stepper-submit/form-stepper-submit.directive';
 import { FormStepperSummaryDirective } from './form-stepper-summary/form-stepper-summary.directive';
+import { DEFAULT_TRANSLATIONS, provideFormStepperTranslations } from './form-stepper.token';
 
 const components = [
   FormStepperContainerComponent,
@@ -39,4 +40,17 @@ const directives = [
   declarations: [components, directives],
   exports: [components, directives],
 })
-export class FormStepperModule {}
+export class FormStepperModule {
+  static forRoot(translations = DEFAULT_TRANSLATIONS): ModuleWithProviders<FormStepperModule> {
+    return {
+      ngModule: FormStepperModule,
+      providers: [provideFormStepperTranslations(translations)],
+    };
+  }
+
+  static forChild(): ModuleWithProviders<FormStepperModule> {
+    return {
+      ngModule: FormStepperModule,
+    };
+  }
+}

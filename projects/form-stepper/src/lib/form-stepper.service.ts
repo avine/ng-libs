@@ -1,11 +1,12 @@
 import { BehaviorSubject, ReplaySubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
-import { Injectable, OnDestroy, TemplateRef } from '@angular/core';
+import { Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FORM_STEPPER_PATH_PARAM } from './form-stepper.config';
+import { FORM_STEPPER_TRANSLATIONS, FormStepperTranslations } from './form-stepper.token';
 import { FormStepperExtraPage, FormStepperNavSection, FormStepperState, FormStepperStep } from './form-stepper.types';
 
 @Injectable()
@@ -48,6 +49,17 @@ export class FormStepperService implements OnDestroy {
     return this._state$.value;
   }
 
+  sectionTitle$ = this.state$.pipe(
+    map((state): string => {
+      if (state.stepIndex === state.onboardingInfo?.index) {
+        return state.onboardingInfo?.title;
+      } else if (state.stepIndex === state.summaryInfo?.index) {
+        return state.summaryInfo?.title;
+      }
+      return state.nav[state.sectionIndex]?.title;
+    })
+  );
+
   private pathSubscription!: Subscription;
 
   private get firstStepIndex() {
@@ -74,7 +86,11 @@ export class FormStepperService implements OnDestroy {
 
   private currentStepControlElements = new Set<HTMLElement>();
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    @Inject(FORM_STEPPER_TRANSLATIONS) public readonly translations: FormStepperTranslations,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   init() {
     this.pathSubscription = this.activatedRoute.paramMap

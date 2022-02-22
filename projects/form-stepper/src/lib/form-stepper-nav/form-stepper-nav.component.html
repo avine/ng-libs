@@ -32,7 +32,7 @@
       {{ section.title }}
 
       <span *ngIf="state.sectionProgression && state.sectionIndex === sectionIndex" class="section__progression">
-        ({{ state.sectionProgression.count }}/{{ state.sectionProgression.total }})
+        {{ state.sectionProgression.count }}/{{ state.sectionProgression.total }}
       </span>
     </button>
 

@@ -23,11 +23,11 @@ import { FormStepperService } from '../form-stepper.service';
 export class FormStepperContainerComponent implements AfterContentInit, AfterViewInit {
   @Input() formStepperRoot!: FormGroup;
 
+  @ContentChild(FormStepperSubmitDirective) submitDirective!: FormStepperSubmitDirective;
+
   @ContentChild(FormStepperOnboardingDirective) onboardingDirective!: FormStepperOnboardingDirective;
 
   @ContentChild(FormStepperSummaryDirective) summaryDirective!: FormStepperSummaryDirective;
-
-  @ContentChild(FormStepperSubmitDirective) submitDirective!: FormStepperSubmitDirective;
 
   stepTemplate$ = this.service.stepTemplate$;
 
@@ -36,6 +36,8 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
   prevStep = this.service.prevStep.bind(this.service);
 
   nextStep = this.service.nextStep.bind(this.service);
+
+  translations = this.service.translations;
 
   constructor(private service: FormStepperService) {}
 

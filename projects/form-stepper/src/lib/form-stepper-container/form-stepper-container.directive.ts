@@ -14,6 +14,8 @@ export class FormStepperContainerDirective implements AfterContentInit, AfterVie
 
   @ContentChild(FormStepperSummaryDirective) summaryDirective!: FormStepperSummaryDirective;
 
+  sectionTitle$ = this.service.sectionTitle$;
+
   stepTemplate$ = this.service.stepTemplate$;
 
   state$ = this.service.state$;

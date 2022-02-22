@@ -4,14 +4,20 @@
 </div>
 
 <div *ngIf="state$ | async as state" style="padding: 3rem; text-align: center">
-  <button type="button" tabindex="-1" formStepperPrev>Prev</button>
+  <button type="button" tabindex="-1" formStepperPrev>{{ translations.prev }}</button>
 
-  <ng-container
-    *ngIf="state.stepIndex === state.lastStepIndex && submitDirective?.templateRef && formStepperRoot.valid; else next"
-    [ngTemplateOutlet]="submitDirective.templateRef"
-  ></ng-container>
+  <ng-container *ngIf="state.stepIndex === state.lastStepIndex && formStepperRoot.valid; else next">
+    <ng-container
+      *ngIf="submitDirective?.templateRef; else defaultSubmit"
+      [ngTemplateOutlet]="submitDirective.templateRef"
+    ></ng-container>
+
+    <ng-template #defaultSubmit>
+      <button type="submit">{{ translations.submit }}</button>
+    </ng-template>
+  </ng-container>
 
   <ng-template #next>
-    <button type="button" tabindex="-1" formStepperNext>Next</button>
+    <button type="button" tabindex="-1" formStepperNext>{{ translations.next }}</button>
   </ng-template>
 </div>

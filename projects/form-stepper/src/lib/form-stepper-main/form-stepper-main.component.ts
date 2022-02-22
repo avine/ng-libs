@@ -13,5 +13,7 @@ export class FormStepperMainComponent {
 
   stepTemplate$ = this.service.stepTemplate$;
 
+  translations = this.service.translations;
+
   constructor(private service: FormStepperService) {}
 }

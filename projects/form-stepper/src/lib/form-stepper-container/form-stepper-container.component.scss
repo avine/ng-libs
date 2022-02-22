@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.nav {
+  width: 240px;
+  margin-left: 3rem;
+}
+
+.prev {
+  margin-right: 1.5rem;
+}

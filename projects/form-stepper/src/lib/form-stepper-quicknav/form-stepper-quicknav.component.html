@@ -1,13 +1,11 @@
 <ng-container [ngSwitch]="formStepperHideSections">
   <ng-container *ngSwitchCase="false">
     <div *ngIf="nav$ | async as nav" class="sections">
-      <ng-container *ngFor="let section of nav">
-        <div *ngIf="section.hasQuicknav" class="section">
-          {{ section.title }}
+      <div *ngFor="let section of nav" class="section">
+        <h3 *ngIf="section.hasQuicknav">{{ section.title }}</h3>
 
-          <ng-container [ngTemplateOutlet]="steps" [ngTemplateOutletContext]="{ steps: section.steps }"></ng-container>
-        </div>
-      </ng-container>
+        <ng-container [ngTemplateOutlet]="steps" [ngTemplateOutletContext]="{ steps: section.steps }"></ng-container>
+      </div>
     </div>
   </ng-container>
 
@@ -23,10 +21,11 @@
 </ng-container>
 
 <ng-template #steps let-steps="steps">
-  <p *ngFor="let step of steps">
-    <strong>{{ step.title }}</strong>
-    <br />
-    {{ getValue(step.control) }}
+  <div *ngFor="let step of steps">
+    <strong>{{ step.title }}:</strong>
+
+    <span class="value">{{ getValue(step.control) }}</span>
+
     <button type="button" tabindex="-1" (click)="navigateByStepIndex(step.stepIndex)">Update</button>
-  </p>
+  </div>
 </ng-template>

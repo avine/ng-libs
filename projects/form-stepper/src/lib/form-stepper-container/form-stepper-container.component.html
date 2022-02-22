@@ -1,23 +1,22 @@
-<div style="display: flex; justify-content: center">
-  <form-stepper-main style="padding: 3rem; width: 400px"></form-stepper-main>
-  <form-stepper-nav style="padding: 3rem; width: 200px"></form-stepper-nav>
-</div>
+<div class="container">
+  <form-stepper-main class="main">
+    <ng-container *ngIf="state$ | async as state">
+      <ng-container *ngIf="state.stepIndex === state.lastStepIndex && formStepperRoot.valid; else next">
+        <ng-container
+          *ngIf="submitDirective?.templateRef; else defaultSubmit"
+          [ngTemplateOutlet]="submitDirective.templateRef"
+        ></ng-container>
 
-<div *ngIf="state$ | async as state" style="padding: 3rem; text-align: center">
-  <button type="button" tabindex="-1" formStepperPrev>{{ translations.prev }}</button>
+        <ng-template #defaultSubmit>
+          <button type="submit">{{ translations.submit }}</button>
+        </ng-template>
+      </ng-container>
 
-  <ng-container *ngIf="state.stepIndex === state.lastStepIndex && formStepperRoot.valid; else next">
-    <ng-container
-      *ngIf="submitDirective?.templateRef; else defaultSubmit"
-      [ngTemplateOutlet]="submitDirective.templateRef"
-    ></ng-container>
+      <ng-template #next>
+        <button type="button" tabindex="-1" formStepperNext>{{ translations.next }}</button>
+      </ng-template>
+    </ng-container>
+  </form-stepper-main>
 
-    <ng-template #defaultSubmit>
-      <button type="submit">{{ translations.submit }}</button>
-    </ng-template>
-  </ng-container>
-
-  <ng-template #next>
-    <button type="button" tabindex="-1" formStepperNext>{{ translations.next }}</button>
-  </ng-template>
+  <form-stepper-nav class="nav"></form-stepper-nav>
 </div>

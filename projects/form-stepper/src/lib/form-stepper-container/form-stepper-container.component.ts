@@ -29,13 +29,7 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
 
   @ContentChild(FormStepperSummaryDirective) summaryDirective!: FormStepperSummaryDirective;
 
-  stepTemplate$ = this.service.stepTemplate$;
-
   state$ = this.service.state$;
-
-  prevStep = this.service.prevStep.bind(this.service);
-
-  nextStep = this.service.nextStep.bind(this.service);
 
   translations = this.service.translations;
 

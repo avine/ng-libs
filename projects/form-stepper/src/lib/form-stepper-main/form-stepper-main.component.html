@@ -1,3 +1,9 @@
-<h3 *ngIf="sectionTitle$ | async as sectionTitle">{{ sectionTitle }}</h3>
+<button type="button" tabindex="-1" formStepperPrev class="prev">{{ translations.prev }}</button>
 
-<ng-container *ngIf="stepTemplate$ | async as stepTemplate" [ngTemplateOutlet]="stepTemplate"></ng-container>
+<h2 *ngIf="sectionTitle$ | async as sectionTitle" class="title">{{ sectionTitle }}</h2>
+
+<div class="main">
+  <ng-container *ngIf="stepTemplate$ | async as stepTemplate" [ngTemplateOutlet]="stepTemplate"></ng-container>
+</div>
+
+<ng-content></ng-content>

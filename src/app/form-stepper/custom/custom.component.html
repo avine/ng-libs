@@ -1,28 +1,30 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <ng-container formStepperContainer #stepper="formStepper">
-    <div style="display: flex; justify-content: center">
-      <div style="padding: 3rem; width: 400px">
-        <h3 *ngIf="stepper.sectionTitle$ | async as sectionTitle">{{ sectionTitle }}</h3>
+  <ng-container formStepperContainer #formStepper="formStepper">
+    <div style="display: flex; padding: 2rem">
+      <div style="flex-grow: 1">
+        <h3 *ngIf="formStepper.sectionTitle$ | async as sectionTitle">{{ sectionTitle }}</h3>
 
-        <ng-container
-          *ngIf="stepper.stepTemplate$ | async as stepTemplate"
-          [ngTemplateOutlet]="stepTemplate"
-        ></ng-container>
+        <div style="margin-bottom: 1.5rem">
+          <ng-container
+            *ngIf="formStepper.stepTemplate$ | async as stepTemplate"
+            [ngTemplateOutlet]="stepTemplate"
+          ></ng-container>
+        </div>
+
+        <div *ngIf="formStepper.state$ | async as state">
+          <button type="button" tabindex="-1" formStepperPrev style="margin-right: 1.5rem">Prev</button>
+
+          <ng-container *ngIf="state.stepIndex === state.lastStepIndex && formGroup.valid; else next">
+            <button type="submit">Submit</button>
+          </ng-container>
+
+          <ng-template #next>
+            <button type="button" tabindex="-1" formStepperNext>Next</button>
+          </ng-template>
+        </div>
       </div>
 
-      <form-stepper-nav style="padding: 3rem; width: 200px"></form-stepper-nav>
-    </div>
-
-    <div *ngIf="stepper.state$ | async as state" style="padding: 3rem; text-align: center">
-      <button type="button" tabindex="-1" formStepperPrev>Prev</button>
-
-      <ng-container *ngIf="state.stepIndex === state.lastStepIndex && formGroup.valid; else next">
-        <button type="submit">Submit</button>
-      </ng-container>
-
-      <ng-template #next>
-        <button type="button" tabindex="-1" formStepperNext>Next</button>
-      </ng-template>
+      <form-stepper-nav style="width: 240px; margin-left: 3rem"></form-stepper-nav>
     </div>
 
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">

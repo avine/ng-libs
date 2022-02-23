@@ -1,3 +1,17 @@
+:host {
+  --color__valid: #4caf50;
+
+  --section__margin: 1.5rem;
+  --section__timeline-width: 4px;
+  --section__timeline-offset: 3.5rem;
+
+  --section-btn__line-height: 1.5rem;
+  --section-btn__padding-v: 0.75rem;
+
+  --section-btn__height: calc(var(--section-btn__line-height) + var(--section-btn__padding-v) * 2);
+  --section__bullet-offset: calc(var(--section__timeline-offset) - var(--section-btn__height) / 2);
+}
+
 button {
   display: block;
   padding: 0;
@@ -18,35 +32,54 @@ button {
   &::before {
     content: '';
     position: absolute;
-    top: 1.5rem;
-    bottom: calc(1.5rem + 1.5rem); // padding-bottom entre les ".section"
-    left: calc(3.5rem - 1.5px);
-    border-left: 3px solid #ccc;
+    top: calc(var(--section-btn__height) / 2);
+    bottom: calc(var(--section-btn__height) / 2 + var(--section__margin));
+    left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
+    border-left: var(--section__timeline-width) solid #ccc;
   }
 }
 
 .section {
   position: relative;
-  padding-bottom: 1.5rem;
+  padding-bottom: var(--section__margin);
 
   &:not(.section--last)::before {
     content: '';
     position: absolute;
-    top: 1.5rem;
-    left: calc(3.5rem - 1.5px);
-    border-left: 3px solid #4caf50;
+    top: calc(var(--section-btn__height) / 2);
+    left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
+    border-left: var(--section__timeline-width) solid var(--color__valid);
     height: 0%;
     transition: height 250ms ease;
   }
+}
+
+.section__bullet {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--section__bullet-offset);
+  width: var(--section-btn__height);
+  height: var(--section-btn__height);
+  line-height: var(--section-btn__height);
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: calc(var(--section-btn__height) / 2);
+  border: 3px solid #fff;
+  background-color: #ddd;
+  transition: left 250ms ease, width 250ms ease, background-color 250ms ease, color 250ms ease;
 }
 
 .section__btn {
   position: relative;
   z-index: 1;
   width: 100%;
-  padding: 0.75rem 1.5rem 0.75rem 6rem;
+
+  padding: var(--section-btn__padding-v) 0;
+  padding-left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 1rem);
+  padding-right: calc(var(--section-btn__height) / 2 + 1rem);
+  line-height: var(--section-btn__line-height);
   font-size: 1.25rem;
-  line-height: 1.5rem;
   transition: color 250ms ease;
 }
 
@@ -54,25 +87,45 @@ button {
   position: absolute;
   left: 1rem;
   font-size: 0.825rem;
-
   opacity: 0;
   animation: showProgression 250ms ease 125ms forwards;
 }
 
-.section__bullet {
-  content: '';
+.section__icon {
   position: absolute;
   top: 0;
-  left: 2rem;
-  width: 3rem;
-  height: 3rem;
-  line-height: 3rem;
+  left: var(--section__bullet-offset);
+  width: var(--section-btn__height);
+  height: var(--section-btn__height);
+  line-height: var(--section-btn__height);
   text-align: center;
-  box-sizing: border-box;
-  border-radius: 1.5rem;
-  border: 3px solid #fff;
-  background-color: #ddd;
-  transition: left 250ms ease, width 250ms ease, background-color 250ms ease, color 250ms ease;
+  font-size: 1rem;
+  transition: none;
+}
+
+.steps {
+  padding-top: var(--section__margin / 2);
+}
+
+.step {
+  position: relative;
+  padding: 0.25rem 0 0 0;
+  padding-left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 2.25rem);
+}
+
+.step__icon {
+  position: absolute;
+  left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 1rem);
+  height: 0.75rem;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.step__btn {
+  font-size: 0.875rem;
+  line-height: 1.2rem;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 250ms ease;
 }
 
 .section--current {
@@ -88,14 +141,14 @@ button {
     height: 100%;
   }
 
-  .section__bullet {
-    background-color: #4caf50;
-  }
-
   &.section--current {
     .section__btn {
       color: white;
     }
+  }
+
+  .section__bullet {
+    background-color: var(--color__valid);
   }
 
   .section__icon {
@@ -103,64 +156,21 @@ button {
   }
 }
 
-.steps {
-  padding-top: 0.75rem;
-}
-
-.step {
-  position: relative;
-  padding: 0.25rem 0 0 7rem;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: calc(0.6rem + 0.25rem - 5.5px);
-    left: calc(6rem - 5.5px);
-    width: 11px;
-    height: 11px;
-    box-sizing: border-box;
-    border-radius: 99px;
-    border: 2px solid #fff;
-    background-color: #ddd;
-    transition: background-color 250ms ease;
+.step--current {
+  .step__btn {
+    border-bottom-color: #ddd;
   }
 }
 
 .step--valid {
-  &::after {
-    background-color: #4caf50;
+  .step__icon {
+    color: green;
+    opacity: 1;
   }
-}
 
-.step__btn {
-  border-bottom: 2px solid transparent;
-  font-size: 0.875rem;
-  line-height: 1.2rem;
-
-  // Option A
-  //width: calc(100% - 1.5rem);
-  //margin-left: 1.5rem;
-  //padding: 0.25rem 1.5rem;
-
-  // Option B
-  // width: 100%;
-  // padding: 0.125rem 1.5rem 0.125rem 3rem;
-}
-
-.step--valid .step__btn {
-  // color: #4caf50;
-}
-
-.step--current .step__btn {
-  border-bottom-color: #ddd;
-}
-
-.step--valid.step--current > .step__btn {
-  border-bottom-color: #4caf50;
-}
-
-.section:not(.section--current) > .steps {
-  // display: none;
+  &.step--current .step__btn {
+    border-bottom-color: var(--color__valid);
+  }
 }
 
 @keyframes showProgression {
@@ -170,22 +180,4 @@ button {
   to {
     opacity: 1;
   }
-}
-
-.section__icon {
-  position: absolute;
-  top: 0;
-  left: 2rem;
-  width: 3rem;
-  height: 3rem;
-  line-height: 3rem;
-  text-align: center;
-  font-size: 1rem;
-
-  transition: none;
-  // border: 2px solid transparent;
-
-  // background: url(../../assets/pen-solid.svg) center center no-repeat;
-  // background-size: 0.825rem 0.825rem;
-  // filter: invert(42%) sepia(93%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
 }

@@ -58,6 +58,8 @@
           [class.step--valid]="section.offset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid"
           [class.step--current]="state.stepIndex === section.offset + relativeStepIndex"
         >
+          <form-stepper-icon icon="valid" class="step__icon"></form-stepper-icon>
+
           <button
             type="button"
             tabindex="-1"

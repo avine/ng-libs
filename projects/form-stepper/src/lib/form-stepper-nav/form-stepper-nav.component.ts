@@ -10,8 +10,8 @@ import { FormStepperService } from '../form-stepper.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('smoothHeight', [
-      transition('void => *', [style({ height: '0px', paddingTop: '0px', opacity: 0 }), animate('.25s ease-out')]),
-      transition('* => void', [animate('.25s ease-in'), style({ height: '0px', paddingTop: '0px', opacity: 0 })]),
+      transition('void => *', [style({ height: '0px', paddingTop: '0px', opacity: 0 }), animate('250ms ease-in-out')]),
+      transition('* => void', [animate('250ms ease-in-out'), style({ height: '0px', paddingTop: '0px', opacity: 0 })]),
     ]),
   ],
 })

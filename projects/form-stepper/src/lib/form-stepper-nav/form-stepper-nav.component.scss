@@ -36,7 +36,7 @@ button {
     top: calc(var(--section-btn__height) / 2);
     bottom: calc(var(--section-btn__height) / 2 + var(--section__margin));
     left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
-    border-left: var(--section__timeline-width) solid #ccc;
+    border-left: var(--section__timeline-width) solid #ddd;
   }
 }
 
@@ -66,7 +66,7 @@ button {
   text-align: center;
   box-sizing: border-box;
   border-radius: calc(var(--section-btn__height) / 2);
-  border: 3px solid #fff;
+  border: 3px solid white;
   background-color: #ddd;
   transition: left 250ms ease, width 250ms ease, background-color 250ms ease, color 250ms ease;
 }
@@ -162,13 +162,13 @@ button {
 
 .step--current {
   .step__btn {
-    border-bottom-color: #ddd;
+    border-bottom-color: #ccc;
   }
 }
 
 .step--valid {
   .step__icon {
-    color: green;
+    color: var(--color__valid);
     opacity: 1;
   }
 

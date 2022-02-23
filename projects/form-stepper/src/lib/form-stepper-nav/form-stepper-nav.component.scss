@@ -1,17 +1,11 @@
 button {
-  // Reset
   display: block;
+  padding: 0;
   border: none;
   background: none;
   text-align: left;
-  color: inherit;
   font-family: inherit;
   font-size: 100%;
-
-  // Custom
-  line-height: 1.5rem;
-  border-radius: 1.25rem;
-  transition: border-color 125ms ease, background-color 125ms ease, color 125ms ease;
 
   &:not([disabled]) {
     cursor: pointer;
@@ -24,39 +18,68 @@ button {
   &::before {
     content: '';
     position: absolute;
-    top: 1.25rem;
-    bottom: 2.25rem;
-    left: 0;
+    top: 1.5rem;
+    bottom: calc(1.5rem + 1.5rem); // padding-bottom entre les ".section"
+    left: calc(3.5rem - 1.5px);
     border-left: 3px solid #ccc;
   }
 }
 
 .section {
   position: relative;
-  padding: 0 0 1rem 0.75rem;
+  padding-bottom: 1.5rem;
 
   &:not(.section--last)::before {
     content: '';
     position: absolute;
-    top: 1.25rem;
-    left: 0;
-    border-left: 4px solid #4caf50;
+    top: 1.5rem;
+    left: calc(3.5rem - 1.5px);
+    border-left: 3px solid #4caf50;
     height: 0%;
     transition: height 250ms ease;
   }
+}
 
-  &::after {
-    content: '';
-    position: absolute;
-    top: calc(1.25rem - 8px);
-    left: -8px;
-    width: 19px;
-    height: 19px;
-    box-sizing: border-box;
-    border-radius: 99px;
-    border: 2px solid #fff;
-    background-color: #ccc;
-    transition: background-color 250ms ease;
+.section__btn {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 0.75rem 1.5rem 0.75rem 6rem;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  transition: color 250ms ease;
+}
+
+.section__progression {
+  position: absolute;
+  left: 1rem;
+  font-size: 0.825rem;
+
+  opacity: 0;
+  animation: showProgression 250ms ease 125ms forwards;
+}
+
+.section__bullet {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 2rem;
+  width: 3rem;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: 1.5rem;
+  border: 3px solid #fff;
+  background-color: #ddd;
+  transition: left 250ms ease, width 250ms ease, background-color 250ms ease, color 250ms ease;
+}
+
+.section--current {
+  .section__bullet {
+    left: 0;
+    width: 100%;
+    background-color: #eee;
   }
 }
 
@@ -65,38 +88,36 @@ button {
     height: 100%;
   }
 
-  &::after {
+  .section__bullet {
     background-color: #4caf50;
+  }
+
+  &.section--current {
+    .section__btn {
+      color: white;
+    }
+  }
+
+  .section__icon {
+    color: white;
   }
 }
 
-.section__btn {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0.5rem 1.5rem;
-  font-size: 1.25rem;
+.steps {
+  padding-top: 0.75rem;
 }
-
-.section__progression {
-  padding-left: 0.5rem;
-  font-size: 0.825rem;
-}
-
-// .steps {}
 
 .step {
   position: relative;
-  padding-top: 0.25rem;
+  padding: 0.25rem 0 0 7rem;
 
   &::after {
     content: '';
     position: absolute;
-    top: calc(1.25rem - 6px);
-    left: calc(-0.75rem - 5px);
-    width: 13px;
-    height: 13px;
+    top: calc(0.6rem + 0.25rem - 5.5px);
+    left: calc(6rem - 5.5px);
+    width: 11px;
+    height: 11px;
     box-sizing: border-box;
     border-radius: 99px;
     border: 2px solid #fff;
@@ -112,41 +133,59 @@ button {
 }
 
 .step__btn {
-  border: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   font-size: 0.875rem;
+  line-height: 1.2rem;
 
   // Option A
-  /*width: calc(100% - 1.5rem);
-  margin-left: 1.5rem;
-  padding: 0.25rem 1.5rem;*/
+  //width: calc(100% - 1.5rem);
+  //margin-left: 1.5rem;
+  //padding: 0.25rem 1.5rem;
 
   // Option B
-  width: 100%;
-  padding: 0.125rem 1.5rem 0.125rem 3rem;
+  // width: 100%;
+  // padding: 0.125rem 1.5rem 0.125rem 3rem;
 }
 
-.section--valid,
-.step--valid {
-  color: #4caf50;
-}
-
-.section--current .section__btn {
-  background-color: #eee;
-}
-
-.section--valid.section--current > .section__btn {
-  background-color: #4caf50;
-  color: white;
+.step--valid .step__btn {
+  // color: #4caf50;
 }
 
 .step--current .step__btn {
-  border: 1px solid #ddd;
+  border-bottom-color: #ddd;
 }
 
 .step--valid.step--current > .step__btn {
-  border: 1px solid #4caf50;
+  border-bottom-color: #4caf50;
 }
 
 .section:not(.section--current) > .steps {
-  display: none;
+  // display: none;
+}
+
+@keyframes showProgression {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.section__icon {
+  position: absolute;
+  top: 0;
+  left: 2rem;
+  width: 3rem;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  font-size: 1rem;
+
+  transition: none;
+  // border: 2px solid transparent;
+
+  // background: url(../../assets/pen-solid.svg) center center no-repeat;
+  // background-size: 0.825rem 0.825rem;
+  // filter: invert(42%) sepia(93%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
 }

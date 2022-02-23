@@ -5,12 +5,18 @@
     [class.section--valid]="state.maxStepIndexViewed >= 0"
     [class.section--current]="state.stepIndex === -1"
   >
+    <span class="section__bullet"></span>
+
     <button
       type="button"
       tabindex="-1"
       class="section__btn"
       (click)="navigateByStepIndex($event, state.onboardingInfo.index)"
     >
+      <span class="section__icon">
+        <form-stepper-icon [icon]="state.maxStepIndexViewed >= 0 ? 'valid' : 'invalid'"></form-stepper-icon>
+      </span>
+
       {{ state.onboardingInfo.title }}
     </button>
   </div>
@@ -22,6 +28,8 @@
     [class.section--current]="state.sectionIndex === sectionIndex"
     [class.section--last]="!state.summaryInfo && isLastSectionIndex"
   >
+    <span class="section__bullet"></span>
+
     <button
       type="button"
       tabindex="-1"
@@ -29,31 +37,39 @@
       [disabled]="section.offset > state.maxStepIndexViewed && section.steps[0].control.pristine"
       (click)="navigateByStepIndex($event, section.offset)"
     >
-      {{ section.title }}
-
       <span *ngIf="state.sectionProgression && state.sectionIndex === sectionIndex" class="section__progression">
         {{ state.sectionProgression.count }}/{{ state.sectionProgression.total }}
       </span>
+
+      <span class="section__icon">
+        <form-stepper-icon
+          [icon]="section.offset <= state.maxStepIndexViewed && section.control.valid ? 'valid' : 'invalid'"
+        ></form-stepper-icon>
+      </span>
+
+      {{ section.title }}
     </button>
 
-    <div *ngIf="section.steps.length >= 2" class="steps">
-      <div
-        *ngFor="let step of section.steps; let relativeStepIndex = index"
-        class="step"
-        [class.step--valid]="section.offset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid"
-        [class.step--current]="state.stepIndex === section.offset + relativeStepIndex"
-      >
-        <button
-          type="button"
-          tabindex="-1"
-          class="step__btn"
-          [disabled]="section.offset + relativeStepIndex >= state.maxStepIndexViewed && step.control.pristine"
-          (click)="navigateByStepIndex($event, section.offset + relativeStepIndex)"
+    <ng-container *ngIf="state.sectionIndex === sectionIndex">
+      <div *ngIf="section.steps.length >= 2" class="steps" @smoothHeight>
+        <div
+          *ngFor="let step of section.steps; let relativeStepIndex = index"
+          class="step"
+          [class.step--valid]="section.offset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid"
+          [class.step--current]="state.stepIndex === section.offset + relativeStepIndex"
         >
-          {{ step.title }}
-        </button>
+          <button
+            type="button"
+            tabindex="-1"
+            class="step__btn"
+            [disabled]="section.offset + relativeStepIndex > state.maxStepIndexViewed && step.control.pristine"
+            (click)="navigateByStepIndex($event, section.offset + relativeStepIndex)"
+          >
+            {{ step.title }}
+          </button>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 
   <div
@@ -62,6 +78,8 @@
     [class.section--valid]="state.allStepsViewed"
     [class.section--current]="state.stepIndex === state.lastStepIndex"
   >
+    <span class="section__bullet"></span>
+
     <button
       type="button"
       tabindex="-1"
@@ -69,6 +87,10 @@
       [disabled]="!state.allStepsViewed"
       (click)="navigateByStepIndex($event, state.summaryInfo.index)"
     >
+      <span class="section__icon">
+        <form-stepper-icon [icon]="state.allStepsViewed ? 'valid' : 'invalid'"></form-stepper-icon>
+      </span>
+
       {{ state.summaryInfo.title }}
     </button>
   </div>

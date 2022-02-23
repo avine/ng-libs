@@ -7,6 +7,8 @@ export * from './lib/form-stepper.module';
 export * from './lib/form-stepper.token';
 export * from './lib/form-stepper.types';
 
+export * from './lib/form-stepper-container/form-stepper-container.component';
+export * from './lib/form-stepper-icon/form-stepper-icon.component';
 export * from './lib/form-stepper-main/form-stepper-main.component';
 export * from './lib/form-stepper-nav/form-stepper-nav.component';
 export * from './lib/form-stepper-quicknav/form-stepper-quicknav.component';

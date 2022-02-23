@@ -26,6 +26,10 @@
 
     <span class="value">{{ getValue(step.control) }}</span>
 
-    <button type="button" tabindex="-1" (click)="navigateByStepIndex(step.stepIndex)">Update</button>
+    <form-stepper-icon
+      icon="invalid"
+      style="height: 0.75rem; cursor: pointer; padding: 0.5rem"
+      (click)="navigateByStepIndex(step.stepIndex)"
+    ></form-stepper-icon>
   </div>
 </ng-template>

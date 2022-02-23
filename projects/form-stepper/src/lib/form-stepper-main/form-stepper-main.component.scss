@@ -1,7 +1,13 @@
-.title {
-  margin-top: 1rem;
-}
+.form-stepper-main {
+  &__prev {
+    // TODO
+  }
 
-.main {
-  margin-bottom: 1.5rem;
+  &__title {
+    margin-top: 1rem;
+  }
+
+  &__content {
+    margin-bottom: 1.5rem;
+  }
 }

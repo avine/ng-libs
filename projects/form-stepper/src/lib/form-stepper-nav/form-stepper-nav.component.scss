@@ -1,4 +1,4 @@
-:host {
+.form-stepper-nav {
   --color__valid: #4caf50;
   // TODO: missing other colors...
 
@@ -7,173 +7,171 @@
   --section__timeline-offset: 3.5rem;
 
   --section-btn__line-height: 1.5rem;
-  --section-btn__padding-v: 0.75rem;
+  --section-btn__padding-v: 1.25rem;
 
   --section-btn__height: calc(var(--section-btn__line-height) + var(--section-btn__padding-v) * 2);
   --section__bullet-offset: calc(var(--section__timeline-offset) - var(--section-btn__height) / 2);
-}
 
-button {
-  display: block;
-  padding: 0;
-  border: none;
-  background: none;
-  text-align: left;
-  font-family: inherit;
-  font-size: 100%;
+  // reset
+  &-section__btn,
+  &-step__btn {
+    display: block;
+    padding: 0;
+    border: none;
+    background: none;
+    text-align: left;
+    font-family: inherit;
+    font-size: 100%;
 
-  &:not([disabled]) {
-    cursor: pointer;
-  }
-}
-
-.sections {
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: calc(var(--section-btn__height) / 2);
-    bottom: calc(var(--section-btn__height) / 2 + var(--section__margin));
-    left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
-    border-left: var(--section__timeline-width) solid #ddd;
-  }
-}
-
-.section {
-  position: relative;
-  padding-bottom: var(--section__margin);
-
-  &:not(.section--last)::before {
-    content: '';
-    position: absolute;
-    top: calc(var(--section-btn__height) / 2);
-    left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
-    border-left: var(--section__timeline-width) solid var(--color__valid);
-    height: 0%;
-    transition: height 250ms ease;
-  }
-}
-
-.section__bullet {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: var(--section__bullet-offset);
-  width: var(--section-btn__height);
-  height: var(--section-btn__height);
-  line-height: var(--section-btn__height);
-  text-align: center;
-  box-sizing: border-box;
-  border-radius: calc(var(--section-btn__height) / 2);
-  border: 3px solid white;
-  background-color: #ddd;
-  transition: left 250ms ease, width 250ms ease, background-color 250ms ease, color 250ms ease;
-}
-
-.section__btn {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-
-  padding: var(--section-btn__padding-v) 0;
-  padding-left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 1rem);
-  padding-right: calc(var(--section-btn__height) / 2 + 1rem);
-  line-height: var(--section-btn__line-height);
-  font-size: 1.25rem;
-  transition: color 250ms ease;
-}
-
-.section__progression {
-  position: absolute;
-  left: 1rem;
-  font-size: 0.825rem;
-  opacity: 0;
-  animation: showProgression 250ms ease 125ms forwards;
-}
-
-.section__icon {
-  position: absolute;
-  top: 0;
-  left: var(--section__bullet-offset);
-  width: var(--section-btn__height);
-  height: var(--section-btn__height);
-  line-height: var(--section-btn__height);
-  text-align: center;
-  font-size: 1rem;
-  transition: none;
-}
-
-.steps {
-  padding-top: calc(var(--section__margin) / 2);
-}
-
-.step {
-  position: relative;
-  padding-left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 2.25rem);
-
-  & + & {
-    padding-top: 0.5rem;
-  }
-}
-
-.step__icon {
-  position: absolute;
-  left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 1rem);
-  height: 0.75rem;
-  opacity: 0;
-  transition: opacity 250ms ease;
-}
-
-.step__btn {
-  font-size: 0.875rem;
-  line-height: 1.2rem;
-  border-bottom: 2px solid transparent;
-  transition: border-bottom 250ms ease;
-}
-
-.section--current {
-  .section__bullet {
-    left: 0;
-    width: 100%;
-    background-color: #eee;
-  }
-}
-
-.section--valid {
-  &:not(.section--last)::before {
-    height: 100%;
+    &:not([disabled]) {
+      cursor: pointer;
+    }
   }
 
-  &.section--current {
-    .section__btn {
+  &-sections {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: calc(var(--section-btn__height) / 2);
+      bottom: calc(var(--section-btn__height) / 2 + var(--section__margin));
+      left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
+      border-left: var(--section__timeline-width) solid #ddd;
+    }
+  }
+
+  &-section {
+    position: relative;
+    padding-bottom: var(--section__margin);
+
+    &:not(&--last)::before {
+      content: '';
+      position: absolute;
+      top: calc(var(--section-btn__height) / 2);
+      left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
+      border-left: var(--section__timeline-width) solid var(--color__valid);
+      height: 0%;
+      transition: height 250ms ease;
+    }
+
+    &__bullet {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: var(--section__bullet-offset);
+      width: var(--section-btn__height);
+      height: var(--section-btn__height);
+      line-height: var(--section-btn__height);
+      text-align: center;
+      box-sizing: border-box;
+      border-radius: calc(var(--section-btn__height) / 2);
+      border: 4px solid white;
+      background-color: #ddd;
+      transition: left 250ms ease, width 250ms ease, background-color 250ms ease, color 250ms ease;
+    }
+
+    &__btn {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding: var(--section-btn__padding-v) 0;
+      padding-left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 1rem);
+      padding-right: calc(var(--section-btn__height) / 2 + 1rem);
+      line-height: var(--section-btn__line-height);
+      font-size: 1.25rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      transition: color 250ms ease;
+    }
+
+    &__progression {
+      position: absolute;
+      left: 1rem;
+      font-size: 0.825rem;
+      opacity: 0;
+      animation: showProgression 250ms ease 125ms forwards;
+    }
+
+    &__icon {
+      position: absolute;
+      top: 0;
+      left: var(--section__bullet-offset);
+      width: var(--section-btn__height);
+      height: var(--section-btn__height);
+      line-height: var(--section-btn__height);
+      text-align: center;
+      font-size: 1rem;
+      transition: none;
+    }
+  }
+
+  &-steps {
+    padding-top: calc(var(--section__margin) / 2);
+  }
+
+  &-step {
+    position: relative;
+    padding-left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 2.5rem);
+
+    & + & {
+      padding-top: 0.75rem;
+    }
+
+    &__icon {
+      position: absolute;
+      left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 1rem);
+      height: 0.75rem;
+      opacity: 0;
+      transition: opacity 250ms ease;
+    }
+
+    &__btn {
+      font-size: 0.875rem;
+      line-height: 1.2rem;
+      border-bottom: 2px solid transparent;
+      transition: border-bottom 250ms ease;
+    }
+  }
+
+  &-section {
+    &--current &__bullet {
+      left: 0;
+      width: 100%;
+      background-color: #eee;
+    }
+
+    &--valid:not(&--last)::before {
+      height: 100%;
+    }
+
+    &--valid#{&}--current &__btn {
+      color: white;
+    }
+
+    &--valid &__bullet {
+      background-color: var(--color__valid);
+    }
+
+    &--valid &__icon {
       color: white;
     }
   }
 
-  .section__bullet {
-    background-color: var(--color__valid);
-  }
+  &-step {
+    &--current &__btn {
+      border-bottom-color: #ccc;
+    }
 
-  .section__icon {
-    color: white;
-  }
-}
+    &--valid &__icon {
+      color: var(--color__valid);
+      opacity: 1;
+    }
 
-.step--current {
-  .step__btn {
-    border-bottom-color: #ccc;
-  }
-}
-
-.step--valid {
-  .step__icon {
-    color: var(--color__valid);
-    opacity: 1;
-  }
-
-  &.step--current .step__btn {
-    border-bottom-color: var(--color__valid);
+    &--valid#{&}--current &__btn {
+      border-bottom-color: var(--color__valid);
+    }
   }
 }
 

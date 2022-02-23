@@ -4,7 +4,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
+  HostBinding,
   Input,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -18,9 +20,12 @@ import { FormStepperService } from '../form-stepper.service';
   templateUrl: './form-stepper-container.component.html',
   styleUrls: ['./form-stepper-container.component.scss'],
   providers: [FormStepperService],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormStepperContainerComponent implements AfterContentInit, AfterViewInit {
+  @HostBinding('class.form-stepper-container') hasClass = true;
+
   @Input() formStepperRoot!: FormGroup;
 
   @ContentChild(FormStepperSubmitDirective) submitDirective!: FormStepperSubmitDirective;

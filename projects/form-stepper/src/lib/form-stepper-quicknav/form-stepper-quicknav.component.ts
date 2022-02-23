@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators';
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 
 import { FormStepperService } from '../form-stepper.service';
@@ -9,9 +9,12 @@ import { FormStepperService } from '../form-stepper.service';
   selector: 'form-stepper-quicknav',
   templateUrl: './form-stepper-quicknav.component.html',
   styleUrls: ['./form-stepper-quicknav.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormStepperQuicknavComponent {
+  @HostBinding('class.form-stepper-quicknav') hasClass = true;
+
   @Input() formStepperHideSections = false;
 
   nav$ = this.service.state$.pipe(map(({ nav }) => nav));

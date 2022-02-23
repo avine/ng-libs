@@ -1,13 +1,13 @@
-// .sections {}
+.form-stepper-quicknav {
+  &__section {
+    margin: 0 0 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+  }
 
-.section {
-  margin: 0 0 1.5rem 0;
-  padding: 1rem 1.5rem;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-}
-
-.value {
-  margin-left: 0.5rem;
+  &__value {
+    margin-left: 0.5rem;
+  }
 }

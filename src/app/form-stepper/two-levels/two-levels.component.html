@@ -1,3 +1,5 @@
+<button (click)="show = !show">{{ show ? 'OUI' : 'NON' }}</button>
+
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()" style="padding: 1.5rem">
   <form-stepper-container [formStepperRoot]="formGroup">
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
@@ -13,7 +15,17 @@
     </ng-template>
 
     <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
-      <ng-template [formStepperStep]="firstName" formStepperTitle="First name" formStepperPath="first-name">
+      <ng-template [formStepperStep]="gender" formStepperTitle="Gender" formStepperPath="gender">
+        Gender:<br />
+        <input [formControl]="gender" formStepperControl />
+      </ng-template>
+
+      <ng-template
+        *ngIf="show"
+        [formStepperStep]="firstName"
+        formStepperTitle="First name"
+        formStepperPath="first-name"
+      >
         First name:<br />
         <input [formControl]="firstName" formStepperControl />
       </ng-template>
@@ -32,7 +44,7 @@
     </ng-container>
 
     <ng-container [formStepperSection]="address" formStepperTitle="Address">
-      <ng-template [formStepperStep]="street" formStepperTitle="Street" formStepperPath="street">
+      <ng-template *ngIf="show" [formStepperStep]="street" formStepperTitle="Street" formStepperPath="street">
         Street:<br />
         <input [formControl]="street" formStepperControl />
       </ng-template>

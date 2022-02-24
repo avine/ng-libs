@@ -62,6 +62,8 @@ export class FormStepperService implements OnDestroy {
 
   private pathSubscription!: Subscription;
 
+  private currentPath: string | null = null;
+
   private get firstStepIndex() {
     return this.onboarding ? -1 : 0;
   }
@@ -99,6 +101,7 @@ export class FormStepperService implements OnDestroy {
         if (!this.steps.length) {
           return;
         }
+        this.currentPath = currentPath;
         this.handlePath(currentPath);
       });
   }
@@ -107,8 +110,26 @@ export class FormStepperService implements OnDestroy {
     this.pathSubscription?.unsubscribe();
   }
 
-  addStep(step: FormStepperStep) {
-    this.steps.push(step);
+  addSteps(steps: FormStepperStep[]) {
+    this.steps.push(...steps);
+  }
+
+  replaceSteps(sectionIndex: number, newSteps: FormStepperStep[]) {
+    const { offset, steps: oldSteps } = this.nav[sectionIndex];
+
+    this.steps.splice(offset, oldSteps.length, ...newSteps);
+    this.steps = [...this.steps];
+
+    this.nav[sectionIndex] = { ...this.nav[sectionIndex], steps: newSteps };
+
+    const offsetShift = newSteps.length - oldSteps.length;
+    for (let i = sectionIndex + 1; i < this.nav.length; i++) {
+      this.nav[i] = {
+        ...this.nav[i],
+        offset: this.nav[i].offset + offsetShift,
+        steps: this.nav[i].steps.map((step) => ({ ...step, stepIndex: step.stepIndex + offsetShift })),
+      };
+    }
   }
 
   addNavSection(section: FormStepperNavSection) {
@@ -163,6 +184,10 @@ export class FormStepperService implements OnDestroy {
 
   nextStep() {
     this.navigateByStepIndex(this.stepIndex + 1);
+  }
+
+  refreshCurrentStep() {
+    this.handlePath(this.currentPath);
   }
 
   private handlePath(path: string | null) {

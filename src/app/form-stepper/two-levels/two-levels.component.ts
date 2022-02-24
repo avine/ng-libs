@@ -8,8 +8,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TwoLevelsComponent {
+  show = true;
+
   formGroup = this.formBuilder.group({
     fullName: this.formBuilder.group({
+      gender: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
     }),
@@ -26,6 +29,7 @@ export class TwoLevelsComponent {
   });
 
   fullName = this.formGroup.get('fullName') as FormGroup;
+  gender = this.formGroup.get('fullName')?.get('gender') as FormControl;
   firstName = this.formGroup.get('fullName')?.get('firstName') as FormControl;
   lastName = this.formGroup.get('fullName')?.get('lastName') as FormControl;
 

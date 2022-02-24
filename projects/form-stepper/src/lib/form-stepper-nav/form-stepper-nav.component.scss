@@ -68,7 +68,7 @@
       border-radius: calc(var(--section-btn__height) / 2);
       border: 4px solid white;
       background-color: #ddd;
-      transition: left 250ms ease, width 250ms ease, background-color 250ms ease, color 250ms ease;
+      transition: left 250ms ease, width 250ms ease, background-color 250ms ease;
     }
 
     &__btn {
@@ -108,20 +108,22 @@
   }
 
   &-steps {
-    padding-top: calc(var(--section__margin) / 2);
+    // Check `@smoothHeight` animation to understand why we use this `padding-top`.
+    padding-top: calc(var(--section__margin) * 2 / 3);
   }
 
   &-step {
     position: relative;
-    padding-left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 2.5rem);
+    padding-left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 1rem);
 
     & + & {
-      padding-top: 0.75rem;
+      // Check `@smoothHeight` animation to understand why we don't target the first element.
+      padding-top: calc(var(--section__margin) * 2 / 3);
     }
 
     &__icon {
       position: absolute;
-      left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 1rem);
+      left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 - 0.5rem);
       height: 0.75rem;
       opacity: 0;
       transition: opacity 250ms ease;

@@ -8,7 +8,7 @@ export interface FormStepperTranslations {
   no: string;
 }
 
-export const DEFAULT_TRANSLATIONS: FormStepperTranslations = {
+export const FORM_STEPPER_DEFAULT_TRANSLATIONS: FormStepperTranslations = {
   prev: 'Previous',
   next: 'Next',
   submit: 'Submit',

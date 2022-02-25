@@ -11,7 +11,7 @@ import { FormStepperExtraPage, FormStepperNavSection, FormStepperState, FormStep
 
 @Injectable()
 export class FormStepperService implements OnDestroy {
-  steps: FormStepperStep[] = [];
+  private steps: FormStepperStep[] = [];
 
   private stepIndex!: number;
 
@@ -25,7 +25,7 @@ export class FormStepperService implements OnDestroy {
 
   private stepSubscription!: Subscription;
 
-  nav: FormStepperNavSection[] = [];
+  private nav: FormStepperNavSection[] = [];
 
   onboarding!: FormStepperExtraPage;
 
@@ -109,6 +109,21 @@ export class FormStepperService implements OnDestroy {
 
   ngOnDestroy() {
     this.pathSubscription?.unsubscribe();
+  }
+
+  getNewIndexes() {
+    return { sectionIndex: this.nav.length, stepIndexOffset: this.steps.length };
+  }
+
+  findExistingIndexes(formStepperSection: FormGroup) {
+    const sectionIndex = this.nav.findIndex((navSection) => navSection.control === formStepperSection);
+    const stepIndexOffset = this.nav[sectionIndex].offset;
+    return { sectionIndex, stepIndexOffset };
+  }
+
+  resetIndexes() {
+    this.steps = [];
+    this.nav = [];
   }
 
   addSteps(steps: FormStepperStep[]) {

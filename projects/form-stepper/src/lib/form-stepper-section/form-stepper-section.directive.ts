@@ -24,8 +24,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   constructor(private service: FormStepperService) {}
 
   register() {
-    const sectionIndex = this.service.nav.length;
-    const stepIndexOffset = this.service.steps.length;
+    const { sectionIndex, stepIndexOffset } = this.service.getNewIndexes();
     const steps = this.getSteps(sectionIndex, stepIndexOffset);
 
     this.service.addSteps(steps);
@@ -48,8 +47,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   }
 
   private updateSteps() {
-    const sectionIndex = this.service.nav.findIndex((navSection) => navSection.control === this.formStepperSection);
-    const stepIndexOffset = this.service.nav[sectionIndex].offset;
+    const { sectionIndex, stepIndexOffset } = this.service.findExistingIndexes(this.formStepperSection);
     const newSteps = this.getSteps(sectionIndex, stepIndexOffset);
     this.service.replaceSteps(sectionIndex, newSteps);
     this.service.refreshCurrentStep();

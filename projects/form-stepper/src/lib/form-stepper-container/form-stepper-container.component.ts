@@ -73,8 +73,7 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
   }
 
   private updateSections() {
-    this.service.steps = [];
-    this.service.nav = [];
+    this.service.resetIndexes();
     this.sectionDirectiveQueryList.forEach((section) => section.register());
     this.service.refreshCurrentStep();
   }

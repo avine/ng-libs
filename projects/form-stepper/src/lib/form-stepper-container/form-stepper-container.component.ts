@@ -46,7 +46,7 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
 
   translations = this.service.translations;
 
-  sectionsSubscription!: Subscription;
+  private sectionsSubscription!: Subscription;
 
   constructor(private service: FormStepperService) {}
 
@@ -68,7 +68,7 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
     setTimeout(() => this.service.init(), 0);
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.sectionsSubscription?.unsubscribe();
   }
 

@@ -32,7 +32,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
     this.service.addNavSection({
       title: this.formStepperTitle,
       control: this.formStepperSection,
-      stepIndexOffset: stepIndexOffset,
+      stepIndexOffset,
       steps,
       hasQuicknav: !this.formStepperNoQuicknav,
     });

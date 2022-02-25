@@ -117,7 +117,7 @@ export class FormStepperService implements OnDestroy {
 
   findExistingIndexes(formStepperSection: FormGroup) {
     const sectionIndex = this.nav.findIndex((navSection) => navSection.control === formStepperSection);
-    const stepIndexOffset = this.nav[sectionIndex].stepIndexOffset;
+    const { stepIndexOffset } = this.nav[sectionIndex];
     return { sectionIndex, stepIndexOffset };
   }
 
@@ -139,7 +139,7 @@ export class FormStepperService implements OnDestroy {
 
     const stepsLengthDelta = newSteps.length - oldSteps.length;
     for (let i = sectionIndex + 1; i < this.nav.length; i++) {
-      this.nav[i].stepIndexOffset = this.nav[i].stepIndexOffset + stepsLengthDelta;
+      this.nav[i].stepIndexOffset += stepsLengthDelta;
       for (const step of this.nav[i].steps) {
         step.stepIndex += stepsLengthDelta;
       }

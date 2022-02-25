@@ -24,7 +24,9 @@
   <div
     *ngFor="let section of state.nav; let sectionIndex = index; let isLastSectionIndex = last"
     class="form-stepper-nav-section"
-    [class.form-stepper-nav-section--valid]="section.offset <= state.maxStepIndexViewed && section.control.valid"
+    [class.form-stepper-nav-section--valid]="
+      section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid
+    "
     [class.form-stepper-nav-section--current]="state.sectionIndex === sectionIndex"
     [class.form-stepper-nav-section--last]="!state.summaryInfo && isLastSectionIndex"
   >
@@ -34,8 +36,8 @@
       type="button"
       tabindex="-1"
       class="form-stepper-nav-section__btn"
-      [disabled]="section.offset > state.maxStepIndexViewed && section.steps[0].control.pristine"
-      (click)="navigateByStepIndex($event, section.offset)"
+      [disabled]="section.stepIndexOffset > state.maxStepIndexViewed && section.steps[0].control.pristine"
+      (click)="navigateByStepIndex($event, section.stepIndexOffset)"
     >
       <span
         *ngIf="state.sectionProgression && state.sectionIndex === sectionIndex"
@@ -46,7 +48,7 @@
 
       <span class="form-stepper-nav-section__icon">
         <form-stepper-icon
-          [icon]="section.offset <= state.maxStepIndexViewed && section.control.valid ? 'check' : 'edit'"
+          [icon]="section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid ? 'check' : 'edit'"
         ></form-stepper-icon>
       </span>
 
@@ -59,9 +61,9 @@
           *ngFor="let step of section.steps; let relativeStepIndex = index"
           class="form-stepper-nav-step"
           [class.form-stepper-nav-step--valid]="
-            section.offset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid
+            section.stepIndexOffset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid
           "
-          [class.form-stepper-nav-step--current]="state.stepIndex === section.offset + relativeStepIndex"
+          [class.form-stepper-nav-step--current]="state.stepIndex === section.stepIndexOffset + relativeStepIndex"
         >
           <form-stepper-icon icon="checkCircle" class="form-stepper-nav-step__icon"></form-stepper-icon>
 
@@ -69,8 +71,8 @@
             type="button"
             tabindex="-1"
             class="form-stepper-nav-step__btn"
-            [disabled]="section.offset + relativeStepIndex > state.maxStepIndexViewed && step.control.pristine"
-            (click)="navigateByStepIndex($event, section.offset + relativeStepIndex)"
+            [disabled]="section.stepIndexOffset + relativeStepIndex > state.maxStepIndexViewed && step.control.pristine"
+            (click)="navigateByStepIndex($event, section.stepIndexOffset + relativeStepIndex)"
           >
             {{ step.title }}
           </button>

@@ -117,7 +117,7 @@ export class FormStepperService implements OnDestroy {
 
   findExistingIndexes(formStepperSection: FormGroup) {
     const sectionIndex = this.nav.findIndex((navSection) => navSection.control === formStepperSection);
-    const stepIndexOffset = this.nav[sectionIndex].offset;
+    const stepIndexOffset = this.nav[sectionIndex].stepIndexOffset;
     return { sectionIndex, stepIndexOffset };
   }
 
@@ -131,19 +131,19 @@ export class FormStepperService implements OnDestroy {
   }
 
   replaceSteps(sectionIndex: number, newSteps: FormStepperStep[]) {
-    const { offset, steps: oldSteps } = this.nav[sectionIndex];
+    const { stepIndexOffset, steps: oldSteps } = this.nav[sectionIndex];
 
-    this.steps.splice(offset, oldSteps.length, ...newSteps);
+    this.steps.splice(stepIndexOffset, oldSteps.length, ...newSteps);
     this.steps = [...this.steps];
 
     this.nav[sectionIndex] = { ...this.nav[sectionIndex], steps: newSteps };
 
-    const offsetShift = newSteps.length - oldSteps.length;
+    const stepIndexOffsetDelta = newSteps.length - oldSteps.length;
     for (let i = sectionIndex + 1; i < this.nav.length; i++) {
       this.nav[i] = {
         ...this.nav[i],
-        offset: this.nav[i].offset + offsetShift,
-        steps: this.nav[i].steps.map((step) => ({ ...step, stepIndex: step.stepIndex + offsetShift })),
+        stepIndexOffset: this.nav[i].stepIndexOffset + stepIndexOffsetDelta,
+        steps: this.nav[i].steps.map((step) => ({ ...step, stepIndex: step.stepIndex + stepIndexOffsetDelta })),
       };
     }
   }

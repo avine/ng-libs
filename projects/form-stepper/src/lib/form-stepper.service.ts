@@ -134,17 +134,15 @@ export class FormStepperService implements OnDestroy {
     const { stepIndexOffset, steps: oldSteps } = this.nav[sectionIndex];
 
     this.steps.splice(stepIndexOffset, oldSteps.length, ...newSteps);
-    this.steps = [...this.steps];
 
     this.nav[sectionIndex] = { ...this.nav[sectionIndex], steps: newSteps };
 
-    const stepIndexOffsetDelta = newSteps.length - oldSteps.length;
+    const stepsLengthDelta = newSteps.length - oldSteps.length;
     for (let i = sectionIndex + 1; i < this.nav.length; i++) {
-      this.nav[i] = {
-        ...this.nav[i],
-        stepIndexOffset: this.nav[i].stepIndexOffset + stepIndexOffsetDelta,
-        steps: this.nav[i].steps.map((step) => ({ ...step, stepIndex: step.stepIndex + stepIndexOffsetDelta })),
-      };
+      this.nav[i].stepIndexOffset = this.nav[i].stepIndexOffset + stepsLengthDelta;
+      for (const step of this.nav[i].steps) {
+        step.stepIndex += stepsLengthDelta;
+      }
     }
   }
 

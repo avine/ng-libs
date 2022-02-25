@@ -1,16 +1,22 @@
+import { Subscription } from 'rxjs';
+
 import {
   AfterContentInit,
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
+  ContentChildren,
   HostBinding,
   Input,
+  OnDestroy,
+  QueryList,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FormStepperOnboardingDirective } from '../form-stepper-onboarding/form-stepper-onboarding.directive';
+import { FormStepperSectionDirective } from '../form-stepper-section/form-stepper-section.directive';
 import { FormStepperSubmitDirective } from '../form-stepper-submit/form-stepper-submit.directive';
 import { FormStepperSummaryDirective } from '../form-stepper-summary/form-stepper-summary.directive';
 import { FormStepperService } from '../form-stepper.service';
@@ -23,7 +29,7 @@ import { FormStepperService } from '../form-stepper.service';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormStepperContainerComponent implements AfterContentInit, AfterViewInit {
+export class FormStepperContainerComponent implements AfterContentInit, AfterViewInit, OnDestroy {
   @HostBinding('class.form-stepper-container') hasClass = true;
 
   @Input() formStepperRoot!: FormGroup;
@@ -34,9 +40,13 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
 
   @ContentChild(FormStepperSummaryDirective) summaryDirective!: FormStepperSummaryDirective;
 
+  @ContentChildren(FormStepperSectionDirective) sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
+
   state$ = this.service.state$;
 
   translations = this.service.translations;
+
+  sectionsSubscription!: Subscription;
 
   constructor(private service: FormStepperService) {}
 
@@ -49,9 +59,23 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
       const { formStepperTitle: title, formStepperPath: path, templateRef } = this.summaryDirective;
       this.service.summary = { title, path, templateRef };
     }
+
+    this.sectionDirectiveQueryList.forEach((section) => section.register());
+    this.sectionsSubscription = this.sectionDirectiveQueryList.changes.subscribe(() => this.updateSections());
   }
 
   ngAfterViewInit() {
     setTimeout(() => this.service.init(), 0);
+  }
+
+  ngOnDestroy(): void {
+    this.sectionsSubscription?.unsubscribe();
+  }
+
+  private updateSections() {
+    this.service.steps = [];
+    this.service.nav = [];
+    this.sectionDirectiveQueryList.forEach((section) => section.register());
+    this.service.refreshCurrentStep();
   }
 }

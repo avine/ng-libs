@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 
-import { AfterViewInit, ContentChildren, Directive, Input, OnDestroy, QueryList } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, Input, OnDestroy, QueryList } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FormStepperStepDirective } from '../form-stepper-step/form-stepper-step.directive';
@@ -10,7 +10,7 @@ import { FormStepperStep } from '../form-stepper.types';
 @Directive({
   selector: '[formStepperSection]',
 })
-export class FormStepperSectionDirective implements AfterViewInit, OnDestroy {
+export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {
   @Input() formStepperSection!: FormGroup;
 
   @Input() formStepperTitle!: string;
@@ -23,7 +23,7 @@ export class FormStepperSectionDirective implements AfterViewInit, OnDestroy {
 
   constructor(private service: FormStepperService) {}
 
-  ngAfterViewInit() {
+  register() {
     const sectionIndex = this.service.nav.length;
     const stepIndexOffset = this.service.steps.length;
     const steps = this.getSteps(sectionIndex, stepIndexOffset);
@@ -37,7 +37,9 @@ export class FormStepperSectionDirective implements AfterViewInit, OnDestroy {
       steps,
       hasQuicknav: !this.formStepperNoQuicknav,
     });
+  }
 
+  ngAfterContentInit() {
     this.stepsSubscription = this.stepDirectiveQueryList.changes.subscribe(() => this.updateSteps());
   }
 

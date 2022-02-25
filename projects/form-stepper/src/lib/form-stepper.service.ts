@@ -53,7 +53,8 @@ export class FormStepperService implements OnDestroy {
     map((state): string => {
       if (state.stepIndex === state.onboardingInfo?.index) {
         return state.onboardingInfo?.title;
-      } else if (state.stepIndex === state.summaryInfo?.index) {
+      }
+      if (state.stepIndex === state.summaryInfo?.index) {
         return state.summaryInfo?.title;
       }
       return state.nav[state.sectionIndex]?.title;

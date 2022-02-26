@@ -163,6 +163,12 @@ export class FormStepperService implements OnDestroy {
   }
 
   navigateByStepIndex(stepIndex: number) {
+    if (!this.currentPath || !this.router.url.match(`/${this.currentPath}`)) {
+      // Back to homepage when unable to identify the current path
+      this.router.navigate(['/']);
+      return;
+    }
+
     const nextStepIndex = this.getCheckedStepIndex(stepIndex);
     let nextPath: string;
     if (nextStepIndex === -1) {
@@ -173,23 +179,7 @@ export class FormStepperService implements OnDestroy {
       nextPath = this.steps[nextStepIndex].path;
     }
 
-    // Do the best to identify the current path
-    let currentPath: string | undefined;
-    if (this.stepIndex !== undefined && this.router.url.match(`/${this.steps[this.stepIndex]?.path}`)) {
-      currentPath = this.steps[this.stepIndex]?.path;
-    } else if (this.onboarding && this.router.url.match(`/${this.onboarding.path}`)) {
-      currentPath = this.onboarding.path;
-    } else if (this.summary && this.router.url.match(`/${this.summary.path}`)) {
-      currentPath = this.summary.path;
-    } else {
-      currentPath = this.steps.find(({ path }) => this.router.url.match(`/${path}`))?.path;
-    }
-    if (!currentPath) {
-      // Back to homepage when unable to identify the current path
-      this.router.navigate(['/']);
-      return;
-    }
-    this.router.navigateByUrl(this.router.url.replace(`/${currentPath}`, `/${nextPath}`));
+    this.router.navigateByUrl(this.router.url.replace(`/${this.currentPath}`, `/${nextPath}`));
   }
 
   prevStep() {

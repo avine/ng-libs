@@ -125,6 +125,7 @@
       position: absolute;
       left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 - 0.5rem);
       height: 0.75rem;
+      color: var(--color__valid);
       opacity: 0;
       transition: opacity 250ms ease;
     }
@@ -167,7 +168,6 @@
     }
 
     &--valid &__icon {
-      color: var(--color__valid);
       opacity: 1;
     }
 

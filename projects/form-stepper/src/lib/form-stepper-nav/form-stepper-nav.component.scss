@@ -12,6 +12,8 @@
   --section-btn__height: calc(var(--section-btn__line-height) + var(--section-btn__padding-v) * 2);
   --section__bullet-offset: calc(var(--section__timeline-offset) - var(--section-btn__height) / 2);
 
+  --speed: 250ms;
+
   // reset
   &-section__btn,
   &-step__btn {
@@ -52,7 +54,7 @@
       left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
       border-left: var(--section__timeline-width) solid var(--color__valid);
       height: 0%;
-      transition: height 250ms ease;
+      transition: height var(--speed) ease;
     }
 
     &__bullet {
@@ -68,7 +70,7 @@
       border-radius: calc(var(--section-btn__height) / 2);
       border: 4px solid white;
       background-color: #ddd;
-      transition: left 250ms ease, width 250ms ease, background-color 250ms ease;
+      transition: left var(--speed) ease, width var(--speed) ease, background-color var(--speed) ease;
     }
 
     &__btn {
@@ -83,7 +85,7 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      transition: color 250ms ease;
+      transition: color var(--speed) ease;
     }
 
     &__progression {
@@ -91,7 +93,7 @@
       left: 1rem;
       font-size: 0.825rem;
       opacity: 0;
-      animation: showProgression 250ms ease 125ms forwards;
+      animation: showProgression var(--speed) ease calc(var(--speed) / 2) forwards;
     }
 
     &__icon {
@@ -127,14 +129,14 @@
       height: 0.75rem;
       color: var(--color__valid);
       opacity: 0;
-      transition: opacity 250ms ease;
+      transition: opacity var(--speed) ease;
     }
 
     &__btn {
       font-size: 0.875rem;
       line-height: 1.2rem;
       border-bottom: 2px solid transparent;
-      transition: border-bottom 250ms ease;
+      transition: border-bottom var(--speed) ease;
     }
   }
 

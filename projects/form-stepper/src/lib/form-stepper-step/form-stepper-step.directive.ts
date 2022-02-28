@@ -5,7 +5,12 @@ import { AbstractControl } from '@angular/forms';
   selector: '[formStepperStep]',
 })
 export class FormStepperStepDirective {
-  @Input() formStepperStep!: AbstractControl;
+  /**
+   * The `AbstractControl` of the step.
+   * If there's only one step in the section then leave empty and
+   * the `AbstractControl` of the `formStepperSection` will be used.
+   */
+  @Input() formStepperStep!: AbstractControl | '';
 
   @Input() formStepperTitle!: string;
 

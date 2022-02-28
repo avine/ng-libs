@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 
 import { FormStepperService } from '../form-stepper.service';
 
@@ -24,14 +24,15 @@ export class FormStepperQuicknavComponent {
   constructor(private service: FormStepperService) {}
 
   getValue(control: AbstractControl) {
-    if (control instanceof FormGroup) {
-      return Object.values(control.value)
-        .map((value) => this.format(value))
-        .join(', ');
-    } else if (control instanceof FormArray) {
-      return control.value.map((value: any) => this.format(value)).join(', ');
+    if (control instanceof FormControl) {
+      return this.format(control.value);
     }
-    return this.format(control.value);
+    const values =
+      control instanceof FormGroup ? Object.values(control.value) : ((control as FormArray).value as unknown[]);
+    return values
+      .filter((value) => !!value)
+      .map((value) => this.format(value))
+      .join(', ');
   }
 
   private format(value: any): string {

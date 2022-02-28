@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 
 import { AfterContentInit, ContentChildren, Directive, Input, OnDestroy, QueryList } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 import { FormStepperStepDirective } from '../form-stepper-step/form-stepper-step.directive';
 import { FormStepperService } from '../form-stepper.service';
@@ -11,7 +11,7 @@ import { FormStepperStep } from '../form-stepper.types';
   selector: '[formStepperSection]',
 })
 export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {
-  @Input() formStepperSection!: FormGroup;
+  @Input() formStepperSection!: AbstractControl;
 
   @Input() formStepperTitle!: string;
 
@@ -57,9 +57,9 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
     return this.stepDirectiveQueryList.map(
       ({ formStepperTitle, formStepperPath, formStepperStep, templateRef }, relativeStepIndex) => {
         const step: FormStepperStep = {
-          title: formStepperTitle,
+          title: formStepperTitle ?? this.formStepperTitle,
           path: formStepperPath,
-          control: formStepperStep,
+          control: formStepperStep || this.formStepperSection,
           templateRef,
           sectionIndex,
           stepIndex: stepIndexOffset + relativeStepIndex,

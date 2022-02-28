@@ -1,15 +1,5 @@
 import { TemplateRef } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
-
-export interface FormStepperStep {
-  title: string;
-  path: string;
-  control: AbstractControl;
-  templateRef: TemplateRef<any>;
-  sectionIndex: number;
-  sectionProgression?: FormStepperSectionProgression;
-  stepIndex: number;
-}
+import { AbstractControl } from '@angular/forms';
 
 export interface FormStepperState {
   sectionIndex: number;
@@ -26,15 +16,27 @@ export interface FormStepperState {
   nav: FormStepperNavSection[];
 }
 
+export interface FormStepperNavSection {
+  title: string;
+  control: AbstractControl;
+  stepIndexOffset: number;
+  steps: FormStepperStep[];
+  hasQuicknav: boolean;
+}
+
+export interface FormStepperStep {
+  title: string;
+  path: string;
+  control: AbstractControl;
+  templateRef: TemplateRef<any>;
+  sectionIndex: number;
+  sectionProgression?: FormStepperSectionProgression;
+  stepIndex: number;
+}
+
 export interface FormStepperSectionProgression {
   count: number;
   total: number;
-}
-
-export interface FormStepperExtraPage {
-  title: string;
-  path: string;
-  templateRef: TemplateRef<any>;
 }
 
 export interface FormStepperExtraPageInfo {
@@ -42,10 +44,8 @@ export interface FormStepperExtraPageInfo {
   index: number;
 }
 
-export interface FormStepperNavSection {
+export interface FormStepperExtraPage {
   title: string;
-  control: FormGroup;
-  stepIndexOffset: number;
-  steps: FormStepperStep[];
-  hasQuicknav: boolean;
+  path: string;
+  templateRef: TemplateRef<any>;
 }

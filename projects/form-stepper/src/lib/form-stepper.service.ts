@@ -2,7 +2,7 @@ import { BehaviorSubject, ReplaySubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FORM_STEPPER_PATH_PARAM } from './form-stepper.config';
@@ -81,6 +81,9 @@ export class FormStepperService implements OnDestroy {
     if (control instanceof FormGroup && Object.values(control.value).some((value) => !!value)) {
       return false;
     }
+    if (control instanceof FormArray && (control.value as unknown[]).some((value) => !!value)) {
+      return false;
+    }
     if (control instanceof FormControl && !!control.value) {
       return false;
     }
@@ -115,7 +118,7 @@ export class FormStepperService implements OnDestroy {
     return { sectionIndex: this.nav.length, stepIndexOffset: this.steps.length };
   }
 
-  findExistingIndexes(formStepperSection: FormGroup) {
+  findExistingIndexes(formStepperSection: AbstractControl) {
     const sectionIndex = this.nav.findIndex((navSection) => navSection.control === formStepperSection);
     const { stepIndexOffset } = this.nav[sectionIndex];
     return { sectionIndex, stepIndexOffset };

@@ -1,15 +1,12 @@
 <form-stepper-main class="form-stepper-container__main">
   <ng-container *ngIf="state$ | async as state">
-    <ng-container *ngIf="state.stepIndex === state.lastStepIndex && formStepperRoot.valid; else next">
-      <ng-container
-        *ngIf="submitDirective?.templateRef; else defaultSubmit"
-        [ngTemplateOutlet]="submitDirective.templateRef"
-      ></ng-container>
-
-      <ng-template #defaultSubmit>
-        <button type="submit">{{ translations.submit }}</button>
-      </ng-template>
-    </ng-container>
+    <button
+      *ngIf="state.stepIndex === state.lastStepIndex && formStepperRoot.valid; else next"
+      type="submit"
+      [disabled]="formStepperDisabled"
+    >
+      {{ translations.submit }}
+    </button>
 
     <ng-template #next>
       <button type="button" tabindex="-1" formStepperNext>{{ translations.next }}</button>

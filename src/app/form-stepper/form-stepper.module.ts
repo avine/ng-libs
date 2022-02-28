@@ -8,6 +8,7 @@ import { FormStepperRoutingModule } from './form-stepper-routing.module';
 import { OneLevelComponent } from './one-level/one-level.component';
 import { SimpleComponent } from './simple/simple.component';
 import { TwoLevelsComponent } from './two-levels/two-levels.component';
+import { OneLevelBisComponent } from './one-level-bis/one-level-bis.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import { TwoLevelsComponent } from './two-levels/two-levels.component';
       no: 'Non',
     }),
   ],
-  declarations: [CustomComponent, OneLevelComponent, TwoLevelsComponent, SimpleComponent],
+  declarations: [CustomComponent, OneLevelComponent, TwoLevelsComponent, SimpleComponent, OneLevelBisComponent],
 })
 export class FormStepperModule {}

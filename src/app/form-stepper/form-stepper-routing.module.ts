@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FORM_STEPPER_PATH_PARAM } from '@avine/ng-form-stepper';
 
 import { CustomComponent } from './custom/custom.component';
+import { OneLevelBisComponent } from './one-level-bis/one-level-bis.component';
 import { OneLevelComponent } from './one-level/one-level.component';
 import { SimpleComponent } from './simple/simple.component';
 import { TwoLevelsComponent } from './two-levels/two-levels.component';
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: `one-level/:${FORM_STEPPER_PATH_PARAM}`,
     component: OneLevelComponent,
+  },
+  {
+    path: `one-level-bis/:${FORM_STEPPER_PATH_PARAM}`,
+    component: OneLevelBisComponent,
   },
   {
     path: `two-levels/:${FORM_STEPPER_PATH_PARAM}`,

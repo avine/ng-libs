@@ -57,7 +57,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
     return this.stepDirectiveQueryList.map(
       ({ formStepperTitle, formStepperPath, formStepperStep, templateRef }, relativeStepIndex) => {
         const step: FormStepperStep = {
-          title: formStepperTitle ?? this.formStepperTitle,
+          title: formStepperTitle || this.formStepperTitle,
           path: formStepperPath,
           control: formStepperStep || this.formStepperSection,
           templateRef,

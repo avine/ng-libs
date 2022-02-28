@@ -13,7 +13,6 @@ import { FormStepperPrevDirective } from './form-stepper-prev/form-stepper-prev.
 import { FormStepperQuicknavComponent } from './form-stepper-quicknav/form-stepper-quicknav.component';
 import { FormStepperSectionDirective } from './form-stepper-section/form-stepper-section.directive';
 import { FormStepperStepDirective } from './form-stepper-step/form-stepper-step.directive';
-import { FormStepperSubmitDirective } from './form-stepper-submit/form-stepper-submit.directive';
 import { FormStepperSummaryDirective } from './form-stepper-summary/form-stepper-summary.directive';
 import { FORM_STEPPER_DEFAULT_TRANSLATIONS, provideFormStepperTranslations } from './form-stepper.token';
 
@@ -33,7 +32,6 @@ const directives = [
   FormStepperPrevDirective,
   FormStepperSectionDirective,
   FormStepperStepDirective,
-  FormStepperSubmitDirective,
   FormStepperSummaryDirective,
 ];
 

@@ -1,0 +1,33 @@
+<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+  <form-stepper-container [formStepperRoot]="formGroup">
+    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+      <p>Welcome!</p>
+    </ng-template>
+
+    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary">
+      <form-stepper-quicknav [formStepperHideSections]="true"></form-stepper-quicknav>
+    </ng-template>
+
+    <ng-container [formStepperSection]="firstName" formStepperTitle="First name">
+      <ng-template formStepperStep formStepperPath="first-name">
+        <input [formControl]="firstName" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="lastName" formStepperTitle="Last name">
+      <ng-template formStepperStep formStepperPath="last-name">
+        <input [formControl]="lastName" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container [formStepperSection]="array" formStepperTitle="Array">
+      <ng-template formStepperStep formStepperPath="array">
+        Array item 0<br />
+        <input [formControl]="item0" formStepperControl />
+        <br /><br />
+        Array item 1<br />
+        <input [formControl]="item1" formStepperControl />
+      </ng-template>
+    </ng-container>
+  </form-stepper-container>
+</form>

@@ -1,11 +1,7 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <form-stepper-container [formStepperRoot]="formGroup">
+  <form-stepper-container [formStepperRoot]="formGroup" [formStepperDisabled]="submitInProgress">
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
       <p>Simple form stepper with quicknav in the last step.</p>
-    </ng-template>
-
-    <ng-template formStepperSubmit>
-      <button type="submit" [disabled]="submitInProgress">Submit</button>
     </ng-template>
 
     <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">

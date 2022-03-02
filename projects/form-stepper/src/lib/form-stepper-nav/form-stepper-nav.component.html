@@ -13,9 +13,11 @@
       class="form-stepper-nav-section__btn"
       (click)="navigateByStepIndex($event, state.onboardingInfo.index)"
     >
-      <span class="form-stepper-nav-section__icon">
-        <form-stepper-icon [icon]="state.maxStepIndexViewed >= 0 ? 'check' : 'edit'"></form-stepper-icon>
-      </span>
+      <form-stepper-section-icon
+        class="form-stepper-nav-section__icon"
+        [formStepperIcon]="state.onboardingInfo.icon"
+        [formStepperIsValid]="state.maxStepIndexViewed >= 0"
+      ></form-stepper-section-icon>
 
       {{ state.onboardingInfo.title }}
     </button>
@@ -46,11 +48,11 @@
         {{ state.sectionProgression.count }}/{{ state.sectionProgression.total }}
       </span>
 
-      <span class="form-stepper-nav-section__icon">
-        <form-stepper-icon
-          [icon]="section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid ? 'check' : 'edit'"
-        ></form-stepper-icon>
-      </span>
+      <form-stepper-section-icon
+        class="form-stepper-nav-section__icon"
+        [formStepperIcon]="section.icon"
+        [formStepperIsValid]="section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid"
+      ></form-stepper-section-icon>
 
       {{ section.title }}
     </button>
@@ -96,9 +98,11 @@
       [disabled]="!state.allStepsViewed"
       (click)="navigateByStepIndex($event, state.summaryInfo.index)"
     >
-      <span class="form-stepper-nav-section__icon">
-        <form-stepper-icon [icon]="state.allStepsViewed ? 'check' : 'edit'"></form-stepper-icon>
-      </span>
+      <form-stepper-section-icon
+        class="form-stepper-nav-section__icon"
+        [formStepperIcon]="state.summaryInfo.icon"
+        [formStepperIsValid]="state.allStepsViewed"
+      ></form-stepper-section-icon>
 
       {{ state.summaryInfo.title }}
     </button>

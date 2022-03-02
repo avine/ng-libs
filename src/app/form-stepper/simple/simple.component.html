@@ -1,10 +1,19 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <form-stepper-container [formStepperRoot]="formGroup" [formStepperDisabled]="submitInProgress">
-    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+  <form-stepper-container
+    [formStepperRoot]="formGroup"
+    [formStepperValidSectionIcon]="validIcon"
+    [formStepperDisabled]="submitInProgress"
+  >
+    <ng-template
+      formStepperOnboarding
+      formStepperTitle="Onboarding"
+      [formStepperIcon]="onboardingIcon"
+      formStepperPath="onboarding"
+    >
       <p>Simple form stepper with quicknav in the last step.</p>
     </ng-template>
 
-    <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
+    <ng-container [formStepperSection]="fullName" formStepperTitle="Full name" [formStepperIcon]="fullNameIcon">
       <ng-template [formStepperStep]="firstName" formStepperTitle="First name" formStepperPath="first-name">
         First name:<br />
         <input [formControl]="firstName" formStepperControl />
@@ -31,6 +40,10 @@
     </ng-container>
   </form-stepper-container>
 </form>
+
+<ng-template #onboardingIcon><fa-icon [icon]="faUser"></fa-icon></ng-template>
+<ng-template #fullNameIcon><fa-icon [icon]="faCoffee"></fa-icon></ng-template>
+<ng-template #validIcon><fa-icon [icon]="faAddressCard"></fa-icon></ng-template>
 
 <pre style="width: 400px; margin: auto">Value: {{ formGroup.value | json }}</pre>
 

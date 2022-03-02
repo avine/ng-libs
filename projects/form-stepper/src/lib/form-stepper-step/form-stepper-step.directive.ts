@@ -16,5 +16,5 @@ export class FormStepperStepDirective {
 
   @Input() formStepperPath!: string;
 
-  constructor(public templateRef: TemplateRef<any>) {}
+  constructor(public template: TemplateRef<any>) {}
 }

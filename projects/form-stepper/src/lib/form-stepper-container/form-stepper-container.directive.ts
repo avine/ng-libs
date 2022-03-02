@@ -6,14 +6,17 @@ import {
   ContentChild,
   ContentChildren,
   Directive,
+  Input,
   OnDestroy,
   QueryList,
+  TemplateRef,
 } from '@angular/core';
 
 import { FormStepperOnboardingDirective } from '../form-stepper-onboarding/form-stepper-onboarding.directive';
 import { FormStepperSectionDirective } from '../form-stepper-section/form-stepper-section.directive';
 import { FormStepperSummaryDirective } from '../form-stepper-summary/form-stepper-summary.directive';
 import { FormStepperService } from '../form-stepper.service';
+import { FormStepperExtraPage } from '../form-stepper.types';
 
 @Directive({
   selector: '[formStepperContainer]',
@@ -21,6 +24,8 @@ import { FormStepperService } from '../form-stepper.service';
   exportAs: 'formStepper',
 })
 export class FormStepperContainerDirective implements AfterContentInit, AfterViewInit, OnDestroy {
+  @Input() formStepperValidSectionIcon!: TemplateRef<any>;
+
   @ContentChild(FormStepperOnboardingDirective) onboardingDirective!: FormStepperOnboardingDirective;
 
   @ContentChild(FormStepperSummaryDirective) summaryDirective!: FormStepperSummaryDirective;
@@ -42,13 +47,13 @@ export class FormStepperContainerDirective implements AfterContentInit, AfterVie
   constructor(private service: FormStepperService) {}
 
   ngAfterContentInit() {
+    this.service.validSectionIcon = this.formStepperValidSectionIcon;
+
     if (this.onboardingDirective) {
-      const { formStepperTitle: title, formStepperPath: path, templateRef } = this.onboardingDirective;
-      this.service.onboarding = { title, path, templateRef };
+      this.service.onboarding = this.getExtraPage(this.onboardingDirective);
     }
     if (this.summaryDirective) {
-      const { formStepperTitle: title, formStepperPath: path, templateRef } = this.summaryDirective;
-      this.service.summary = { title, path, templateRef };
+      this.service.summary = this.getExtraPage(this.summaryDirective);
     }
 
     this.sectionDirectiveQueryList.forEach((section) => section.register());
@@ -61,6 +66,15 @@ export class FormStepperContainerDirective implements AfterContentInit, AfterVie
 
   ngOnDestroy() {
     this.sectionsSubscription?.unsubscribe();
+  }
+
+  private getExtraPage({
+    formStepperTitle: title,
+    formStepperIcon: icon,
+    formStepperPath: path,
+    template,
+  }: FormStepperOnboardingDirective | FormStepperSummaryDirective): FormStepperExtraPage {
+    return { title, icon, path, template };
   }
 
   private updateSections() {

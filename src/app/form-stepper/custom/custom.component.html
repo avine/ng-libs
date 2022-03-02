@@ -1,5 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <ng-container formStepperContainer #formStepper="formStepper">
+  <ng-container formStepperContainer [formStepperValidSectionIcon]="validSectionIcon" #formStepper="formStepper">
     <div style="display: flex; padding: 2rem">
       <div style="flex-grow: 1">
         <h3 *ngIf="formStepper.sectionTitle$ | async as sectionTitle">{{ sectionTitle }}</h3>
@@ -24,14 +24,19 @@
         </div>
       </div>
 
-      <form-stepper-nav style="width: 240px; margin-left: 3rem"></form-stepper-nav>
+      <form-stepper-nav style="width: 320px; margin-left: 3rem"></form-stepper-nav>
     </div>
 
-    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+    <ng-template
+      formStepperOnboarding
+      formStepperTitle="Onboarding"
+      [formStepperIcon]="onboardingIcon"
+      formStepperPath="onboarding"
+    >
       <p>Custom form stepper.</p>
     </ng-template>
 
-    <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
+    <ng-container [formStepperSection]="fullName" [formStepperIcon]="fullNameIcon" formStepperTitle="Full name">
       <ng-template [formStepperStep]="firstName" formStepperTitle="First name" formStepperPath="first-name">
         First name:<br />
         <input [formControl]="firstName" formStepperControl />
@@ -58,5 +63,9 @@
     </ng-container>
   </ng-container>
 </form>
+
+<ng-template #validSectionIcon><fa-icon [icon]="faCoffee"></fa-icon></ng-template>
+<ng-template #onboardingIcon><fa-icon [icon]="faUser"></fa-icon></ng-template>
+<ng-template #fullNameIcon><fa-icon [icon]="faAddressCard"></fa-icon></ng-template>
 
 <pre style="width: 400px; margin: auto">Value: {{ formGroup.value | json }}</pre>

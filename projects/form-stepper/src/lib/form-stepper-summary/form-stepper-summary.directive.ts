@@ -6,7 +6,9 @@ import { Directive, Input, TemplateRef } from '@angular/core';
 export class FormStepperSummaryDirective {
   @Input() formStepperTitle!: string;
 
+  @Input() formStepperIcon!: TemplateRef<any>;
+
   @Input() formStepperPath!: string;
 
-  constructor(public templateRef: TemplateRef<any>) {}
+  constructor(public template: TemplateRef<any>) {}
 }

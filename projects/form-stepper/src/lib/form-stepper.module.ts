@@ -11,6 +11,7 @@ import { FormStepperNextDirective } from './form-stepper-next/form-stepper-next.
 import { FormStepperOnboardingDirective } from './form-stepper-onboarding/form-stepper-onboarding.directive';
 import { FormStepperPrevDirective } from './form-stepper-prev/form-stepper-prev.directive';
 import { FormStepperQuicknavComponent } from './form-stepper-quicknav/form-stepper-quicknav.component';
+import { FormStepperSectionIconComponent } from './form-stepper-section-icon/form-stepper-section-icon.component';
 import { FormStepperSectionDirective } from './form-stepper-section/form-stepper-section.directive';
 import { FormStepperStepDirective } from './form-stepper-step/form-stepper-step.directive';
 import { FormStepperSummaryDirective } from './form-stepper-summary/form-stepper-summary.directive';
@@ -22,6 +23,7 @@ const components = [
   FormStepperMainComponent,
   FormStepperNavComponent,
   FormStepperQuicknavComponent,
+  FormStepperSectionIconComponent,
 ];
 
 const directives = [

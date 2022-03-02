@@ -27,6 +27,8 @@ export class FormStepperService implements OnDestroy {
 
   private nav: FormStepperNavSection[] = [];
 
+  validSectionIcon!: TemplateRef<any>;
+
   onboarding!: FormStepperExtraPage;
 
   summary!: FormStepperExtraPage;
@@ -235,7 +237,7 @@ export class FormStepperService implements OnDestroy {
 
     if (path === this.onboarding?.path) {
       this.stepIndex = -1;
-      this._stepTemplate$.next(this.onboarding.templateRef);
+      this._stepTemplate$.next(this.onboarding.template);
       this._state$.next({
         sectionIndex: -1,
         stepIndex: -1,
@@ -246,7 +248,7 @@ export class FormStepperService implements OnDestroy {
       });
     } else if (path === this.summary?.path) {
       this.stepIndex = this.steps.length;
-      this._stepTemplate$.next(this.summary.templateRef);
+      this._stepTemplate$.next(this.summary.template);
       this._state$.next({
         sectionIndex: this.nav.length,
         stepIndex: this.steps.length,
@@ -267,7 +269,7 @@ export class FormStepperService implements OnDestroy {
 
     const step = this.steps[this.stepIndex];
 
-    this._stepTemplate$.next(step.templateRef);
+    this._stepTemplate$.next(step.template);
 
     const updateState = (isStepValid: boolean) => {
       this._state$.next({
@@ -304,8 +306,12 @@ export class FormStepperService implements OnDestroy {
       lastStepIndex: this.lastStepIndex,
       maxStepIndexViewed: this.maxStepIndexViewed,
       allStepsViewed: this.allStepsViewed,
-      onboardingInfo: this.onboarding ? { title: this.onboarding.title, index: -1 } : undefined,
-      summaryInfo: this.summary ? { title: this.summary.title, index: this.steps.length } : undefined,
+      onboardingInfo: this.onboarding
+        ? { title: this.onboarding.title, icon: this.onboarding.icon, index: -1 }
+        : undefined,
+      summaryInfo: this.summary
+        ? { title: this.summary.title, icon: this.summary.icon, index: this.steps.length }
+        : undefined,
       nav: [...this.nav],
     };
   }

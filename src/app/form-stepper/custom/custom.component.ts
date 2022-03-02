@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { faCoffee, faAddressCard, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-custom',
@@ -31,6 +32,10 @@ export class CustomComponent {
   cgu = this.formGroup.get('consent')?.get('cgu') as FormControl;
 
   submitInProgress = false;
+
+  faCoffee = faCoffee;
+  faAddressCard = faAddressCard;
+  faUser = faUser;
 
   constructor(private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
 

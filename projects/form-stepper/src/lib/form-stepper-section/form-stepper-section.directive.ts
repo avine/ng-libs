@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 
-import { AfterContentInit, ContentChildren, Directive, Input, OnDestroy, QueryList } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, Input, OnDestroy, QueryList, TemplateRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 import { FormStepperStepDirective } from '../form-stepper-step/form-stepper-step.directive';
@@ -14,6 +14,8 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   @Input() formStepperSection!: AbstractControl;
 
   @Input() formStepperTitle!: string;
+
+  @Input() formStepperIcon!: TemplateRef<any>;
 
   @Input() formStepperNoQuicknav!: boolean;
 
@@ -31,6 +33,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
     this.service.addNavSection({
       title: this.formStepperTitle,
+      icon: this.formStepperIcon,
       control: this.formStepperSection,
       stepIndexOffset,
       steps,
@@ -55,12 +58,12 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   private getSteps(sectionIndex: number, stepIndexOffset: number) {
     return this.stepDirectiveQueryList.map(
-      ({ formStepperTitle, formStepperPath, formStepperStep, templateRef }, relativeStepIndex) => {
+      ({ formStepperTitle, formStepperPath, formStepperStep, template }, relativeStepIndex) => {
         const step: FormStepperStep = {
           title: formStepperTitle || this.formStepperTitle,
           path: formStepperPath,
           control: formStepperStep || this.formStepperSection,
-          templateRef,
+          template,
           sectionIndex,
           stepIndex: stepIndexOffset + relativeStepIndex,
         };

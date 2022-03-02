@@ -1,11 +1,20 @@
 <ng-container [ngSwitch]="formStepperHideSections">
   <ng-container *ngSwitchCase="false">
     <ng-container *ngIf="nav$ | async as nav">
-      <div *ngFor="let section of nav" class="form-stepper-quicknav__section">
-        <h3 *ngIf="section.hasQuicknav">{{ section.title }}</h3>
+      <ng-container *ngFor="let section of nav">
+        <div *ngIf="section.hasQuicknav" class="form-stepper-quicknav__section">
+          <h3>
+            <form-stepper-section-icon
+              [formStepperIcon]="section.icon"
+              [formStepperIsValid]="!section.icon"
+            ></form-stepper-section-icon>
 
-        <ng-container [ngTemplateOutlet]="steps" [ngTemplateOutletContext]="{ steps: section.steps }"></ng-container>
-      </div>
+            {{ section.title }}
+          </h3>
+
+          <ng-container [ngTemplateOutlet]="steps" [ngTemplateOutletContext]="{ steps: section.steps }"></ng-container>
+        </div>
+      </ng-container>
     </ng-container>
   </ng-container>
 

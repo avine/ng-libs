@@ -11,6 +11,7 @@ import {
   Input,
   OnDestroy,
   QueryList,
+  TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -19,6 +20,7 @@ import { FormStepperOnboardingDirective } from '../form-stepper-onboarding/form-
 import { FormStepperSectionDirective } from '../form-stepper-section/form-stepper-section.directive';
 import { FormStepperSummaryDirective } from '../form-stepper-summary/form-stepper-summary.directive';
 import { FormStepperService } from '../form-stepper.service';
+import { FormStepperExtraPage } from '../form-stepper.types';
 
 @Component({
   selector: 'form-stepper-container',
@@ -32,6 +34,8 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
   @HostBinding('class.form-stepper-container') hasClass = true;
 
   @Input() formStepperRoot!: FormGroup;
+
+  @Input() formStepperValidSectionIcon!: TemplateRef<any>;
 
   @Input() formStepperDisabled!: boolean;
 
@@ -50,13 +54,13 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
   constructor(private service: FormStepperService) {}
 
   ngAfterContentInit() {
+    this.service.validSectionIcon = this.formStepperValidSectionIcon;
+
     if (this.onboardingDirective) {
-      const { formStepperTitle: title, formStepperPath: path, templateRef } = this.onboardingDirective;
-      this.service.onboarding = { title, path, templateRef };
+      this.service.onboarding = this.getExtraPage(this.onboardingDirective);
     }
     if (this.summaryDirective) {
-      const { formStepperTitle: title, formStepperPath: path, templateRef } = this.summaryDirective;
-      this.service.summary = { title, path, templateRef };
+      this.service.summary = this.getExtraPage(this.summaryDirective);
     }
 
     this.sectionDirectiveQueryList.forEach((section) => section.register());
@@ -69,6 +73,15 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
 
   ngOnDestroy() {
     this.sectionsSubscription?.unsubscribe();
+  }
+
+  private getExtraPage({
+    formStepperTitle: title,
+    formStepperIcon: icon,
+    formStepperPath: path,
+    template,
+  }: FormStepperOnboardingDirective | FormStepperSummaryDirective): FormStepperExtraPage {
+    return { title, icon, path, template };
   }
 
   private updateSections() {

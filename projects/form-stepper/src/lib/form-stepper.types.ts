@@ -18,6 +18,7 @@ export interface FormStepperState {
 
 export interface FormStepperNavSection {
   title: string;
+  icon: TemplateRef<any>;
   control: AbstractControl;
   stepIndexOffset: number;
   steps: FormStepperStep[];
@@ -28,7 +29,7 @@ export interface FormStepperStep {
   title: string;
   path: string;
   control: AbstractControl;
-  templateRef: TemplateRef<any>;
+  template: TemplateRef<any>;
   sectionIndex: number;
   sectionProgression?: FormStepperSectionProgression;
   stepIndex: number;
@@ -41,11 +42,13 @@ export interface FormStepperSectionProgression {
 
 export interface FormStepperExtraPageInfo {
   title: string;
+  icon: TemplateRef<any>;
   index: number;
 }
 
 export interface FormStepperExtraPage {
   title: string;
+  icon: TemplateRef<any>;
   path: string;
-  templateRef: TemplateRef<any>;
+  template: TemplateRef<any>;
 }

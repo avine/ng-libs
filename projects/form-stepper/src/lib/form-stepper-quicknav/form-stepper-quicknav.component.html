@@ -3,8 +3,9 @@
     <ng-container *ngIf="nav$ | async as nav">
       <ng-container *ngFor="let section of nav">
         <div *ngIf="section.hasQuicknav" class="form-stepper-quicknav__section">
-          <h3>
+          <h3 class="form-stepper-quicknav__title">
             <form-stepper-section-icon
+              class="form-stepper-quicknav__icon"
               [formStepperIcon]="section.icon"
               [formStepperIsValid]="!section.icon"
             ></form-stepper-section-icon>

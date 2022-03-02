@@ -4,12 +4,15 @@
       *ngIf="state.stepIndex === state.lastStepIndex && formStepperRoot.valid; else next"
       type="submit"
       [disabled]="formStepperDisabled"
+      class="form-stepper-container__submit"
     >
       {{ translations.submit }}
     </button>
 
     <ng-template #next>
-      <button type="button" tabindex="-1" formStepperNext>{{ translations.next }}</button>
+      <button type="button" tabindex="-1" formStepperNext class="form-stepper-container__next">
+        {{ translations.next }}
+      </button>
     </ng-template>
   </ng-container>
 </form-stepper-main>

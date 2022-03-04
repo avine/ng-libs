@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormStepperModule as FormStepperLibModule } from '@avine/ng-form-stepper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { CustomMainComponent } from './custom/custom-main/custom-main.component';
 import { CustomComponent } from './custom/custom.component';
 import { FormStepperRoutingModule } from './form-stepper-routing.module';
 import { OneLevelBisComponent } from './one-level-bis/one-level-bis.component';
@@ -25,6 +26,13 @@ import { TwoLevelsComponent } from './two-levels/two-levels.component';
       no: 'Non',
     }),
   ],
-  declarations: [CustomComponent, OneLevelComponent, TwoLevelsComponent, SimpleComponent, OneLevelBisComponent],
+  declarations: [
+    CustomMainComponent,
+    CustomComponent,
+    OneLevelBisComponent,
+    OneLevelComponent,
+    SimpleComponent,
+    TwoLevelsComponent,
+  ],
 })
 export class FormStepperModule {}

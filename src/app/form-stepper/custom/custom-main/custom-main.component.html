@@ -1,0 +1,23 @@
+<div style="display: flex; padding: 2rem">
+  <div style="flex-grow: 1">
+    <h2>{{ main.sectionTitle }}</h2>
+
+    <div style="margin-bottom: 1.5rem">
+      <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
+    </div>
+
+    <div>
+      <button type="button" tabindex="-1" formStepperPrev style="margin-right: 1.5rem">Prev</button>
+
+      <ng-container *ngIf="main.isLastStep && isFormGroupValid; else next">
+        <button type="submit" [disabled]="submitInProgress">Submit</button>
+      </ng-container>
+
+      <ng-template #next>
+        <button type="button" tabindex="-1" formStepperNext>Next</button>
+      </ng-template>
+    </div>
+  </div>
+
+  <form-stepper-nav style="width: 320px; margin-left: 3rem"></form-stepper-nav>
+</div>

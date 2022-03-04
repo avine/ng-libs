@@ -52,3 +52,9 @@ export interface FormStepperExtraPage {
   path: string;
   template: TemplateRef<any>;
 }
+
+export interface FormStepperMain {
+  sectionTitle: string;
+  stepTemplate: TemplateRef<any>;
+  isLastStep: boolean;
+}

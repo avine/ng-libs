@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
 
@@ -12,9 +12,11 @@ import { FormStepperService } from '../form-stepper.service';
 export class FormStepperMainComponent {
   @HostBinding('class.form-stepper-main') hasClass = true;
 
-  sectionTitle$ = this.service.sectionTitle$;
+  @Input() isFormValid!: boolean;
 
-  stepTemplate$ = this.service.stepTemplate$;
+  @Input() isBeingSubmitted!: boolean;
+
+  main$ = this.service.main$;
 
   translations = this.service.translations;
 

@@ -1,20 +1,7 @@
-<form-stepper-main class="form-stepper-container__main">
-  <ng-container *ngIf="state$ | async as state">
-    <button
-      *ngIf="state.stepIndex === state.lastStepIndex && formStepperRoot.valid; else next"
-      type="submit"
-      [disabled]="formStepperDisabled"
-      class="form-stepper-container__submit"
-    >
-      {{ translations.submit }}
-    </button>
-
-    <ng-template #next>
-      <button type="button" tabindex="-1" formStepperNext class="form-stepper-container__next">
-        {{ translations.next }}
-      </button>
-    </ng-template>
-  </ng-container>
-</form-stepper-main>
+<form-stepper-main
+  [isFormValid]="formStepperRoot.valid"
+  [isBeingSubmitted]="formStepperDisabled"
+  class="form-stepper-container__main"
+></form-stepper-main>
 
 <form-stepper-nav class="form-stepper-container__nav"></form-stepper-nav>

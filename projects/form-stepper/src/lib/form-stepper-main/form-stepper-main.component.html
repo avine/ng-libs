@@ -1,9 +1,24 @@
-<button type="button" tabindex="-1" formStepperPrev class="form-stepper-main__prev">{{ translations.prev }}</button>
+<ng-container *ngIf="main$ | async as main">
+  <button type="button" tabindex="-1" formStepperPrev class="form-stepper-main__prev">{{ translations.prev }}</button>
 
-<h2 *ngIf="sectionTitle$ | async as sectionTitle" class="form-stepper-main__title">{{ sectionTitle }}</h2>
+  <h2 class="form-stepper-main__title">{{ main.sectionTitle }}</h2>
 
-<div class="form-stepper-main__content">
-  <ng-container *ngIf="stepTemplate$ | async as stepTemplate" [ngTemplateOutlet]="stepTemplate"></ng-container>
-</div>
+  <div class="form-stepper-main__content">
+    <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
+  </div>
 
-<ng-content></ng-content>
+  <button
+    *ngIf="main.isLastStep && isFormValid; else next"
+    type="submit"
+    [disabled]="isBeingSubmitted"
+    class="form-stepper-main__submit"
+  >
+    {{ translations.submit }}
+  </button>
+
+  <ng-template #next>
+    <button type="button" tabindex="-1" formStepperNext class="form-stepper-main__next">
+      {{ translations.next }}
+    </button>
+  </ng-template>
+</ng-container>

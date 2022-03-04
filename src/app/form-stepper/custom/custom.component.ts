@@ -37,7 +37,7 @@ export class CustomComponent {
   faAddressCard = faAddressCard;
   faUser = faUser;
 
-  constructor(private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   submitForm() {
     if (this.formGroup.invalid) {
@@ -47,7 +47,6 @@ export class CustomComponent {
     console.log('Submitting', JSON.stringify(this.formGroup.value, undefined, 2));
     setTimeout(() => {
       this.submitInProgress = false;
-      this.changeDetectorRef.detectChanges();
     }, 1000);
   }
 }

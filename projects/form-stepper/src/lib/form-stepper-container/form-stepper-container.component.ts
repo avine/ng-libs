@@ -45,10 +45,6 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
 
   @ContentChildren(FormStepperSectionDirective) sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
 
-  state$ = this.service.state$;
-
-  translations = this.service.translations;
-
   private sectionsSubscription!: Subscription;
 
   constructor(private service: FormStepperService) {}

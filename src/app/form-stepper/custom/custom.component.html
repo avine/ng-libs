@@ -1,31 +1,11 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
   <ng-container formStepperContainer [formStepperValidSectionIcon]="validSectionIcon" #formStepper="formStepper">
-    <div style="display: flex; padding: 2rem">
-      <div style="flex-grow: 1">
-        <h3 *ngIf="formStepper.sectionTitle$ | async as sectionTitle">{{ sectionTitle }}</h3>
-
-        <div style="margin-bottom: 1.5rem">
-          <ng-container
-            *ngIf="formStepper.stepTemplate$ | async as stepTemplate"
-            [ngTemplateOutlet]="stepTemplate"
-          ></ng-container>
-        </div>
-
-        <div *ngIf="formStepper.state$ | async as state">
-          <button type="button" tabindex="-1" formStepperPrev style="margin-right: 1.5rem">Prev</button>
-
-          <ng-container *ngIf="state.stepIndex === state.lastStepIndex && formGroup.valid; else next">
-            <button type="submit">Submit</button>
-          </ng-container>
-
-          <ng-template #next>
-            <button type="button" tabindex="-1" formStepperNext>Next</button>
-          </ng-template>
-        </div>
-      </div>
-
-      <form-stepper-nav style="width: 320px; margin-left: 3rem"></form-stepper-nav>
-    </div>
+    <app-custom-main
+      *ngIf="formStepper.main$ | async as main"
+      [main]="main"
+      [isFormGroupValid]="formGroup.valid"
+      [submitInProgress]="submitInProgress"
+    ></app-custom-main>
 
     <ng-template
       formStepperOnboarding

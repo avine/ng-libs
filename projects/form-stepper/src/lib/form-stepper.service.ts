@@ -1,4 +1,4 @@
-import { BehaviorSubject, ReplaySubject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
@@ -7,7 +7,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { FORM_STEPPER_PATH_PARAM } from './form-stepper.config';
 import { FORM_STEPPER_TRANSLATIONS, FormStepperTranslations } from './form-stepper.token';
-import { FormStepperExtraPage, FormStepperNavSection, FormStepperState, FormStepperStep } from './form-stepper.types';
+import {
+  FormStepperMain,
+  FormStepperExtraPage,
+  FormStepperNavSection,
+  FormStepperState,
+  FormStepperStep,
+} from './form-stepper.types';
 
 @Injectable()
 export class FormStepperService implements OnDestroy {
@@ -61,6 +67,14 @@ export class FormStepperService implements OnDestroy {
       }
       return state.nav[state.sectionIndex]?.title;
     })
+  );
+
+  main$: Observable<FormStepperMain> = combineLatest([this.sectionTitle$, this.stepTemplate$, this.state$]).pipe(
+    map(([sectionTitle, stepTemplate, state]) => ({
+      sectionTitle,
+      stepTemplate,
+      isLastStep: state.stepIndex === state.lastStepIndex,
+    }))
   );
 
   private pathSubscription!: Subscription;

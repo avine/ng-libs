@@ -32,15 +32,7 @@ export class FormStepperContainerDirective implements AfterContentInit, AfterVie
 
   @ContentChildren(FormStepperSectionDirective) sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
 
-  sectionTitle$ = this.service.sectionTitle$;
-
-  stepTemplate$ = this.service.stepTemplate$;
-
-  state$ = this.service.state$;
-
-  prevStep = this.service.prevStep.bind(this.service);
-
-  nextStep = this.service.nextStep.bind(this.service);
+  main$ = this.service.main$;
 
   private sectionsSubscription!: Subscription;
 

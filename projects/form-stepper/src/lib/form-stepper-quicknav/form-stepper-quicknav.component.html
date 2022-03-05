@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="formStepperHideSections">
+<ng-container [ngSwitch]="formStepperCompact">
   <ng-container *ngSwitchCase="false">
     <ng-container *ngIf="nav$ | async as nav">
       <ng-container *ngFor="let section of nav">

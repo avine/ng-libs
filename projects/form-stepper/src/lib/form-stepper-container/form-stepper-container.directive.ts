@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import {
   AfterContentInit,
   AfterViewInit,
+  ChangeDetectorRef,
   ContentChild,
   ContentChildren,
   Directive,
@@ -36,7 +37,7 @@ export class FormStepperContainerDirective implements AfterContentInit, AfterVie
 
   private sectionsSubscription!: Subscription;
 
-  constructor(private service: FormStepperService) {}
+  constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngAfterContentInit() {
     this.service.validSectionIcon = this.formStepperValidSectionIcon;
@@ -53,7 +54,8 @@ export class FormStepperContainerDirective implements AfterContentInit, AfterVie
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.service.init(), 0);
+    this.service.init();
+    this.changeDetectorRef.detectChanges();
   }
 
   ngOnDestroy() {

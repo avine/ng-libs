@@ -15,7 +15,7 @@ import { FormStepperService } from '../form-stepper.service';
 export class FormStepperQuicknavComponent {
   @HostBinding('class.form-stepper-quicknav') hasClass = true;
 
-  @Input() formStepperHideSections = false;
+  @Input() formStepperCompact = false;
 
   nav$ = this.service.state$.pipe(map(({ nav }) => nav));
 

@@ -4,6 +4,7 @@ import {
   AfterContentInit,
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChild,
   ContentChildren,
@@ -47,7 +48,7 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
 
   private sectionsSubscription!: Subscription;
 
-  constructor(private service: FormStepperService) {}
+  constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngAfterContentInit() {
     this.service.validSectionIcon = this.formStepperValidSectionIcon;
@@ -64,7 +65,8 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.service.init(), 0);
+    this.service.init();
+    this.changeDetectorRef.detectChanges();
   }
 
   ngOnDestroy() {

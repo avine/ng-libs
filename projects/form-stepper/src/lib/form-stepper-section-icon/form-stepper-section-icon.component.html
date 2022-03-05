@@ -1,18 +1,22 @@
 <ng-container *ngIf="formStepperIsValid; else isNotValid">
-  <ng-container
-    *ngIf="formStepperValidIcon; else defaultValidIcon"
-    [ngTemplateOutlet]="formStepperValidIcon"
-  ></ng-container>
+  <span @fadeIn>
+    <ng-container
+      *ngIf="formStepperValidIcon; else defaultValidIcon"
+      [ngTemplateOutlet]="formStepperValidIcon"
+    ></ng-container>
+  </span>
 
   <ng-template #defaultValidIcon>
-    <form-stepper-icon icon="check"></form-stepper-icon>
+    <form-stepper-icon icon="check" @fadeIn></form-stepper-icon>
   </ng-template>
 </ng-container>
 
 <ng-template #isNotValid>
-  <ng-container *ngIf="formStepperIcon; else defaultIcon" [ngTemplateOutlet]="formStepperIcon"></ng-container>
+  <span @fadeIn>
+    <ng-container *ngIf="formStepperIcon; else defaultIcon" [ngTemplateOutlet]="formStepperIcon"></ng-container>
+  </span>
 
   <ng-template #defaultIcon>
-    <form-stepper-icon icon="edit"></form-stepper-icon>
+    <form-stepper-icon icon="edit" @fadeIn></form-stepper-icon>
   </ng-template>
 </ng-template>

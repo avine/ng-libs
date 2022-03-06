@@ -4,8 +4,8 @@
 
 export * from './lib/form-stepper.config';
 export * from './lib/form-stepper.module';
-export * from './lib/form-stepper.token';
 export * from './lib/form-stepper.types';
+export * from './lib/form-stepper.utils';
 
 export * from './lib/form-stepper-container/form-stepper-container.component';
 export * from './lib/form-stepper-icon/form-stepper-icon.component';

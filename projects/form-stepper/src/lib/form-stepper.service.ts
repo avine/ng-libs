@@ -5,11 +5,11 @@ import { Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { FORM_STEPPER_PATH_PARAM } from './form-stepper.config';
-import { FORM_STEPPER_TRANSLATIONS, FormStepperTranslations } from './form-stepper.token';
+import { FORM_STEPPER_CONFIG, FORM_STEPPER_PATH_PARAM } from './form-stepper.config';
 import {
-  FormStepperMain,
+  FormStepperConfig,
   FormStepperExtraPage,
+  FormStepperMain,
   FormStepperNavSection,
   FormStepperState,
   FormStepperStep,
@@ -109,7 +109,7 @@ export class FormStepperService implements OnDestroy {
   private currentStepControlElements = new Set<HTMLElement>();
 
   constructor(
-    @Inject(FORM_STEPPER_TRANSLATIONS) public readonly translations: FormStepperTranslations,
+    @Inject(FORM_STEPPER_CONFIG) public readonly config: FormStepperConfig,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {}

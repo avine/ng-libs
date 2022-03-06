@@ -19,11 +19,19 @@ import { TwoLevelsComponent } from './two-levels/two-levels.component';
     ReactiveFormsModule,
     FontAwesomeModule,
     FormStepperLibModule.forRoot({
-      prev: 'Précédent',
-      next: 'Suivant',
-      submit: 'Valider',
-      yes: 'Oui',
-      no: 'Non',
+      translations: {
+        prev: 'Précédent',
+        next: 'Suivant',
+        submit: 'Valider',
+        yes: 'Oui',
+        no: 'Non',
+      },
+      css: {
+        sectionTitle: 'custom-section-title',
+        prev: 'custom-prev',
+        next: 'custom-next',
+        submit: 'custom-submit',
+      },
     }),
   ],
   declarations: [

@@ -36,7 +36,7 @@ export class FormStepperQuicknavComponent {
   }
 
   private format(value: any): string {
-    const { yes, no } = this.service.translations;
+    const { yes, no } = this.service.config.translations;
     switch (value) {
       case true:
         return yes;

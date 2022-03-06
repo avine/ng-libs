@@ -58,3 +58,19 @@ export interface FormStepperMain {
   stepTemplate: TemplateRef<any>;
   isLastStep: boolean;
 }
+
+export interface FormStepperConfig {
+  translations: {
+    prev: string;
+    next: string;
+    submit: string;
+    yes: string;
+    no: string;
+  };
+  css: {
+    sectionTitle: string;
+    prev: string;
+    next: string;
+    submit: string;
+  };
+}

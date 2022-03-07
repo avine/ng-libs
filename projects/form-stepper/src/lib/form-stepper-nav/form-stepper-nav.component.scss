@@ -1,7 +1,19 @@
 .form-stepper-nav {
-  --color__valid: #4caf50;
-  // TODO: missing other colors...
+  // Color
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --timeline-color: #cccccc;
+  --bullet-color: #dddddd;
 
+  --valid__bg-color: #43a047;
+  --valid__text-color: #e8f5e9;
+
+  --section-current__bg-color: #00acc1;
+  --section-current__text-color: #e0f7fa;
+
+  --step__underline-color: #aaaaaa;
+
+  // Size
   --section__margin: 1.5rem;
   --section__timeline-width: 4px;
   --section__timeline-offset: 3.5rem;
@@ -12,9 +24,10 @@
   --section-btn__height: calc(var(--section-btn__line-height) + var(--section-btn__padding-v) * 2);
   --section__bullet-offset: calc(var(--section__timeline-offset) - var(--section-btn__height) / 2);
 
+  // Animation
   --speed: 250ms;
 
-  // reset
+  // Reset
   &-section__btn,
   &-step__btn {
     display: block;
@@ -30,6 +43,8 @@
     }
   }
 
+  // ----- Blocks and Elements -----
+
   &-sections {
     position: relative;
 
@@ -39,7 +54,7 @@
       top: calc(var(--section-btn__height) / 2);
       bottom: calc(var(--section-btn__height) / 2 + var(--section__margin));
       left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
-      border-left: var(--section__timeline-width) solid #ddd;
+      border-left: var(--section__timeline-width) solid var(--timeline-color);
     }
   }
 
@@ -52,7 +67,7 @@
       position: absolute;
       top: calc(var(--section-btn__height) / 2);
       left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
-      border-left: var(--section__timeline-width) solid var(--color__valid);
+      border-left: var(--section__timeline-width) solid var(--valid__bg-color);
       height: 0%;
       transition: height var(--speed) ease;
     }
@@ -68,8 +83,8 @@
       text-align: center;
       box-sizing: border-box;
       border-radius: calc(var(--section-btn__height) / 2);
-      border: 4px solid white;
-      background-color: #ddd;
+      border: 4px solid var(--bg-color);
+      background-color: var(--bullet-color);
       transition: left var(--speed) ease, width var(--speed) ease, background-color var(--speed) ease;
     }
 
@@ -85,6 +100,7 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      color: var(--text-color);
       transition: color var(--speed) ease;
     }
 
@@ -93,7 +109,7 @@
       left: 1rem;
       font-size: 0.825rem;
       opacity: 0;
-      animation: showProgression var(--speed) ease calc(var(--speed) / 2) forwards;
+      animation: formStepperProgression var(--speed) ease calc(var(--speed) / 2) forwards;
     }
 
     &__icon {
@@ -127,7 +143,7 @@
       position: absolute;
       left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 - 0.5rem);
       height: 0.75rem;
-      color: var(--color__valid);
+      color: var(--valid__bg-color);
       opacity: 0;
       transition: opacity var(--speed) ease;
     }
@@ -135,16 +151,26 @@
     &__btn {
       font-size: 0.875rem;
       line-height: 1.2rem;
-      border-bottom: 2px solid transparent;
-      transition: border-bottom var(--speed) ease;
+      color: var(--text-color);
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.3em;
+      transition: text-decoration-color var(--speed) ease;
     }
   }
+
+  // ----- Modifiers -----
 
   &-section {
     &--current &__bullet {
       left: 0;
       width: 100%;
-      background-color: #eee;
+      background-color: var(--section-current__bg-color);
+    }
+
+    &--current &__btn {
+      color: var(--section-current__text-color);
     }
 
     &--valid:not(&--last)::before {
@@ -152,21 +178,21 @@
     }
 
     &--valid#{&}--current &__btn {
-      color: white;
+      color: var(--valid__text-color);
     }
 
     &--valid &__bullet {
-      background-color: var(--color__valid);
+      background-color: var(--valid__bg-color);
     }
 
     &--valid &__icon {
-      color: white;
+      color: var(--valid__text-color);
     }
   }
 
   &-step {
     &--current &__btn {
-      border-bottom-color: #ccc;
+      text-decoration-color: var(--step__underline-color);
     }
 
     &--valid &__icon {
@@ -174,12 +200,12 @@
     }
 
     &--valid#{&}--current &__btn {
-      border-bottom-color: var(--color__valid);
+      text-decoration-color: var(--valid__bg-color);
     }
   }
 }
 
-@keyframes showProgression {
+@keyframes formStepperProgression {
   from {
     opacity: 0;
   }

@@ -17,6 +17,7 @@
     }
 
     &:last-child {
+      margin-bottom: 1.5rem;
       border-radius: 0 0 var(--border-radius) var(--border-radius);
     }
   }

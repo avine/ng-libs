@@ -1,10 +1,10 @@
 import { trigger, transition, animate, keyframes, style } from '@angular/animations';
 
 export const sectionIconAnimations = [
-  trigger('fadeIn', [
+  trigger('fadeInOut', [
     transition('void => enabled', [
       animate(
-        '250ms ease-in',
+        '250ms ease-in-out',
         keyframes([
           style({ offset: 0, opacity: 0, position: 'absolute' }),
           style({ offset: 0.5, position: 'relative', transform: 'scaleX(0)' }),
@@ -14,7 +14,7 @@ export const sectionIconAnimations = [
     ]),
     transition('enabled => void', [
       animate(
-        '250ms ease-out',
+        '250ms ease-in-out',
         keyframes([
           style({ offset: 0, opacity: 1, transform: 'scaleX(1)' }),
           style({ offset: 0.49, opacity: 0, transform: 'scaleX(0)' }),

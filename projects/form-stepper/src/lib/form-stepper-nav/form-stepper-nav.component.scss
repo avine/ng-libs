@@ -1,9 +1,11 @@
 .form-stepper-nav {
   // Color
   --bg-color: #ffffff;
-  --text-color: #000000;
-  --timeline-color: #cccccc;
-  --bullet-color: #dddddd;
+  --timeline-color: #e1e1e1;
+  --bullet-color: #e1e1e1;
+
+  --text-color__default: #636363;
+  --text-color__valid: #222222;
 
   --valid__bg-color: #43a047;
   --valid__text-color: #e8f5e9;
@@ -11,7 +13,7 @@
   --section-current__bg-color: #00acc1;
   --section-current__text-color: #e0f7fa;
 
-  --step__underline-color: #aaaaaa;
+  --step__underline-color: #d1d1d1;
 
   // Size
   --section__margin: 1.5rem;
@@ -101,7 +103,7 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      color: var(--text-color);
+      color: var(--text-color__default);
       transition: color var(--anim-duration) ease;
     }
 
@@ -152,12 +154,12 @@
     &__btn {
       font-size: 0.875rem;
       line-height: 1.2rem;
-      color: var(--text-color);
+      color: var(--text-color__default);
       text-decoration: underline;
       text-decoration-color: transparent;
       text-decoration-thickness: 2px;
       text-underline-offset: 0.3em;
-      transition: text-decoration-color var(--anim-duration) ease;
+      transition: color var(--anim-duration) ease, text-decoration-color var(--anim-duration) ease;
     }
   }
 
@@ -171,7 +173,12 @@
     }
 
     &--current &__btn {
+      font-weight: 500;
       color: var(--section-current__text-color);
+    }
+
+    &--valid &__btn {
+      color: var(--text-color__valid);
     }
 
     &--valid:not(&--last)::before {
@@ -194,6 +201,10 @@
   &-step {
     &--current &__btn {
       text-decoration-color: var(--step__underline-color);
+    }
+
+    &--valid &__btn {
+      color: var(--text-color__valid);
     }
 
     &--valid &__icon {

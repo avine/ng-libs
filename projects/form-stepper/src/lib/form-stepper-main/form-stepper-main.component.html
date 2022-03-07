@@ -1,5 +1,5 @@
 <ng-container *ngIf="main$ | async as main">
-  <button type="button" tabindex="-1" formStepperPrev class="form-stepper-main__prev" [class]="config.css.prev">
+  <button formStepperPrev type="button" tabindex="-1" class="form-stepper-main__prev" [class]="config.css.prev">
     {{ config.translations.prev }}
   </button>
 
@@ -10,9 +10,9 @@
   </div>
 
   <button
-    *ngIf="main.isLastStep && isFormValid; else next"
+    *ngIf="main.isLastStep; else next"
     type="submit"
-    [disabled]="isBeingSubmitted"
+    [disabled]="!isFormValid || isBeingSubmitted"
     class="form-stepper-main__submit"
     [class]="config.css.submit"
   >
@@ -20,7 +20,7 @@
   </button>
 
   <ng-template #next>
-    <button type="button" tabindex="-1" formStepperNext class="form-stepper-main__next" [class]="config.css.next">
+    <button formStepperNext type="button" tabindex="-1" class="form-stepper-main__next" [class]="config.css.next">
       {{ config.translations.next }}
     </button>
   </ng-template>

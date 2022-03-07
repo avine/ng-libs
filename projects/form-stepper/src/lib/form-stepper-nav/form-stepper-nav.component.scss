@@ -25,7 +25,7 @@
   --section__bullet-offset: calc(var(--section__timeline-offset) - var(--section-btn__height) / 2);
 
   // Animation
-  --speed: 250ms;
+  --anim-duration: 250ms;
 
   // Reset
   &-section__btn,
@@ -69,7 +69,7 @@
       left: calc(var(--section__timeline-offset) - var(--section__timeline-width) / 2);
       border-left: var(--section__timeline-width) solid var(--valid__bg-color);
       height: 0%;
-      transition: height var(--speed) ease;
+      transition: height var(--anim-duration) ease;
     }
 
     &__bullet {
@@ -85,7 +85,8 @@
       border-radius: calc(var(--section-btn__height) / 2);
       border: 4px solid var(--bg-color);
       background-color: var(--bullet-color);
-      transition: left var(--speed) ease, width var(--speed) ease, background-color var(--speed) ease;
+      transition: left var(--anim-duration) ease, width var(--anim-duration) ease,
+        background-color var(--anim-duration) ease;
     }
 
     &__btn {
@@ -101,7 +102,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       color: var(--text-color);
-      transition: color var(--speed) ease;
+      transition: color var(--anim-duration) ease;
     }
 
     &__progression {
@@ -109,7 +110,7 @@
       left: 1rem;
       font-size: 0.825rem;
       opacity: 0;
-      animation: formStepperProgression var(--speed) ease calc(var(--speed) / 2) forwards;
+      animation: formStepperNavProgression var(--anim-duration) ease calc(var(--anim-duration) / 2) forwards;
     }
 
     &__icon {
@@ -145,7 +146,7 @@
       height: 0.75rem;
       color: var(--valid__bg-color);
       opacity: 0;
-      transition: opacity var(--speed) ease;
+      transition: opacity var(--anim-duration) ease;
     }
 
     &__btn {
@@ -156,7 +157,7 @@
       text-decoration-color: transparent;
       text-decoration-thickness: 2px;
       text-underline-offset: 0.3em;
-      transition: text-decoration-color var(--speed) ease;
+      transition: text-decoration-color var(--anim-duration) ease;
     }
   }
 
@@ -205,7 +206,7 @@
   }
 }
 
-@keyframes formStepperProgression {
+@keyframes formStepperNavProgression {
   from {
     opacity: 0;
   }

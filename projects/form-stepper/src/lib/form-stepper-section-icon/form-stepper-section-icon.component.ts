@@ -1,13 +1,15 @@
-import { animate, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
+import { sectionIconAnimations } from './form-stepper-section-icon.animations';
 
 @Component({
   selector: 'form-stepper-section-icon',
   templateUrl: './form-stepper-section-icon.component.html',
+  styleUrls: ['./form-stepper-section-icon.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [trigger('fadeIn', [transition('void => *', [style({ opacity: 0 }), animate('250ms ease-in-out')])])],
+  animations: sectionIconAnimations,
 })
 export class FormStepperSectionIconComponent {
   @Input() formStepperIcon!: TemplateRef<any>;

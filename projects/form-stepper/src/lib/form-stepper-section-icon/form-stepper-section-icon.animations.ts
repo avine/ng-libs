@@ -2,7 +2,7 @@ import { trigger, transition, animate, keyframes, style } from '@angular/animati
 
 export const sectionIconAnimations = [
   trigger('fadeIn', [
-    transition('void => *', [
+    transition('void => enabled', [
       animate(
         '250ms ease-in',
         keyframes([
@@ -12,7 +12,7 @@ export const sectionIconAnimations = [
         ])
       ),
     ]),
-    transition('* => void', [
+    transition('enabled => void', [
       animate(
         '250ms ease-out',
         keyframes([

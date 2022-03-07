@@ -8,6 +8,7 @@
               class="form-stepper-quicknav__icon"
               [formStepperIcon]="section.icon"
               [formStepperIsValid]="!section.icon"
+              [formStepperDisableAnimation]="true"
             ></form-stepper-section-icon>
 
             {{ section.title }}
@@ -40,7 +41,7 @@
 
     <form-stepper-icon
       icon="edit"
-      style="height: 0.75rem; cursor: pointer; padding: 0.5rem"
+      class="form-stepper-quicknav__edit"
       (click)="navigateByStepIndex(step.stepIndex)"
     ></form-stepper-icon>
   </div>

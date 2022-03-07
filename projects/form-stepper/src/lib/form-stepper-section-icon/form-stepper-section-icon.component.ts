@@ -16,6 +16,8 @@ export class FormStepperSectionIconComponent {
 
   @Input() formStepperIsValid!: boolean;
 
+  @Input() formStepperDisableAnimation = false;
+
   formStepperValidIcon = this.service.validSectionIcon;
 
   constructor(private service: FormStepperService) {}

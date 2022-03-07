@@ -1,10 +1,24 @@
 .form-stepper-quicknav {
+  --border-radius: 3px;
+  --border-color: #e7e7e7;
+  --bg-color: #f7f7f7;
+
   &__section {
-    margin: 0 0 1.5rem 0;
     padding: 1rem 1.5rem;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    background-color: #f7f7f7;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+
+    &:first-child {
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    & + & {
+      border-top: none;
+    }
+
+    &:last-child {
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+    }
   }
 
   &__title {
@@ -13,10 +27,16 @@
   }
 
   &__icon {
-    margin-right: 0.75rem;
+    margin-right: 0.5rem;
   }
 
   &__value {
     margin-left: 0.5rem;
+  }
+
+  &__edit {
+    height: 0.75rem;
+    padding: 0.5rem;
+    cursor: pointer;
   }
 }

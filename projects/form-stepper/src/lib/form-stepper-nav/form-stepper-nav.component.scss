@@ -26,6 +26,9 @@
   --section-btn__height: calc(var(--section-btn__line-height) + var(--section-btn__padding-v) * 2);
   --section__bullet-offset: calc(var(--section__timeline-offset) - var(--section-btn__height) / 2);
 
+  // Mobile
+  --mobile-timeline-width: 0.5rem;
+
   // Animation
   --anim-duration: 250ms;
 
@@ -112,7 +115,7 @@
       left: 1rem;
       font-size: 0.825rem;
       opacity: 0;
-      animation: formStepperNavProgression var(--anim-duration) ease calc(var(--anim-duration) / 2) forwards;
+      animation: formStepperNavFadeIn var(--anim-duration) ease calc(var(--anim-duration) / 2) forwards;
     }
 
     &__icon {
@@ -215,9 +218,111 @@
       text-decoration-color: var(--valid__bg-color);
     }
   }
+
+  // ----- Mobile -----
+
+  // TODO: breakpoint should be configurable
+  @media (max-width: 1023px) {
+    --section-btn__line-height: 1.25rem;
+    --section-btn__padding-v: 0.825rem;
+
+    display: block;
+    text-align: center;
+
+    opacity: 0;
+    animation: formStepperNavFadeIn var(--anim-duration) ease var(--anim-duration) forwards;
+
+    // Note: we need to reevaluate the following variable
+    --section-btn__height: calc(var(--section-btn__line-height) + var(--section-btn__padding-v) * 2);
+
+    &-sections {
+      display: inline-flex;
+
+      &::before {
+        left: calc(var(--section-btn__height) / 2);
+        right: calc(var(--section-btn__height) / 2);
+        top: calc(var(--section-btn__height) / 2 - var(--section__timeline-width) / 2);
+        border-top: var(--section__timeline-width) solid var(--timeline-color);
+        border-left: none;
+      }
+    }
+
+    &-section {
+      padding-bottom: 0;
+
+      & + & {
+        margin-left: var(--mobile-timeline-width);
+      }
+
+      &:not(&--last)::before {
+        top: calc(var(--section-btn__height) / 2 - var(--section__timeline-width) / 2);
+        left: calc(var(--section-btn__height) / 2);
+        border-top: var(--section__timeline-width) solid var(--valid__bg-color);
+        height: auto;
+        width: 0%;
+        transition: width var(--anim-duration) ease;
+      }
+
+      &--valid:not(&--last)::before {
+        width: 100%;
+      }
+
+      &__bullet {
+        left: 0;
+      }
+
+      &__btn {
+        display: flex;
+        justify-content: center;
+        font-size: 0.875rem;
+        min-width: var(--section-btn__height);
+        padding-left: 0;
+        padding-right: 0;
+        transition: padding calc(var(--anim-duration)) ease;
+      }
+
+      &__progression {
+        position: relative;
+        left: auto;
+        animation: none;
+        overflow: hidden;
+        opacity: 0;
+        margin-right: 0.625rem;
+      }
+
+      &__icon {
+        position: relative;
+        top: calc(var(--section-btn__padding-v) * -1);
+        left: auto;
+        width: 1rem;
+        height: 1rem;
+      }
+
+      &__title {
+        overflow: hidden;
+        opacity: 0;
+        margin-left: 0.625rem;
+      }
+
+      &--current &__btn {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      &--current &__progression,
+      &--current &__title {
+        animation: formStepperNavFadeIn var(--anim-duration) ease calc(var(--anim-duration) / 2) forwards;
+      }
+    }
+
+    &-steps {
+      // TODO: Show steps as menu on mousehover
+      display: none;
+    }
+  }
 }
 
-@keyframes formStepperNavProgression {
+@keyframes formStepperNavFadeIn {
   from {
     opacity: 0;
   }

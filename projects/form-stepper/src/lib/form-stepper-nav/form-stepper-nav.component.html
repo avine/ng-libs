@@ -19,7 +19,13 @@
         [formStepperIsValid]="state.maxStepIndexViewed >= 0"
       ></form-stepper-section-icon>
 
-      {{ state.onboardingInfo.title }}
+      <span
+        *ngIf="!isMobile || state.stepIndex === state.onboardingInfo.index"
+        [@smoothWidth]="state.stepIndex === state.onboardingInfo.index ? 'show' : 'hide'"
+        class="form-stepper-nav-section__title"
+      >
+        {{ state.onboardingInfo.title }}
+      </span>
     </button>
   </div>
 
@@ -43,6 +49,7 @@
     >
       <span
         *ngIf="state.sectionProgression && state.sectionIndex === sectionIndex"
+        [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
         class="form-stepper-nav-section__progression"
       >
         {{ state.sectionProgression.count }}/{{ state.sectionProgression.total }}
@@ -54,7 +61,13 @@
         [formStepperIsValid]="section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid"
       ></form-stepper-section-icon>
 
-      {{ section.title }}
+      <span
+        *ngIf="!isMobile || state.sectionIndex === sectionIndex"
+        [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
+        class="form-stepper-nav-section__title"
+      >
+        {{ section.title }}
+      </span>
     </button>
 
     <ng-container *ngIf="state.sectionIndex === sectionIndex">
@@ -104,7 +117,13 @@
         [formStepperIsValid]="state.allStepsViewed"
       ></form-stepper-section-icon>
 
-      {{ state.summaryInfo.title }}
+      <span
+        *ngIf="!isMobile || state.stepIndex === state.summaryInfo.index"
+        [@smoothWidth]="state.stepIndex === state.summaryInfo.index ? 'show' : 'hide'"
+        class="form-stepper-nav-section__title"
+      >
+        {{ state.summaryInfo.title }}
+      </span>
     </button>
   </div>
 </nav>

@@ -7,6 +7,16 @@
   }
 
   &__nav {
-    margin-left: 2rem;
+    margin-left: 1.5rem;
+  }
+
+  // TODO: breakpoint should be configurable
+  @media (max-width: 1023px) {
+    flex-direction: column-reverse;
+
+    &__nav {
+      margin-left: 0;
+      margin-bottom: 1.5rem;
+    }
   }
 }

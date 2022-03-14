@@ -28,6 +28,9 @@
 
   // Mobile
   --mobile-timeline-width: 0.5rem;
+  --mobile-steps-box-shadow: 0px 3px 6px -1px rgba(0, 0, 0, 0.15);
+  --mobile-steps-border-color: #cccccc;
+  --mobile-steps-bg-color: #ffffff;
 
   // Animation
   --anim-duration: 250ms;
@@ -267,10 +270,6 @@
         transition: width var(--anim-duration) ease;
       }
 
-      &--valid:not(&--last)::before {
-        width: 100%;
-      }
-
       &__bullet {
         left: 0;
       }
@@ -308,6 +307,10 @@
         margin-left: 0.625rem;
       }
 
+      &--valid:not(&--last)::before {
+        width: 100%;
+      }
+
       &--current &__btn {
         padding-left: 1.25rem;
         padding-right: 1.25rem;
@@ -323,13 +326,13 @@
       position: absolute;
       z-index: 999;
       margin-top: 7px;
-      padding: 0.625rem 0;
+      padding: 1.125rem 0;
 
       box-sizing: border-box;
-      box-shadow: 0px 8px 4px -4px rgba(0, 0, 0, 0.075);
-      border-radius: 3px;
-      border: 1px solid #ccc;
-      background-color: #fff;
+      box-shadow: var(--mobile-steps-box-shadow);
+      border-radius: 4px;
+      border: 1px solid var(--mobile-steps-border-color);
+      background-color: var(--mobile-steps-bg-color);
 
       display: none;
 
@@ -341,11 +344,11 @@
         width: 11px;
         height: 11px;
         transform: rotate(-45deg);
-        border-top-right-radius: 3px;
+        border-top-right-radius: 4px;
         border-width: 1px 1px 0 0;
         border-style: solid;
-        border-color: #ccc;
-        background-color: #fff;
+        border-color: var(--mobile-steps-border-color);
+        background-color: var(--mobile-steps-bg-color);
       }
     }
 
@@ -389,7 +392,7 @@
       }
 
       &__btn {
-        padding: 0.625rem 0;
+        padding: 0.375rem 0;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

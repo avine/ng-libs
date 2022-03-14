@@ -115,7 +115,6 @@
       left: 1rem;
       font-size: 0.825rem;
       opacity: 0;
-      animation: formStepperNavFadeIn var(--anim-duration) ease calc(var(--anim-duration) / 2) forwards;
     }
 
     &__icon {
@@ -190,6 +189,10 @@
 
     &--valid#{&}--current &__btn {
       color: var(--valid__text-color);
+    }
+
+    &--current &__progression {
+      animation: formStepperNavFadeIn var(--anim-duration) ease calc(var(--anim-duration) / 2) forwards;
     }
 
     &--valid &__bullet {
@@ -310,7 +313,6 @@
         padding-right: 1.25rem;
       }
 
-      &--current &__progression,
       &--current &__title {
         animation: formStepperNavFadeIn var(--anim-duration) ease calc(var(--anim-duration) / 2) forwards;
       }

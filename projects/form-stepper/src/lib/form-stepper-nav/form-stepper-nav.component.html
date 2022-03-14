@@ -71,7 +71,13 @@
     </button>
 
     <ng-container *ngIf="state.sectionIndex === sectionIndex">
-      <div *ngIf="section.steps.length >= 2" class="form-stepper-nav-steps" @smoothHeight>
+      <div
+        *ngIf="section.steps.length >= 2"
+        class="form-stepper-nav-steps"
+        [class.form-stepper-nav-steps--left]="sectionIndex < state.nav.length / 2"
+        [class.form-stepper-nav-steps--right]="sectionIndex >= state.nav.length / 2"
+        @smoothHeight
+      >
         <div
           *ngFor="let step of section.steps; let relativeStepIndex = index"
           class="form-stepper-nav-step"

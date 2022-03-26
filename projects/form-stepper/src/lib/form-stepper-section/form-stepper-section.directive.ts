@@ -11,7 +11,7 @@ import { FormStepperStep } from '../form-stepper.types';
   selector: '[formStepperSection]',
 })
 export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {
-  @Input() formStepperSection!: AbstractControl;
+  @Input() formStepperSection!: AbstractControl | string;
 
   @Input() formStepperTitle!: string;
 
@@ -34,7 +34,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
     this.service.addNavSection({
       title: this.formStepperTitle,
       icon: this.formStepperIcon,
-      control: this.formStepperSection,
+      control: this.service.getControl(this.formStepperSection),
       stepIndexOffset,
       steps,
       hasQuicknav: !this.formStepperNoQuicknav,
@@ -50,7 +50,9 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   }
 
   private updateSteps() {
-    const { sectionIndex, stepIndexOffset } = this.service.findExistingIndexes(this.formStepperSection);
+    const { sectionIndex, stepIndexOffset } = this.service.findExistingIndexes(
+      this.service.getControl(this.formStepperSection)
+    );
     const newSteps = this.getSteps(sectionIndex, stepIndexOffset);
     this.service.replaceSteps(sectionIndex, newSteps);
     this.service.refreshCurrentStep();
@@ -62,7 +64,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
         const step: FormStepperStep = {
           title: formStepperTitle || this.formStepperTitle,
           path: formStepperPath,
-          control: formStepperStep || this.formStepperSection,
+          control: this.service.getControl(this.formStepperSection, formStepperStep),
           template,
           sectionIndex,
           stepIndex: stepIndexOffset + relativeStepIndex,

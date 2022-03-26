@@ -1,6 +1,6 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()" style="padding: 2rem">
   <form-stepper-container
-    [formStepperRoot]="formGroup"
+    [formStepperGroupRoot]="formGroup"
     [formStepperValidSectionIcon]="validIcon"
     [formStepperDisabled]="submitInProgress"
   >
@@ -13,29 +13,34 @@
       <p>Simple form stepper with quicknav in the last step.</p>
     </ng-template>
 
-    <ng-container [formStepperSection]="fullName" formStepperTitle="Full name" [formStepperIcon]="fullNameIcon">
-      <ng-template [formStepperStep]="firstName" formStepperTitle="First name" formStepperPath="first-name">
+    <ng-container
+      formGroupName="fullName"
+      formStepperSection="fullName"
+      formStepperTitle="Full name"
+      [formStepperIcon]="fullNameIcon"
+    >
+      <ng-template formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
         First name:<br />
-        <input [formControl]="firstName" formStepperControl />
+        <input formControlName="firstName" formStepperControl />
       </ng-template>
 
-      <ng-template [formStepperStep]="lastName" formStepperTitle="Last name" formStepperPath="last-name">
+      <ng-template formStepperStep="lastName" formStepperTitle="Last name" formStepperPath="last-name">
         Last name:<br />
-        <input [formControl]="lastName" formStepperControl />
+        <input formControlName="lastName" formStepperControl />
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="contact" formStepperTitle="Contact">
-      <ng-template [formStepperStep]="email" formStepperTitle="Email" formStepperPath="email">
+    <ng-container formGroupName="contact" formStepperSection="contact" formStepperTitle="Contact">
+      <ng-template formStepperStep="email" formStepperTitle="Email" formStepperPath="email">
         Email:<br />
-        <input [formControl]="email" formStepperControl />
+        <input formControlName="email" formStepperControl />
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="consent" formStepperTitle="Consent" [formStepperNoQuicknav]="true">
-      <ng-template [formStepperStep]="cgu" formStepperTitle="Cgu" formStepperPath="cgu">
+    <ng-container formStepperSection="cgu" formStepperTitle="CGU" [formStepperNoQuicknav]="true">
+      <ng-template formStepperStep formStepperPath="cgu">
         <form-stepper-quicknav></form-stepper-quicknav>
-        <input type="checkbox" [formControl]="cgu" formStepperControl /> CGU
+        <input type="checkbox" formControlName="cgu" formStepperControl /> CGU
       </ng-template>
     </ng-container>
   </form-stepper-container>

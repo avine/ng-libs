@@ -17,6 +17,8 @@ import {
 
 @Injectable()
 export class FormStepperService implements OnDestroy {
+  formGroupRoot!: FormGroup;
+
   private steps: FormStepperStep[] = [];
 
   private stepIndex!: number;
@@ -128,6 +130,16 @@ export class FormStepperService implements OnDestroy {
 
   ngOnDestroy() {
     this.pathSubscription?.unsubscribe();
+  }
+
+  getControl(section: AbstractControl | string, step?: AbstractControl | string): AbstractControl {
+    if (step instanceof AbstractControl) {
+      return step;
+    }
+    if (section instanceof AbstractControl) {
+      return step ? section.get(step)! : section;
+    }
+    return step ? this.formGroupRoot.get([section, step])! : this.formGroupRoot.get(section)!;
   }
 
   getNewIndexes() {

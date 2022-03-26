@@ -1,7 +1,7 @@
 <button (click)="show = !show">{{ show ? 'OUI' : 'NON' }}</button>
 
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()" style="padding: 1.5rem">
-  <form-stepper-container [formStepperRoot]="formGroup" [formStepperDisabled]="submitInProgress">
+  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperDisabled]="submitInProgress">
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
       <p>Welcome to form stepper</p>
     </ng-template>

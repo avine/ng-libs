@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { faCoffee, faAddressCard, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -17,20 +17,8 @@ export class SimpleComponent {
     contact: this.formBuilder.group({
       email: ['', Validators.required],
     }),
-    consent: this.formBuilder.group({
-      cgu: ['', Validators.requiredTrue],
-    }),
+    cgu: ['', Validators.requiredTrue],
   });
-
-  fullName = this.formGroup.get('fullName') as FormGroup;
-  firstName = this.formGroup.get('fullName')?.get('firstName') as FormControl;
-  lastName = this.formGroup.get('fullName')?.get('lastName') as FormControl;
-
-  contact = this.formGroup.get('contact') as FormGroup;
-  email = this.formGroup.get('contact')?.get('email') as FormControl;
-
-  consent = this.formGroup.get('consent') as FormGroup;
-  cgu = this.formGroup.get('consent')?.get('cgu') as FormControl;
 
   submitInProgress = false;
 

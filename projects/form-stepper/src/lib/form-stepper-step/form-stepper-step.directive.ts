@@ -10,7 +10,7 @@ export class FormStepperStepDirective {
    * If there's only one step in the section then leave empty and
    * the `AbstractControl` of the `formStepperSection` will be used.
    */
-  @Input() formStepperStep!: AbstractControl | '';
+  @Input() formStepperStep!: AbstractControl | string;
 
   @Input() formStepperTitle!: string;
 

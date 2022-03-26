@@ -17,8 +17,6 @@ export class OneLevelBisComponent {
     ]),
   });
 
-  firstName = this.formGroup.get('firstName') as FormControl;
-  lastName = this.formGroup.get('lastName') as FormControl;
   array = this.formGroup.get('array') as FormArray;
 
   item0 = this.array.at(0) as FormControl;

@@ -11,6 +11,7 @@ import {
   HostBinding,
   Input,
   OnDestroy,
+  OnInit,
   QueryList,
   TemplateRef,
   ViewEncapsulation,
@@ -31,10 +32,10 @@ import { FormStepperExtraPage } from '../form-stepper.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormStepperContainerComponent implements AfterContentInit, AfterViewInit, OnDestroy {
+export class FormStepperContainerComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
   @HostBinding('class.form-stepper-container') hasClass = true;
 
-  @Input() formStepperRoot!: FormGroup;
+  @Input() formStepperGroupRoot!: FormGroup;
 
   @Input() formStepperValidSectionIcon!: TemplateRef<any>;
 
@@ -49,6 +50,10 @@ export class FormStepperContainerComponent implements AfterContentInit, AfterVie
   private sectionsSubscription!: Subscription;
 
   constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.service.formGroupRoot = this.formStepperGroupRoot;
+  }
 
   ngAfterContentInit() {
     this.service.validSectionIcon = this.formStepperValidSectionIcon;

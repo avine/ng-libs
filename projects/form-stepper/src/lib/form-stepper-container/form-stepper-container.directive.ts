@@ -9,9 +9,11 @@ import {
   Directive,
   Input,
   OnDestroy,
+  OnInit,
   QueryList,
   TemplateRef,
 } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { FormStepperOnboardingDirective } from '../form-stepper-onboarding/form-stepper-onboarding.directive';
 import { FormStepperSectionDirective } from '../form-stepper-section/form-stepper-section.directive';
@@ -24,7 +26,9 @@ import { FormStepperExtraPage } from '../form-stepper.types';
   providers: [FormStepperService],
   exportAs: 'formStepper',
 })
-export class FormStepperContainerDirective implements AfterContentInit, AfterViewInit, OnDestroy {
+export class FormStepperContainerDirective implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
+  @Input() formStepperGroupRoot!: FormGroup;
+
   @Input() formStepperValidSectionIcon!: TemplateRef<any>;
 
   @ContentChild(FormStepperOnboardingDirective) onboardingDirective!: FormStepperOnboardingDirective;
@@ -38,6 +42,10 @@ export class FormStepperContainerDirective implements AfterContentInit, AfterVie
   private sectionsSubscription!: Subscription;
 
   constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.service.formGroupRoot = this.formStepperGroupRoot;
+  }
 
   ngAfterContentInit() {
     this.service.validSectionIcon = this.formStepperValidSectionIcon;

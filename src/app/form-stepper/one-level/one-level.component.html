@@ -1,5 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <form-stepper-container [formStepperRoot]="formGroup" [formStepperDisabled]="submitInProgress">
+  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperDisabled]="submitInProgress">
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
       <p>One level form stepper</p>
     </ng-template>
@@ -9,7 +9,7 @@
     </ng-template>
 
     <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
-      <ng-template [formStepperStep]="fullName" formStepperTitle="Full name" formStepperPath="full-name">
+      <ng-template formStepperStep formStepperPath="full-name">
         First name:<br />
         <input [formControl]="firstName" formStepperControl />
         <br /><br />
@@ -20,14 +20,14 @@
     </ng-container>
 
     <ng-container [formStepperSection]="contact" formStepperTitle="Contact">
-      <ng-template [formStepperStep]="contact" formStepperTitle="Contact" formStepperPath="contact">
+      <ng-template formStepperStep formStepperPath="contact">
         Email:<br />
         <input [formControl]="email" formStepperControl />
       </ng-template>
     </ng-container>
 
     <ng-container [formStepperSection]="address" formStepperTitle="Address">
-      <ng-template [formStepperStep]="address" formStepperTitle="Address" formStepperPath="address">
+      <ng-template formStepperStep formStepperPath="address">
         Street:<br />
         <input [formControl]="street" formStepperControl />
         <br /><br />
@@ -43,7 +43,7 @@
     </ng-container>
 
     <ng-container [formStepperSection]="consent" formStepperTitle="Consent">
-      <ng-template [formStepperStep]="consent" formStepperTitle="Consent" formStepperPath="consent">
+      <ng-template formStepperStep formStepperPath="consent">
         <input type="checkbox" [formControl]="cgu" formStepperControl /> Accept CGU
       </ng-template>
     </ng-container>

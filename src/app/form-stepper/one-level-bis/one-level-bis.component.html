@@ -1,5 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <form-stepper-container [formStepperRoot]="formGroup">
+  <form-stepper-container [formStepperGroupRoot]="formGroup">
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
       <p>Welcome!</p>
     </ng-template>
@@ -8,19 +8,19 @@
       <form-stepper-quicknav [formStepperCompact]="true"></form-stepper-quicknav>
     </ng-template>
 
-    <ng-container [formStepperSection]="firstName" formStepperTitle="First name">
+    <ng-container formStepperSection="firstName" formStepperTitle="First name">
       <ng-template formStepperStep formStepperPath="first-name">
-        <input [formControl]="firstName" formStepperControl />
+        <input formControlName="firstName" formStepperControl />
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="lastName" formStepperTitle="Last name">
+    <ng-container formStepperSection="lastName" formStepperTitle="Last name">
       <ng-template formStepperStep formStepperPath="last-name">
-        <input [formControl]="lastName" formStepperControl />
+        <input formControlName="lastName" formStepperControl />
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="array" formStepperTitle="Array">
+    <ng-container formStepperSection="array" formStepperTitle="Array">
       <ng-template formStepperStep formStepperPath="array">
         Array item 0<br />
         <input [formControl]="item0" formStepperControl />

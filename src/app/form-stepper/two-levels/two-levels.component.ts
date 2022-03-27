@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-two-levels',
@@ -27,20 +27,6 @@ export class TwoLevelsComponent {
       }),
     }),
   });
-
-  fullName = this.formGroup.get('fullName') as FormGroup;
-  gender = this.formGroup.get('fullName')?.get('gender') as FormControl;
-  firstName = this.formGroup.get('fullName')?.get('firstName') as FormControl;
-  lastName = this.formGroup.get('fullName')?.get('lastName') as FormControl;
-
-  contact = this.formGroup.get('contact') as FormGroup;
-  email = this.formGroup.get('contact')?.get('email') as FormControl;
-
-  address = this.formGroup.get('address') as FormGroup;
-  street = this.formGroup.get('address')?.get('street') as FormControl;
-  zipCodeAndCity = this.formGroup.get('address')?.get('zipCodeAndCity') as FormGroup;
-  zipCode = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('zipCode') as FormControl;
-  city = this.formGroup.get('address')?.get('zipCodeAndCity')?.get('city') as FormControl;
 
   submitInProgress = false;
 

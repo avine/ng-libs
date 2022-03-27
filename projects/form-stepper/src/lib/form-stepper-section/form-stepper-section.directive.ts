@@ -13,6 +13,12 @@ import { FormStepperStep } from '../form-stepper.types';
 export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {
   @Input() formStepperSection!: AbstractControl | string;
 
+  /** The value of `formStepperSection` is optional when `formGroup` or `formGroupName` is provided */
+  @Input() formGroup!: AbstractControl;
+
+  /** The value of `formStepperSection` is optional when `formGroup` or `formGroupName` is provided */
+  @Input() formGroupName!: string;
+
   @Input() formStepperTitle!: string;
 
   @Input() formStepperIcon!: TemplateRef<any>;
@@ -20,6 +26,8 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   @Input() formStepperNoQuicknav!: boolean;
 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
+
+  getSection = (): AbstractControl | string => this.formStepperSection || this.formGroup || this.formGroupName;
 
   private stepsSubscription!: Subscription;
 
@@ -34,7 +42,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
     this.service.addNavSection({
       title: this.formStepperTitle,
       icon: this.formStepperIcon,
-      control: this.service.getControl(this.formStepperSection),
+      control: this.service.getControl(this.getSection()),
       stepIndexOffset,
       steps,
       hasQuicknav: !this.formStepperNoQuicknav,
@@ -51,7 +59,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   private updateSteps() {
     const { sectionIndex, stepIndexOffset } = this.service.findExistingIndexes(
-      this.service.getControl(this.formStepperSection)
+      this.service.getControl(this.getSection())
     );
     const newSteps = this.getSteps(sectionIndex, stepIndexOffset);
     this.service.replaceSteps(sectionIndex, newSteps);
@@ -60,11 +68,11 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   private getSteps(sectionIndex: number, stepIndexOffset: number) {
     return this.stepDirectiveQueryList.map(
-      ({ formStepperTitle, formStepperPath, formStepperStep, template }, relativeStepIndex) => {
+      ({ formStepperTitle, formStepperPath, getStep, template }, relativeStepIndex) => {
         const step: FormStepperStep = {
           title: formStepperTitle || this.formStepperTitle,
           path: formStepperPath,
-          control: this.service.getControl(this.formStepperSection, formStepperStep),
+          control: this.service.getControl(this.getSection(), getStep()),
           template,
           sectionIndex,
           stepIndex: stepIndexOffset + relativeStepIndex,

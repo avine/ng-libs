@@ -12,9 +12,17 @@ export class FormStepperStepDirective {
    */
   @Input() formStepperStep!: AbstractControl | string;
 
+  /** The value of `formStepperStep` is optional when `formGroup` or `formGroupName` is provided */
+  @Input() formGroup!: AbstractControl;
+
+  /** The value of `formStepperStep` is optional when `formGroup` or `formGroupName` is provided */
+  @Input() formGroupName!: string;
+
   @Input() formStepperTitle!: string;
 
   @Input() formStepperPath!: string;
+
+  getStep = (): AbstractControl | string => this.formStepperStep || this.formGroup || this.formGroupName;
 
   constructor(public template: TemplateRef<any>) {}
 }

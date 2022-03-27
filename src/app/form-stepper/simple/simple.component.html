@@ -15,7 +15,7 @@
 
     <ng-container
       formGroupName="fullName"
-      formStepperSection="fullName"
+      formStepperSection
       formStepperTitle="Full name"
       [formStepperIcon]="fullNameIcon"
     >
@@ -30,7 +30,7 @@
       </ng-template>
     </ng-container>
 
-    <ng-container formGroupName="contact" formStepperSection="contact" formStepperTitle="Contact">
+    <ng-container formGroupName="contact" formStepperSection formStepperTitle="Contact">
       <ng-template formStepperStep="email" formStepperTitle="Email" formStepperPath="email">
         Email:<br />
         <input formControlName="email" formStepperControl />

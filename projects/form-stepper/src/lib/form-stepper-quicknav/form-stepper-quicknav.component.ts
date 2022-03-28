@@ -1,9 +1,9 @@
 import { map } from 'rxjs/operators';
 
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 
 import { FormStepperService } from '../form-stepper.service';
+import { FormStepperStep } from '../form-stepper.types';
 
 @Component({
   selector: 'form-stepper-quicknav',
@@ -17,33 +17,46 @@ export class FormStepperQuicknavComponent {
 
   @Input() formStepperCompact = false;
 
+  @Input() formStepperFormat!: (path: string, controlValue: any) => string | void;
+
   nav$ = this.service.state$.pipe(map(({ nav }) => nav));
 
   navigateByStepIndex = this.service.navigateByStepIndex.bind(this.service);
 
   constructor(private service: FormStepperService) {}
 
-  getValue(control: AbstractControl) {
-    if (control instanceof FormControl) {
-      return this.format(control.value);
+  getStepValue(step: FormStepperStep) {
+    const { path, control } = step;
+    if (typeof this.formStepperFormat === 'function') {
+      const result = this.formStepperFormat(path, control.value);
+      if (result !== undefined) {
+        return result;
+      }
     }
-    const values =
-      control instanceof FormGroup ? Object.values(control.value) : ((control as FormArray).value as unknown[]);
-    return values
-      .filter((value) => !!value)
-      .map((value) => this.format(value))
-      .join(', ');
+    return this.format(control.value);
   }
 
   private format(value: any): string {
-    const { yes, no } = this.service.config.translations;
-    switch (value) {
-      case true:
-        return yes;
-      case false:
-        return no;
-      default:
-        return value;
+    if (Array.isArray(value)) {
+      return this.formatArray(value);
     }
+    if (typeof value === 'object' && value !== null) {
+      return this.formatArray(Object.values(value));
+    }
+    const { yes, no } = this.service.config.translations;
+    if (value === true) {
+      return yes;
+    }
+    if (value === false) {
+      return no;
+    }
+    return (value ?? '').toString();
+  }
+
+  private formatArray(values: any[]): string {
+    return values
+      .map((value) => this.format(value))
+      .filter((value) => !!value)
+      .join(', ');
   }
 }

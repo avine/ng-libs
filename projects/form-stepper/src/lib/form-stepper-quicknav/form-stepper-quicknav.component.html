@@ -37,7 +37,7 @@
   <div *ngFor="let step of steps">
     <strong>{{ step.title }}:</strong>
 
-    <span class="form-stepper-quicknav__value">{{ getValue(step.control) }}</span>
+    <span class="form-stepper-quicknav__value">{{ getStepValue(step) }}</span>
 
     <form-stepper-icon
       icon="edit"

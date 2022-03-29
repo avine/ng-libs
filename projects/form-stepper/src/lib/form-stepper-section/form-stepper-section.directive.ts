@@ -13,11 +13,14 @@ import { FormStepperStep } from '../form-stepper.types';
 export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {
   @Input() formStepperSection!: AbstractControl | string;
 
-  /** The value of `formStepperSection` is optional when `formGroup` or `formGroupName` is provided */
+  /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
   @Input() formGroup!: AbstractControl;
 
-  /** The value of `formStepperSection` is optional when `formGroup` or `formGroupName` is provided */
+  /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
   @Input() formGroupName!: string;
+
+  /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
+  @Input() formArrayName!: string;
 
   @Input() formStepperTitle!: string;
 
@@ -27,7 +30,8 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
-  getSection = (): AbstractControl | string => this.formStepperSection || this.formGroup || this.formGroupName;
+  getSection = (): AbstractControl | string =>
+    this.formStepperSection || this.formGroup || this.formGroupName || this.formArrayName;
 
   private stepsSubscription!: Subscription;
 

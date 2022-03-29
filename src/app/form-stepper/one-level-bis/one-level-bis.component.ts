@@ -15,12 +15,23 @@ export class OneLevelBisComponent {
       ['', Validators.required],
       ['', Validators.required],
     ]),
+    arrayGroup: this.formBuilder.group({
+      array2: this.formBuilder.array([
+        ['', Validators.required],
+        ['', Validators.required],
+      ]),
+      foo: ['', Validators.required],
+    }),
   });
 
   array = this.formGroup.get('array') as FormArray;
 
   item0 = this.array.at(0) as FormControl;
   item1 = this.array.at(1) as FormControl;
+
+  get array2Indexes() {
+    return (this.formGroup.get('arrayGroup.array2') as FormArray).controls.map((_, i) => i);
+  }
 
   constructor(private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
 

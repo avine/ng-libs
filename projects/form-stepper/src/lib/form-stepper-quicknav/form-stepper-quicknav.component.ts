@@ -25,7 +25,7 @@ export class FormStepperQuicknavComponent {
 
   constructor(private service: FormStepperService) {}
 
-  getStepValue(step: FormStepperStep) {
+  getStepValue(step: FormStepperStep): string {
     const { path, control } = step;
     if (typeof this.formStepperFormat === 'function') {
       const result = this.formStepperFormat(path, control.value);

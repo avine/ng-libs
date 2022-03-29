@@ -20,13 +20,25 @@
       </ng-template>
     </ng-container>
 
-    <ng-container formStepperSection="array" formStepperTitle="Array">
+    <ng-container formArrayName="array" formStepperSection formStepperTitle="Array">
       <ng-template formStepperStep formStepperPath="array">
         Array item 0<br />
-        <input [formControl]="item0" formStepperControl />
+        <input [formControlName]="0" formStepperControl />
         <br /><br />
         Array item 1<br />
-        <input [formControl]="item1" formStepperControl />
+        <input [formControlName]="1" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container formGroupName="arrayGroup" formStepperSection formStepperTitle="Array Group">
+      <ng-template formArrayName="array2" formStepperStep formStepperTitle="Array 2" formStepperPath="array2">
+        <div *ngFor="let i of array2Indexes">
+          <input [formControlName]="i" formStepperControl />
+        </div>
+      </ng-template>
+
+      <ng-template formStepperStep="foo" formStepperTitle="Foo" formStepperPath="foo">
+        <input formControlName="foo" formStepperControl />
       </ng-template>
     </ng-container>
   </form-stepper-container>

@@ -1,6 +1,6 @@
-<ng-container [ngSwitch]="formStepperCompact">
-  <ng-container *ngSwitchCase="false">
-    <ng-container *ngIf="nav$ | async as nav">
+<ng-container *ngIf="nav$ | async as nav">
+  <ng-container [ngSwitch]="formStepperCompact">
+    <ng-container *ngSwitchCase="false">
       <ng-container *ngFor="let section of nav">
         <div *ngIf="section.hasQuicknav" class="form-stepper-quicknav__section">
           <h3 class="form-stepper-quicknav__title">
@@ -18,17 +18,17 @@
         </div>
       </ng-container>
     </ng-container>
-  </ng-container>
 
-  <ng-container *ngSwitchCase="true">
-    <ng-container *ngIf="nav$ | async as nav">
-      <ng-container *ngFor="let section of nav">
-        <ng-container
-          *ngIf="section.hasQuicknav"
-          [ngTemplateOutlet]="steps"
-          [ngTemplateOutletContext]="{ steps: section.steps }"
-        ></ng-container>
-      </ng-container>
+    <ng-container *ngSwitchCase="true">
+      <div class="form-stepper-quicknav__section">
+        <ng-container *ngFor="let section of nav">
+          <ng-container
+            *ngIf="section.hasQuicknav"
+            [ngTemplateOutlet]="steps"
+            [ngTemplateOutletContext]="{ steps: section.steps }"
+          ></ng-container>
+        </ng-container>
+      </div>
     </ng-container>
   </ng-container>
 </ng-container>
@@ -37,7 +37,7 @@
   <div *ngFor="let step of steps">
     <strong>{{ step.title }}:</strong>
 
-    <span class="form-stepper-quicknav__value">{{ getStepValue(step) }}</span>
+    <span [innerHTML]="getStepValue(step)" class="form-stepper-quicknav__value"></span>
 
     <form-stepper-icon
       icon="edit"

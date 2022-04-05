@@ -41,6 +41,8 @@ export class FormStepperService implements OnDestroy {
 
   summary!: FormStepperExtraPage;
 
+  useRouting = true;
+
   private _state$ = new BehaviorSubject<FormStepperState>({
     sectionIndex: 0,
     stepIndex: 0,
@@ -91,7 +93,7 @@ export class FormStepperService implements OnDestroy {
     return this.steps.length + (this.summary ? 0 : -1);
   }
 
-  private get currentStepControlsHaveNoValue(): boolean {
+  private get currentStepControlsHasNoValue(): boolean {
     const control = this.steps[this.stepIndex]?.control;
     if (!control) {
       return false;
@@ -117,6 +119,14 @@ export class FormStepperService implements OnDestroy {
   ) {}
 
   init() {
+    if (this.useRouting) {
+      this.initWithRouting();
+    } else {
+      this.handlePath(this.findPathFromStepIndex(this.firstStepIndex));
+    }
+  }
+
+  private initWithRouting() {
     this.pathSubscription = this.activatedRoute.paramMap
       .pipe(map((paramMap) => paramMap.get(FORM_STEPPER_PATH_PARAM)))
       .subscribe((currentPath) => {
@@ -184,7 +194,7 @@ export class FormStepperService implements OnDestroy {
   addControlElement(element: HTMLElement) {
     this.currentStepControlElements.add(element);
 
-    if (this.currentStepControlElements.size === 1 && this.currentStepControlsHaveNoValue) {
+    if (this.currentStepControlElements.size === 1 && this.currentStepControlsHasNoValue) {
       element.focus?.();
     }
   }
@@ -194,23 +204,32 @@ export class FormStepperService implements OnDestroy {
   }
 
   navigateByStepIndex(stepIndex: number) {
+    if (this.useRouting) {
+      this.navigateByStepIndexWithRouting(stepIndex);
+    } else {
+      this.handlePath(this.findPathFromStepIndex(stepIndex));
+    }
+  }
+
+  private navigateByStepIndexWithRouting(stepIndex: number) {
     if (!this.currentPath || !this.router.url.match(`/${this.currentPath}`)) {
       // Back to homepage when unable to identify the current path
       this.router.navigate(['/']);
       return;
     }
-
-    const nextStepIndex = this.getCheckedStepIndex(stepIndex);
-    let nextPath: string;
-    if (nextStepIndex === -1) {
-      nextPath = this.onboarding.path;
-    } else if (nextStepIndex === this.steps.length) {
-      nextPath = this.summary.path;
-    } else {
-      nextPath = this.steps[nextStepIndex].path;
-    }
-
+    const nextPath = this.findPathFromStepIndex(stepIndex);
     this.router.navigateByUrl(this.router.url.replace(`/${this.currentPath}`, `/${nextPath}`));
+  }
+
+  private findPathFromStepIndex(stepIndex: number) {
+    const checkedStepIndex = this.getCheckedStepIndex(stepIndex);
+    if (checkedStepIndex === -1) {
+      return this.onboarding.path;
+    }
+    if (checkedStepIndex === this.steps.length) {
+      return this.summary.path;
+    }
+    return this.steps[checkedStepIndex].path;
   }
 
   prevStep() {

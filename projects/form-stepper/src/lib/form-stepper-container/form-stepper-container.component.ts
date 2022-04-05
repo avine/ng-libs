@@ -39,6 +39,8 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
 
   @Input() formStepperValidSectionIcon!: TemplateRef<any>;
 
+  @Input() formStepperUseRouting = true;
+
   @Input() formStepperDisabled!: boolean;
 
   @ContentChild(FormStepperOnboardingDirective) onboardingDirective!: FormStepperOnboardingDirective;
@@ -53,6 +55,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
 
   ngOnInit() {
     this.service.formGroupRoot = this.formStepperGroupRoot;
+    this.service.useRouting = this.formStepperUseRouting;
   }
 
   ngAfterContentInit() {

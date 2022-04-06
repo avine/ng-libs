@@ -20,24 +20,26 @@
       margin-bottom: 1.5rem;
       border-radius: 0 0 var(--border-radius) var(--border-radius);
     }
+
+    &-title {
+      display: flex;
+      align-items: center;
+    }
+
+    &-icon {
+      margin-right: 0.5rem;
+    }
   }
 
-  &__title {
-    display: flex;
-    align-items: center;
-  }
+  &__step {
+    &-title {
+      margin-right: 0.5rem;
+    }
 
-  &__icon {
-    margin-right: 0.5rem;
-  }
-
-  &__value {
-    margin-left: 0.5rem;
-  }
-
-  &__edit {
-    height: 0.75rem;
-    padding: 0 0.5rem;
-    cursor: pointer;
+    &-edit {
+      height: 0.75rem;
+      padding: 0 0.5rem;
+      cursor: pointer;
+    }
   }
 }

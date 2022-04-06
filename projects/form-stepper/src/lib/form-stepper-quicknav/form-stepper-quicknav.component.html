@@ -3,9 +3,9 @@
     <ng-container *ngSwitchCase="false">
       <ng-container *ngFor="let section of nav">
         <div *ngIf="section.hasQuicknav" class="form-stepper-quicknav__section">
-          <h3 class="form-stepper-quicknav__title">
+          <h3 class="form-stepper-quicknav__section-title">
             <form-stepper-section-icon
-              class="form-stepper-quicknav__icon"
+              class="form-stepper-quicknav__section-icon"
               [formStepperIcon]="section.icon"
               [formStepperIsValid]="!section.icon"
               [formStepperDisableAnimation]="true"
@@ -14,7 +14,7 @@
             {{ section.title }}
           </h3>
 
-          <ng-container [ngTemplateOutlet]="steps" [ngTemplateOutletContext]="{ steps: section.steps }"></ng-container>
+          <ng-container [ngTemplateOutlet]="steps" [ngTemplateOutletContext]="{ section: section }"></ng-container>
         </div>
       </ng-container>
     </ng-container>
@@ -25,7 +25,7 @@
           <ng-container
             *ngIf="section.hasQuicknav"
             [ngTemplateOutlet]="steps"
-            [ngTemplateOutletContext]="{ steps: section.steps }"
+            [ngTemplateOutletContext]="{ section: section }"
           ></ng-container>
         </ng-container>
       </div>
@@ -33,15 +33,17 @@
   </ng-container>
 </ng-container>
 
-<ng-template #steps let-steps="steps">
-  <div *ngFor="let step of steps">
-    <strong>{{ step.title }}:</strong>
+<ng-template #steps let-section="section">
+  <div *ngFor="let step of section.steps">
+    <strong *ngIf="step.title !== section.title || section.steps.length >= 2" class="form-stepper-quicknav__step-title">
+      {{ step.title }}:
+    </strong>
 
-    <span [innerHTML]="getStepValue(step)" class="form-stepper-quicknav__value"></span>
+    <span [innerHTML]="getStepValue(step)"></span>
 
     <form-stepper-icon
       icon="edit"
-      class="form-stepper-quicknav__edit"
+      class="form-stepper-quicknav__step-edit"
       (click)="navigateByStepIndex(step.stepIndex)"
     ></form-stepper-icon>
   </div>

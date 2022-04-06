@@ -12,13 +12,10 @@ export class TwoLevelsComponent {
 
   formGroup = this.formBuilder.group({
     fullName: this.formBuilder.group({
-      gender: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
     }),
-    contact: this.formBuilder.group({
-      email: ['', Validators.required],
-    }),
+    email: ['', Validators.required],
     address: this.formBuilder.group({
       street: [''],
       zipCodeAndCity: this.formBuilder.group({

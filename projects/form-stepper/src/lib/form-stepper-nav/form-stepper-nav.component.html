@@ -30,7 +30,7 @@
   </div>
 
   <div
-    *ngFor="let section of state.nav; let sectionIndex = index; let isLastSectionIndex = last"
+    *ngFor="let section of state.nav; let sectionIndex = index; let isLastSectionIndex = last; trackBy: trackByControl"
     class="form-stepper-nav-section"
     [class.form-stepper-nav-section--valid]="
       section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid
@@ -79,7 +79,7 @@
         @smoothHeight
       >
         <div
-          *ngFor="let step of section.steps; let relativeStepIndex = index"
+          *ngFor="let step of section.steps; let relativeStepIndex = index; trackBy: trackByControl"
           class="form-stepper-nav-step"
           [class.form-stepper-nav-step--valid]="
             section.stepIndexOffset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid

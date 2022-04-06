@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
+import { FormStepperNavSection, FormStepperStep } from '../form-stepper.types';
 import { navAnimations } from './form-stepper-nav.animations';
 
 @Component({
@@ -56,5 +57,9 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
   navigateByStepIndex(event: Event, stepIndex: number) {
     event.stopPropagation();
     this.service.navigateByStepIndex(stepIndex);
+  }
+
+  trackByControl(_: number, { control }: FormStepperNavSection | FormStepperStep) {
+    return control;
   }
 }

@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  padding: 3rem;
+}
+
+label {
+  display: block;
+
+  & + & {
+    margin-top: 1rem;
+  }
+}

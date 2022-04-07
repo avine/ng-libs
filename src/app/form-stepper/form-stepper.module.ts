@@ -12,6 +12,7 @@ import { OneLevelComponent } from './one-level/one-level.component';
 import { SimpleComponent } from './simple/simple.component';
 import { TwoLevelsComponent } from './two-levels/two-levels.component';
 import { Demo1Component } from './demo1/demo1.component';
+import { Demo2Component } from './demo2/demo2.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { Demo1Component } from './demo1/demo1.component';
     SimpleComponent,
     TwoLevelsComponent,
     Demo1Component,
+    Demo2Component,
   ],
 })
 export class FormStepperModule {}

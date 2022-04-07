@@ -244,34 +244,53 @@ export class FormStepperService implements OnDestroy {
     this.handlePath(this.currentPath);
   }
 
-  private handlePath(path: string | null) {
-    if (path === this.onboarding?.path || (path === this.summary?.path && !this.hasSkippedSomePreviousSteps())) {
-      this.handleExtraPagePath(path);
+  private handlePath(path: string | null): void {
+    if (path === this.onboarding?.path) {
+      return this.handleExtraPagePath(path);
+    }
+
+    if (path === this.summary?.path) {
+      this.handleSkippedStep() || this.handleExtraPagePath(path);
       return;
     }
 
     const stepIndex = this.steps.findIndex((step) => path === step.path);
-    if (stepIndex === -1 || this.hasSkippedSomePreviousSteps(stepIndex)) {
-      this.navigateByStepIndex(this.firstStepIndex);
-      return;
+    if (stepIndex === -1) {
+      return this.navigateByStepIndex(this.firstStepIndex);
     }
-    this.setStepByIndex(stepIndex);
+
+    this.handleSkippedStep(stepIndex) || this.setStepByIndex(stepIndex);
   }
 
-  private hasSkippedSomePreviousSteps(stepIndex = this.steps.length): boolean {
+  private handleSkippedStep(stepIndex = this.steps.length): boolean {
+    if (stepIndex <= 0) {
+      return false;
+    }
+
+    // `0` and `false` are considered to be a value (unlike empty-string which is not)
+    const hasNoValue = (value: any) => !(value || [0, false].includes(value));
+
     const isSkipped = (control: AbstractControl) =>
       (control.hasValidator(Validators.required) || control.hasValidator(Validators.requiredTrue)) &&
-      !control.value &&
+      hasNoValue(control.value) &&
       control.pristine;
 
-    return stepIndex > 0
-      ? this.steps.slice(0, stepIndex).some((step) => {
-          if (step.control instanceof FormGroup) {
-            return Object.values(step.control.controls).some(isSkipped);
-          }
-          return isSkipped(step.control);
-        })
-      : false;
+    const skippedStepIndex = this.steps.slice(0, stepIndex).findIndex(({ control }) => {
+      if (control instanceof FormGroup) {
+        return Object.values(control.controls).some(isSkipped);
+      }
+      if (control instanceof FormArray) {
+        return control.controls.some(isSkipped);
+      }
+      return isSkipped(control as FormControl);
+    });
+
+    if (skippedStepIndex === -1) {
+      return false;
+    }
+
+    this.navigateByStepIndex(skippedStepIndex);
+    return true;
   }
 
   private handleExtraPagePath(path: string) {

@@ -4,6 +4,7 @@ import { FORM_STEPPER_PATH_PARAM } from '@avine/ng-form-stepper';
 
 import { CustomComponent } from './custom/custom.component';
 import { Demo1Component } from './demo1/demo1.component';
+import { Demo2Component } from './demo2/demo2.component';
 import { OneLevelBisComponent } from './one-level-bis/one-level-bis.component';
 import { OneLevelComponent } from './one-level/one-level.component';
 import { SimpleComponent } from './simple/simple.component';
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: `demo1/:${FORM_STEPPER_PATH_PARAM}`,
     component: Demo1Component,
+  },
+  {
+    path: `demo2/:${FORM_STEPPER_PATH_PARAM}`,
+    component: Demo2Component,
   },
   {
     path: `simple/:${FORM_STEPPER_PATH_PARAM}`,

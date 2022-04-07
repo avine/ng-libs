@@ -11,6 +11,11 @@
     </ng-template>
 
     <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
+      <ng-template formStepperStep="gender" formStepperTitle="Gender" formStepperPath="gender">
+        Gender:<br />
+        <input formControlName="gender" formStepperControl />
+      </ng-template>
+
       <ng-template *ngIf="show" formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
         First name:<br />
         <input formControlName="firstName" formStepperControl />

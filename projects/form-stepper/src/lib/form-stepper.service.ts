@@ -289,6 +289,8 @@ export class FormStepperService implements OnDestroy {
       return false;
     }
 
+    this.maxStepIndexViewed = skippedStepIndex;
+    this.allStepsViewed = false;
     this.navigateByStepIndex(skippedStepIndex);
     return true;
   }

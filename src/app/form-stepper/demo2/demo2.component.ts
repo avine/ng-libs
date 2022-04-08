@@ -1,7 +1,9 @@
 import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormStepperContainerComponent } from '@avine/ng-form-stepper';
 
 @Component({
   selector: 'app-demo2',
@@ -9,6 +11,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./demo2.component.scss'],
 })
 export class Demo2Component implements OnInit, OnDestroy {
+  @ViewChild(FormStepperContainerComponent) formStepper!: FormStepperContainerComponent;
+
   hobbiesCtrl = this.formBuilder.array([['', Validators.required]]);
 
   contactCtrl = this.formBuilder.group({
@@ -70,7 +74,16 @@ export class Demo2Component implements OnInit, OnDestroy {
     this.hobbiesCtrl.push(new FormControl(''));
   }
 
-  onSubmit() {
+  async onSubmit() {
+    if (this.formGroup.invalid) {
+      return;
+    }
+
+    const formStepperState = await this.formStepper.state$.pipe(first()).toPromise();
+    if (formStepperState.stepIndex !== formStepperState.lastStepIndex) {
+      return;
+    }
+
     this.isBeingSubmitted = true;
 
     // Emulate that we are submitting the form to the backend during 2 sec.

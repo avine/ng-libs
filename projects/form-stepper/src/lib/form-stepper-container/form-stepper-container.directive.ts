@@ -39,6 +39,9 @@ export class FormStepperContainerDirective implements OnInit, AfterContentInit, 
 
   @ContentChildren(FormStepperSectionDirective) sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
 
+  // Part of the directive's public API
+  readonly state$ = this.service.state$;
+
   main$ = this.service.main$;
 
   private sectionsSubscription!: Subscription;

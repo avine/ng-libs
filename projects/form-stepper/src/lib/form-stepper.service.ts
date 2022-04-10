@@ -133,7 +133,6 @@ export class FormStepperService implements OnDestroy {
         if (!this.steps.length) {
           return;
         }
-        this.currentPath = currentPath;
         this.handlePath(currentPath);
       });
   }
@@ -245,6 +244,8 @@ export class FormStepperService implements OnDestroy {
   }
 
   private handlePath(path: string | null): void {
+    this.currentPath = path;
+
     if (path === this.onboarding?.path) {
       return this.handleExtraPagePath(path);
     }

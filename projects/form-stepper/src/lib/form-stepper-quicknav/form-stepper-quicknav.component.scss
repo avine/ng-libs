@@ -8,9 +8,9 @@
   --icon-bg-color: #e7e7e7;
 
   overflow: hidden; // Required to have consistent `margin-bottom` between desktop and mobile.
+  margin: calc(-1 * var(--gutter)) 0 1.5rem 0;
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: calc(-1 * var(--gutter));
 
   @media (max-width: v.$breakpoint) {
     display: block;
@@ -18,7 +18,7 @@
 
   &__section {
     flex-grow: 1;
-    margin-bottom: var(--gutter);
+    margin-top: var(--gutter);
     padding: 1rem 1.5rem;
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
@@ -35,8 +35,10 @@
 
     &-icon {
       margin-right: 0.5rem;
-      width: 2rem;
-      height: 2rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      line-height: 2.5rem;
+      font-size: 1rem;
       border-radius: 50%;
       background-color: var(--icon-bg-color);
       text-align: center;

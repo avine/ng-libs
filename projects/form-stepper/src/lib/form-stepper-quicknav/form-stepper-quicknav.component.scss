@@ -1,24 +1,30 @@
 .form-stepper-quicknav {
+  --gutter: 1rem;
   --border-radius: 3px;
-  --border-color: #e7e7e7;
+  --border-color: #d7d7d7;
   --bg-color: #f7f7f7;
+  --icon-bg-color: #e7e7e7;
+
+  overflow: hidden; // Required to have consistent `margin-bottom` between desktop and mobile.
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: calc(-1 * var(--gutter));
+
+  // TODO: breakpoint should be configurable
+  @media (max-width: 1023px) {
+    display: block;
+  }
 
   &__section {
+    flex-grow: 1;
+    margin-bottom: var(--gutter);
     padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
     background-color: var(--bg-color);
 
-    &:first-child {
-      border-radius: var(--border-radius) var(--border-radius) 0 0;
-    }
-
-    & + & {
-      border-top: none;
-    }
-
-    &:last-child {
-      margin-bottom: 1.5rem;
-      border-radius: 0 0 var(--border-radius) var(--border-radius);
+    &--multi {
+      margin-right: var(--gutter);
     }
 
     &-title {
@@ -28,6 +34,11 @@
 
     &-icon {
       margin-right: 0.5rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background-color: var(--icon-bg-color);
+      text-align: center;
     }
   }
 

@@ -2,7 +2,7 @@
   <ng-container [ngSwitch]="formStepperCompact">
     <ng-container *ngSwitchCase="false">
       <ng-container *ngFor="let section of nav">
-        <div *ngIf="section.hasQuicknav" class="form-stepper-quicknav__section">
+        <div *ngIf="section.hasQuicknav" class="form-stepper-quicknav__section form-stepper-quicknav__section--multi">
           <h3 class="form-stepper-quicknav__section-title">
             <form-stepper-section-icon
               class="form-stepper-quicknav__section-icon"
@@ -35,7 +35,10 @@
 
 <ng-template #steps let-section="section">
   <div *ngFor="let step of section.steps">
-    <strong *ngIf="step.title !== section.title || section.steps.length >= 2" class="form-stepper-quicknav__step-title">
+    <strong
+      *ngIf="formStepperCompact || step.title !== section.title || section.steps.length >= 2"
+      class="form-stepper-quicknav__step-title"
+    >
       {{ step.title }}:
     </strong>
 

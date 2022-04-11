@@ -9,6 +9,7 @@ import { FormStepperMainComponent } from './form-stepper-main/form-stepper-main.
 import { FormStepperNavComponent } from './form-stepper-nav/form-stepper-nav.component';
 import { FormStepperNextDirective } from './form-stepper-next/form-stepper-next.directive';
 import { FormStepperOnboardingDirective } from './form-stepper-onboarding/form-stepper-onboarding.directive';
+import { FormStepperPrevAnchorDirective } from './form-stepper-prev-anchor/form-stepper-prev-anchor.directive';
 import { FormStepperPrevDirective } from './form-stepper-prev/form-stepper-prev.directive';
 import { FormStepperQuicknavComponent } from './form-stepper-quicknav/form-stepper-quicknav.component';
 import { FormStepperSectionIconComponent } from './form-stepper-section-icon/form-stepper-section-icon.component';
@@ -32,6 +33,7 @@ const directives = [
   FormStepperControlDirective,
   FormStepperNextDirective,
   FormStepperOnboardingDirective,
+  FormStepperPrevAnchorDirective,
   FormStepperPrevDirective,
   FormStepperSectionDirective,
   FormStepperStepDirective,

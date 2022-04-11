@@ -12,9 +12,11 @@ import { FormStepperService } from '../form-stepper.service';
 export class FormStepperMainComponent {
   @HostBinding('class.form-stepper-main') hasClass = true;
 
-  @Input() isFormValid!: boolean;
+  @Input() formStepperUsePrevAnchor = false;
 
-  @Input() isBeingSubmitted!: boolean;
+  @Input() formStepperIsFormValid!: boolean;
+
+  @Input() formStepperIsBeingSubmitted!: boolean;
 
   main$ = this.service.main$;
 

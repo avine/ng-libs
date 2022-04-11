@@ -1,7 +1,19 @@
 <ng-container *ngIf="main$ | async as main">
-  <button formStepperPrev type="button" tabindex="-1" class="form-stepper-main__prev" [class]="config.css.prev">
+  <a
+    *ngIf="formStepperUsePrevAnchor; else usePrevButton"
+    formStepperPrevAnchor
+    href="#prev"
+    class="form-stepper-main__prev"
+    [class]="config.css.prev"
+  >
     {{ config.translations.prev }}
-  </button>
+  </a>
+
+  <ng-template #usePrevButton>
+    <button formStepperPrev type="button" tabindex="-1" class="form-stepper-main__prev" [class]="config.css.prev">
+      {{ config.translations.prev }}
+    </button>
+  </ng-template>
 
   <h2 class="form-stepper-main__title" [class]="config.css.sectionTitle">{{ main.sectionTitle }}</h2>
 
@@ -12,7 +24,7 @@
   <button
     *ngIf="main.isLastStep; else next"
     type="submit"
-    [disabled]="!isFormValid || isBeingSubmitted"
+    [disabled]="!formStepperIsFormValid || formStepperIsBeingSubmitted"
     class="form-stepper-main__submit"
     [class]="config.css.submit"
   >

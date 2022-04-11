@@ -1,4 +1,6 @@
 .form-stepper-main {
+  --prev-anchor-disabled-color: #999999;
+
   &__prev {
     margin-bottom: 1rem;
   }
@@ -17,5 +19,15 @@
 
   &__next {
     // TODO...
+  }
+}
+
+// Note: the following class is defined in `form-stepper-prev-anchor.directive.ts`.
+.form-stepper-prev--disabled {
+  &,
+  &:hover,
+  &:active,
+  &:focus {
+    color: var(--prev-anchor-disabled-color) !important;
   }
 }

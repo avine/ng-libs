@@ -17,6 +17,7 @@ export * from './lib/form-stepper-container/form-stepper-container.directive';
 export * from './lib/form-stepper-control/form-stepper-control.directive';
 export * from './lib/form-stepper-next/form-stepper-next.directive';
 export * from './lib/form-stepper-onboarding/form-stepper-onboarding.directive';
+export * from './lib/form-stepper-prev-anchor/form-stepper-prev-anchor.directive';
 export * from './lib/form-stepper-prev/form-stepper-prev.directive';
 export * from './lib/form-stepper-section/form-stepper-section.directive';
 export * from './lib/form-stepper-step/form-stepper-step.directive';

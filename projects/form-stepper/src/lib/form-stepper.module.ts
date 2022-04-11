@@ -16,7 +16,7 @@ import { FormStepperSectionIconComponent } from './form-stepper-section-icon/for
 import { FormStepperSectionDirective } from './form-stepper-section/form-stepper-section.directive';
 import { FormStepperStepDirective } from './form-stepper-step/form-stepper-step.directive';
 import { FormStepperSummaryDirective } from './form-stepper-summary/form-stepper-summary.directive';
-import { FORM_STEPPER_DEFAULT_CONFIG } from './form-stepper.config';
+import { FormStepperConfig } from './form-stepper.types';
 import { provideFormStepperConfig } from './form-stepper.utils';
 
 const components = [
@@ -46,7 +46,7 @@ const directives = [
   exports: [components, directives],
 })
 export class FormStepperModule {
-  static forRoot(config = FORM_STEPPER_DEFAULT_CONFIG): ModuleWithProviders<FormStepperModule> {
+  static forRoot(config?: Partial<FormStepperConfig>): ModuleWithProviders<FormStepperModule> {
     return {
       ngModule: FormStepperModule,
       providers: [provideFormStepperConfig(config)],

@@ -73,4 +73,5 @@ export interface FormStepperConfig {
     next: string;
     submit: string;
   };
+  breakpoint: string;
 }

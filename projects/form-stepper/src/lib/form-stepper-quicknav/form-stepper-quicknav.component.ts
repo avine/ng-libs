@@ -8,7 +8,6 @@ import { FormStepperStep } from '../form-stepper.types';
 @Component({
   selector: 'form-stepper-quicknav',
   templateUrl: './form-stepper-quicknav.component.html',
-  styleUrls: ['./form-stepper-quicknav.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

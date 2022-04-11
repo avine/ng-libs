@@ -1,3 +1,5 @@
+@use '../scss/variables.scss' as v;
+
 .form-stepper-nav {
   // Color
   --bg-color: #ffffff;
@@ -227,8 +229,7 @@
 
   // ----- Mobile -----
 
-  // TODO: breakpoint should be configurable
-  @media (max-width: 1023px) {
+  @media (max-width: v.$breakpoint) {
     --section-btn__line-height: 1.25rem;
     --section-btn__padding-v: 0.825rem;
 

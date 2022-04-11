@@ -6,7 +6,6 @@ import { sectionIconAnimations } from './form-stepper-section-icon.animations';
 @Component({
   selector: 'form-stepper-section-icon',
   templateUrl: './form-stepper-section-icon.component.html',
-  styleUrls: ['./form-stepper-section-icon.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: sectionIconAnimations,

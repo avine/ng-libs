@@ -5,7 +5,6 @@ import { IconAlias, IconsMap } from './form-stepper-icon.types';
 @Component({
   selector: 'form-stepper-icon',
   templateUrl: './form-stepper-icon.component.html',
-  styleUrls: ['./form-stepper-icon.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

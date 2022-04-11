@@ -18,7 +18,6 @@ import { navAnimations } from './form-stepper-nav.animations';
 @Component({
   selector: 'form-stepper-nav',
   templateUrl: './form-stepper-nav.component.html',
-  styleUrls: ['./form-stepper-nav.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: navAnimations,
@@ -43,11 +42,12 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // TODO: breakpoint should be configurable
-    this.subscription = this.breakpointObserver.observe(['(max-width: 1023px)']).subscribe((state: BreakpointState) => {
-      this.isMobile = state.matches;
-      this.changeDetectorRef.markForCheck();
-    });
+    this.subscription = this.breakpointObserver
+      .observe([`(max-width: ${this.service.config.breakpoint})`])
+      .subscribe((state: BreakpointState) => {
+        this.isMobile = state.matches;
+        this.changeDetectorRef.markForCheck();
+      });
   }
 
   ngOnDestroy() {

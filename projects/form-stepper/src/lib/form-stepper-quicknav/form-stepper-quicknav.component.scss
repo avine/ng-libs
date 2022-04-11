@@ -1,3 +1,5 @@
+@use '../scss/variables.scss' as v;
+
 .form-stepper-quicknav {
   --gutter: 1rem;
   --border-radius: 3px;
@@ -10,8 +12,7 @@
   flex-wrap: wrap;
   margin-bottom: calc(-1 * var(--gutter));
 
-  // TODO: breakpoint should be configurable
-  @media (max-width: 1023px) {
+  @media (max-width: v.$breakpoint) {
     display: block;
   }
 

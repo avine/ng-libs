@@ -5,7 +5,6 @@ import { FormStepperService } from '../form-stepper.service';
 @Component({
   selector: 'form-stepper-main',
   templateUrl: './form-stepper-main.component.html',
-  styleUrls: ['./form-stepper-main.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

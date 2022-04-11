@@ -27,7 +27,6 @@ import { FormStepperExtraPage } from '../form-stepper.types';
 @Component({
   selector: 'form-stepper-container',
   templateUrl: './form-stepper-container.component.html',
-  styleUrls: ['./form-stepper-container.component.scss'],
   providers: [FormStepperService],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -30,9 +30,9 @@
 
   // Mobile
   --mobile-timeline-width: 0.5rem;
-  --mobile-steps-box-shadow: 0px 3px 6px -1px rgba(0, 0, 0, 0.15);
-  --mobile-steps-border-color: #{v.$nav-mobile-steps-border-color};
-  --mobile-steps-bg-color: #{v.$nav-mobile-steps-bg-color};
+  --mobile-steps__box-shadow: #{v.$nav-mobile-steps__box-shadow};
+  --mobile-steps__border-color: #{v.$nav-mobile-steps__border-color};
+  --mobile-steps__bg-color: #{v.$nav-mobile-steps__bg-color};
 
   // Animation
   --anim-duration: 250ms;
@@ -330,10 +330,10 @@
       padding: 1.125rem 0;
 
       box-sizing: border-box;
-      box-shadow: var(--mobile-steps-box-shadow);
+      box-shadow: var(--mobile-steps__box-shadow);
       border-radius: 4px;
-      border: 1px solid var(--mobile-steps-border-color);
-      background-color: var(--mobile-steps-bg-color);
+      border: 1px solid var(--mobile-steps__border-color);
+      background-color: var(--mobile-steps__bg-color);
 
       display: none;
 
@@ -348,8 +348,8 @@
         border-top-right-radius: 4px;
         border-width: 1px 1px 0 0;
         border-style: solid;
-        border-color: var(--mobile-steps-border-color);
-        background-color: var(--mobile-steps-bg-color);
+        border-color: var(--mobile-steps__border-color);
+        background-color: var(--mobile-steps__bg-color);
       }
     }
 

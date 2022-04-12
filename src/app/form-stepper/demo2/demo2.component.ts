@@ -4,6 +4,17 @@ import { first } from 'rxjs/operators';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormStepperContainerComponent } from '@avine/ng-form-stepper';
+import {
+  faAt,
+  faCheck,
+  faEye,
+  faHeart,
+  faIndustry,
+  faInfo,
+  faComment,
+  faQuestion,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-demo2',
@@ -42,6 +53,16 @@ export class Demo2Component implements OnInit, OnDestroy {
   isBeingSubmitted = false;
 
   private subscription!: Subscription;
+
+  faAt = faAt;
+  faCheck = faCheck;
+  faEye = faEye;
+  faHeart = faHeart;
+  faIndustry = faIndustry;
+  faInfo = faInfo;
+  faComment = faComment;
+  faQuestion = faQuestion;
+  faUser = faUser;
 
   constructor(private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
 

@@ -1,10 +1,24 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperDisabled]="isBeingSubmitted">
-    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+  <form-stepper-container
+    [formStepperGroupRoot]="formGroup"
+    [formStepperDisabled]="isBeingSubmitted"
+    [formStepperValidSectionIcon]="validIcon"
+  >
+    <ng-template
+      formStepperOnboarding
+      formStepperTitle="Onboarding"
+      formStepperPath="onboarding"
+      [formStepperIcon]="onboardingIcon"
+    >
       <p>Welcome to demo 2.</p>
     </ng-template>
 
-    <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
+    <ng-container
+      formGroupName="fullName"
+      formStepperSection
+      formStepperTitle="Full name"
+      [formStepperIcon]="fullNameIcon"
+    >
       <ng-template formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
         <label>
           First name<br />
@@ -20,7 +34,11 @@
       </ng-template>
     </ng-container>
 
-    <ng-container formStepperSection="haveCompany" formStepperTitle="Have company ?">
+    <ng-container
+      formStepperSection="haveCompany"
+      formStepperTitle="Have company ?"
+      [formStepperIcon]="haveCompanyIcon"
+    >
       <ng-template formStepperStep formStepperPath="have-company">
         <label>
           <input type="radio" [value]="false" formControlName="haveCompany" />
@@ -33,7 +51,13 @@
       </ng-template>
     </ng-container>
 
-    <ng-container *ngIf="!haveCompanyCtrl.value" formGroupName="contact" formStepperSection formStepperTitle="Contact">
+    <ng-container
+      *ngIf="!haveCompanyCtrl.value"
+      formGroupName="contact"
+      formStepperSection
+      formStepperTitle="Contact"
+      [formStepperIcon]="contactIcon"
+    >
       <ng-template formStepperStep="email" formStepperTitle="Email" formStepperPath="email">
         <label>
           Email<br />
@@ -55,7 +79,13 @@
       </ng-template>
     </ng-container>
 
-    <ng-container *ngIf="!haveCompanyCtrl.value" formArrayName="hobbies" formStepperSection formStepperTitle="Hobbies">
+    <ng-container
+      *ngIf="!haveCompanyCtrl.value"
+      formArrayName="hobbies"
+      formStepperSection
+      formStepperTitle="Hobbies"
+      [formStepperIcon]="hobbiesIcon"
+    >
       <ng-template formStepperStep formStepperPath="hobbies">
         <label *ngFor="let _ of hobbiesCtrl.controls; let index = index">
           Hobby {{ index + 1 }}<br />
@@ -66,7 +96,13 @@
       </ng-template>
     </ng-container>
 
-    <ng-container *ngIf="haveCompanyCtrl.value" formGroupName="company" formStepperSection formStepperTitle="Company">
+    <ng-container
+      *ngIf="haveCompanyCtrl.value"
+      formGroupName="company"
+      formStepperSection
+      formStepperTitle="Company"
+      [formStepperIcon]="companyIcon"
+    >
       <ng-template formStepperStep formStepperPath="company">
         <label>
           Name<br />
@@ -80,17 +116,27 @@
       </ng-template>
     </ng-container>
 
-    <ng-container formStepperSection="message" formStepperTitle="Message">
+    <ng-container formStepperSection="message" formStepperTitle="Message" [formStepperIcon]="messageIcon">
       <ng-template formStepperStep formStepperPath="message">
         <label>
           Message<br />
-          <textarea formControlName="message"></textarea>
+          <textarea formControlName="message" formStepperControl></textarea>
         </label>
       </ng-template>
     </ng-container>
 
-    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary">
+    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary" [formStepperIcon]="summayIcon">
       <form-stepper-quicknav></form-stepper-quicknav>
     </ng-template>
   </form-stepper-container>
 </form>
+
+<ng-template #contactIcon><fa-icon [icon]="faAt"></fa-icon></ng-template>
+<ng-template #validIcon><fa-icon [icon]="faCheck"></fa-icon></ng-template>
+<ng-template #summayIcon><fa-icon [icon]="faEye"></fa-icon></ng-template>
+<ng-template #hobbiesIcon><fa-icon [icon]="faHeart"></fa-icon></ng-template>
+<ng-template #companyIcon><fa-icon [icon]="faIndustry"></fa-icon></ng-template>
+<ng-template #onboardingIcon><fa-icon [icon]="faInfo"></fa-icon></ng-template>
+<ng-template #messageIcon><fa-icon [icon]="faComment"></fa-icon></ng-template>
+<ng-template #haveCompanyIcon><fa-icon [icon]="faQuestion"></fa-icon></ng-template>
+<ng-template #fullNameIcon><fa-icon [icon]="faUser"></fa-icon></ng-template>

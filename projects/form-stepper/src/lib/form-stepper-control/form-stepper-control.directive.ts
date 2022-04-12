@@ -1,22 +1,33 @@
 import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
+import { FORM_STEPPER_CONTROL_ON_ENTER_DEFAULT } from './form-stepper-control.config';
+import { FormStepperControlOnEnter } from './form-stepper-control.types';
 
 @Directive({
   selector: '[formStepperControl]',
 })
 export class FormStepperControlDirective implements OnInit, OnDestroy {
-  @Input() formStepperControl!: 'noPreventDefault' | '';
+  @Input() formStepperControl!: '';
+
+  @Input() formStepperOnEnter!: Partial<FormStepperControlOnEnter>;
 
   @HostListener('keydown.enter', ['$event']) onEnter(event: KeyboardEvent) {
-    // Do not submit form on "enter"...
-    if (this.formStepperControl !== 'noPreventDefault') {
+    const { preventDefault, nextStep } = this.onEnterConfig;
+
+    // Do not submit form on "enter" key pressed...
+    if (preventDefault) {
       event.preventDefault();
     }
-    // ...simply navigate to next step
-    if (this.service.state.isStepValid) {
+
+    // ...but navigate to next step instead
+    if (nextStep && this.service.state.isStepValid) {
       this.service.nextStep();
     }
+  }
+
+  get onEnterConfig(): FormStepperControlOnEnter {
+    return { ...FORM_STEPPER_CONTROL_ON_ENTER_DEFAULT, ...(this.formStepperOnEnter ?? {}) };
   }
 
   constructor(private service: FormStepperService, private elementRef: ElementRef) {}

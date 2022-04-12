@@ -11,5 +11,9 @@ export const provideFormStepperConfig = (config: Partial<FormStepperConfig> = {}
 export const quicknavValueListToHtml = (list: string[], bullet = '•', startWithBreakLine = true) => {
   const breakLine = '<br />';
   const bulletWithSpace = `${bullet} `;
-  return (startWithBreakLine ? breakLine : '') + bulletWithSpace + list.join(breakLine + bulletWithSpace);
+  return (
+    (startWithBreakLine ? breakLine : '') +
+    bulletWithSpace +
+    list.filter((item) => item).join(breakLine + bulletWithSpace)
+  );
 };

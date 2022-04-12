@@ -120,7 +120,11 @@
       <ng-template formStepperStep formStepperPath="message">
         <label>
           Message<br />
-          <textarea formControlName="message" formStepperControl></textarea>
+          <textarea
+            formControlName="message"
+            formStepperControl
+            [formStepperOnEnter]="{ preventDefault: false, nextStep: false }"
+          ></textarea>
         </label>
       </ng-template>
     </ng-container>

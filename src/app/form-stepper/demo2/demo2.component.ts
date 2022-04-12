@@ -113,6 +113,8 @@ export class Demo2Component implements OnInit, OnDestroy {
       return;
     }
 
+    console.log('formGroup.value', JSON.stringify(this.formGroup.value, undefined, 2));
+
     this.isBeingSubmitted = true;
 
     // Emulate that we are submitting the form to the backend during 2 sec.

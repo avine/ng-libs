@@ -2,15 +2,15 @@ import { Subscription } from 'rxjs';
 
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { FormStepperContainerComponent } from '@avine/ng-form-stepper';
+import { FormStepperContainerComponent, quicknavValueListToHtml } from '@avine/ng-form-stepper';
 import {
   faAt,
   faCheck,
+  faComment,
   faEye,
   faHeart,
   faIndustry,
   faInfo,
-  faComment,
   faQuestion,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
@@ -49,17 +49,26 @@ export class Demo2Component implements OnInit, OnDestroy {
 
   haveCompanyCtrl = this.formGroup.controls.haveCompany;
 
+  quicknavFormatter = (path: string, value: any): string | void => {
+    if (path === 'hobbies') {
+      return quicknavValueListToHtml(value as string[], undefined, false);
+    }
+    if (path === 'message') {
+      return value || 'None';
+    }
+  };
+
   isBeingSubmitted = false;
 
   private subscription!: Subscription;
 
   faAt = faAt;
   faCheck = faCheck;
+  faComment = faComment;
   faEye = faEye;
   faHeart = faHeart;
   faIndustry = faIndustry;
   faInfo = faInfo;
-  faComment = faComment;
   faQuestion = faQuestion;
   faUser = faUser;
 

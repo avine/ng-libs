@@ -42,6 +42,9 @@ export class FormStepperContainerDirective implements OnInit, AfterContentInit, 
   // Part of the directive's public API
   readonly state$ = this.service.state$;
 
+  // Part of the directive's public API
+  readonly stateSnapshot = () => this.service.state;
+
   main$ = this.service.main$;
 
   private sectionsSubscription!: Subscription;

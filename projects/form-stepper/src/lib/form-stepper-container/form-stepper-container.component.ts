@@ -53,6 +53,9 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   // Part of the component's public API
   readonly state$ = this.service.state$;
 
+  // Part of the component's public API
+  readonly stateSnapshot = () => this.service.state;
+
   private sectionsSubscription!: Subscription;
 
   constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}

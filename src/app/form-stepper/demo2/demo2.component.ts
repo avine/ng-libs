@@ -1,5 +1,4 @@
 import { Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
 
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -95,13 +94,13 @@ export class Demo2Component implements OnInit, OnDestroy {
     this.hobbiesCtrl.push(new FormControl(''));
   }
 
-  async onSubmit() {
+  onSubmit() {
     if (this.formGroup.invalid) {
       return;
     }
 
-    const formStepperState = await this.formStepper.state$.pipe(first()).toPromise();
-    if (formStepperState.stepIndex !== formStepperState.lastStepIndex) {
+    const { stepIndex, lastStepIndex } = this.formStepper.stateSnapshot();
+    if (stepIndex !== lastStepIndex) {
       return;
     }
 

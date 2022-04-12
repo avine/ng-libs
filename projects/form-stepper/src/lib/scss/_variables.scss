@@ -1,1 +1,31 @@
 $breakpoint: 1023px !default;
+
+// ----- prev -----
+
+$prev-anchor-disabled-color: #999999 !default;
+
+// ----- nav -----
+
+$nav-bg-color: #ffffff !default;
+$nav-timeline-color: #e1e1e1 !default;
+$nav-bullet-color: #e1e1e1 !default;
+
+$nav-text-color__default: #636363 !default;
+$nav-text-color__valid: #222222 !default;
+
+$nav-valid__bg-color: #43a047 !default;
+$nav-valid__text-color: #e8f5e9 !default;
+
+$nav-section-current__bg-color: #00acc1 !default;
+$nav-section-current__text-color: #e0f7fa !default;
+
+$nav-step__underline-color: #d1d1d1 !default;
+
+$nav-mobile-steps-border-color: #cccccc !default;
+$nav-mobile-steps-bg-color: #ffffff !default;
+
+// ----- quicknav -----
+
+$quicknav-border-color: #d7d7d7 !default;
+$quicknav-bg-color: #f7f7f7 !default;
+$quicknav-icon-bg-color: #e7e7e7 !default;

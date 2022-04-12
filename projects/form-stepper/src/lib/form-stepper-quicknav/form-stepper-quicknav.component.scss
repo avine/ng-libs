@@ -3,9 +3,9 @@
 .form-stepper-quicknav {
   --gutter: 1rem;
   --border-radius: 3px;
-  --border-color: #d7d7d7;
-  --bg-color: #f7f7f7;
-  --icon-bg-color: #e7e7e7;
+  --border-color: #{v.$quicknav-border-color};
+  --bg-color: #{v.$quicknav-bg-color};
+  --icon-bg-color: #{v.$quicknav-icon-bg-color};
 
   overflow: hidden; // Required to have consistent `margin-bottom` between desktop and mobile.
   margin: calc(-1 * var(--gutter)) 0 1.5rem 0;

@@ -40,7 +40,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
 
   @Input() formStepperUseRouting = true;
 
-  @Input() formStepperUsePrevAnchor = false;
+  @Input() formStepperUsePrevAnchor = true;
 
   @Input() formStepperDisabled!: boolean;
 

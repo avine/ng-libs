@@ -1,5 +1,7 @@
+@use '../scss/variables.scss' as v;
+
 .form-stepper-main {
-  --prev-anchor-disabled-color: #999999;
+  --prev-anchor-disabled-color: #{v.$prev-anchor-disabled-color};
 
   &__prev {
     margin-bottom: 1rem;

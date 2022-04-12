@@ -11,7 +11,7 @@ import { FormStepperService } from '../form-stepper.service';
 export class FormStepperMainComponent {
   @HostBinding('class.form-stepper-main') hasClass = true;
 
-  @Input() formStepperUsePrevAnchor = false;
+  @Input() formStepperUsePrevAnchor = true;
 
   @Input() formStepperIsFormValid!: boolean;
 

@@ -27,10 +27,19 @@ import { FormStepperExtraPage } from '../form-stepper.types';
   exportAs: 'formStepper',
 })
 export class FormStepperContainerDirective implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
+  /**
+   * Tracks the validity state of the form root.
+   */
   @Input() formStepperGroupRoot!: FormGroup;
 
+  /**
+   * Template to use as the section icon when all the steps in the section are valid.
+   */
   @Input() formStepperValidSectionIcon!: TemplateRef<any>;
 
+  /**
+   * Determines whether navigation between steps uses routing.
+   */
   @Input() formStepperUseRouting = true;
 
   @ContentChild(FormStepperOnboardingDirective) onboardingDirective!: FormStepperOnboardingDirective;
@@ -39,12 +48,27 @@ export class FormStepperContainerDirective implements OnInit, AfterContentInit, 
 
   @ContentChildren(FormStepperSectionDirective) sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
 
-  // Part of the directive's public API
+  /**
+   * Get an observable of the `FormStepperState`.
+   */
   readonly state$ = this.service.state$;
 
-  // Part of the directive's public API
+  /**
+   * Get the `FormStepperState` snapshot.
+   *
+   * @example
+   * ```ts
+   * const { stepIndex, lastStepIndex } = this.formStepper.stateSnapshot();
+   * if (stepIndex === lastStepIndex) {
+   *   // The current step is the last one.
+   * }
+   * ```
+   */
   readonly stateSnapshot = () => this.service.state;
 
+  /**
+   * Give access to infos (`sectionTitle`, `currentStep` and `isLastStep`) that are needed to render the current step.
+   */
   main$ = this.service.main$;
 
   private sectionsSubscription!: Subscription;

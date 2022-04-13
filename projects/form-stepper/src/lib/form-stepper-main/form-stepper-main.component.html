@@ -24,7 +24,7 @@
   <button
     *ngIf="main.isLastStep; else next"
     type="submit"
-    [disabled]="!formStepperIsFormValid || formStepperIsBeingSubmitted"
+    [disabled]="(isFormInvalid$ | async) || formStepperDisabled"
     class="form-stepper-main__submit"
     [class]="config.css.submit"
   >

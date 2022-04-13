@@ -8,8 +8,24 @@ import { FormStepperControlOnEnter } from './form-stepper-control.types';
   selector: '[formStepperControl]',
 })
 export class FormStepperControlDirective implements OnInit, OnDestroy {
+  /**
+   * Add smart behaviors to the `FormControl`
+   *
+   * @description
+   * - autofocus the first `FormControl` of the step (when it has no value).
+   * - prevent form submission when when pressing "Enter" key.
+   * - jump to the next step when when pressing "Enter" key (if the current step is valid).
+   *
+   * Note: use the `formStepperOnEnter` input to adjust the behavior of the directive.
+   */
   @Input() formStepperControl!: '';
 
+  /**
+   * Adjust the behavior of the directive.
+   *
+   * @example
+   * { preventDefault: false, nextStep: false }
+   */
   @Input() formStepperOnEnter!: Partial<FormStepperControlOnEnter>;
 
   @HostListener('keydown.enter', ['$event']) onEnter(event: KeyboardEvent) {
@@ -26,7 +42,7 @@ export class FormStepperControlDirective implements OnInit, OnDestroy {
     }
   }
 
-  get onEnterConfig(): FormStepperControlOnEnter {
+  private get onEnterConfig(): FormStepperControlOnEnter {
     return { ...FORM_STEPPER_CONTROL_ON_ENTER_DEFAULT, ...(this.formStepperOnEnter ?? {}) };
   }
 

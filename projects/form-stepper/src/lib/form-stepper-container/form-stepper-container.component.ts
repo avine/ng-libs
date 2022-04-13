@@ -34,14 +34,30 @@ import { FormStepperExtraPage } from '../form-stepper.types';
 export class FormStepperContainerComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
   @HostBinding('class.form-stepper-container') hasClass = true;
 
+  /**
+   * Tracks the validity state of the form root.
+   */
   @Input() formStepperGroupRoot!: FormGroup;
 
+  /**
+   * Template to use as the section icon when all the steps in the section are valid.
+   */
   @Input() formStepperValidSectionIcon!: TemplateRef<any>;
 
+  /**
+   * Determines whether navigation between steps uses routing.
+   */
   @Input() formStepperUseRouting = true;
 
+  /**
+   * Determine whether navigation to the previous step is triggered by a `<button>` or a `<a>`.
+   */
   @Input() formStepperUsePrevAnchor = true;
 
+  /**
+   * Determines whether the submit button in the last step is disabled
+   * (should be set to `true` while the form is being submitted).
+   */
   @Input() formStepperDisabled!: boolean;
 
   @ContentChild(FormStepperOnboardingDirective) onboardingDirective!: FormStepperOnboardingDirective;
@@ -50,10 +66,22 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
 
   @ContentChildren(FormStepperSectionDirective) sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
 
-  // Part of the component's public API
+  /**
+   * Get an observable of the `FormStepperState`.
+   */
   readonly state$ = this.service.state$;
 
-  // Part of the component's public API
+  /**
+   * Get the `FormStepperState` snapshot.
+   *
+   * @example
+   * ```ts
+   * const { stepIndex, lastStepIndex } = this.formStepper.stateSnapshot();
+   * if (stepIndex === lastStepIndex) {
+   *   // The current step is the last one.
+   * }
+   * ```
+   */
   readonly stateSnapshot = () => this.service.state;
 
   private sectionsSubscription!: Subscription;

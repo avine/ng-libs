@@ -5,6 +5,9 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEnc
 
 import { FormStepperService } from '../form-stepper.service';
 
+/**
+ * Render the current step and the "previous" and "next" (or "submit") buttons.
+ */
 @Component({
   selector: 'form-stepper-main',
   templateUrl: './form-stepper-main.component.html',
@@ -15,10 +18,14 @@ export class FormStepperMainComponent implements OnInit {
   @HostBinding('class.form-stepper-main') hasClass = true;
 
   /**
-   * Determine whether navigation to the previous step is triggered by a `<button>` or a `<a>`.
+   * Determines whether navigation to the previous step is triggered by a `<button>` or a `<a>`.
    */
   @Input() formStepperUsePrevAnchor = true;
 
+  /**
+   * Determines whether the submit button in the last step is disabled
+   * (should be set to `true` while the form is being submitted).
+   */
   @Input() formStepperDisabled!: boolean;
 
   main$ = this.service.main$;

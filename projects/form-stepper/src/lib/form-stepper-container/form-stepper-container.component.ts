@@ -24,6 +24,12 @@ import { FormStepperSummaryDirective } from '../form-stepper-summary/form-steppe
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperExtraPage } from '../form-stepper.types';
 
+/**
+ * Root component of the FormStepper.
+ *
+ * To get more control of the HTML output, consider using the `FormStepperContainerDirective`
+ * instead of the `FormStepperContainerComponent`.
+ */
 @Component({
   selector: 'form-stepper-container',
   templateUrl: './form-stepper-container.component.html',
@@ -40,7 +46,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   @Input() formStepperGroupRoot!: FormGroup;
 
   /**
-   * Template to use as the section icon when all the steps in the section are valid.
+   * Template to use as section icon when all the steps in the section are valid.
    */
   @Input() formStepperValidSectionIcon!: TemplateRef<any>;
 
@@ -50,7 +56,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   @Input() formStepperUseRouting = true;
 
   /**
-   * Determine whether navigation to the previous step is triggered by a `<button>` or a `<a>`.
+   * Determines whether navigation to the previous step is triggered by a `<button>` or a `<a>`.
    */
   @Input() formStepperUsePrevAnchor = true;
 

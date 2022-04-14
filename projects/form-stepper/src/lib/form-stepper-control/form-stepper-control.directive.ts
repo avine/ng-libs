@@ -9,12 +9,10 @@ import { FormStepperControlOnEnter } from './form-stepper-control.types';
 })
 export class FormStepperControlDirective implements OnInit, OnDestroy {
   /**
-   * Add smart behaviors to the `FormControl`
-   *
-   * @description
+   * Add smart behaviors to the `FormControl`:
    * - autofocus the first `FormControl` of the step (when it has no value).
-   * - prevent form submission when when pressing "Enter" key.
-   * - jump to the next step when when pressing "Enter" key (if the current step is valid).
+   * - prevent form submission when pressing "Enter" key.
+   * - jump to the next step when pressing "Enter" key (if the current step is valid).
    *
    * Note: use the `formStepperOnEnter` input to adjust the behavior of the directive.
    */

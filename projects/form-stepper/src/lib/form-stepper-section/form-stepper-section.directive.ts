@@ -11,6 +11,9 @@ import { FormStepperStep } from '../form-stepper.types';
   selector: '[formStepperSection]',
 })
 export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {
+  /**
+   * The `AbstractControl` of the section (tracks the validity state of the section).
+   */
   @Input() formStepperSection!: AbstractControl | string;
 
   /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
@@ -22,10 +25,21 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
   @Input() formArrayName!: string;
 
+  /**
+   * The title of the step.
+   */
   @Input() formStepperTitle!: string;
 
+  /**
+   * The icon template of the section to use in the the "nav" and the "quicknav".
+   */
   @Input() formStepperIcon!: TemplateRef<any>;
 
+  /**
+   * Determines wheter to exclude the section from the "quicknav".
+   *
+   * It is usefull if the "quicknav" itself is dispayed in one of the steps (and not in the summary directive).
+   */
   @Input() formStepperNoQuicknav!: boolean;
 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
@@ -71,21 +85,19 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   }
 
   private getSteps(sectionIndex: number, stepIndexOffset: number) {
-    return this.stepDirectiveQueryList.map(
-      ({ formStepperTitle, formStepperPath, getStep, template }, relativeStepIndex) => {
-        const step: FormStepperStep = {
-          title: formStepperTitle || this.formStepperTitle,
-          path: formStepperPath,
-          control: this.service.getControl(this.getSection(), getStep()),
-          template,
-          sectionIndex,
-          stepIndex: stepIndexOffset + relativeStepIndex,
-        };
-        if (this.stepDirectiveQueryList.length >= 2) {
-          step.sectionProgression = { count: relativeStepIndex + 1, total: this.stepDirectiveQueryList.length };
-        }
-        return step;
+    return this.stepDirectiveQueryList.map(({ getTitle, getPath, getStep, template }, relativeStepIndex) => {
+      const step: FormStepperStep = {
+        title: getTitle() || this.formStepperTitle,
+        path: getPath(),
+        control: this.service.getControl(this.getSection(), getStep()),
+        template,
+        sectionIndex,
+        stepIndex: stepIndexOffset + relativeStepIndex,
+      };
+      if (this.stepDirectiveQueryList.length >= 2) {
+        step.sectionProgression = { count: relativeStepIndex + 1, total: this.stepDirectiveQueryList.length };
       }
-    );
+      return step;
+    });
   }
 }

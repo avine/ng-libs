@@ -15,6 +15,9 @@ import { FormStepperService } from '../form-stepper.service';
 import { FormStepperNavSection, FormStepperStep } from '../form-stepper.types';
 import { navAnimations } from './form-stepper-nav.animations';
 
+/**
+ * Render the FormStepper navigation.
+ */
 @Component({
   selector: 'form-stepper-nav',
   templateUrl: './form-stepper-nav.component.html',

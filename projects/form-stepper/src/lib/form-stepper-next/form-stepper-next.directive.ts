@@ -2,6 +2,9 @@ import { Directive, HostBinding, HostListener } from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
 
+/**
+ * Jump to the next step on click event.
+ */
 @Directive({
   selector: '[formStepperNext]',
 })

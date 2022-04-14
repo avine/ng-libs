@@ -5,6 +5,11 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulati
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
 
+/**
+ * Render the form's value in a nice summary with links to jump to a any step.
+ *
+ * Use the `formStepperCompact` input to adjust the HTML output.
+ */
 @Component({
   selector: 'form-stepper-quicknav',
   templateUrl: './form-stepper-quicknav.component.html',
@@ -14,8 +19,17 @@ import { FormStepperStep } from '../form-stepper.types';
 export class FormStepperQuicknavComponent {
   @HostBinding('class.form-stepper-quicknav') hasClass = true;
 
+  /**
+   * Determines whether to remove the sections from the summary.
+   * Should be set to `true` when the FormStepper has only one level (each section has only one step).
+   */
   @Input() formStepperCompact = false;
 
+  /**
+   * Customize the value of any step.
+   *
+   * @returns Return a `string` to overwrite the default formatting or `void` to bypass.
+   */
   @Input() formStepperFormat!: (path: string, controlValue: any) => string | void;
 
   nav$ = this.service.state$.pipe(map(({ nav }) => nav));

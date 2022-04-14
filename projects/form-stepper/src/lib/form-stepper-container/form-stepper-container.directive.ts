@@ -21,6 +21,12 @@ import { FormStepperSummaryDirective } from '../form-stepper-summary/form-steppe
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperExtraPage } from '../form-stepper.types';
 
+/**
+ * Root directive of the FormStepper.
+ *
+ * To let the FormStepper handle the HTML output for you, consider using the `FormStepperContainerComponent`
+ * instead of the `FormStepperContainerDirective`.
+ */
 @Directive({
   selector: '[formStepperContainer]',
   providers: [FormStepperService],

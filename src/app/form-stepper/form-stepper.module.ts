@@ -34,7 +34,7 @@ import { Demo2Component } from './demo2/demo2.component';
         next: 'custom-next',
         submit: 'custom-submit',
       },
-      breakpoint: '959px',
+      breakpoint: '960px',
     }),
   ],
   declarations: [

@@ -16,7 +16,7 @@ export const FORM_STEPPER_DEFAULT_CONFIG: FormStepperConfig = {
     next: '',
     submit: '',
   },
-  breakpoint: '1023px',
+  breakpoint: '1024px',
 };
 
 export const FORM_STEPPER_CONFIG = new InjectionToken<FormStepperConfig>('formStepperConfig');

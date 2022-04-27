@@ -12,7 +12,7 @@
   display: flex;
   flex-wrap: wrap;
 
-  @media (max-width: v.$breakpoint) {
+  @media (max-width: (v.$breakpoint - 1)) {
     display: block;
   }
 

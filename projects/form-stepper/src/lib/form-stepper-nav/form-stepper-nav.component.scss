@@ -229,7 +229,7 @@
 
   // ----- Mobile -----
 
-  @media (max-width: v.$breakpoint) {
+  @media (max-width: (v.$breakpoint - 1)) {
     --section-btn__line-height: 1.25rem;
     --section-btn__padding-v: 0.825rem;
 

@@ -8,7 +8,10 @@ export const provideFormStepperConfig = (config: Partial<FormStepperConfig> = {}
   useValue: { ...FORM_STEPPER_DEFAULT_CONFIG, ...config } as FormStepperConfig,
 });
 
-export const quicknavValueListToHtml = (list: string[], bullet = '•', startWithBreakLine = true) => {
+/**
+ * Format "quicknav" value from array of strings to pretty HTML.
+ */
+export const formatQuicknavValueFromListToHtml = (list: string[], bullet = '•', startWithBreakLine = true) => {
   const breakLine = '<br />';
   const bulletWithSpace = `${bullet} `;
   return (

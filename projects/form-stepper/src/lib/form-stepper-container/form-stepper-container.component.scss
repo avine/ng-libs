@@ -12,7 +12,7 @@
     margin-left: 1.5rem;
   }
 
-  @media (max-width: v.$breakpoint) {
+  @media (max-width: (v.$breakpoint - 1)) {
     flex-direction: column-reverse;
 
     &__nav {

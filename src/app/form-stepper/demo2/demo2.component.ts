@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { FormStepperContainerComponent, quicknavValueListToHtml } from '@avine/ng-form-stepper';
+import { FormStepperContainerComponent, formatQuicknavValueFromListToHtml } from '@avine/ng-form-stepper';
 import {
   faAt,
   faCheck,
@@ -51,7 +51,7 @@ export class Demo2Component implements OnInit, OnDestroy {
 
   quicknavFormatter = (path: string, value: any): string | void => {
     if (path === 'hobbies') {
-      return quicknavValueListToHtml(value as string[], undefined, false);
+      return formatQuicknavValueFromListToHtml(value as string[], undefined, false);
     }
     if (path === 'message') {
       return value || 'None';

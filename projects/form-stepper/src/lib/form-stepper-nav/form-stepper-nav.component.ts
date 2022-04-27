@@ -36,6 +36,10 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
 
   state$ = this.service.state$;
 
+  private get breakpointQuery() {
+    return `(max-width: calc(${this.service.config.breakpoint} - 1px))`;
+  }
+
   private subscription!: Subscription;
 
   constructor(
@@ -45,12 +49,10 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.breakpointObserver
-      .observe([`(max-width: ${this.service.config.breakpoint})`])
-      .subscribe((state: BreakpointState) => {
-        this.isMobile = state.matches;
-        this.changeDetectorRef.markForCheck();
-      });
+    this.subscription = this.breakpointObserver.observe(this.breakpointQuery).subscribe((state: BreakpointState) => {
+      this.isMobile = state.matches;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   ngOnDestroy() {

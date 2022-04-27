@@ -6,6 +6,7 @@ import { AbstractControl } from '@angular/forms';
 import { FormStepperStepDirective } from '../form-stepper-step/form-stepper-step.directive';
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
+import { FormStepperSectionConfig, FormStepperSectionControl } from './form-stepper-section.types';
 
 @Directive({
   selector: '[formStepperSection]',
@@ -13,8 +14,15 @@ import { FormStepperStep } from '../form-stepper.types';
 export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {
   /**
    * The `AbstractControl` of the section (tracks the validity state of the section).
+   *
+   * @example
+   * // When using the config object signature, `formStepperTitle` and `formStepperIcon` inputs are ignored.
+   * interface FormStepperSectionConfig { control?: AbstractControl | string; title?: string; icon?: TemplateRef<any> }
+   *
+   * // When using the control signature, `formStepperTitle` and `formStepperIcon` inputs can be used to complete the section configuration.
+   * type FormStepperSectionControl = string | AbstractControl
    */
-  @Input() formStepperSection!: AbstractControl | string;
+  @Input() formStepperSection!: FormStepperSectionConfig | FormStepperSectionControl;
 
   /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
   @Input() formGroup!: AbstractControl;
@@ -45,7 +53,15 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
   getSection = (): AbstractControl | string =>
-    this.formStepperSection || this.formGroup || this.formGroupName || this.formArrayName;
+    this.sectionConfig?.control ||
+    (this.formStepperSection as FormStepperSectionControl) ||
+    this.formGroup ||
+    this.formGroupName ||
+    this.formArrayName;
+
+  getTitle = (): string => this.sectionConfig?.title || this.formStepperTitle;
+
+  getIcon = (): TemplateRef<any> => this.sectionConfig?.icon || this.formStepperIcon;
 
   private stepsSubscription!: Subscription;
 
@@ -58,8 +74,8 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
     this.service.addSteps(steps);
 
     this.service.addNavSection({
-      title: this.formStepperTitle,
-      icon: this.formStepperIcon,
+      title: this.getTitle(),
+      icon: this.getIcon(),
       control: this.service.getControl(this.getSection()),
       stepIndexOffset,
       steps,
@@ -87,7 +103,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   private getSteps(sectionIndex: number, stepIndexOffset: number) {
     return this.stepDirectiveQueryList.map(({ getTitle, getPath, getStep, template }, relativeStepIndex) => {
       const step: FormStepperStep = {
-        title: getTitle() || this.formStepperTitle,
+        title: getTitle() || this.getTitle(),
         path: getPath(),
         control: this.service.getControl(this.getSection(), getStep()),
         template,
@@ -99,5 +115,12 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
       }
       return step;
     });
+  }
+
+  private get sectionConfig(): FormStepperSectionConfig | void {
+    if (this.formStepperSection instanceof AbstractControl || typeof this.formStepperSection === 'string') {
+      return;
+    }
+    return this.formStepperSection;
   }
 }

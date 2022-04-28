@@ -8,8 +8,8 @@
 
     <button type="button" tabindex="-1" formStepperPrev style="margin-right: 1.5rem">Prev</button>
 
-    <ng-container *ngIf="main.isLastStep && isFormGroupValid; else next">
-      <button type="submit" [disabled]="submitInProgress">Submit</button>
+    <ng-container *ngIf="main.isLastStep; else next">
+      <button type="submit" [disabled]="!isFormGroupValid || submitInProgress">Submit</button>
     </ng-container>
 
     <ng-template #next>

@@ -382,7 +382,7 @@
         content: '';
         position: absolute;
         z-index: 1;
-        top: calc(-5.6px + $steps-offset);
+        top: $steps-offset - 5.6px;
         width: 11px;
         height: 11px;
         transform: rotate(-45deg);

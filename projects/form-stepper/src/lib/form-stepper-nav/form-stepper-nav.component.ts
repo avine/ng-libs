@@ -1,6 +1,7 @@
 import { Subscription } from 'rxjs';
 
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { ConnectedPosition } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -34,6 +35,19 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
 
   isMobile = false;
 
+  isMobileOverlayOpen = false;
+
+  mobileOverlayPosition: { left: ConnectedPosition[]; right: ConnectedPosition[] } = {
+    left: [
+      { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
+      { originX: 'center', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
+    ],
+    right: [
+      { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top' },
+      { originX: 'center', originY: 'bottom', overlayX: 'end', overlayY: 'top' },
+    ],
+  };
+
   state$ = this.service.state$;
 
   private get breakpointQuery() {
@@ -59,9 +73,14 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 
-  navigateByStepIndex(event: Event, stepIndex: number) {
+  navigateByStepIndex(event: Event, stepIndex: number, sectionIndex?: number) {
     event.stopPropagation();
-    this.service.navigateByStepIndex(stepIndex);
+    if (sectionIndex !== this.service.state.sectionIndex) {
+      this.service.navigateByStepIndex(stepIndex);
+      this.isMobileOverlayOpen = false;
+    } else {
+      this.isMobileOverlayOpen = !this.isMobileOverlayOpen;
+    }
   }
 
   trackByControl(_: number, { control }: FormStepperNavSection | FormStepperStep) {

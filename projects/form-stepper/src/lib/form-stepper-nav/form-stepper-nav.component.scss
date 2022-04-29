@@ -240,8 +240,51 @@
     opacity: 0;
     animation: formStepperNavFadeIn var(--anim-duration) ease var(--anim-duration) forwards;
 
-    display: block;
-    text-align: center;
+    &--overlay {
+      opacity: 1;
+      animation: none;
+      margin: 0 4px;
+    }
+
+    &-inner {
+      position: relative;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+      }
+
+      &::before {
+        left: 0;
+        background-image: linear-gradient(to left, transparent, v.$nav-bg-color);
+      }
+
+      &::after {
+        right: 0;
+        background-image: linear-gradient(to right, transparent, v.$nav-bg-color);
+      }
+
+      &__content {
+        overflow-x: auto;
+        text-align: center;
+
+        // Hide scrollbar for Chrome, Safari and Opera
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        // Hide scrollbar for IE, Edge and Firefox
+        & {
+          -ms-overflow-style: none; // IE and Edge
+          scrollbar-width: none; // Firefox
+        }
+      }
+    }
 
     &-sections {
       display: inline-flex;
@@ -323,10 +366,10 @@
     }
 
     &-steps {
+      $steps-offset: 6px;
+
       max-width: 50vw;
-      position: absolute;
-      z-index: 999;
-      margin-top: 7px;
+      margin-top: $steps-offset;
       padding: 1.125rem 0;
 
       box-sizing: border-box;
@@ -335,13 +378,11 @@
       border: 1px solid var(--mobile-steps__border-color);
       background-color: var(--mobile-steps__bg-color);
 
-      display: none;
-
       &::after {
         content: '';
         position: absolute;
         z-index: 1;
-        top: -7px;
+        top: calc(-5.6px + $steps-offset);
         width: 11px;
         height: 11px;
         transform: rotate(-45deg);
@@ -357,28 +398,10 @@
     &-steps--left::after {
       left: 1.125rem;
     }
-    &-section--current &-steps--left {
-      display: block;
-      left: -9999px;
-      transition: left 0s linear 500ms;
-    }
-    &-section--current:hover &-steps--left {
-      left: 4px;
-      transition: none;
-    }
 
     // on right side
     &-steps--right::after {
       right: 1.125rem;
-    }
-    &-section--current &-steps--right {
-      display: block;
-      right: -9999px;
-      transition: right 0s linear 500ms;
-    }
-    &-section--current:hover &-steps--right {
-      right: 4px;
-      transition: none;
     }
 
     &-step {

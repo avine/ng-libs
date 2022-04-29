@@ -1,3 +1,4 @@
+import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
@@ -41,7 +42,7 @@ const directives = [
 ];
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, OverlayModule],
   declarations: [components, directives],
   exports: [components, directives],
 })

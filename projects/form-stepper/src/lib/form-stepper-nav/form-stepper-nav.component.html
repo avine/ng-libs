@@ -1,135 +1,167 @@
-<nav *ngIf="state$ | async as state" class="form-stepper-nav-sections">
-  <div
-    *ngIf="state.onboardingInfo"
-    class="form-stepper-nav-section"
-    [class.form-stepper-nav-section--valid]="state.maxStepIndexViewed >= 0"
-    [class.form-stepper-nav-section--current]="state.stepIndex === -1"
-  >
-    <span class="form-stepper-nav-section__bullet"></span>
-
-    <button
-      type="button"
-      tabindex="-1"
-      class="form-stepper-nav-section__btn"
-      (click)="navigateByStepIndex($event, state.onboardingInfo.index)"
-    >
-      <form-stepper-section-icon
-        class="form-stepper-nav-section__icon"
-        [formStepperIcon]="state.onboardingInfo.icon"
-        [formStepperIsValid]="state.maxStepIndexViewed >= 0"
-      ></form-stepper-section-icon>
-
-      <span
-        *ngIf="!isMobile || state.stepIndex === state.onboardingInfo.index"
-        [@smoothWidth]="state.stepIndex === state.onboardingInfo.index ? 'show' : 'hide'"
-        class="form-stepper-nav-section__title"
-      >
-        {{ state.onboardingInfo.title }}
-      </span>
-    </button>
-  </div>
-
-  <div
-    *ngFor="let section of state.nav; let sectionIndex = index; let isLastSectionIndex = last; trackBy: trackByControl"
-    class="form-stepper-nav-section"
-    [class.form-stepper-nav-section--valid]="
-      section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid
-    "
-    [class.form-stepper-nav-section--current]="state.sectionIndex === sectionIndex"
-    [class.form-stepper-nav-section--last]="!state.summaryInfo && isLastSectionIndex"
-  >
-    <span class="form-stepper-nav-section__bullet"></span>
-
-    <button
-      type="button"
-      tabindex="-1"
-      class="form-stepper-nav-section__btn"
-      [disabled]="section.stepIndexOffset > state.maxStepIndexViewed && section.steps[0].control.pristine"
-      (click)="navigateByStepIndex($event, section.stepIndexOffset)"
-    >
-      <span
-        *ngIf="state.sectionProgression && state.sectionIndex === sectionIndex"
-        [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
-        class="form-stepper-nav-section__progression"
-      >
-        {{ state.sectionProgression.count }}/{{ state.sectionProgression.total }}
-      </span>
-
-      <form-stepper-section-icon
-        class="form-stepper-nav-section__icon"
-        [formStepperIcon]="section.icon"
-        [formStepperIsValid]="section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid"
-      ></form-stepper-section-icon>
-
-      <span
-        *ngIf="!isMobile || state.sectionIndex === sectionIndex"
-        [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
-        class="form-stepper-nav-section__title"
-      >
-        {{ section.title }}
-      </span>
-    </button>
-
-    <ng-container *ngIf="state.sectionIndex === sectionIndex">
+<div class="form-stepper-nav-inner">
+  <div class="form-stepper-nav-inner__content">
+    <nav *ngIf="state$ | async as state" class="form-stepper-nav-sections">
       <div
-        *ngIf="section.steps.length >= 2"
-        class="form-stepper-nav-steps"
-        [class.form-stepper-nav-steps--left]="sectionIndex < state.nav.length / 2"
-        [class.form-stepper-nav-steps--right]="sectionIndex >= state.nav.length / 2"
-        @smoothHeight
+        *ngIf="state.onboardingInfo"
+        class="form-stepper-nav-section"
+        [class.form-stepper-nav-section--valid]="state.maxStepIndexViewed >= 0"
+        [class.form-stepper-nav-section--current]="state.stepIndex === -1"
       >
-        <div
-          *ngFor="let step of section.steps; let relativeStepIndex = index; trackBy: trackByControl"
-          class="form-stepper-nav-step"
-          [class.form-stepper-nav-step--valid]="
-            section.stepIndexOffset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid
-          "
-          [class.form-stepper-nav-step--current]="state.stepIndex === section.stepIndexOffset + relativeStepIndex"
+        <span class="form-stepper-nav-section__bullet"></span>
+
+        <button
+          type="button"
+          tabindex="-1"
+          class="form-stepper-nav-section__btn"
+          (click)="navigateByStepIndex($event, state.onboardingInfo.index)"
         >
-          <form-stepper-icon icon="checkCircle" class="form-stepper-nav-step__icon"></form-stepper-icon>
+          <form-stepper-section-icon
+            class="form-stepper-nav-section__icon"
+            [formStepperIcon]="state.onboardingInfo.icon"
+            [formStepperIsValid]="state.maxStepIndexViewed >= 0"
+          ></form-stepper-section-icon>
 
-          <button
-            type="button"
-            tabindex="-1"
-            class="form-stepper-nav-step__btn"
-            [disabled]="section.stepIndexOffset + relativeStepIndex > state.maxStepIndexViewed && step.control.pristine"
-            (click)="navigateByStepIndex($event, section.stepIndexOffset + relativeStepIndex)"
+          <span
+            *ngIf="!isMobile || state.stepIndex === state.onboardingInfo.index"
+            [@smoothWidth]="state.stepIndex === state.onboardingInfo.index ? 'show' : 'hide'"
+            class="form-stepper-nav-section__title"
           >
-            {{ step.title }}
-          </button>
-        </div>
+            {{ state.onboardingInfo.title }}
+          </span>
+        </button>
       </div>
-    </ng-container>
-  </div>
 
-  <div
-    *ngIf="state.summaryInfo"
-    class="form-stepper-nav-section form-stepper-nav-section--last"
-    [class.form-stepper-nav-section--valid]="state.allStepsViewed"
-    [class.form-stepper-nav-section--current]="state.stepIndex === state.lastStepIndex"
-  >
-    <span class="form-stepper-nav-section__bullet"></span>
-
-    <button
-      type="button"
-      tabindex="-1"
-      class="form-stepper-nav-section__btn"
-      [disabled]="!state.allStepsViewed"
-      (click)="navigateByStepIndex($event, state.summaryInfo.index)"
-    >
-      <form-stepper-section-icon
-        class="form-stepper-nav-section__icon"
-        [formStepperIcon]="state.summaryInfo.icon"
-        [formStepperIsValid]="state.allStepsViewed"
-      ></form-stepper-section-icon>
-
-      <span
-        *ngIf="!isMobile || state.stepIndex === state.summaryInfo.index"
-        [@smoothWidth]="state.stepIndex === state.summaryInfo.index ? 'show' : 'hide'"
-        class="form-stepper-nav-section__title"
+      <div
+        *ngFor="
+          let section of state.nav;
+          let sectionIndex = index;
+          let isLastSectionIndex = last;
+          trackBy: trackByControl
+        "
+        class="form-stepper-nav-section"
+        [class.form-stepper-nav-section--valid]="
+          section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid
+        "
+        [class.form-stepper-nav-section--current]="state.sectionIndex === sectionIndex"
+        [class.form-stepper-nav-section--last]="!state.summaryInfo && isLastSectionIndex"
       >
-        {{ state.summaryInfo.title }}
-      </span>
-    </button>
+        <span class="form-stepper-nav-section__bullet"></span>
+
+        <button
+          type="button"
+          tabindex="-1"
+          class="form-stepper-nav-section__btn"
+          [disabled]="section.stepIndexOffset > state.maxStepIndexViewed && section.steps[0].control.pristine"
+          (click)="navigateByStepIndex($event, section.stepIndexOffset, sectionIndex)"
+          cdkOverlayOrigin
+          #mobileOverlayOrigin="cdkOverlayOrigin"
+        >
+          <span
+            *ngIf="state.sectionProgression && state.sectionIndex === sectionIndex"
+            [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
+            class="form-stepper-nav-section__progression"
+          >
+            {{ state.sectionProgression.count }}/{{ state.sectionProgression.total }}
+          </span>
+
+          <form-stepper-section-icon
+            class="form-stepper-nav-section__icon"
+            [formStepperIcon]="section.icon"
+            [formStepperIsValid]="section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid"
+          ></form-stepper-section-icon>
+
+          <span
+            *ngIf="!isMobile || state.sectionIndex === sectionIndex"
+            [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
+            class="form-stepper-nav-section__title"
+          >
+            {{ section.title }}
+          </span>
+        </button>
+
+        <ng-container *ngIf="state.sectionIndex === sectionIndex">
+          <ng-container *ngIf="!isMobile; else mobileOverlayTemplate" [ngTemplateOutlet]="stepsTemplate"></ng-container>
+
+          <ng-template #mobileOverlayTemplate>
+            <ng-template
+              cdkConnectedOverlay
+              [cdkConnectedOverlayOrigin]="mobileOverlayOrigin"
+              [cdkConnectedOverlayOpen]="isMobileOverlayOpen"
+              [cdkConnectedOverlayPositions]="
+                sectionIndex < state.nav.length / 2 ? mobileOverlayPosition.left : mobileOverlayPosition.right
+              "
+            >
+              <div class="form-stepper-nav form-stepper-nav--overlay">
+                <ng-container [ngTemplateOutlet]="stepsTemplate"></ng-container>
+              </div>
+            </ng-template>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #stepsTemplate>
+          <div
+            *ngIf="section.steps.length >= 2"
+            class="form-stepper-nav-steps"
+            [class.form-stepper-nav-steps--left]="sectionIndex < state.nav.length / 2"
+            [class.form-stepper-nav-steps--right]="sectionIndex >= state.nav.length / 2"
+            [@smoothHeight]="isMobile ? '' : 'show'"
+          >
+            <div
+              *ngFor="let step of section.steps; let relativeStepIndex = index; trackBy: trackByControl"
+              class="form-stepper-nav-step"
+              [class.form-stepper-nav-step--valid]="
+                section.stepIndexOffset + relativeStepIndex <= state.maxStepIndexViewed && step.control.valid
+              "
+              [class.form-stepper-nav-step--current]="state.stepIndex === section.stepIndexOffset + relativeStepIndex"
+            >
+              <form-stepper-icon icon="checkCircle" class="form-stepper-nav-step__icon"></form-stepper-icon>
+
+              <button
+                type="button"
+                tabindex="-1"
+                class="form-stepper-nav-step__btn"
+                [disabled]="
+                  section.stepIndexOffset + relativeStepIndex > state.maxStepIndexViewed && step.control.pristine
+                "
+                (click)="navigateByStepIndex($event, section.stepIndexOffset + relativeStepIndex)"
+              >
+                {{ step.title }}
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <div
+        *ngIf="state.summaryInfo"
+        class="form-stepper-nav-section form-stepper-nav-section--last"
+        [class.form-stepper-nav-section--valid]="state.allStepsViewed"
+        [class.form-stepper-nav-section--current]="state.stepIndex === state.lastStepIndex"
+      >
+        <span class="form-stepper-nav-section__bullet"></span>
+
+        <button
+          type="button"
+          tabindex="-1"
+          class="form-stepper-nav-section__btn"
+          [disabled]="!state.allStepsViewed"
+          (click)="navigateByStepIndex($event, state.summaryInfo.index)"
+        >
+          <form-stepper-section-icon
+            class="form-stepper-nav-section__icon"
+            [formStepperIcon]="state.summaryInfo.icon"
+            [formStepperIsValid]="state.allStepsViewed"
+          ></form-stepper-section-icon>
+
+          <span
+            *ngIf="!isMobile || state.stepIndex === state.summaryInfo.index"
+            [@smoothWidth]="state.stepIndex === state.summaryInfo.index ? 'show' : 'hide'"
+            class="form-stepper-nav-section__title"
+          >
+            {{ state.summaryInfo.title }}
+          </span>
+        </button>
+      </div>
+    </nav>
   </div>
-</nav>
+</div>

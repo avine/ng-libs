@@ -22,6 +22,7 @@ import { Demo2Component } from './demo2/demo2.component';
     FontAwesomeModule,
     FormStepperLibModule.forRoot({
       translations: {
+        start: 'Commencer',
         prev: 'Précédent',
         next: 'Suivant',
         submit: 'Valider',

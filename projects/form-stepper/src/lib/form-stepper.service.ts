@@ -78,6 +78,8 @@ export class FormStepperService implements OnDestroy {
       sectionTitle,
       stepTemplate,
       isLastStep: state.stepIndex === state.lastStepIndex,
+      isOnboarding: state.stepIndex === state.onboardingInfo?.index,
+      isSummary: state.stepIndex === state.summaryInfo?.index,
     }))
   );
 

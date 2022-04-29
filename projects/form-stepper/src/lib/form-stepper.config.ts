@@ -4,6 +4,7 @@ import { FormStepperConfig } from './form-stepper.types';
 
 export const FORM_STEPPER_DEFAULT_CONFIG: FormStepperConfig = {
   translations: {
+    start: 'Start',
     prev: 'Previous',
     next: 'Next',
     submit: 'Submit',

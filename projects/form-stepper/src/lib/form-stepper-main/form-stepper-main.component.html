@@ -33,7 +33,7 @@
 
   <ng-template #next>
     <button formStepperNext type="button" tabindex="-1" class="form-stepper-main__next" [class]="config.css.next">
-      {{ config.translations.next }}
+      {{ main.isOnboarding ? config.translations.start : config.translations.next }}
     </button>
   </ng-template>
 </ng-container>

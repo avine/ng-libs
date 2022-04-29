@@ -57,10 +57,13 @@ export interface FormStepperMain {
   sectionTitle: string;
   stepTemplate: TemplateRef<any>;
   isLastStep: boolean;
+  isOnboarding: boolean;
+  isSummary: boolean;
 }
 
 export interface FormStepperConfig {
   translations: {
+    start: string;
     prev: string;
     next: string;
     submit: string;

@@ -1,6 +1,18 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 
 export const navAnimations = [
+  trigger('fadeIn', [
+    transition('1 <=> 2', [
+      animate(
+        '500ms',
+        keyframes([
+          style({ opacity: 0, offset: 0 }), // 0ms
+          style({ opacity: 0, offset: 0.6 }), // 300ms (a bit longer than 250ms)
+          style({ opacity: 1, offset: 1 }), // 500ms
+        ])
+      ),
+    ]),
+  ]),
   trigger('smoothHeight', [
     transition('void => show', [style({ height: '0px', paddingTop: '0px', opacity: 0 }), animate('250ms ease-in-out')]),
     transition('show => void', [animate('250ms ease-in-out'), style({ height: '0px', paddingTop: '0px', opacity: 0 })]),

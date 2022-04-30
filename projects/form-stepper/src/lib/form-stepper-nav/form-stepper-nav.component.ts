@@ -33,6 +33,8 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
     return this.isMobile;
   }
 
+  fadeInState = -1;
+
   isMobile = false;
 
   isMobileOverlayOpen = false;
@@ -64,6 +66,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.breakpointObserver.observe(this.breakpointQuery).subscribe((state: BreakpointState) => {
+      this.fadeInState = (this.fadeInState % 2) + 1; // values: 0, 1, 2, 1, 2, 1, 2, ...
       this.isMobile = state.matches;
       this.changeDetectorRef.markForCheck();
     });

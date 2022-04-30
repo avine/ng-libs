@@ -236,16 +236,6 @@
     // Note: we need to reevaluate the following variable
     --section-btn__height: calc(var(--section-btn__line-height) + var(--section-btn__padding-v) * 2);
 
-    // Prevent wired transition when switching from desktop to mobile
-    opacity: 0;
-    animation: formStepperNavFadeIn var(--anim-duration) ease var(--anim-duration) forwards;
-
-    &--overlay {
-      opacity: 1;
-      animation: none;
-      margin: 0 4px;
-    }
-
     &-inner {
       position: relative;
 

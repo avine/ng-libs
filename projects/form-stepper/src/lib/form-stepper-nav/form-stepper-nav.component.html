@@ -1,4 +1,4 @@
-<div class="form-stepper-nav-inner">
+<div class="form-stepper-nav-inner" [@fadeIn]="fadeInState">
   <div class="form-stepper-nav-inner__content">
     <nav *ngIf="state$ | async as state" class="form-stepper-nav-sections">
       <div
@@ -91,7 +91,7 @@
                 sectionIndex < state.nav.length / 2 ? mobileOverlayPosition.left : mobileOverlayPosition.right
               "
             >
-              <div class="form-stepper-nav form-stepper-nav--overlay">
+              <div class="form-stepper-nav">
                 <ng-container [ngTemplateOutlet]="stepsTemplate"></ng-container>
               </div>
             </ng-template>

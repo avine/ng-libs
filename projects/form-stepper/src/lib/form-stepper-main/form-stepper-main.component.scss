@@ -3,8 +3,9 @@
 .form-stepper-main {
   --prev-anchor-disabled-color: #{v.$prev-anchor-disabled-color};
 
-  &__prev {
-    margin-bottom: 1rem;
+  &__prev--anchor {
+    display: inline-block;
+    margin-bottom: 0.5rem;
   }
 
   // &__step-title {}
@@ -13,9 +14,13 @@
     margin-bottom: 1.5rem;
   }
 
-  // &__submit {}
+  &__prev--btn {
+    margin-right: 1.5rem;
+  }
 
   // &__next {}
+
+  // &__submit {}
 }
 
 // Note: the following class is defined in `form-stepper-prev-anchor.directive.ts`.

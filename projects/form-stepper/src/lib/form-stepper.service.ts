@@ -49,6 +49,7 @@ export class FormStepperService implements OnDestroy {
     isStepValid: false,
     hasPrevStep: false,
     hasNextStep: false,
+    firstStepIndex: 0,
     lastStepIndex: 0,
     maxStepIndexViewed: -1,
     allStepsViewed: false,
@@ -79,13 +80,15 @@ export class FormStepperService implements OnDestroy {
   main$: Observable<FormStepperMain> = combineLatest([this.stepTemplate$, this.state$]).pipe(
     map(([stepTemplate, state]) => {
       const { sectionTitle, stepTitle } = this.getTitles(state);
+      const { stepIndex, firstStepIndex, lastStepIndex, onboardingInfo, summaryInfo } = state;
       return {
         sectionTitle,
         stepTitle,
         stepTemplate,
-        isLastStep: state.stepIndex === state.lastStepIndex,
-        isOnboarding: state.stepIndex === state.onboardingInfo?.index,
-        isSummary: state.stepIndex === state.summaryInfo?.index,
+        isFirstStep: stepIndex === firstStepIndex,
+        isLastStep: stepIndex === lastStepIndex,
+        isOnboarding: stepIndex === onboardingInfo?.index,
+        isSummary: stepIndex === summaryInfo?.index,
       };
     })
   );
@@ -376,9 +379,16 @@ export class FormStepperService implements OnDestroy {
 
   private get commonState(): Pick<
     FormStepperState,
-    'lastStepIndex' | 'maxStepIndexViewed' | 'allStepsViewed' | 'onboardingInfo' | 'summaryInfo' | 'nav'
+    | 'firstStepIndex'
+    | 'lastStepIndex'
+    | 'maxStepIndexViewed'
+    | 'allStepsViewed'
+    | 'onboardingInfo'
+    | 'summaryInfo'
+    | 'nav'
   > {
     return {
+      firstStepIndex: this.firstStepIndex,
       lastStepIndex: this.lastStepIndex,
       maxStepIndexViewed: this.maxStepIndexViewed,
       allStepsViewed: this.allStepsViewed,

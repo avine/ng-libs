@@ -4,15 +4,12 @@
   <form-stepper-container
     [formStepperGroupRoot]="formGroup"
     [formStepperDisabled]="submitInProgress"
+    [formStepperUsePrevAnchor]="false"
     [formStepperShowStepTitle]="false"
   >
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
       <h2>Onboarding</h2>
       <p>Welcome to form stepper</p>
-    </ng-template>
-
-    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary">
-      <form-stepper-quicknav></form-stepper-quicknav>
     </ng-template>
 
     <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
@@ -57,6 +54,11 @@
         <input formControlName="city" formStepperControl />
       </ng-template>
     </ng-container>
+
+    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary">
+      <h2>Summary</h2>
+      <form-stepper-quicknav></form-stepper-quicknav>
+    </ng-template>
   </form-stepper-container>
 </form>
 

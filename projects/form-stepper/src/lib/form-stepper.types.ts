@@ -8,6 +8,7 @@ export interface FormStepperState {
   isStepValid: boolean;
   hasPrevStep: boolean;
   hasNextStep: boolean;
+  firstStepIndex: number;
   lastStepIndex: number;
   maxStepIndexViewed: number;
   allStepsViewed: boolean;
@@ -57,6 +58,7 @@ export interface FormStepperMain {
   sectionTitle: string;
   stepTitle: string;
   stepTemplate: TemplateRef<any>;
+  isFirstStep: boolean;
   isLastStep: boolean;
   isOnboarding: boolean;
   isSummary: boolean;

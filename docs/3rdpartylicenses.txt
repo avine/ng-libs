@@ -67,6 +67,7 @@ MIT
 MIT
 
 @avine/ng-form-stepper
+MIT
 
 @avine/ng-if-non-nullish
 MIT

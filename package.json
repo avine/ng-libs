@@ -9,6 +9,7 @@
     "test:projects": "jest ./projects/**",
     "build": "ng build",
     "build:if-non-nullish": "ng build if-non-nullish",
+    "build:form-stepper": "ng build form-stepper",
     "watch": "ng build --watch --configuration development",
     "docs": "ng build --base-href /ng-libs/ --output-path docs && cp ./docs/index.html ./docs/404.html",
     "lint": "ng lint",

@@ -1,6 +1,6 @@
 <mat-toolbar class="header">
-  <button mat-icon-button>
-    <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
   </button>
 
   <h1 class="header__brand" routerLink="/">ng-libs</h1>
@@ -12,12 +12,12 @@
   </a>
 </mat-toolbar>
 
-<mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer mode="over" class="container__sidenav">
+<mat-sidenav-container class="container" [hasBackdrop]="false">
+  <mat-sidenav #sidenav mode="push" class="container__sidenav">
     <app-menu></app-menu>
-  </mat-drawer>
+  </mat-sidenav>
 
-  <mat-drawer-content>
+  <mat-sidenav-content class="container__content">
     <ng-content></ng-content>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>

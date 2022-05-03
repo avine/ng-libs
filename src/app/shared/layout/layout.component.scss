@@ -1,5 +1,5 @@
 .header {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .header__brand {
@@ -12,11 +12,15 @@
 }
 
 .container {
-  width: 100vw;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 56px);
 }
 
 .container__sidenav {
   min-width: 300px;
   padding: 1.5rem;
+}
+
+.container__content {
+  padding: 1.5rem;
+  background-color: #ffffff;
 }

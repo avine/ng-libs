@@ -12,7 +12,7 @@ import { NavigationEnd, Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-  @ViewChild('drawer') drawer!: MatDrawer;
+  @ViewChild('sidenav') sidenav!: MatDrawer;
 
   private readonly subscription = new Subscription();
 
@@ -22,7 +22,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.router.events
         .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
-        .subscribe(() => this.drawer.close())
+        .subscribe(() => this.sidenav.close())
     );
   }
 

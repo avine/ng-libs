@@ -30,7 +30,7 @@ import { Demo2Component } from './demo2/demo2.component';
         no: 'Non',
       },
       css: {
-        sectionTitle: 'custom-section-title',
+        stepTitle: 'custom-step-title',
         prev: 'custom-prev',
         next: 'custom-next',
         submit: 'custom-submit',

@@ -1,8 +1,13 @@
 <button (click)="show = !show">{{ show ? 'OUI' : 'NON' }}</button>
 
 <form [formGroup]="formGroup" (ngSubmit)="submitForm()" style="padding: 1.5rem">
-  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperDisabled]="submitInProgress">
+  <form-stepper-container
+    [formStepperGroupRoot]="formGroup"
+    [formStepperDisabled]="submitInProgress"
+    [formStepperShowStepTitle]="false"
+  >
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+      <h2>Onboarding</h2>
       <p>Welcome to form stepper</p>
     </ng-template>
 
@@ -12,31 +17,31 @@
 
     <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
       <ng-template formStepperStep="gender" formStepperTitle="Gender" formStepperPath="gender">
-        Gender:<br />
+        <h2>What's your gender</h2>
         <input formControlName="gender" formStepperControl />
       </ng-template>
 
       <ng-template *ngIf="show" formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
-        First name:<br />
+        <h2>What's your first name</h2>
         <input formControlName="firstName" formStepperControl />
       </ng-template>
 
       <ng-template *ngIf="show" formStepperStep="lastName" formStepperTitle="Last name" formStepperPath="last-name">
-        Last name:<br />
+        <h2>What's your last name</h2>
         <input formControlName="lastName" formStepperControl />
       </ng-template>
     </ng-container>
 
     <ng-container *ngIf="show" formStepperSection="email" formStepperTitle="Email">
       <ng-template formStepperStep formStepperPath="email">
-        Email:<br />
+        <h2>What's your email</h2>
         <input formControlName="email" formStepperControl />
       </ng-template>
     </ng-container>
 
     <ng-container *ngIf="!show" formGroupName="address" formStepperSection formStepperTitle="Address">
       <ng-template formStepperStep="street" formStepperTitle="Street" formStepperPath="street">
-        Street:<br />
+        <h2>Street</h2>
         <input formControlName="street" formStepperControl />
       </ng-template>
 

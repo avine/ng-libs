@@ -12,7 +12,7 @@ export const FORM_STEPPER_DEFAULT_CONFIG: FormStepperConfig = {
     no: 'No',
   },
   css: {
-    sectionTitle: '',
+    stepTitle: '',
     prev: '',
     next: '',
     submit: '',

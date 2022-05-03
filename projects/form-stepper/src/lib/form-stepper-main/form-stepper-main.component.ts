@@ -23,6 +23,11 @@ export class FormStepperMainComponent implements OnInit {
   @Input() formStepperUsePrevAnchor = true;
 
   /**
+   * Determines whether to show or not the step title.
+   */
+  @Input() formStepperShowStepTitle = true;
+
+  /**
    * Determines whether the submit button in the last step is disabled
    * (should be set to `true` while the form is being submitted).
    */

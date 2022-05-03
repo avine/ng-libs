@@ -61,26 +61,33 @@ export class FormStepperService implements OnDestroy {
     return this._state$.value;
   }
 
-  sectionTitle$ = this.state$.pipe(
-    map((state): string => {
-      if (state.stepIndex === state.onboardingInfo?.index) {
-        return state.onboardingInfo?.title;
-      }
-      if (state.stepIndex === state.summaryInfo?.index) {
-        return state.summaryInfo?.title;
-      }
-      return state.nav[state.sectionIndex]?.title;
-    })
-  );
+  private getTitles(state: FormStepperState): { sectionTitle: string; stepTitle: string } {
+    if (state.stepIndex === state.onboardingInfo?.index) {
+      const title = state.onboardingInfo?.title;
+      return { sectionTitle: title, stepTitle: title };
+    }
+    if (state.stepIndex === state.summaryInfo?.index) {
+      const title = state.summaryInfo?.title;
+      return { sectionTitle: title, stepTitle: title };
+    }
+    return {
+      sectionTitle: state.nav[state.sectionIndex]?.title,
+      stepTitle: this.steps[state.stepIndex]?.title,
+    };
+  }
 
-  main$: Observable<FormStepperMain> = combineLatest([this.sectionTitle$, this.stepTemplate$, this.state$]).pipe(
-    map(([sectionTitle, stepTemplate, state]) => ({
-      sectionTitle,
-      stepTemplate,
-      isLastStep: state.stepIndex === state.lastStepIndex,
-      isOnboarding: state.stepIndex === state.onboardingInfo?.index,
-      isSummary: state.stepIndex === state.summaryInfo?.index,
-    }))
+  main$: Observable<FormStepperMain> = combineLatest([this.stepTemplate$, this.state$]).pipe(
+    map(([stepTemplate, state]) => {
+      const { sectionTitle, stepTitle } = this.getTitles(state);
+      return {
+        sectionTitle,
+        stepTitle,
+        stepTemplate,
+        isLastStep: state.stepIndex === state.lastStepIndex,
+        isOnboarding: state.stepIndex === state.onboardingInfo?.index,
+        isSummary: state.stepIndex === state.summaryInfo?.index,
+      };
+    })
   );
 
   private pathSubscription!: Subscription;

@@ -55,6 +55,7 @@ export interface FormStepperExtraPage {
 
 export interface FormStepperMain {
   sectionTitle: string;
+  stepTitle: string;
   stepTemplate: TemplateRef<any>;
   isLastStep: boolean;
   isOnboarding: boolean;
@@ -71,7 +72,7 @@ export interface FormStepperConfig {
     no: string;
   };
   css: {
-    sectionTitle: string;
+    stepTitle: string;
     prev: string;
     next: string;
     submit: string;

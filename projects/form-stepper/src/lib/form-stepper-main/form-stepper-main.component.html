@@ -15,7 +15,9 @@
     </button>
   </ng-template>
 
-  <h2 class="form-stepper-main__title" [class]="config.css.sectionTitle">{{ main.sectionTitle }}</h2>
+  <h2 *ngIf="formStepperShowStepTitle" class="form-stepper-main__step-title" [class]="config.css.stepTitle">
+    {{ main.stepTitle }}
+  </h2>
 
   <div class="form-stepper-main__content">
     <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>

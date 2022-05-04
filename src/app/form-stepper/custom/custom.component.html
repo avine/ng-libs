@@ -1,51 +1,67 @@
-<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <ng-container formStepperContainer [formStepperValidSectionIcon]="validSectionIcon" #formStepper="formStepper">
-    <app-custom-main
-      *ngIf="formStepper.main$ | async as main"
-      [main]="main"
-      [isFormGroupValid]="formGroup.valid"
-      [submitInProgress]="submitInProgress"
-    ></app-custom-main>
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <ng-container formStepperContainer [formStepperGroupRoot]="formGroup" #formStepper="formStepper">
+    <div *ngIf="formStepper.main$ | async as main" class="main">
+      <div class="main__content">
+        <h2>{{ main.stepTitle }}</h2>
 
-    <ng-template
-      formStepperOnboarding
-      formStepperTitle="Onboarding"
-      [formStepperIcon]="onboardingIcon"
-      formStepperPath="onboarding"
-    >
+        <div class="main__template">
+          <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
+        </div>
+
+        <button *ngIf="!main.isFirstStep" mat-button type="button" tabindex="-1" formStepperPrev class="main__prev">
+          Prev
+        </button>
+
+        <ng-container *ngIf="!main.isLastStep; else submit">
+          <button mat-raised-button type="button" tabindex="-1" formStepperNext>
+            {{ main.isFirstStep ? 'Start' : 'Next' }}
+          </button>
+        </ng-container>
+
+        <ng-template #submit>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!formGroup.valid || isBeingSubmitted">
+            Submit
+          </button>
+        </ng-template>
+      </div>
+
+      <form-stepper-nav class="main__nav"></form-stepper-nav>
+    </div>
+
+    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
       <p>Custom form stepper.</p>
     </ng-template>
 
-    <ng-container [formStepperSection]="fullName" [formStepperIcon]="fullNameIcon" formStepperTitle="Full name">
-      <ng-template [formStepperStep]="firstName" formStepperTitle="First name" formStepperPath="first-name">
-        First name:<br />
-        <input [formControl]="firstName" formStepperControl />
+    <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
+      <ng-template formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
+        <mat-form-field appearance="fill">
+          <mat-label>First name</mat-label>
+          <input matInput formControlName="firstName" formStepperControl />
+        </mat-form-field>
       </ng-template>
 
-      <ng-template [formStepperStep]="lastName" formStepperTitle="Last name" formStepperPath="last-name">
-        Last name:<br />
-        <input [formControl]="lastName" formStepperControl />
-      </ng-template>
-    </ng-container>
-
-    <ng-container [formStepperSection]="contact" formStepperTitle="Contact">
-      <ng-template [formStepperStep]="email" formStepperTitle="Email" formStepperPath="email">
-        Email:<br />
-        <input [formControl]="email" formStepperControl />
+      <ng-template formStepperStep="lastName" formStepperTitle="Last name" formStepperPath="last-name">
+        <mat-form-field appearance="fill">
+          <mat-label>Last name</mat-label>
+          <input matInput formControlName="lastName" formStepperControl />
+        </mat-form-field>
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="consent" formStepperTitle="Consent" [formStepperNoQuicknav]="true">
-      <ng-template [formStepperStep]="cgu" formStepperTitle="Cgu" formStepperPath="cgu">
+    <ng-container formStepperSection="email" formStepperTitle="Email">
+      <ng-template formStepperStep formStepperPath="email">
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" formStepperControl />
+        </mat-form-field>
+      </ng-template>
+    </ng-container>
+
+    <ng-container formStepperSection="cgu" formStepperTitle="Summary" [formStepperNoQuicknav]="true">
+      <ng-template formStepperStep formStepperPath="summary">
         <form-stepper-quicknav></form-stepper-quicknav>
-        <input type="checkbox" [formControl]="cgu" formStepperControl /> CGU
+        <mat-checkbox formControlName="cgu" formStepperControl>CGU</mat-checkbox>
       </ng-template>
     </ng-container>
   </ng-container>
 </form>
-
-<ng-template #validSectionIcon><fa-icon [icon]="faCoffee"></fa-icon></ng-template>
-<ng-template #onboardingIcon><fa-icon [icon]="faUser"></fa-icon></ng-template>
-<ng-template #fullNameIcon><fa-icon [icon]="faAddressCard"></fa-icon></ng-template>
-
-<pre style="width: 400px; margin: auto">Value: {{ formGroup.value | json }}</pre>

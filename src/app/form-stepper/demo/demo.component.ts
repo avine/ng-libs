@@ -1,26 +1,16 @@
 import { Subscription } from 'rxjs';
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { FormStepperContainerComponent, formatQuicknavValueFromListToHtml } from '@avine/ng-form-stepper';
-import {
-  faAt,
-  faCheck,
-  faComment,
-  faEye,
-  faHeart,
-  faIndustry,
-  faInfo,
-  faQuestion,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
+import { formatQuicknavValueFromListToHtml, FormStepperContainerComponent } from '@avine/ng-form-stepper';
 
 @Component({
-  selector: 'app-demo2',
-  templateUrl: './demo2.component.html',
-  styleUrls: ['./demo2.component.scss'],
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  styleUrls: ['./demo.component.scss'],
 })
-export class Demo2Component implements OnInit, OnDestroy {
+export class DemoComponent implements OnInit, OnDestroy {
+  // You can access the public API of the FormStepper
   @ViewChild(FormStepperContainerComponent) formStepper!: FormStepperContainerComponent;
 
   hobbiesCtrl = this.formBuilder.array([['', Validators.required]]);
@@ -49,6 +39,8 @@ export class Demo2Component implements OnInit, OnDestroy {
 
   haveCompanyCtrl = this.formGroup.controls.haveCompany;
 
+  // You can customize the values displayed in the `<form-stepper-quicknav>`
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   quicknavFormatter = (path: string, value: any): string | void => {
     if (path === 'hobbies') {
       return formatQuicknavValueFromListToHtml(value as string[], undefined, false);
@@ -56,36 +48,29 @@ export class Demo2Component implements OnInit, OnDestroy {
     if (path === 'message') {
       return value || 'None';
     }
+    return undefined;
   };
 
   isBeingSubmitted = false;
 
   private subscription!: Subscription;
 
-  faAt = faAt;
-  faCheck = faCheck;
-  faComment = faComment;
-  faEye = faEye;
-  faHeart = faHeart;
-  faIndustry = faIndustry;
-  faInfo = faInfo;
-  faQuestion = faQuestion;
-  faUser = faUser;
+  constructor(private formBuilder: FormBuilder) {}
 
-  constructor(private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.handleHaveCompanyChange();
     this.subscription = this.formGroup.controls.haveCompany.valueChanges.subscribe(() => {
       this.handleHaveCompanyChange();
     });
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
-  handleHaveCompanyChange() {
+  handleHaveCompanyChange(): void {
     if (this.formGroup.controls.haveCompany.value) {
       this.formGroup.addControl('company', this.companyCtrl);
       this.formGroup.removeControl('contact');
@@ -99,23 +84,25 @@ export class Demo2Component implements OnInit, OnDestroy {
     }
   }
 
-  addHobbyCtrl() {
+  addHobbyCtrl(): void {
     this.hobbiesCtrl.push(new FormControl(''));
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.formGroup.invalid) {
       return;
     }
 
+    // This is optional but ensure that valid form can be submitted only when the user is on the last step.
     const { stepIndex, lastStepIndex } = this.formStepper.stateSnapshot();
     if (stepIndex !== lastStepIndex) {
       return;
     }
 
-    console.log('formGroup.value', JSON.stringify(this.formGroup.value, undefined, 2));
-
     this.isBeingSubmitted = true;
+
+    // eslint-disable-next-line no-console
+    console.log('FormStepper -> onSubmit', this.formGroup.value);
 
     // Emulate that we are submitting the form to the backend during 2 sec.
     setTimeout(() => {

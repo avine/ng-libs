@@ -1,0 +1,19 @@
+label {
+  display: block;
+
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
+mat-icon {
+  line-height: inherit; // Overwrite the original `line-height: 1` does not play well with the stepper...
+}
+
+pre {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid #eaeaea;
+  background-color: #fafafa;
+}

@@ -1,53 +1,36 @@
-<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
-  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperDisabled]="submitInProgress">
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperDisabled]="isBeingSubmitted">
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
-      <p>One level form stepper</p>
+      <p>Welcome!</p>
     </ng-template>
 
-    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary">
-      <form-stepper-quicknav [formStepperCompact]="true"></form-stepper-quicknav>
-    </ng-template>
-
-    <ng-container [formStepperSection]="fullName" formStepperTitle="Full name">
-      <ng-template formStepperStep formStepperPath="full-name">
-        First name:<br />
-        <input [formControl]="firstName" formStepperControl />
-        <br /><br />
-
-        Last name:<br />
-        <input [formControl]="lastName" formStepperControl />
+    <ng-container formStepperSection="firstName" formStepperTitle="First name">
+      <ng-template formStepperStep formStepperPath="first-name">
+        <input formControlName="firstName" formStepperControl />
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="contact" formStepperTitle="Contact">
-      <ng-template formStepperStep formStepperPath="contact">
-        Email:<br />
-        <input [formControl]="email" formStepperControl />
+    <ng-container formStepperSection="lastName" formStepperTitle="Last name">
+      <ng-template formStepperStep formStepperPath="last-name">
+        <input formControlName="lastName" formStepperControl />
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="address" formStepperTitle="Address">
-      <ng-template formStepperStep formStepperPath="address">
-        Street:<br />
-        <input [formControl]="street" formStepperControl />
-        <br /><br />
-
-        Zip code:<br />
-        <input [formControl]="zipCode" formStepperControl />
-        <br /><br />
-
-        City:<br />
-        <input [formControl]="city" formStepperControl />
-        <br /><br />
+    <ng-container formArrayName="hobbies" formStepperSection formStepperTitle="Hobbies">
+      <ng-template formStepperStep formStepperPath="hobbies">
+        <p *ngFor="let _ of hobbies.controls; let i = index">
+          Hobby {{ i }} <input [formControlName]="i" formStepperControl />
+        </p>
       </ng-template>
     </ng-container>
 
-    <ng-container [formStepperSection]="consent" formStepperTitle="Consent">
-      <ng-template formStepperStep formStepperPath="consent">
-        <input type="checkbox" [formControl]="cgu" formStepperControl /> Accept CGU
+    <ng-container formStepperSection="cgu" formStepperTitle="Summary" [formStepperNoQuicknav]="true">
+      <ng-template formStepperStep formStepperPath="summary">
+        <form-stepper-quicknav [formStepperCompact]="true"></form-stepper-quicknav>
+        <label><input type="checkbox" formControlName="cgu" formStepperControl /> CGU</label>
       </ng-template>
     </ng-container>
   </form-stepper-container>
 </form>
 
-<pre style="width: 400px; margin: auto">Value: {{ formGroup.value | json }}</pre>
+<pre>Form {{ formGroup.value | json }}</pre>

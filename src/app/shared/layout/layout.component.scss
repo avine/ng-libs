@@ -21,6 +21,13 @@
 }
 
 .container__content {
+  box-sizing: border-box;
   padding: 1.5rem;
   background-color: #ffffff;
+}
+
+.container__main {
+  position: relative;
+  margin: 0 auto;
+  max-width: 1024px;
 }

@@ -1,25 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { FormStepperModule as FormStepperLibModule } from '@avine/ng-form-stepper';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { CustomMainComponent } from './custom/custom-main/custom-main.component';
-import { CustomComponent } from './custom/custom.component';
+import { CustomModule } from './custom/custom.module';
+import { DemoComponent } from './demo/demo.component';
 import { FormStepperRoutingModule } from './form-stepper-routing.module';
-import { OneLevelBisComponent } from './one-level-bis/one-level-bis.component';
 import { OneLevelComponent } from './one-level/one-level.component';
-import { SimpleComponent } from './simple/simple.component';
-import { TwoLevelsComponent } from './two-levels/two-levels.component';
-import { Demo1Component } from './demo1/demo1.component';
-import { Demo2Component } from './demo2/demo2.component';
+
+const materialModules = [MatIconModule];
 
 @NgModule({
   imports: [
     CommonModule,
     FormStepperRoutingModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
+    materialModules,
     FormStepperLibModule.forRoot({
       translations: {
         start: 'Commencer',
@@ -37,16 +34,8 @@ import { Demo2Component } from './demo2/demo2.component';
       },
       breakpoint: '960px',
     }),
+    CustomModule,
   ],
-  declarations: [
-    CustomMainComponent,
-    CustomComponent,
-    OneLevelBisComponent,
-    OneLevelComponent,
-    SimpleComponent,
-    TwoLevelsComponent,
-    Demo1Component,
-    Demo2Component,
-  ],
+  declarations: [DemoComponent, OneLevelComponent],
 })
 export class FormStepperModule {}

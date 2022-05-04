@@ -1,0 +1,208 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <!--
+    `formStepperGroupRoot` is required to allow the FormStepper to determine when a step, a section or the entire form is valid.
+    `formStepperDisabled` allow to disable the submit button in the last step while the form is being submitted.
+  -->
+  <form-stepper-container
+    [formStepperGroupRoot]="formGroup"
+    [formStepperDisabled]="isBeingSubmitted"
+    [formStepperValidSectionIcon]="validIcon"
+  >
+    <!--
+      `formStepperOnboarding` is optional and display a static page as first step (can not contain any form field).
+      `formStepperTitle` and `formStepperPath` are required inputs.
+    -->
+    <ng-template
+      formStepperOnboarding
+      formStepperTitle="Onboarding"
+      formStepperPath="onboarding"
+      [formStepperIcon]="onboardingIcon"
+    >
+      <p>Welcome to Form Stepper.</p>
+    </ng-template>
+
+    <!--
+      `formStepperSection` is required to define a section.
+        - the value is optional if a `formGroup`, `formGroupName` or `formArrayName` directive is present.
+
+      `formStepperTitle` is a required input.
+      `formStepperIcon` is always an optional input.
+    -->
+    <ng-container
+      formGroupName="fullName"
+      formStepperSection
+      formStepperTitle="Full name"
+      [formStepperIcon]="fullNameIcon"
+    >
+      <!--
+        `formStepperStep` is required and define a step inside a section.
+          - the value is optional if a `formGroup`, `formGroupName` or `formArrayName` directive is present.
+          - the value is also optional if there's only one step in the section (the value will be then inferred from the section).
+
+        In this case, we have 2 steps ("firstName" and "lastName") in the section ("fullName").
+        The value of the `formStepperStep` input can be:
+          - an AbstractControl like `this.formGroup.get(['fullName', 'firstName'])`.
+          - a string like `"firstName"` (assuming that it represent a child of the parent section - "fullName" in this case, which is a FormGroup).
+
+        `formStepperTitle` and `formStepperPath` are required inputs.
+      -->
+      <ng-template formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
+        <label>
+          <!--
+            Notice the `formStepperControl` directive that allow to:
+              - autofocus the first `FormControl` in the step (only when it has no value).
+              - prevent submitting the form when pressing "Enter" key.
+              - jump to the next step when pressing "Enter" key (if the current step is valid).
+
+            You can adapt the behavior of the directive using `formStepperOnEnter` input which have the following type:
+              - `{ preventDefault: boolean; nextStep: boolean }`
+          -->
+          First name<br />
+          <input formControlName="firstName" formStepperControl />
+        </label>
+      </ng-template>
+
+      <!--
+        Notice the alternate signature of the `formStepperStep` input.
+        When using a config object, `formStepperTitle` and `formStepperPath` inputs are ignored.
+      -->
+      <ng-template [formStepperStep]="{ control: 'lastName', title: 'Last name', path: 'last-name' }">
+        <label>
+          Last name<br />
+          <input formControlName="lastName" formStepperControl />
+        </label>
+      </ng-template>
+    </ng-container>
+
+    <!--
+      This section only have one step. In this case, the value of `formStepperStep` is optional.
+
+      Notice the alternate signature of the `formStepperSection` input.
+      When using a config object, `formStepperTitle` and `formStepperIcon` inputs are ignored.
+    -->
+    <ng-container [formStepperSection]="{ control: 'haveCompany', title: 'Have company ?', icon: companyIcon }">
+      <ng-template formStepperStep formStepperPath="have-company">
+        <label>
+          <input type="radio" [value]="false" formControlName="haveCompany" />
+          No
+        </label>
+        <label>
+          <input type="radio" [value]="true" formControlName="haveCompany" />
+          Yes
+        </label>
+      </ng-template>
+    </ng-container>
+
+    <ng-container
+      *ngIf="!haveCompanyCtrl.value"
+      formGroupName="contact"
+      formStepperSection
+      formStepperTitle="Contact"
+      [formStepperIcon]="contactIcon"
+    >
+      <ng-template formStepperStep="email" formStepperTitle="Email" formStepperPath="email">
+        <label>
+          Email<br />
+          <input formControlName="email" formStepperControl />
+          (enter a valid email)
+        </label>
+      </ng-template>
+
+      <!--
+        This step demonstrate that it is possible to have multiple FormControl in one step.
+      -->
+      <ng-template formGroupName="address" formStepperStep formStepperTitle="Address" formStepperPath="address">
+        <label>
+          Street<br />
+          <input formControlName="street" formStepperControl />
+        </label>
+
+        <label>
+          Zip code<br />
+          <input formControlName="zipCode" formStepperControl />
+        </label>
+      </ng-template>
+    </ng-container>
+
+    <!--
+      This section demonstrate that the FormStepper supports `formArrayName` directive.
+    -->
+    <ng-container
+      *ngIf="!haveCompanyCtrl.value"
+      formArrayName="hobbies"
+      formStepperSection
+      formStepperTitle="Hobbies"
+      [formStepperIcon]="hobbiesIcon"
+    >
+      <ng-template formStepperStep formStepperPath="hobbies">
+        <label *ngFor="let _ of hobbiesCtrl.controls; let index = index">
+          Hobby {{ index + 1 }}<br />
+          <input [formControlName]="index" formStepperControl />
+        </label>
+        <br />
+        <button type="button" (click)="addHobbyCtrl()">Add hobby</button>
+      </ng-template>
+    </ng-container>
+
+    <ng-container *ngIf="haveCompanyCtrl.value" formGroupName="company" formStepperSection formStepperTitle="Company">
+      <ng-template formStepperStep formStepperPath="company">
+        <label>
+          Name<br />
+          <input formControlName="name" formStepperControl />
+        </label>
+
+        <label>
+          Activity<br />
+          <input formControlName="activity" formStepperControl />
+        </label>
+      </ng-template>
+    </ng-container>
+
+    <ng-container formStepperSection="message" formStepperTitle="Message" [formStepperIcon]="messageIcon">
+      <ng-template formStepperStep formStepperPath="message">
+        <label>
+          <!--
+            Because this is a `<textarea>`, this time pressing on "Enter" key should not trigger navigation.
+          -->
+          Message<br />
+          <textarea
+            formControlName="message"
+            formStepperControl
+            [formStepperOnEnter]="{ preventDefault: false, nextStep: false }"
+          ></textarea>
+        </label>
+      </ng-template>
+    </ng-container>
+
+    <!--
+      `formStepperSummary` is optional and display a static page as last step (can not contain any form field)
+    -->
+    <ng-template
+      formStepperSummary
+      formStepperTitle="Summary"
+      formStepperPath="summary"
+      [formStepperIcon]="summaryIcon"
+    >
+      <!--
+        The quicknav display a summary of the form.
+        You can use it in the `formStepperSummary` like in this example.
+
+        But if for example, you need a checkbox for CGU just below the summary, you can use it in a regular `formStepperStep`.
+        In this case, however, you should use `[formStepperNoQuicknav]="true"` at the section level to remove the entire section from the quicknav.
+      -->
+      <form-stepper-quicknav [formStepperFormat]="quicknavFormatter"></form-stepper-quicknav>
+    </ng-template>
+  </form-stepper-container>
+</form>
+
+<ng-template #validIcon><mat-icon>check</mat-icon></ng-template>
+
+<ng-template #onboardingIcon><mat-icon>info</mat-icon></ng-template>
+<ng-template #fullNameIcon><mat-icon>face</mat-icon></ng-template>
+<ng-template #companyIcon><mat-icon>business</mat-icon></ng-template>
+<ng-template #contactIcon><mat-icon>location_on</mat-icon></ng-template>
+<ng-template #hobbiesIcon><mat-icon>beach_access</mat-icon></ng-template>
+<ng-template #messageIcon><mat-icon>message</mat-icon></ng-template>
+<ng-template #summaryIcon><mat-icon>verified_user</mat-icon></ng-template>
+
+<pre>Form {{ formGroup.value | json }}</pre>

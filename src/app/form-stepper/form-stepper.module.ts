@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { FormStepperModule as FormStepperLibModule } from '@avine/ng-form-stepper';
 
+import { ViewCodeModule } from '../shared/view-code/view-code.module';
 import { CustomModule } from './custom/custom.module';
 import { DemoComponent } from './demo/demo.component';
 import { FormStepperRoutingModule } from './form-stepper-routing.module';
@@ -17,6 +18,7 @@ const materialModules = [MatIconModule];
     FormStepperRoutingModule,
     ReactiveFormsModule,
     materialModules,
+    ViewCodeModule,
     FormStepperLibModule.forRoot({
       translations: {
         start: 'Commencer',

@@ -128,9 +128,9 @@
       left: var(--section__bullet-offset);
       width: var(--section-btn__height);
       height: var(--section-btn__height);
-      line-height: var(--section-btn__height);
-      text-align: center;
-      font-size: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       transition: none;
     }
   }
@@ -152,7 +152,7 @@
     &__icon {
       position: absolute;
       left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 - 0.5rem);
-      height: 0.75rem;
+      // height: 0.75rem;
       color: var(--valid__bg-color);
       opacity: 0;
       transition: opacity var(--anim-duration) ease;
@@ -164,7 +164,7 @@
       color: var(--text-color__default);
       text-decoration: underline;
       text-decoration-color: transparent;
-      text-decoration-thickness: 2px;
+      text-decoration-thickness: 3px;
       text-underline-offset: 0.3em;
       transition: color var(--anim-duration) ease, text-decoration-color var(--anim-duration) ease;
     }
@@ -329,10 +329,10 @@
 
       &__icon {
         position: relative;
-        top: calc(var(--section-btn__padding-v) * -1);
+        top: auto;
         left: auto;
         width: 1rem;
-        height: 1rem;
+        height: auto;
       }
 
       &__title {

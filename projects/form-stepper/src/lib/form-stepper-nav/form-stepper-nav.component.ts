@@ -1,4 +1,5 @@
 import { Subscription } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { ConnectedPosition } from '@angular/cdk/overlay';
@@ -56,7 +57,24 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
     return `(max-width: calc(${this.service.config.breakpoint} - 1px))`;
   }
 
-  private subscription!: Subscription;
+  private get breakpointSubscription() {
+    return this.breakpointObserver.observe(this.breakpointQuery).subscribe((state: BreakpointState) => {
+      this.fadeInState = (this.fadeInState % 2) + 1; // values: 0, 1, 2, 1, 2, 1, 2, ...
+      this.isMobile = state.matches;
+      this.changeDetectorRef.markForCheck();
+    });
+  }
+
+  private get mobileOverlaySubscription() {
+    return this.service.state$
+      .pipe(
+        map(({ stepIndex }) => stepIndex),
+        distinctUntilChanged()
+      )
+      .subscribe(() => (this.isMobileOverlayOpen = false));
+  }
+
+  private readonly subscriptions = new Subscription();
 
   constructor(
     private service: FormStepperService,
@@ -65,22 +83,18 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.breakpointObserver.observe(this.breakpointQuery).subscribe((state: BreakpointState) => {
-      this.fadeInState = (this.fadeInState % 2) + 1; // values: 0, 1, 2, 1, 2, 1, 2, ...
-      this.isMobile = state.matches;
-      this.changeDetectorRef.markForCheck();
-    });
+    this.subscriptions.add(this.breakpointSubscription);
+    this.subscriptions.add(this.mobileOverlaySubscription);
   }
 
   ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   navigateByStepIndex(event: Event, stepIndex: number, sectionIndex?: number) {
     event.stopPropagation();
     if (sectionIndex !== this.service.state.sectionIndex) {
       this.service.navigateByStepIndex(stepIndex);
-      this.isMobileOverlayOpen = false;
     } else {
       this.isMobileOverlayOpen = !this.isMobileOverlayOpen;
     }

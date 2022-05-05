@@ -1,25 +1,166 @@
 # FormStepper
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.0.
+Advanced multi-step form that plays well with ReactiveFormModule.
 
-## Code scaffolding
+## Tutorial
 
-Run `ng generate component component-name --project form-stepper` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project form-stepper`.
+Create a new Angular app with routing and Sass support:
 
-> Note: Don't forget to add `--project form-stepper` or else it will be added to the default project in your `angular.json` file.
+```bash
+ng new my-app --routing --style scss
+```
 
-## Build
+Install Angular CDK:
 
-Run `ng build form-stepper` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+ng add @angular/cdk
+```
 
-## Publishing
+Install the `FormStepper` library:
 
-After building your library with `ng build form-stepper`, go to the dist folder `cd dist/form-stepper` and run `npm publish`.
+```bash
+npm install @avine/ng-form-stepper
+```
 
-## Running unit tests
+Import `BrowserAnimationsModule`, `ReactiveFormsModule` and `FormStepperModule` in your `app.module.ts`:
 
-Run `ng test form-stepper` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```ts
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormStepperModule } from '@avine/ng-form-stepper';
 
-## Further help
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, BrowserAnimationsModule, ReactiveFormsModule, AppRoutingModule, FormStepperModule.config()],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+The `config()` method is just a convenient way to provide the `FORM_STEPPER_CONFIG` injection token with the default configuration.
+
+Import the CDK Overlays styles in your `style.scss`:
+
+```scss
+@import '@angular/cdk/overlay-prebuilt.css';
+```
+
+Learn more about the [CDK Overlays](https://material.angular.io/cdk/overlay/overview).
+
+Import the `FormStepper` styles in your `style.scss`:
+
+```scss
+@use 'node_modules/@avine/ng-form-stepper/src/lib/scss/form-stepper.scss' with (
+  $breakpoint: 960px
+);
+```
+
+Create a new component:
+
+```bash
+ng generate component stepper
+```
+
+Update routing in `app-routing.module.ts` to navigate to the `StepperComponent`:
+
+```ts
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { FORM_STEPPER_PATH_PARAM } from '@avine/ng-form-stepper';
+
+import { StepperComponent } from './stepper/stepper.component';
+
+const routes: Routes = [
+  {
+    path: `stepper/:${FORM_STEPPER_PATH_PARAM}`,
+    component: StepperComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+```
+
+Use the `FormBuilder` to create the form structure in `stepper.component.ts`:
+
+```ts
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-stepper',
+  templateUrl: './stepper.component.html',
+  styleUrls: ['./stepper.component.scss'],
+})
+export class StepperComponent {
+  formGroup = this.formBuilder.group({
+    fullName: this.formBuilder.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+    }),
+    email: ['', [Validators.required, Validators.email]],
+  });
+
+  isBeingSubmitted = false;
+
+  constructor(private formBuilder: FormBuilder) {}
+
+  onSubmit() {
+    this.isBeingSubmitted = true;
+
+    console.log('FormStepper -> onSubmit', this.formGroup.value);
+
+    setTimeout(() => (this.isBeingSubmitted = false), 1000); // Emulate backend request...
+  }
+}
+```
+
+Implement the `FormStepper` in `stepper.component.html`:
+
+```html
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperDisabled]="isBeingSubmitted">
+    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+      <p>Welcome to Form Stepper.</p>
+    </ng-template>
+
+    <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
+      <ng-template formStepperStep="firstName" formStepperPath="first-name">
+        <input formControlName="firstName" formStepperControl />
+      </ng-template>
+
+      <ng-template formStepperStep="lastName" formStepperPath="last-name">
+        <input formControlName="lastName" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-container formStepperSection="email" formStepperTitle="Email">
+      <ng-template formStepperStep formStepperPath="email">
+        <input formControlName="email" formStepperControl />
+      </ng-template>
+    </ng-container>
+
+    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary">
+      <form-stepper-quicknav></form-stepper-quicknav>
+    </ng-template>
+  </form-stepper-container>
+</form>
+
+<pre>Form {{ formGroup.value | json }}</pre>
+```
+
+## Demo
+
+Check out [demo here](https://avine.github.io/ng-libs/form-stepper/demo/onboarding)
+
+## License
+
+[MIT](https://github.com/avine/ng-libs/blob/main/LICENSE)

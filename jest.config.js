@@ -11,4 +11,6 @@ module.exports = {
     '^@avine/ng-if-non-nullish': '<rootDir>//projects/if-non-nullish/src/public-api.ts',
     '^@avine/ng-form-stepper': '<rootDir>//projects/form-stepper/src/public-api.ts',
   },
+
+  modulePathIgnorePatterns: ['<rootDir>/dist/'],
 };

@@ -47,16 +47,13 @@ const directives = [
   exports: [components, directives],
 })
 export class FormStepperModule {
-  static forRoot(config?: Partial<FormStepperConfig>): ModuleWithProviders<FormStepperModule> {
+  /**
+   * Import the `FormStepperModule` and provide the `FORM_STEPPER_CONFIG` injection token at once.
+   */
+  static config(config?: Partial<FormStepperConfig>): ModuleWithProviders<FormStepperModule> {
     return {
       ngModule: FormStepperModule,
       providers: [provideFormStepperConfig(config)],
-    };
-  }
-
-  static forChild(): ModuleWithProviders<FormStepperModule> {
-    return {
-      ngModule: FormStepperModule,
     };
   }
 }

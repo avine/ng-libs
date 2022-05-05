@@ -12,7 +12,7 @@ import { CustomComponent } from './custom.component';
 const materialModules = [MatButtonModule, MatCheckboxModule, MatInputModule];
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, materialModules, ViewCodeModule, FormStepperModule.forChild()],
+  imports: [CommonModule, ReactiveFormsModule, materialModules, ViewCodeModule, FormStepperModule],
   declarations: [CustomComponent],
   exports: [CustomComponent],
 })

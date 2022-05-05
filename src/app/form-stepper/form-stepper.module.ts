@@ -19,15 +19,7 @@ const materialModules = [MatIconModule];
     ReactiveFormsModule,
     materialModules,
     ViewCodeModule,
-    FormStepperLibModule.forRoot({
-      translations: {
-        start: 'Commencer',
-        prev: 'Précédent',
-        next: 'Suivant',
-        submit: 'Valider',
-        yes: 'Oui',
-        no: 'Non',
-      },
+    FormStepperLibModule.config({
       css: {
         stepTitle: 'custom-step-title',
         prev: 'custom-prev',

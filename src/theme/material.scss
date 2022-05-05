@@ -1,0 +1,34 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// see: node_modules/@angular/material/core/theming/_palette.scss
+$primary: mat.define-palette(mat.$cyan-palette);
+$accent: mat.define-palette(mat.$green-palette);
+$warn: mat.define-palette(mat.$red-palette);
+
+$theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn,
+    ),
+  )
+);
+
+@include mat.core-theme($theme);
+
+@include mat.button-theme($theme);
+@include mat.card-theme($theme);
+@include mat.checkbox-theme($theme);
+@include mat.divider-theme($theme);
+@include mat.form-field-theme($theme);
+@include mat.icon-theme($theme);
+@include mat.input-theme($theme);
+@include mat.list-theme($theme);
+@include mat.sidenav-theme($theme);
+@include mat.slide-toggle-theme($theme);
+@include mat.toolbar-theme($theme);
+
+// @include mat.all-component-themes($theme); // For testing when you need all components...

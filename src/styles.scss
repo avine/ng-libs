@@ -1,3 +1,5 @@
+@use './theme/material.scss';
+
 @use 'projects/form-stepper/src/lib/scss/form-stepper.scss' with (
   $breakpoint: 960px
 );

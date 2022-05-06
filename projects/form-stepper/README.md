@@ -118,7 +118,7 @@ export class StepperComponent {
 
     console.log('FormStepper -> onSubmit', this.formGroup.value);
 
-    setTimeout(() => (this.isBeingSubmitted = false), 1000); // Emulate backend request...
+    setTimeout(() => (this.isBeingSubmitted = false), 1000); // Simulate backend request...
   }
 }
 ```

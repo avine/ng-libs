@@ -27,7 +27,6 @@ export class CustomComponent {
 
     this.isBeingSubmitted = true;
 
-    // eslint-disable-next-line no-console
     console.log('FormStepper -> onSubmit', this.formGroup.value);
 
     setTimeout(() => {

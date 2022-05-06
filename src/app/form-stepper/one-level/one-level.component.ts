@@ -27,13 +27,12 @@ export class OneLevelComponent {
   onSubmit() {
     this.isBeingSubmitted = true;
 
-    // eslint-disable-next-line no-console
     console.log('FormStepper -> onSubmit', this.formGroup.value);
 
-    // Emulate that we are submitting the form to the backend during 2 sec.
+    // Simulate that we are submitting the form to the backend during 1 sec.
     setTimeout(() => {
       this.isBeingSubmitted = false;
       this.changeDetectorRef.detectChanges();
-    }, 2000);
+    }, 1000);
   }
 }

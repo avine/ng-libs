@@ -40,7 +40,6 @@ export class DemoComponent implements OnInit, OnDestroy {
   haveCompanyCtrl = this.formGroup.controls.haveCompany;
 
   // You can customize the values displayed in the `<form-stepper-quicknav>`
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   quicknavFormatter = (path: string, value: any): string | void => {
     if (path === 'hobbies') {
       return formatQuicknavValueFromListToHtml(value as string[], undefined, false);
@@ -101,12 +100,11 @@ export class DemoComponent implements OnInit, OnDestroy {
 
     this.isBeingSubmitted = true;
 
-    // eslint-disable-next-line no-console
     console.log('FormStepper -> onSubmit', this.formGroup.value);
 
-    // Emulate that we are submitting the form to the backend during 2 sec.
+    // Simulate that we are submitting the form to the backend during 1 sec.
     setTimeout(() => {
       this.isBeingSubmitted = false;
-    }, 2000);
+    }, 1000);
   }
 }

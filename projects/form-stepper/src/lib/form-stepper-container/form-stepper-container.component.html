@@ -1,8 +1,9 @@
-<form-stepper-main
-  [formStepperUsePrevAnchor]="formStepperUsePrevAnchor"
-  [formStepperShowStepTitle]="formStepperShowStepTitle"
-  [formStepperDisabled]="formStepperDisabled"
-  class="form-stepper-container__main"
-></form-stepper-main>
+<div class="form-stepper-container__main">
+  <ng-container *ngIf="mainDirective; else defaultMain" [ngTemplateOutlet]="mainDirective.template"></ng-container>
+
+  <ng-template #defaultMain>
+    <ng-container *ngIf="main$ | async as main" [ngTemplateOutlet]="main.stepTemplate"></ng-container>
+  </ng-template>
+</div>
 
 <form-stepper-nav class="form-stepper-container__nav"></form-stepper-nav>

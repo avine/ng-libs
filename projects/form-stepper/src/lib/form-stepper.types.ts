@@ -65,19 +65,5 @@ export interface FormStepperMain {
 }
 
 export interface FormStepperConfig {
-  translations: {
-    start: string;
-    prev: string;
-    next: string;
-    submit: string;
-    yes: string;
-    no: string;
-  };
-  css: {
-    stepTitle: string;
-    prev: string;
-    next: string;
-    submit: string;
-  };
   breakpoint: string;
 }

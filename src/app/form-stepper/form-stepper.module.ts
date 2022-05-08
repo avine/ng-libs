@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormStepperModule as FormStepperLibModule } from '@avine/ng-form-stepper';
 
 import { ViewCodeModule } from '../shared/view-code/view-code.module';
-import { CustomModule } from './custom/custom.module';
+import { MaterialModule } from './material/material.module';
 import { DemoComponent } from './demo/demo.component';
 import { FormStepperRoutingModule } from './form-stepper-routing.module';
 import { OneLevelComponent } from './one-level/one-level.component';
@@ -19,16 +19,8 @@ const materialModules = [MatIconModule];
     ReactiveFormsModule,
     materialModules,
     ViewCodeModule,
-    FormStepperLibModule.config({
-      css: {
-        stepTitle: 'custom-step-title',
-        prev: 'custom-prev',
-        next: 'custom-next',
-        submit: 'custom-submit',
-      },
-      breakpoint: '960px',
-    }),
-    CustomModule,
+    FormStepperLibModule.config({ breakpoint: '960px' }),
+    MaterialModule,
   ],
   declarations: [DemoComponent, OneLevelComponent],
 })

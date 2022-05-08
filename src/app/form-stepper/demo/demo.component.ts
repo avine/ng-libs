@@ -44,6 +44,9 @@ export class DemoComponent implements OnInit, OnDestroy {
     if (path === 'hobbies') {
       return formatQuicknavValueFromListToHtml(value as string[], undefined, false);
     }
+    if (path === 'have-company') {
+      return value ? 'Yes' : 'No';
+    }
     if (path === 'message') {
       return value || 'None';
     }
@@ -93,8 +96,8 @@ export class DemoComponent implements OnInit, OnDestroy {
     }
 
     // This is optional but ensure that valid form can be submitted only when the user is on the last step.
-    const { stepIndex, lastStepIndex } = this.formStepper.stateSnapshot();
-    if (stepIndex !== lastStepIndex) {
+    const { isLastStep } = this.formStepper.mainSnapshot();
+    if (!isLastStep) {
       return;
     }
 

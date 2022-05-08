@@ -1,13 +1,35 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <!--
     `formStepperGroupRoot` is required to allow the FormStepper to determine when a step, a section or the entire form is valid.
-    `formStepperDisabled` allow to disable the submit button in the last step while the form is being submitted.
   -->
-  <form-stepper-container
-    [formStepperGroupRoot]="formGroup"
-    [formStepperDisabled]="isBeingSubmitted"
-    [formStepperValidSectionIcon]="validIcon"
-  >
+  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperValidSectionIcon]="validIcon" #formStepper>
+    <!--
+      `formStepperMain` directive is optional. By default, the `formStepperStep` template is displayed as current step content.
+      In this case, it is your responsability to display the step title and the previous and next buttons in each step template.
+
+      By setting the `formStepperMain` directive, you can customize the template of the current step.
+      To achieve this, use the `formStepper.main$` observable which exposes the details of the current step.
+    -->
+    <ng-template formStepperMain>
+      <ng-container *ngIf="formStepper.main$ | async as main">
+        <a formStepperPrevAnchor class="prev" formStepperInactive="prev--disabled" href="#prev">Previous</a>
+
+        <h2>{{ main.stepTitle }}</h2>
+
+        <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
+
+        <p class="actions">
+          <button *ngIf="!main.isLastStep" type="button" tabindex="-1" formStepperNext>
+            {{ main.isOnboarding ? 'Start' : 'Next' }}
+          </button>
+
+          <button *ngIf="main.isLastStep" type="submit" [disabled]="formGroup.invalid || isBeingSubmitted">
+            Submit
+          </button>
+        </p>
+      </ng-container>
+    </ng-template>
+
     <!--
       `formStepperOnboarding` is optional and display a static page as first step (can not contain any form field).
       `formStepperTitle` and `formStepperPath` are required inputs.

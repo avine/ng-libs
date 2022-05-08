@@ -1,19 +1,33 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <ng-container formStepperContainer [formStepperGroupRoot]="formGroup" #formStepper="formStepper">
-    <div *ngIf="formStepper.main$ | async as main" class="main">
-      <div class="main__content">
+  <form-stepper-container [formStepperGroupRoot]="formGroup" #formStepper>
+    <ng-template formStepperMain>
+      <ng-container *ngIf="formStepper.main$ | async as main">
         <h2>{{ main.stepTitle }}</h2>
 
-        <div class="main__template">
+        <div>
           <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
         </div>
 
-        <button *ngIf="!main.isFirstStep" mat-button type="button" tabindex="-1" formStepperPrev class="main__prev">
+        <button
+          *ngIf="!main.isFirstStep"
+          mat-button
+          type="button"
+          tabindex="-1"
+          formStepperPrev
+          formStepperInactive="mat-button-disabled"
+          class="prev"
+        >
           Prev
         </button>
 
         <ng-container *ngIf="!main.isLastStep; else submit">
-          <button mat-raised-button type="button" tabindex="-1" formStepperNext>
+          <button
+            mat-raised-button
+            type="button"
+            tabindex="-1"
+            formStepperNext
+            formStepperInactive="mat-button-disabled"
+          >
             {{ main.isFirstStep ? 'Start' : 'Next' }}
           </button>
         </ng-container>
@@ -23,13 +37,11 @@
             Submit
           </button>
         </ng-template>
-      </div>
-
-      <form-stepper-nav class="main__nav"></form-stepper-nav>
-    </div>
+      </ng-container>
+    </ng-template>
 
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
-      <p>Welcome to custom Form Stepper.</p>
+      <p>Welcome to Form Stepper with Material integration.</p>
     </ng-template>
 
     <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
@@ -52,7 +64,7 @@
       <ng-template formStepperStep formStepperPath="email">
         <mat-form-field appearance="fill">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" formStepperControl />
+          <input matInput placeholder="Enter a valid email" formControlName="email" formStepperControl />
         </mat-form-field>
       </ng-template>
     </ng-container>
@@ -61,11 +73,12 @@
       <ng-template formStepperStep formStepperPath="summary">
         <form-stepper-quicknav></form-stepper-quicknav>
         <mat-checkbox formControlName="cgu" formStepperControl>CGU</mat-checkbox>
+        <div class="spacer"></div>
       </ng-template>
     </ng-container>
-  </ng-container>
+  </form-stepper-container>
 </form>
 
 <app-view-code
-  linkHref="https://github.com/avine/ng-libs/blob/main/src/app/form-stepper/custom/custom.component.html"
+  linkHref="https://github.com/avine/ng-libs/blob/main/src/app/form-stepper/material/material.component.html"
 ></app-view-code>

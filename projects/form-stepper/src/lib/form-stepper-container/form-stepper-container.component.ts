@@ -18,6 +18,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+import { FormStepperMainDirective } from '../form-stepper-main/form-stepper-main.directive';
 import { FormStepperOnboardingDirective } from '../form-stepper-onboarding/form-stepper-onboarding.directive';
 import { FormStepperSectionDirective } from '../form-stepper-section/form-stepper-section.directive';
 import { FormStepperSummaryDirective } from '../form-stepper-summary/form-stepper-summary.directive';
@@ -55,21 +56,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
    */
   @Input() formStepperUseRouting = true;
 
-  /**
-   * Determines whether navigation to the previous step is triggered by a `<button>` or a `<a>`.
-   */
-  @Input() formStepperUsePrevAnchor = true;
-
-  /**
-   * Determines whether to show or not the step title.
-   */
-  @Input() formStepperShowStepTitle = true;
-
-  /**
-   * Determines whether the submit button in the last step is disabled
-   * (should be set to `true` while the form is being submitted).
-   */
-  @Input() formStepperDisabled!: boolean;
+  @ContentChild(FormStepperMainDirective) mainDirective!: FormStepperMainDirective;
 
   @ContentChild(FormStepperOnboardingDirective) onboardingDirective!: FormStepperOnboardingDirective;
 
@@ -78,22 +65,22 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   @ContentChildren(FormStepperSectionDirective) sectionDirectiveQueryList!: QueryList<FormStepperSectionDirective>;
 
   /**
-   * Get an observable of the `FormStepperState`.
+   * Get an observable of the main infos needed to render the current step.
    */
-  readonly state$ = this.service.state$;
+  readonly main$ = this.service.main$;
 
   /**
-   * Get the `FormStepperState` snapshot.
+   * Get the main infos snapshot.
    *
    * @example
    * ```ts
-   * const { stepIndex, lastStepIndex } = this.formStepper.stateSnapshot();
-   * if (stepIndex === lastStepIndex) {
+   * const { isLastStep } = this.formStepper.mainSnapshot();
+   * if (isLastStep) {
    *   // The current step is the last one.
    * }
    * ```
    */
-  readonly stateSnapshot = () => this.service.state;
+  readonly mainSnapshot = () => this.service.mainSnapshot;
 
   private sectionsSubscription!: Subscription;
 

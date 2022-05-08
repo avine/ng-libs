@@ -2,18 +2,18 @@ import { Component } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-custom',
-  templateUrl: './custom.component.html',
-  styleUrls: ['./custom.component.scss'],
+  selector: 'app-material',
+  templateUrl: './material.component.html',
+  styleUrls: ['./material.component.scss'],
 })
-export class CustomComponent {
+export class MaterialComponent {
   formGroup = this.formBuilder.group({
     fullName: this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
     }),
-    email: ['', Validators.required],
-    cgu: ['', Validators.requiredTrue],
+    email: ['', [Validators.required, Validators.email]],
+    cgu: ['', [Validators.requiredTrue]],
   });
 
   isBeingSubmitted = false;

@@ -1,5 +1,5 @@
 import { BehaviorSubject, combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 import { Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -90,8 +90,11 @@ export class FormStepperService implements OnDestroy {
         isOnboarding: stepIndex === onboardingInfo?.index,
         isSummary: stepIndex === summaryInfo?.index,
       };
-    })
+    }),
+    tap((main) => (this.mainSnapshot = main))
   );
+
+  mainSnapshot!: FormStepperMain;
 
   private pathSubscription!: Subscription;
 

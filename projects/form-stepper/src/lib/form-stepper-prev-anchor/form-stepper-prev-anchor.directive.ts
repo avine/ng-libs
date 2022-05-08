@@ -1,4 +1,15 @@
-import { Directive, HostBinding, HostListener } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  Input,
+  OnDestroy,
+  Renderer2,
+} from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
 
@@ -8,8 +19,10 @@ import { FormStepperService } from '../form-stepper.service';
 @Directive({
   selector: '[formStepperPrevAnchor]',
 })
-export class FormStepperPrevAnchorDirective {
-  @HostBinding('class.form-stepper-prev--disabled') get isDisabled() {
+export class FormStepperPrevAnchorDirective implements AfterViewInit, OnDestroy {
+  @HostBinding('class.form-stepper-prev-anchor') hasClass = true;
+
+  @HostBinding('class.form-stepper-prev-anchor--disabled') get isDisabled() {
     return !this.service.state.hasPrevStep;
   }
 
@@ -18,5 +31,25 @@ export class FormStepperPrevAnchorDirective {
     this.service.prevStep();
   }
 
-  constructor(private service: FormStepperService) {}
+  /**
+   * CSS class to add when the anchor should be mark as inactive.
+   */
+  @Input() formStepperInactive!: string;
+
+  private subscription!: Subscription;
+
+  constructor(private service: FormStepperService, private renderer: Renderer2, private elementRef: ElementRef) {}
+
+  ngAfterViewInit() {
+    this.subscription = this.service.state$.subscribe(({ hasPrevStep }) => {
+      if (!this.formStepperInactive) {
+        return;
+      }
+      this.renderer[hasPrevStep ? 'removeClass' : 'addClass'](this.elementRef.nativeElement, this.formStepperInactive);
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
 }

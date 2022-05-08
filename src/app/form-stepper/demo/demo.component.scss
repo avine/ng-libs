@@ -17,3 +17,15 @@ pre {
   border: 1px solid #eaeaea;
   background-color: #fafafa;
 }
+
+.prev {
+  color: inherit;
+
+  &--disabled {
+    color: #999;
+  }
+}
+
+.actions {
+  margin-top: 1.5rem;
+}

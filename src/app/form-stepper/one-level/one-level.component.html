@@ -1,33 +1,52 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <form-stepper-container
-    [formStepperGroupRoot]="formGroup"
-    [formStepperShowStepTitle]="false"
-    [formStepperDisabled]="isBeingSubmitted"
-  >
+  <form-stepper-container [formStepperGroupRoot]="formGroup">
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
       <h2>Onboarding</h2>
+
       <p>Welcome to Form Stepper.</p>
+
+      <p class="actions">
+        <button type="button" tabindex="-1" formStepperNext>Start</button>
+      </p>
     </ng-template>
 
     <ng-container formStepperSection="firstName" formStepperTitle="First name">
       <ng-template formStepperStep formStepperPath="first-name">
         <h2>What's your first name?</h2>
+
         <input formControlName="firstName" formStepperControl />
+
+        <p class="actions">
+          <button type="button" tabindex="-1" formStepperPrev>Previous</button>
+          <button type="button" tabindex="-1" formStepperNext>Next</button>
+        </p>
       </ng-template>
     </ng-container>
 
     <ng-container formStepperSection="lastName" formStepperTitle="Last name">
       <ng-template formStepperStep formStepperPath="last-name">
         <h2>What's your last name?</h2>
+
         <input formControlName="lastName" formStepperControl />
+
+        <p class="actions">
+          <button type="button" tabindex="-1" formStepperPrev>Previous</button>
+          <button type="button" tabindex="-1" formStepperNext>Next</button>
+        </p>
       </ng-template>
     </ng-container>
 
     <ng-container formArrayName="hobbies" formStepperSection formStepperTitle="Hobbies">
       <ng-template formStepperStep formStepperPath="hobbies">
         <h2>What are your 2 favorite hobbies?</h2>
+
         <p *ngFor="let _ of hobbies.controls; let i = index">
           Hobby {{ i }} <input [formControlName]="i" formStepperControl />
+        </p>
+
+        <p class="actions">
+          <button type="button" tabindex="-1" formStepperPrev>Previous</button>
+          <button type="button" tabindex="-1" formStepperNext>Next</button>
         </p>
       </ng-template>
     </ng-container>
@@ -35,8 +54,14 @@
     <ng-container formStepperSection="cgu" formStepperTitle="Summary" [formStepperNoQuicknav]="true">
       <ng-template formStepperStep formStepperPath="summary">
         <h2>Summary</h2>
+
         <form-stepper-quicknav [formStepperCompact]="true"></form-stepper-quicknav>
+
         <label><input type="checkbox" formControlName="cgu" formStepperControl /> CGU</label>
+
+        <p class="actions">
+          <button type="submit" [disabled]="formGroup.invalid || isBeingSubmitted">Submit</button>
+        </p>
       </ng-template>
     </ng-container>
   </form-stepper-container>

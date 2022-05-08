@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { FormStepperContainerComponent } from './form-stepper-container/form-stepper-container.component';
-import { FormStepperContainerDirective } from './form-stepper-container/form-stepper-container.directive';
 import { FormStepperControlDirective } from './form-stepper-control/form-stepper-control.directive';
 import { FormStepperIconComponent } from './form-stepper-icon/form-stepper-icon.component';
-import { FormStepperMainComponent } from './form-stepper-main/form-stepper-main.component';
+import { FormStepperMainDirective } from './form-stepper-main/form-stepper-main.directive';
 import { FormStepperNavComponent } from './form-stepper-nav/form-stepper-nav.component';
 import { FormStepperNextDirective } from './form-stepper-next/form-stepper-next.directive';
 import { FormStepperOnboardingDirective } from './form-stepper-onboarding/form-stepper-onboarding.directive';
@@ -23,15 +22,14 @@ import { provideFormStepperConfig } from './form-stepper.utils';
 const components = [
   FormStepperContainerComponent,
   FormStepperIconComponent,
-  FormStepperMainComponent,
   FormStepperNavComponent,
   FormStepperQuicknavComponent,
   FormStepperSectionIconComponent,
 ];
 
 const directives = [
-  FormStepperContainerDirective,
   FormStepperControlDirective,
+  FormStepperMainDirective,
   FormStepperNextDirective,
   FormStepperOnboardingDirective,
   FormStepperPrevAnchorDirective,

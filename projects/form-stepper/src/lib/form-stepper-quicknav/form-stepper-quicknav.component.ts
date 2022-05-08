@@ -56,13 +56,6 @@ export class FormStepperQuicknavComponent {
     if (typeof value === 'object' && value !== null) {
       return this.formatArray(Object.values(value));
     }
-    const { yes, no } = this.service.config.translations;
-    if (value === true) {
-      return yes;
-    }
-    if (value === false) {
-      return no;
-    }
     return (value ?? '').toString();
   }
 

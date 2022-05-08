@@ -7,13 +7,13 @@ import { MatInputModule } from '@angular/material/input';
 import { FormStepperModule } from '@avine/ng-form-stepper';
 import { ViewCodeModule } from 'src/app/shared/view-code/view-code.module';
 
-import { CustomComponent } from './custom.component';
+import { MaterialComponent } from './material.component';
 
 const materialModules = [MatButtonModule, MatCheckboxModule, MatInputModule];
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, materialModules, ViewCodeModule, FormStepperModule],
-  declarations: [CustomComponent],
-  exports: [CustomComponent],
+  declarations: [MaterialComponent],
+  exports: [MaterialComponent],
 })
-export class CustomModule {}
+export class MaterialModule {}

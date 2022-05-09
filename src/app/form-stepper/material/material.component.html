@@ -33,7 +33,7 @@
         </ng-container>
 
         <ng-template #submit>
-          <button mat-raised-button color="primary" type="submit" [disabled]="!formGroup.valid || isBeingSubmitted">
+          <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid || isBeingSubmitted">
             Submit
           </button>
         </ng-template>

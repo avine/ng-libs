@@ -5,7 +5,6 @@
     "./src/lib/scss",
     "./src/lib/form-stepper-container/form-stepper-container.component.scss",
     "./src/lib/form-stepper-icon/form-stepper-icon.component.scss",
-    "./src/lib/form-stepper-main/form-stepper-main.component.scss",
     "./src/lib/form-stepper-nav/form-stepper-nav.component.scss",
     "./src/lib/form-stepper-quicknav/form-stepper-quicknav.component.scss",
     "./src/lib/form-stepper-section-icon/form-stepper-section-icon.component.scss"

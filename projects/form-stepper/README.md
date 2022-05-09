@@ -36,7 +36,13 @@ import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, ReactiveFormsModule, AppRoutingModule, FormStepperModule.config()],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    FormStepperModule.config({ breakpoint: '960px' }),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
@@ -127,7 +133,27 @@ Implement the `FormStepper` in `stepper.component.html`:
 
 ```html
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperDisabled]="isBeingSubmitted">
+  <form-stepper-container [formStepperGroupRoot]="formGroup" #formStepper>
+    <ng-template formStepperMain>
+      <ng-container *ngIf="formStepper.main$ | async as main">
+        <h2>{{ main.stepTitle }}</h2>
+
+        <div>
+          <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
+        </div>
+
+        <button *ngIf="!main.isFirstStep" type="button" tabindex="-1" formStepperPrev>Previous</button>
+
+        <button *ngIf="!main.isLastStep; else submitButton" type="button" tabindex="-1" formStepperNext>
+          {{ main.isOnboarding ? 'Start' : 'Next' }}
+        </button>
+
+        <ng-template #submitButton>
+          <button type="submit" [disabled]="formGroup.invalid || isBeingSubmitted">Submit</button>
+        </ng-template>
+      </ng-container>
+    </ng-template>
+
     <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
       <p>Welcome to Form Stepper.</p>
     </ng-template>

@@ -19,13 +19,13 @@
         <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
 
         <p class="actions">
-          <button *ngIf="!main.isLastStep" type="button" tabindex="-1" formStepperNext>
+          <button *ngIf="!main.isLastStep; else submitButton" type="button" tabindex="-1" formStepperNext>
             {{ main.isOnboarding ? 'Start' : 'Next' }}
           </button>
 
-          <button *ngIf="main.isLastStep" type="submit" [disabled]="formGroup.invalid || isBeingSubmitted">
-            Submit
-          </button>
+          <ng-template #submitButton>
+            <button type="submit" [disabled]="formGroup.invalid || isBeingSubmitted">Submit</button>
+          </ng-template>
         </p>
       </ng-container>
     </ng-template>

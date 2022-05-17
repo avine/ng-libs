@@ -34,7 +34,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
     return this.isMobile;
   }
 
-  fadeInState = -1;
+  delayedFadeInState = -1;
 
   isMobile = false;
 
@@ -59,7 +59,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
 
   private get breakpointSubscription() {
     return this.breakpointObserver.observe(this.breakpointQuery).subscribe((state: BreakpointState) => {
-      this.fadeInState = (this.fadeInState % 2) + 1; // values: 0, 1, 2, 1, 2, 1, 2, ...
+      this.delayedFadeInState = (this.delayedFadeInState % 2) + 1; // values: 0, 1, 2, 1, 2, 1, 2, ...
       this.isMobile = state.matches;
       this.changeDetectorRef.markForCheck();
     });

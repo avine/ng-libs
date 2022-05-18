@@ -78,8 +78,9 @@
           >
 
           <form-stepper-icon
-            *ngIf="isMobile && state.sectionProgression && state.sectionIndex === sectionIndex"
             icon="arrowDown"
+            *ngIf="isMobile && state.sectionProgression && state.sectionIndex === sectionIndex"
+            [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
             class="form-stepper-nav-section__arrow"
             [class.form-stepper-nav-section__arrow--open]="isMobileOverlayOpen"
           ></form-stepper-icon>

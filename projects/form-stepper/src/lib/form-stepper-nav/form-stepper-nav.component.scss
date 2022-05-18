@@ -355,6 +355,8 @@
       }
 
       &__arrow {
+        overflow: hidden;
+        opacity: 0;
         vertical-align: text-top;
         margin-left: 0.625rem;
         transition: transform var(--anim-duration) ease;
@@ -373,7 +375,8 @@
         padding-right: 1.25rem;
       }
 
-      &--current &__title {
+      &--current &__title,
+      &--current &__arrow {
         animation: formStepperNavFadeIn var(--anim-duration) ease calc(var(--anim-duration) / 2) forwards;
       }
     }

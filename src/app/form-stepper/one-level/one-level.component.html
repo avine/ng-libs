@@ -16,10 +16,7 @@
 
         <input formControlName="firstName" formStepperControl />
 
-        <p class="actions">
-          <button type="button" tabindex="-1" formStepperPrev>Previous</button>
-          <button type="button" tabindex="-1" formStepperNext>Next</button>
-        </p>
+        <ng-container [ngTemplateOutlet]="actions"></ng-container>
       </ng-template>
     </ng-container>
 
@@ -29,10 +26,7 @@
 
         <input formControlName="lastName" formStepperControl />
 
-        <p class="actions">
-          <button type="button" tabindex="-1" formStepperPrev>Previous</button>
-          <button type="button" tabindex="-1" formStepperNext>Next</button>
-        </p>
+        <ng-container [ngTemplateOutlet]="actions"></ng-container>
       </ng-template>
     </ng-container>
 
@@ -44,10 +38,7 @@
           Hobby {{ i }} <input [formControlName]="i" formStepperControl />
         </p>
 
-        <p class="actions">
-          <button type="button" tabindex="-1" formStepperPrev>Previous</button>
-          <button type="button" tabindex="-1" formStepperNext>Next</button>
-        </p>
+        <ng-container [ngTemplateOutlet]="actions"></ng-container>
       </ng-template>
     </ng-container>
 
@@ -64,6 +55,13 @@
         </p>
       </ng-template>
     </ng-container>
+
+    <ng-template #actions>
+      <p class="actions">
+        <button type="button" tabindex="-1" formStepperPrev>Previous</button>
+        <button type="button" tabindex="-1" formStepperNext>Next</button>
+      </p>
+    </ng-template>
   </form-stepper-container>
 </form>
 

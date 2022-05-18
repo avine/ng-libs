@@ -4,7 +4,7 @@ Advanced multi-step form that plays well with ReactiveFormModule.
 
 ## Tutorial
 
-Create a new Angular app with routing and Sass support:
+Create a new Angular app with routing and Sass style options:
 
 ```bash
 ng new my-app --routing --style scss
@@ -40,15 +40,15 @@ import { AppComponent } from './app.component';
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
     FormStepperModule.config({ breakpoint: '960px' }),
+    AppRoutingModule,
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
 ```
 
-The `config()` method is just a convenient way to provide the `FORM_STEPPER_CONFIG` injection token with the default configuration.
+The `config()` method is just a convenient way to provide the `FORM_STEPPER_CONFIG` injection token with the given configuration.
 
 Import the CDK Overlays styles in your `style.scss`:
 
@@ -72,7 +72,7 @@ Create a new component:
 ng generate component stepper
 ```
 
-Update routing in `app-routing.module.ts` to navigate to the `StepperComponent`:
+Update the routing in `app-routing.module.ts` to navigate to the `StepperComponent`:
 
 ```ts
 import { NgModule } from '@angular/core';
@@ -94,6 +94,8 @@ const routes: Routes = [
 })
 export class AppRoutingModule {}
 ```
+
+The route parameter `:${FORM_STEPPER_PATH_PARAM}` is required by the `FormStepper` library to navigate between steps.
 
 Use the `FormBuilder` to create the form structure in `stepper.component.ts`:
 
@@ -129,7 +131,7 @@ export class StepperComponent {
 }
 ```
 
-Implement the `FormStepper` in `stepper.component.html`:
+Use the `<form-stepper-container>` component to declare the `FormStepper` in `stepper.component.html`:
 
 ```html
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
@@ -185,7 +187,9 @@ Implement the `FormStepper` in `stepper.component.html`:
 
 ## Demo
 
-Check out [demo here](https://avine.github.io/ng-libs/form-stepper/demo/onboarding)
+Check out [demo here](https://avine.github.io/ng-libs/form-stepper/demo/onboarding).
+
+Check out the [demo source code](https://github.com/avine/ng-libs/blob/main/src/app/form-stepper/demo/demo.component.html) for detailed explanations.
 
 ## License
 

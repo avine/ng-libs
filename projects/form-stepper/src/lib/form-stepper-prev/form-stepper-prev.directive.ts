@@ -21,7 +21,7 @@ import { FormStepperService } from '../form-stepper.service';
 })
 export class FormStepperPrevDirective implements AfterViewInit, OnDestroy {
   @HostBinding('disabled') get isDisabled() {
-    return !this.service.state.hasPrevStep;
+    return !this.service.useRouting && !this.service.state.hasPrevStep;
   }
 
   @HostListener('click') onClick() {
@@ -42,7 +42,10 @@ export class FormStepperPrevDirective implements AfterViewInit, OnDestroy {
       if (!this.formStepperInactive) {
         return;
       }
-      this.renderer[hasPrevStep ? 'removeClass' : 'addClass'](this.elementRef.nativeElement, this.formStepperInactive);
+      this.renderer[!this.service.useRouting && !hasPrevStep ? 'addClass' : 'removeClass'](
+        this.elementRef.nativeElement,
+        this.formStepperInactive
+      );
     });
   }
 

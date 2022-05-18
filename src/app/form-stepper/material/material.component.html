@@ -20,7 +20,7 @@
           Prev
         </button>
 
-        <ng-container *ngIf="!main.isLastStep; else submit">
+        <ng-container *ngIf="!main.isLastStep; else submitButton">
           <button
             mat-raised-button
             type="button"
@@ -32,7 +32,7 @@
           </button>
         </ng-container>
 
-        <ng-template #submit>
+        <ng-template #submitButton>
           <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid || isBeingSubmitted">
             Submit
           </button>

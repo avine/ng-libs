@@ -1,4 +1,4 @@
-export type IconAlias = 'edit' | 'check' | 'checkCircle';
+export type IconAlias = 'edit' | 'check' | 'checkCircle' | 'arrowDown';
 
 export interface IconConfig {
   viewBox: string;

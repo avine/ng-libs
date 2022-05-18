@@ -1,4 +1,4 @@
-<div class="form-stepper-nav-inner" [@delayedFadeIn]="delayedFadeInState">
+<div class="form-stepper-nav-inner">
   <div class="form-stepper-nav-inner__content">
     <nav *ngIf="state$ | async as state" class="form-stepper-nav-sections">
       <div
@@ -74,9 +74,15 @@
             *ngIf="!isMobile || state.sectionIndex === sectionIndex"
             [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
             class="form-stepper-nav-section__title"
+            >{{ section.title }}</span
           >
-            {{ section.title }}
-          </span>
+
+          <form-stepper-icon
+            *ngIf="isMobile && state.sectionProgression && state.sectionIndex === sectionIndex"
+            icon="arrowDown"
+            class="form-stepper-nav-section__arrow"
+            [class.form-stepper-nav-section__arrow--open]="isMobileOverlayOpen"
+          ></form-stepper-icon>
         </button>
 
         <ng-container *ngIf="state.sectionIndex === sectionIndex">
@@ -91,7 +97,7 @@
                 sectionIndex < state.nav.length / 2 ? mobileOverlayPosition.left : mobileOverlayPosition.right
               "
             >
-              <div class="form-stepper-nav" @fadeOut>
+              <div class="form-stepper-nav form-stepper-nav--overlay" @fadeOut>
                 <ng-container [ngTemplateOutlet]="stepsTemplate"></ng-container>
               </div>
             </ng-template>

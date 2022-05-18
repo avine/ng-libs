@@ -141,6 +141,8 @@
   }
 
   &-step {
+    display: flex;
+    align-items: center;
     position: relative;
     padding-left: calc(var(--section__timeline-offset) + var(--section-btn__height) / 2 + 1rem);
 
@@ -160,7 +162,7 @@
 
     &__btn {
       font-size: 0.875rem;
-      line-height: 1.2rem;
+      line-height: 1.4rem;
       color: var(--text-color__default);
       text-decoration: underline;
       text-decoration-color: transparent;
@@ -235,6 +237,15 @@
 
     // Note: we need to reevaluate the following variable
     --section-btn__height: calc(var(--section-btn__line-height) + var(--section-btn__padding-v) * 2);
+
+    opacity: 0;
+    animation: formStepperNavFadeIn var(--anim-duration) ease var(--anim-duration) forwards;
+
+    &--overlay {
+      opacity: 1;
+      animation: none;
+      margin: 0 4px;
+    }
 
     &-inner {
       position: relative;
@@ -311,7 +322,9 @@
       &__btn {
         display: flex;
         justify-content: center;
+        align-items: center;
         font-size: 0.875rem;
+        height: calc(var(--section-btn__line-height) + var(--section-btn__padding-v) * 2);
         min-width: var(--section-btn__height);
         padding-left: 0;
         padding-right: 0;
@@ -339,6 +352,16 @@
         overflow: hidden;
         opacity: 0;
         margin-left: 0.625rem;
+      }
+
+      &__arrow {
+        vertical-align: text-top;
+        margin-left: 0.625rem;
+        transition: transform var(--anim-duration) ease;
+
+        &--open {
+          transform: scale(-1);
+        }
       }
 
       &--valid:not(&--last)::before {
@@ -395,8 +418,6 @@
     }
 
     &-step {
-      display: flex;
-      align-items: baseline;
       padding: 0 2.5rem 0 1rem !important;
 
       &__icon {

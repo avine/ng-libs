@@ -37,7 +37,7 @@ export class FormStepperNextDirective implements AfterViewInit, OnDestroy {
 
   constructor(private service: FormStepperService, private renderer: Renderer2, private elementRef: ElementRef) {}
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this.subscription = this.service.state$.subscribe(({ hasNextStep, isStepValid }) => {
       if (!this.formStepperInactive) {
         return;

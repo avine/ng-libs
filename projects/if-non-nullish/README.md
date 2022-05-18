@@ -112,7 +112,7 @@ export class AppComponent {
 
 ## Demo
 
-Check out [demo here](https://avine.github.io/ng-libs/if-non-nullish)
+Check out [demo here](https://avine.github.io/ng-libs/if-non-nullish).
 
 ## License
 

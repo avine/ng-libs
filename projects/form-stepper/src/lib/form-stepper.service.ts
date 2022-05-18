@@ -1,6 +1,7 @@
 import { BehaviorSubject, combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
+import { Location } from '@angular/common';
 import { Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -130,7 +131,8 @@ export class FormStepperService implements OnDestroy {
   constructor(
     @Inject(FORM_STEPPER_CONFIG) public readonly config: FormStepperConfig,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) {}
 
   init() {
@@ -247,7 +249,11 @@ export class FormStepperService implements OnDestroy {
   }
 
   prevStep() {
-    this.navigateByStepIndex(this.stepIndex - 1);
+    if (this.useRouting) {
+      this.location.back();
+    } else {
+      this.navigateByStepIndex(this.stepIndex - 1);
+    }
   }
 
   nextStep() {
@@ -258,7 +264,7 @@ export class FormStepperService implements OnDestroy {
     this.handlePath(this.currentPath);
   }
 
-  private handlePath(path: string | null): void {
+  private handlePath(path: string | null) {
     this.currentPath = path;
 
     if (path === this.onboarding?.path) {

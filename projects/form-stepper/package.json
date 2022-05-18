@@ -10,7 +10,8 @@
     "angular",
     "library",
     "stepper",
-    "form"
+    "form",
+    "nested"
   ],
   "author": "Stéphane Francel <contact@avine.io>",
   "license": "MIT",

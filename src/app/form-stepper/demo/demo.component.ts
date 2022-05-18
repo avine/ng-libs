@@ -59,20 +59,20 @@ export class DemoComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.handleHaveCompanyChange();
     this.subscription = this.formGroup.controls.haveCompany.valueChanges.subscribe(() => {
       this.handleHaveCompanyChange();
     });
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  handleHaveCompanyChange(): void {
+  handleHaveCompanyChange() {
     if (this.formGroup.controls.haveCompany.value) {
       this.formGroup.addControl('company', this.companyCtrl);
       this.formGroup.removeControl('contact');
@@ -86,11 +86,11 @@ export class DemoComponent implements OnInit, OnDestroy {
     }
   }
 
-  addHobbyCtrl(): void {
+  addHobbyCtrl() {
     this.hobbiesCtrl.push(new FormControl(''));
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (this.formGroup.invalid) {
       return;
     }

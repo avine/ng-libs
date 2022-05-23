@@ -18,7 +18,17 @@ import {
 
 @Injectable()
 export class FormStepperService implements OnDestroy {
+  useRouting = true;
+
   formGroupRoot!: FormGroup;
+
+  validSectionIcon!: TemplateRef<any>;
+
+  onboarding!: FormStepperExtraPage;
+
+  summary!: FormStepperExtraPage;
+
+  private nav: FormStepperNavSection[] = [];
 
   private steps: FormStepperStep[] = [];
 
@@ -28,21 +38,17 @@ export class FormStepperService implements OnDestroy {
 
   private allStepsViewed = false;
 
+  private get firstStepIndex() {
+    return this.onboarding ? -1 : 0;
+  }
+
+  private get lastStepIndex() {
+    return this.steps.length + (this.summary ? 0 : -1);
+  }
+
   private _stepTemplate$ = new ReplaySubject<TemplateRef<any>>(1);
 
   stepTemplate$ = this._stepTemplate$.asObservable();
-
-  private stepSubscription!: Subscription;
-
-  private nav: FormStepperNavSection[] = [];
-
-  validSectionIcon!: TemplateRef<any>;
-
-  onboarding!: FormStepperExtraPage;
-
-  summary!: FormStepperExtraPage;
-
-  useRouting = true;
 
   private _state$ = new BehaviorSubject<FormStepperState>({
     sectionIndex: 0,
@@ -63,7 +69,8 @@ export class FormStepperService implements OnDestroy {
     return this._state$.value;
   }
 
-  private getTitles(state: FormStepperState): { sectionTitle: string; stepTitle: string } {
+  private get currentTitles(): { sectionTitle: string; stepTitle: string } {
+    const state = this.state;
     if (state.stepIndex === state.onboardingInfo?.index) {
       const title = state.onboardingInfo?.title;
       return { sectionTitle: title, stepTitle: title };
@@ -80,7 +87,7 @@ export class FormStepperService implements OnDestroy {
 
   main$: Observable<FormStepperMain> = combineLatest([this.stepTemplate$, this.state$]).pipe(
     map(([stepTemplate, state]) => {
-      const { sectionTitle, stepTitle } = this.getTitles(state);
+      const { sectionTitle, stepTitle } = this.currentTitles;
       const { stepIndex, firstStepIndex, lastStepIndex, onboardingInfo, summaryInfo } = state;
       return {
         sectionTitle,
@@ -97,19 +104,13 @@ export class FormStepperService implements OnDestroy {
 
   mainSnapshot!: FormStepperMain;
 
+  private path: string | null = null;
+
   private pathSubscription!: Subscription;
 
-  private currentPath: string | null = null;
+  private currentStepElements = new Set<HTMLElement>();
 
-  private get firstStepIndex() {
-    return this.onboarding ? -1 : 0;
-  }
-
-  private get lastStepIndex() {
-    return this.steps.length + (this.summary ? 0 : -1);
-  }
-
-  private get currentStepControlsHasNoValue(): boolean {
+  private get currentStepHasNoValue(): boolean {
     const control = this.steps[this.stepIndex]?.control;
     if (!control) {
       return false;
@@ -126,7 +127,7 @@ export class FormStepperService implements OnDestroy {
     return true;
   }
 
-  private currentStepControlElements = new Set<HTMLElement>();
+  private currentStepSubscription!: Subscription;
 
   constructor(
     @Inject(FORM_STEPPER_CONFIG) public readonly config: FormStepperConfig,
@@ -135,27 +136,9 @@ export class FormStepperService implements OnDestroy {
     private location: Location
   ) {}
 
-  init() {
-    if (this.useRouting) {
-      this.initWithRouting();
-    } else {
-      this.handlePath(this.findPathFromStepIndex(this.firstStepIndex));
-    }
-  }
-
-  private initWithRouting() {
-    this.pathSubscription = this.activatedRoute.paramMap
-      .pipe(map((paramMap) => paramMap.get(FORM_STEPPER_PATH_PARAM)))
-      .subscribe((currentPath) => {
-        if (!this.steps.length) {
-          return;
-        }
-        this.handlePath(currentPath);
-      });
-  }
-
   ngOnDestroy() {
     this.pathSubscription?.unsubscribe();
+    this.currentStepSubscription?.unsubscribe();
   }
 
   getControl(section: AbstractControl | string, step?: AbstractControl | string): AbstractControl {
@@ -167,6 +150,8 @@ export class FormStepperService implements OnDestroy {
     }
     return step ? this.formGroupRoot.get([section, step])! : this.formGroupRoot.get(section)!;
   }
+
+  // ----- Build -----
 
   getNewIndexes() {
     return { sectionIndex: this.nav.length, stepIndexOffset: this.steps.length };
@@ -208,15 +193,29 @@ export class FormStepperService implements OnDestroy {
   }
 
   addControlElement(element: HTMLElement) {
-    this.currentStepControlElements.add(element);
+    this.currentStepElements.add(element);
 
-    if (this.currentStepControlElements.size === 1 && this.currentStepControlsHasNoValue) {
+    if (this.currentStepElements.size === 1 && this.currentStepHasNoValue) {
       element.focus?.();
     }
   }
 
   removeControlElement(element: HTMLElement) {
-    this.currentStepControlElements.delete(element);
+    this.currentStepElements.delete(element);
+  }
+
+  // ----- Navigate -----
+
+  init() {
+    if (this.useRouting) {
+      this.initWithRouting();
+    } else {
+      this.handlePath(this.findPathFromStepIndex(this.firstStepIndex));
+    }
+  }
+
+  refreshCurrentStep() {
+    this.handlePath(this.path);
   }
 
   navigateByStepIndex(stepIndex: number) {
@@ -225,27 +224,6 @@ export class FormStepperService implements OnDestroy {
     } else {
       this.handlePath(this.findPathFromStepIndex(stepIndex));
     }
-  }
-
-  private navigateByStepIndexWithRouting(stepIndex: number) {
-    if (!this.currentPath || !this.router.url.match(`/${this.currentPath}`)) {
-      // Back to homepage when unable to identify the current path
-      this.router.navigate(['/']);
-      return;
-    }
-    const nextPath = this.findPathFromStepIndex(stepIndex);
-    this.router.navigateByUrl(this.router.url.replace(`/${this.currentPath}`, `/${nextPath}`));
-  }
-
-  private findPathFromStepIndex(stepIndex: number) {
-    const checkedStepIndex = this.getCheckedStepIndex(stepIndex);
-    if (checkedStepIndex === -1) {
-      return this.onboarding.path;
-    }
-    if (checkedStepIndex === this.steps.length) {
-      return this.summary.path;
-    }
-    return this.steps[checkedStepIndex].path;
   }
 
   prevStep() {
@@ -260,12 +238,19 @@ export class FormStepperService implements OnDestroy {
     this.navigateByStepIndex(this.stepIndex + 1);
   }
 
-  refreshCurrentStep() {
-    this.handlePath(this.currentPath);
+  private initWithRouting() {
+    this.pathSubscription = this.activatedRoute.paramMap
+      .pipe(map((paramMap) => paramMap.get(FORM_STEPPER_PATH_PARAM)))
+      .subscribe((path) => {
+        if (!this.steps.length) {
+          return;
+        }
+        this.handlePath(path);
+      });
   }
 
   private handlePath(path: string | null) {
-    this.currentPath = path;
+    this.path = path;
 
     if (path === this.onboarding?.path) {
       return this.handleExtraPagePath(path);
@@ -282,6 +267,27 @@ export class FormStepperService implements OnDestroy {
     }
 
     this.handleSkippedStep(stepIndex) || this.setStepByIndex(stepIndex);
+  }
+
+  private navigateByStepIndexWithRouting(stepIndex: number) {
+    if (!this.path || !this.router.url.match(`/${this.path}`)) {
+      // Back to homepage when unable to identify the current path
+      this.router.navigate(['/']);
+      return;
+    }
+    const nextPath = this.findPathFromStepIndex(stepIndex);
+    this.router.navigateByUrl(this.router.url.replace(`/${this.path}`, `/${nextPath}`));
+  }
+
+  private findPathFromStepIndex(stepIndex: number) {
+    const checkedStepIndex = this.getCheckedStepIndex(stepIndex);
+    if (checkedStepIndex === -1) {
+      return this.onboarding.path;
+    }
+    if (checkedStepIndex === this.steps.length) {
+      return this.summary.path;
+    }
+    return this.steps[checkedStepIndex].path;
   }
 
   private handleSkippedStep(stepIndex = this.steps.length): boolean {
@@ -373,8 +379,8 @@ export class FormStepperService implements OnDestroy {
 
     updateState(step.control.valid);
 
-    this.stepSubscription?.unsubscribe();
-    this.stepSubscription = step.control.statusChanges
+    this.currentStepSubscription?.unsubscribe();
+    this.currentStepSubscription = step.control.statusChanges
       .pipe(
         distinctUntilChanged(),
         map((status) => status === 'VALID')

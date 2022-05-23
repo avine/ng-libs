@@ -1,6 +1,6 @@
-import { Subscription } from 'rxjs';
+import { shareReplay, startWith, tap } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { formatQuicknavValueFromListToHtml, FormStepperContainerComponent } from '@avine/ng-form-stepper';
 
@@ -9,7 +9,7 @@ import { formatQuicknavValueFromListToHtml, FormStepperContainerComponent } from
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
 })
-export class DemoComponent implements OnInit, OnDestroy {
+export class DemoComponent {
   // You can access the public API of the FormStepper
   @ViewChild(FormStepperContainerComponent) formStepper!: FormStepperContainerComponent;
 
@@ -37,7 +37,23 @@ export class DemoComponent implements OnInit, OnDestroy {
     message: [''],
   });
 
-  haveCompanyCtrl = this.formGroup.controls.haveCompany;
+  haveCompany$ = this.formGroup.controls.haveCompany.valueChanges.pipe(
+    startWith(this.formGroup.controls.haveCompany.value),
+    tap((haveCompany: boolean) => {
+      if (haveCompany) {
+        this.formGroup.addControl('company', this.companyCtrl);
+        this.formGroup.removeControl('hobbies');
+        this.formGroup.removeControl('contact');
+        this.formGroup.updateValueAndValidity();
+      } else {
+        this.formGroup.removeControl('company');
+        this.formGroup.addControl('hobbies', this.hobbiesCtrl);
+        this.formGroup.addControl('contact', this.contactCtrl);
+        this.formGroup.updateValueAndValidity();
+      }
+    }),
+    shareReplay(1) // Execute `tap` once for all subscribers using `shareReplay`.
+  );
 
   // You can customize the values displayed in the `<form-stepper-quicknav>`
   quicknavFormatter = (path: string, value: any): string | void => {
@@ -55,36 +71,7 @@ export class DemoComponent implements OnInit, OnDestroy {
 
   isBeingSubmitted = false;
 
-  private subscription!: Subscription;
-
   constructor(private formBuilder: FormBuilder) {}
-
-  ngOnInit() {
-    this.handleHaveCompanyChange();
-    this.subscription = this.formGroup.controls.haveCompany.valueChanges.subscribe(() => {
-      this.handleHaveCompanyChange();
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  handleHaveCompanyChange() {
-    if (this.formGroup.controls.haveCompany.value) {
-      this.formGroup.addControl('company', this.companyCtrl);
-      this.formGroup.removeControl('contact');
-      this.formGroup.removeControl('hobbies');
-      this.formGroup.updateValueAndValidity();
-    } else {
-      this.formGroup.removeControl('company');
-      this.formGroup.addControl('contact', this.contactCtrl);
-      this.formGroup.addControl('hobbies', this.hobbiesCtrl);
-      this.formGroup.updateValueAndValidity();
-    }
-  }
 
   addHobbyCtrl() {
     this.hobbiesCtrl.push(new FormControl(''));

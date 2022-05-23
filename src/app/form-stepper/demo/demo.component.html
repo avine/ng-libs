@@ -115,8 +115,28 @@
       </ng-template>
     </ng-container>
 
+    <!--
+      This section demonstrate that the FormStepper supports `formArrayName` directive.
+    -->
     <ng-container
-      *ngIf="!haveCompanyCtrl.value"
+      *ngIf="!(haveCompany$ | async)"
+      formArrayName="hobbies"
+      formStepperSection
+      formStepperTitle="Hobbies"
+      [formStepperIcon]="hobbiesIcon"
+    >
+      <ng-template formStepperStep formStepperPath="hobbies">
+        <label *ngFor="let _ of hobbiesCtrl.controls; let index = index">
+          Hobby {{ index + 1 }}<br />
+          <input [formControlName]="index" formStepperControl />
+        </label>
+        <br />
+        <button type="button" (click)="addHobbyCtrl()">Add hobby</button>
+      </ng-template>
+    </ng-container>
+
+    <ng-container
+      *ngIf="!(haveCompany$ | async)"
       formGroupName="contact"
       formStepperSection
       formStepperTitle="Contact"
@@ -146,27 +166,7 @@
       </ng-template>
     </ng-container>
 
-    <!--
-      This section demonstrate that the FormStepper supports `formArrayName` directive.
-    -->
-    <ng-container
-      *ngIf="!haveCompanyCtrl.value"
-      formArrayName="hobbies"
-      formStepperSection
-      formStepperTitle="Hobbies"
-      [formStepperIcon]="hobbiesIcon"
-    >
-      <ng-template formStepperStep formStepperPath="hobbies">
-        <label *ngFor="let _ of hobbiesCtrl.controls; let index = index">
-          Hobby {{ index + 1 }}<br />
-          <input [formControlName]="index" formStepperControl />
-        </label>
-        <br />
-        <button type="button" (click)="addHobbyCtrl()">Add hobby</button>
-      </ng-template>
-    </ng-container>
-
-    <ng-container *ngIf="haveCompanyCtrl.value" formGroupName="company" formStepperSection formStepperTitle="Company">
+    <ng-container *ngIf="haveCompany$ | async" formGroupName="company" formStepperSection formStepperTitle="Company">
       <ng-template formStepperStep formStepperPath="company">
         <label>
           Name<br />

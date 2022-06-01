@@ -47,14 +47,24 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   @Input() formStepperGroupRoot!: FormGroup;
 
   /**
+   * Determines whether navigation between steps uses routing.
+   */
+  @Input() formStepperUseRouting = true;
+
+  /**
    * Template to use as section icon when all the steps in the section are valid.
    */
   @Input() formStepperValidSectionIcon!: TemplateRef<any>;
 
   /**
-   * Determines whether navigation between steps uses routing.
+   * Determines whether to remove the Onboarding link from the "nav".
    */
-  @Input() formStepperUseRouting = true;
+  @Input() formStepperNoOnboardingNav = false;
+
+  /**
+   * Determines whether to hide the steps from the "nav".
+   */
+  @Input() formStepperNoStepsNav = false;
 
   @ContentChild(FormStepperMainDirective) mainDirective!: FormStepperMainDirective;
 

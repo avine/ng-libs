@@ -29,6 +29,7 @@ export interface FormStepperNavSection {
 export interface FormStepperStep {
   title: string;
   path: string;
+  autoNextOnValueChange: boolean;
   control: AbstractControl;
   template: TemplateRef<any>;
   sectionIndex: number;

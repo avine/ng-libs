@@ -44,6 +44,12 @@ export class FormStepperStepDirective {
    */
   @Input() formStepperPath!: string;
 
+  /**
+   * Determines whether to go to the next step each time value changes (and the current step is valid).
+   * This is useful when for example the step only contains radio buttons choice.
+   */
+  @Input() formStepperAutoNextOnValueChange = false;
+
   getStep = (): AbstractControl | string =>
     this.stepConfig?.control ||
     (this.formStepperStep as FormStepperStepControl) ||
@@ -54,6 +60,9 @@ export class FormStepperStepDirective {
   getTitle = (): string => this.stepConfig?.title || this.formStepperTitle;
 
   getPath = (): string => this.stepConfig?.path || this.formStepperPath;
+
+  getAutoNextOnValueChange = (): boolean =>
+    this.stepConfig?.autoNextOnValueChange || this.formStepperAutoNextOnValueChange;
 
   constructor(public template: TemplateRef<any>) {}
 

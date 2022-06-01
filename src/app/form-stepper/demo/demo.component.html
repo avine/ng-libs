@@ -103,7 +103,12 @@
       When using a config object, `formStepperTitle` and `formStepperIcon` inputs are ignored.
     -->
     <ng-container [formStepperSection]="{ control: 'haveCompany', title: 'Have company ?', icon: companyIcon }">
-      <ng-template formStepperStep formStepperPath="have-company">
+      <!--
+        This step only contains radio buttons choice.
+        In this situation, using the `formStepperAutoNextOnValueChange` input, allow to jump
+        to the next step each time the value changes (and the current step is valid).
+      -->
+      <ng-template formStepperStep [formStepperAutoNextOnValueChange]="true" formStepperPath="have-company">
         <label>
           <input type="radio" [value]="false" formControlName="haveCompany" />
           No

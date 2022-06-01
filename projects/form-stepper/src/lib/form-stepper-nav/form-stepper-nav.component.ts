@@ -8,6 +8,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostBinding,
+  Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
@@ -33,6 +34,16 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
   @HostBinding('class.form-stepper-nav--mobile') get hasMobileClass() {
     return this.isMobile;
   }
+
+  /**
+   * Determines whether to remove the Onboarding link from the "nav".
+   */
+  @Input() formStepperNoOnboardingNav = false;
+
+  /**
+   * Determines whether to hide the steps from the "nav".
+   */
+  @Input() formStepperNoStepsNav = false;
 
   isMobile = false;
 
@@ -93,7 +104,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     if (sectionIndex !== this.service.state.sectionIndex) {
       this.service.navigateByStepIndex(stepIndex);
-    } else {
+    } else if (!this.formStepperNoStepsNav) {
       this.isMobileOverlayOpen = !this.isMobileOverlayOpen;
     }
   }

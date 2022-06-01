@@ -2,7 +2,7 @@ import { BehaviorSubject, combineLatest, Observable, ReplaySubject, Subscription
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 import { Location } from '@angular/common';
-import { Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -127,18 +127,22 @@ export class FormStepperService implements OnDestroy {
     return true;
   }
 
-  private currentStepSubscription!: Subscription;
+  private currentStepStatusSubscription!: Subscription;
+
+  private currentStepValueSubscription!: Subscription;
 
   constructor(
     @Inject(FORM_STEPPER_CONFIG) public readonly config: FormStepperConfig,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnDestroy() {
     this.pathSubscription?.unsubscribe();
-    this.currentStepSubscription?.unsubscribe();
+    this.currentStepStatusSubscription?.unsubscribe();
+    this.currentStepValueSubscription?.unsubscribe();
   }
 
   getControl(section: AbstractControl | string, step?: AbstractControl | string): AbstractControl {
@@ -379,13 +383,28 @@ export class FormStepperService implements OnDestroy {
 
     updateState(step.control.valid);
 
-    this.currentStepSubscription?.unsubscribe();
-    this.currentStepSubscription = step.control.statusChanges
+    this.currentStepStatusSubscription?.unsubscribe();
+    this.currentStepStatusSubscription = step.control.statusChanges
       .pipe(
         distinctUntilChanged(),
         map((status) => status === 'VALID')
       )
       .subscribe(updateState);
+
+    this.currentStepValueSubscription?.unsubscribe();
+    if (step.autoNextOnValueChange) {
+      this.currentStepValueSubscription = step.control.valueChanges.subscribe(() => {
+        if (step.control.invalid) {
+          return;
+        }
+        // Changing the value may have a side effect on the overall stepper structure (adding/removing sections/steps).
+        // We have to wait for these changes to take effect.
+        setTimeout(() => {
+          this.nextStep();
+          this.changeDetectorRef.detectChanges();
+        });
+      });
+    }
   }
 
   private getCheckedStepIndex(stepIndex: number): number {

@@ -101,20 +101,23 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   }
 
   private getSteps(sectionIndex: number, stepIndexOffset: number) {
-    return this.stepDirectiveQueryList.map(({ getTitle, getPath, getStep, template }, relativeStepIndex) => {
-      const step: FormStepperStep = {
-        title: getTitle() || this.getTitle(),
-        path: getPath(),
-        control: this.service.getControl(this.getSection(), getStep()),
-        template,
-        sectionIndex,
-        stepIndex: stepIndexOffset + relativeStepIndex,
-      };
-      if (this.stepDirectiveQueryList.length >= 2) {
-        step.sectionProgression = { count: relativeStepIndex + 1, total: this.stepDirectiveQueryList.length };
+    return this.stepDirectiveQueryList.map(
+      ({ getTitle, getPath, getAutoNextOnValueChange, getStep, template }, relativeStepIndex) => {
+        const step: FormStepperStep = {
+          title: getTitle() || this.getTitle(),
+          path: getPath(),
+          autoNextOnValueChange: getAutoNextOnValueChange(),
+          control: this.service.getControl(this.getSection(), getStep()),
+          template,
+          sectionIndex,
+          stepIndex: stepIndexOffset + relativeStepIndex,
+        };
+        if (this.stepDirectiveQueryList.length >= 2) {
+          step.sectionProgression = { count: relativeStepIndex + 1, total: this.stepDirectiveQueryList.length };
+        }
+        return step;
       }
-      return step;
-    });
+    );
   }
 
   private get sectionConfig(): FormStepperSectionConfig | void {

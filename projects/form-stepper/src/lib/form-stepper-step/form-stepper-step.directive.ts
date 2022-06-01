@@ -50,12 +50,16 @@ export class FormStepperStepDirective {
    */
   @Input() formStepperAutoNextOnValueChange = false;
 
-  getStep = (): AbstractControl | string =>
-    this.stepConfig?.control ||
-    (this.formStepperStep as FormStepperStepControl) ||
-    this.formGroup ||
-    this.formGroupName ||
-    this.formArrayName;
+  getStep = (): AbstractControl | string => {
+    const { stepConfig } = this;
+    return (
+      stepConfig?.control ||
+      (!stepConfig && (this.formStepperStep as FormStepperStepControl)) ||
+      this.formGroup ||
+      this.formGroupName ||
+      this.formArrayName
+    );
+  };
 
   getTitle = (): string => this.stepConfig?.title || this.formStepperTitle;
 

@@ -52,12 +52,16 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
-  getSection = (): AbstractControl | string =>
-    this.sectionConfig?.control ||
-    (this.formStepperSection as FormStepperSectionControl) ||
-    this.formGroup ||
-    this.formGroupName ||
-    this.formArrayName;
+  getSection = (): AbstractControl | string => {
+    const { sectionConfig } = this;
+    return (
+      sectionConfig?.control ||
+      (!sectionConfig && (this.formStepperSection as FormStepperSectionControl)) ||
+      this.formGroup ||
+      this.formGroupName ||
+      this.formArrayName
+    );
+  };
 
   getTitle = (): string => this.sectionConfig?.title || this.formStepperTitle;
 

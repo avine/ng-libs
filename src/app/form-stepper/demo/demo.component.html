@@ -123,52 +123,56 @@
     <!--
       This section demonstrate that the FormStepper supports `formArrayName` directive.
     -->
-    <ng-container
-      *ngIf="!(haveCompany$ | async)"
-      formArrayName="hobbies"
-      formStepperSection
-      formStepperTitle="Hobbies"
-      [formStepperIcon]="hobbiesIcon"
-    >
-      <ng-template formStepperStep formStepperPath="hobbies">
-        <label *ngFor="let _ of hobbiesCtrl.controls; let index = index">
-          Hobby {{ index + 1 }}<br />
-          <input [formControlName]="index" formStepperControl />
-        </label>
-        <br />
-        <button type="button" (click)="addHobbyCtrl()">Add hobby</button>
-      </ng-template>
+    <ng-container [ngSwitch]="haveCompany$ | async">
+      <ng-container
+        *ngSwitchCase="false"
+        formArrayName="hobbies"
+        formStepperSection
+        formStepperTitle="Hobbies"
+        [formStepperIcon]="hobbiesIcon"
+      >
+        <ng-template formStepperStep formStepperPath="hobbies">
+          <label *ngFor="let _ of hobbiesCtrl.controls; let index = index">
+            Hobby {{ index + 1 }}<br />
+            <input [formControlName]="index" formStepperControl />
+          </label>
+          <br />
+          <button type="button" (click)="addHobbyCtrl()">Add hobby</button>
+        </ng-template>
+      </ng-container>
     </ng-container>
 
-    <ng-container
-      *ngIf="!(haveCompany$ | async)"
-      formGroupName="contact"
-      formStepperSection
-      formStepperTitle="Contact"
-      [formStepperIcon]="contactIcon"
-    >
-      <ng-template formStepperStep="email" formStepperTitle="Email" formStepperPath="email">
-        <label>
-          Email<br />
-          <input formControlName="email" formStepperControl />
-          (enter a valid email)
-        </label>
-      </ng-template>
+    <ng-container [ngSwitch]="haveCompany$ | async">
+      <ng-container
+        *ngSwitchCase="false"
+        formGroupName="contact"
+        formStepperSection
+        formStepperTitle="Contact"
+        [formStepperIcon]="contactIcon"
+      >
+        <ng-template formStepperStep="email" formStepperTitle="Email" formStepperPath="email">
+          <label>
+            Email<br />
+            <input formControlName="email" formStepperControl />
+            (enter a valid email)
+          </label>
+        </ng-template>
 
-      <!--
+        <!--
         This step demonstrate that it is possible to have multiple FormControl in one step.
       -->
-      <ng-template formGroupName="address" formStepperStep formStepperTitle="Address" formStepperPath="address">
-        <label>
-          Street<br />
-          <input formControlName="street" formStepperControl />
-        </label>
+        <ng-template formGroupName="address" formStepperStep formStepperTitle="Address" formStepperPath="address">
+          <label>
+            Street<br />
+            <input formControlName="street" formStepperControl />
+          </label>
 
-        <label>
-          Zip code<br />
-          <input formControlName="zipCode" formStepperControl />
-        </label>
-      </ng-template>
+          <label>
+            Zip code<br />
+            <input formControlName="zipCode" formStepperControl />
+          </label>
+        </ng-template>
+      </ng-container>
     </ng-container>
 
     <ng-container *ngIf="haveCompany$ | async" formGroupName="company" formStepperSection formStepperTitle="Company">

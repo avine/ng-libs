@@ -33,13 +33,16 @@ export class DemoComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
     }),
-    haveCompany: [false, Validators.required],
+    haveCompany: [null, Validators.required],
     message: [''],
   });
 
   haveCompany$ = this.formGroup.controls.haveCompany.valueChanges.pipe(
     startWith(this.formGroup.controls.haveCompany.value),
-    tap((haveCompany: boolean) => {
+    tap((haveCompany: boolean | null) => {
+      if (haveCompany === null) {
+        return;
+      }
       if (haveCompany) {
         this.formGroup.addControl('company', this.companyCtrl);
         this.formGroup.removeControl('hobbies');

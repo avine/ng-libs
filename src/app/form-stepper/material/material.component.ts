@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Validators, UntypedFormBuilder } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-material',
@@ -18,7 +18,7 @@ export class MaterialComponent {
 
   isBeingSubmitted = false;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   onSubmit() {
     if (this.formGroup.invalid) {

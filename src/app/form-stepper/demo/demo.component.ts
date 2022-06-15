@@ -1,8 +1,10 @@
 import { shareReplay, startWith, tap } from 'rxjs/operators';
 
 import { Component, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { formatQuicknavValueFromListToHtml, FormStepperContainerComponent } from '@avine/ng-form-stepper';
+
+import { DemoForm } from './demo.types';
 
 @Component({
   selector: 'app-demo',
@@ -28,12 +30,12 @@ export class DemoComponent {
     activity: ['', Validators.required],
   });
 
-  formGroup = this.formBuilder.group({
+  formGroup: FormGroup<DemoForm> = this.formBuilder.group({
     fullName: this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
     }),
-    haveCompany: [null, Validators.required],
+    haveCompany: [null as null | boolean, Validators.required],
     message: [''],
   });
 
@@ -74,10 +76,10 @@ export class DemoComponent {
 
   isBeingSubmitted = false;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(private formBuilder: NonNullableFormBuilder) {}
 
   addHobbyCtrl() {
-    this.hobbiesCtrl.push(new UntypedFormControl(''));
+    this.hobbiesCtrl.push(new FormControl('', { nonNullable: true }));
   }
 
   onSubmit() {

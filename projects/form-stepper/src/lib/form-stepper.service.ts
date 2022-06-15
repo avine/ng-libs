@@ -3,7 +3,7 @@ import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 import { Location } from '@angular/common';
 import { ChangeDetectorRef, Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FORM_STEPPER_CONFIG, FORM_STEPPER_PATH_PARAM } from './form-stepper.config';
@@ -20,7 +20,7 @@ import {
 export class FormStepperService implements OnDestroy {
   useRouting = true;
 
-  formGroupRoot!: FormGroup;
+  formGroupRoot!: UntypedFormGroup;
 
   validSectionIcon!: TemplateRef<any>;
 
@@ -115,13 +115,13 @@ export class FormStepperService implements OnDestroy {
     if (!control) {
       return false;
     }
-    if (control instanceof FormGroup && Object.values(control.value).some((value) => !!value)) {
+    if (control instanceof UntypedFormGroup && Object.values(control.value).some((value) => !!value)) {
       return false;
     }
-    if (control instanceof FormArray && (control.value as unknown[]).some((value) => !!value)) {
+    if (control instanceof UntypedFormArray && (control.value as unknown[]).some((value) => !!value)) {
       return false;
     }
-    if (control instanceof FormControl && !!control.value) {
+    if (control instanceof UntypedFormControl && !!control.value) {
       return false;
     }
     return true;
@@ -308,13 +308,13 @@ export class FormStepperService implements OnDestroy {
       control.pristine;
 
     const skippedStepIndex = this.steps.slice(0, stepIndex).findIndex(({ control }) => {
-      if (control instanceof FormGroup) {
+      if (control instanceof UntypedFormGroup) {
         return Object.values(control.controls).some(isSkipped);
       }
-      if (control instanceof FormArray) {
+      if (control instanceof UntypedFormArray) {
         return control.controls.some(isSkipped);
       }
-      return isSkipped(control as FormControl);
+      return isSkipped(control as UntypedFormControl);
     });
 
     if (skippedStepIndex === -1) {

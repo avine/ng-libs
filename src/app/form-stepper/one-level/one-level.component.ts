@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-one-level',
@@ -18,11 +18,11 @@ export class OneLevelComponent {
     cgu: ['', Validators.requiredTrue],
   });
 
-  hobbies = this.formGroup.get('hobbies') as FormArray;
+  hobbies = this.formGroup.get('hobbies') as UntypedFormArray;
 
   isBeingSubmitted = false;
 
-  constructor(private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private formBuilder: UntypedFormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
 
   onSubmit() {
     this.isBeingSubmitted = true;

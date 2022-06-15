@@ -16,7 +16,7 @@ import {
   TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { FormStepperMainDirective } from '../form-stepper-main/form-stepper-main.directive';
 import { FormStepperOnboardingDirective } from '../form-stepper-onboarding/form-stepper-onboarding.directive';
@@ -44,7 +44,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   /**
    * Tracks the validity state of the form root.
    */
-  @Input() formStepperGroupRoot!: FormGroup;
+  @Input() formStepperGroupRoot!: UntypedFormGroup;
 
   /**
    * Determines whether navigation between steps uses routing.

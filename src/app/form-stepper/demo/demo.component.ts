@@ -1,7 +1,7 @@
 import { shareReplay, startWith, tap } from 'rxjs/operators';
 
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { formatQuicknavValueFromListToHtml, FormStepperContainerComponent } from '@avine/ng-form-stepper';
 
 @Component({
@@ -74,10 +74,10 @@ export class DemoComponent {
 
   isBeingSubmitted = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   addHobbyCtrl() {
-    this.hobbiesCtrl.push(new FormControl(''));
+    this.hobbiesCtrl.push(new UntypedFormControl(''));
   }
 
   onSubmit() {

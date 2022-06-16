@@ -2,7 +2,7 @@
   <div class="form-stepper-nav-inner__content">
     <nav *ngIf="state$ | async as state" class="form-stepper-nav-sections">
       <div
-        *ngIf="!formStepperNoOnboardingNav && state.onboardingInfo"
+        *ngIf="!noOnboardingNav && state.onboardingInfo"
         class="form-stepper-nav-section"
         [class.form-stepper-nav-section--valid]="state.maxStepIndexViewed >= 0"
         [class.form-stepper-nav-section--current]="state.stepIndex === -1"
@@ -79,16 +79,14 @@
 
           <form-stepper-icon
             icon="arrowDown"
-            *ngIf="
-              !formStepperNoStepsNav && isMobile && state.sectionProgression && state.sectionIndex === sectionIndex
-            "
+            *ngIf="!noStepsNav && isMobile && state.sectionProgression && state.sectionIndex === sectionIndex"
             [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
             class="form-stepper-nav-section__arrow"
             [class.form-stepper-nav-section__arrow--open]="isMobileOverlayOpen"
           ></form-stepper-icon>
         </button>
 
-        <ng-container *ngIf="!formStepperNoStepsNav && state.sectionIndex === sectionIndex">
+        <ng-container *ngIf="!noStepsNav && state.sectionIndex === sectionIndex">
           <ng-container *ngIf="!isMobile; else mobileOverlayTemplate" [ngTemplateOutlet]="stepsTemplate"></ng-container>
 
           <ng-template #mobileOverlayTemplate>

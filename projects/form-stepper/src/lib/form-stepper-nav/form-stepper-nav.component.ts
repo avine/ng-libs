@@ -1,6 +1,7 @@
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import {
@@ -35,15 +36,23 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
     return this.isMobile;
   }
 
+  noOnboardingNav = false;
+
   /**
    * Determines whether to remove the Onboarding link from the "nav".
    */
-  @Input() formStepperNoOnboardingNav = false;
+  @Input() set formStepperNoOnboardingNav(value: BooleanInput) {
+    this.noOnboardingNav = coerceBooleanProperty(value);
+  }
+
+  noStepsNav = false;
 
   /**
    * Determines whether to hide the steps from the "nav".
    */
-  @Input() formStepperNoStepsNav = false;
+  @Input() set formStepperNoStepsNav(value: BooleanInput) {
+    this.noStepsNav = coerceBooleanProperty(value);
+  }
 
   isMobile = false;
 
@@ -104,7 +113,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     if (sectionIndex !== this.service.state.sectionIndex) {
       this.service.navigateByStepIndex(stepIndex);
-    } else if (!this.formStepperNoStepsNav) {
+    } else if (!this.noStepsNav) {
       this.isMobileOverlayOpen = !this.isMobileOverlayOpen;
     }
   }

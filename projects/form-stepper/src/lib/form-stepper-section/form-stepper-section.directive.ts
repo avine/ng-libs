@@ -1,5 +1,6 @@
 import { Subscription } from 'rxjs';
 
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AfterContentInit, ContentChildren, Directive, Input, OnDestroy, QueryList, TemplateRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
@@ -48,7 +49,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
    *
    * It is usefull if the "quicknav" itself is dispayed in one of the steps (and not in the summary directive).
    */
-  @Input() formStepperNoQuicknav!: boolean;
+  @Input() formStepperNoQuicknav: BooleanInput = false;
 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
@@ -83,7 +84,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
       control: this.service.getControl(this.getSection()),
       stepIndexOffset,
       steps,
-      hasQuicknav: !this.formStepperNoQuicknav,
+      hasQuicknav: !coerceBooleanProperty(this.formStepperNoQuicknav),
     });
   }
 

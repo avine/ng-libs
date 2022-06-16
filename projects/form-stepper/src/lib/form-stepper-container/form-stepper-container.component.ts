@@ -1,5 +1,6 @@
 import { Subscription } from 'rxjs';
 
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -49,7 +50,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   /**
    * Determines whether navigation between steps uses routing.
    */
-  @Input() formStepperUseRouting = true;
+  @Input() formStepperUseRouting: BooleanInput = true;
 
   /**
    * Template to use as section icon when all the steps in the section are valid.
@@ -59,12 +60,12 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   /**
    * Determines whether to remove the Onboarding link from the "nav".
    */
-  @Input() formStepperNoOnboardingNav = false;
+  @Input() formStepperNoOnboardingNav: BooleanInput = false;
 
   /**
    * Determines whether to hide the steps from the "nav".
    */
-  @Input() formStepperNoStepsNav = false;
+  @Input() formStepperNoStepsNav: BooleanInput = false;
 
   @ContentChild(FormStepperMainDirective) mainDirective!: FormStepperMainDirective;
 
@@ -98,7 +99,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
 
   ngOnInit() {
     this.service.formGroupRoot = this.formStepperGroupRoot;
-    this.service.useRouting = this.formStepperUseRouting;
+    this.service.useRouting = coerceBooleanProperty(this.formStepperUseRouting);
   }
 
   ngAfterContentInit() {

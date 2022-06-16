@@ -1,5 +1,5 @@
-<ng-container *ngIf="formStepperIsValid; else isNotValid">
-  <span class="form-stepper-section-icon__container" [@fadeInOut]="formStepperDisableAnimation ? '' : 'enabled'">
+<ng-container *ngIf="isValid; else isNotValid">
+  <span class="form-stepper-section-icon__container" [@fadeInOut]="disableAnimation ? '' : 'enabled'">
     <ng-container
       *ngIf="formStepperValidIcon; else defaultValidIcon"
       [ngTemplateOutlet]="formStepperValidIcon"
@@ -12,7 +12,7 @@
 </ng-container>
 
 <ng-template #isNotValid>
-  <span class="form-stepper-section-icon__container" [@fadeInOut]="formStepperDisableAnimation ? '' : 'enabled'">
+  <span class="form-stepper-section-icon__container" [@fadeInOut]="disableAnimation ? '' : 'enabled'">
     <ng-container *ngIf="formStepperIcon; else defaultIcon" [ngTemplateOutlet]="formStepperIcon"></ng-container>
   </span>
 

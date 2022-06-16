@@ -1,5 +1,6 @@
 import { map } from 'rxjs/operators';
 
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
@@ -19,11 +20,15 @@ import { FormStepperStep } from '../form-stepper.types';
 export class FormStepperQuicknavComponent {
   @HostBinding('class.form-stepper-quicknav') hasClass = true;
 
+  compact = false;
+
   /**
    * Determines whether to remove the sections from the summary.
    * Should be set to `true` when the FormStepper has only one level (each section has only one step).
    */
-  @Input() formStepperCompact = false;
+  @Input() set formStepperCompact(value: BooleanInput) {
+    this.compact = coerceBooleanProperty(value);
+  }
 
   /**
    * Customize the value of any step.

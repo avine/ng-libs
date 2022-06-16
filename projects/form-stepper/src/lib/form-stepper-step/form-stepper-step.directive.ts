@@ -1,3 +1,4 @@
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Directive, Input, TemplateRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
@@ -48,7 +49,7 @@ export class FormStepperStepDirective {
    * Determines whether to go to the next step each time value changes (and the current step is valid).
    * This is useful when for example the step only contains radio buttons choice.
    */
-  @Input() formStepperAutoNextOnValueChange = false;
+  @Input() formStepperAutoNextOnValueChange: BooleanInput = false;
 
   getStep = (): AbstractControl | string => {
     const { stepConfig } = this;
@@ -66,7 +67,7 @@ export class FormStepperStepDirective {
   getPath = (): string => this.stepConfig?.path || this.formStepperPath;
 
   getAutoNextOnValueChange = (): boolean =>
-    this.stepConfig?.autoNextOnValueChange || this.formStepperAutoNextOnValueChange;
+    this.stepConfig?.autoNextOnValueChange || coerceBooleanProperty(this.formStepperAutoNextOnValueChange);
 
   constructor(public template: TemplateRef<any>) {}
 

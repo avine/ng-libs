@@ -42,11 +42,11 @@
       </ng-template>
     </ng-container>
 
-    <ng-container formStepperSection="cgu" formStepperTitle="Summary" [formStepperNoQuicknav]="true">
+    <ng-container formStepperSection="cgu" formStepperTitle="Summary" formStepperNoQuicknav>
       <ng-template formStepperStep formStepperPath="summary">
         <h2>Summary</h2>
 
-        <form-stepper-quicknav [formStepperCompact]="true"></form-stepper-quicknav>
+        <form-stepper-quicknav formStepperCompact></form-stepper-quicknav>
 
         <label><input type="checkbox" formControlName="cgu" formStepperControl /> CGU</label>
 

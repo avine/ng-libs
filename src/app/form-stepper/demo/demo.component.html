@@ -108,7 +108,7 @@
         In this situation, using the `formStepperAutoNextOnValueChange` input, allow to jump
         to the next step each time the value changes (and the current step is valid).
       -->
-      <ng-template formStepperStep [formStepperAutoNextOnValueChange]="true" formStepperPath="have-company">
+      <ng-template formStepperStep formStepperAutoNextOnValueChange formStepperPath="have-company">
         <label>
           <input type="radio" [value]="false" formControlName="haveCompany" />
           No

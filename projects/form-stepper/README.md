@@ -161,11 +161,11 @@ Use the `<form-stepper-container>` component to declare the `FormStepper` in `st
     </ng-template>
 
     <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
-      <ng-template formStepperStep="firstName" formStepperPath="first-name">
+      <ng-template formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
         <input formControlName="firstName" formStepperControl />
       </ng-template>
 
-      <ng-template formStepperStep="lastName" formStepperPath="last-name">
+      <ng-template formStepperStep="lastName" formStepperTitle="Last name" formStepperPath="last-name">
         <input formControlName="lastName" formStepperControl />
       </ng-template>
     </ng-container>

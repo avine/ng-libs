@@ -1,6 +1,7 @@
 {
   "name": "@avine/ng-form-stepper",
-  "version": "0.0.1",
+  "description": "Advanced multi-step form that plays well with ReactiveFormModule.",
+  "version": "0.0.3",
   "private": false,
   "repository": {
     "type": "git",
@@ -20,8 +21,8 @@
   },
   "homepage": "https://github.com/avine/ng-libs/tree/main/projects/form-stepper#readme",
   "peerDependencies": {
-    "@angular/common": "^12.2.0",
-    "@angular/core": "^12.2.0"
+    "@angular/common": ">12.2.0",
+    "@angular/core": ">12.2.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

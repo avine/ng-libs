@@ -14,7 +14,7 @@ export class FormStepperControlDirective implements OnInit, OnDestroy {
    * - prevent form submission when pressing "Enter" key.
    * - jump to the next step when pressing "Enter" key (if the current step is valid).
    *
-   * Note: use the `formStepperOnEnter` input to adjust the behavior of the directive.
+   * Note: use the `fsOnEnter` input to adjust the behavior of the directive.
    */
   @Input() formStepperControl!: '';
 
@@ -24,7 +24,7 @@ export class FormStepperControlDirective implements OnInit, OnDestroy {
    * @example
    * { preventDefault: false, nextStep: false }
    */
-  @Input() formStepperOnEnter!: Partial<FormStepperControlOnEnter>;
+  @Input() fsOnEnter!: Partial<FormStepperControlOnEnter>;
 
   @HostListener('keydown.enter', ['$event']) onEnter(event: KeyboardEvent) {
     const { preventDefault, nextStep } = this.onEnterConfig;
@@ -41,7 +41,7 @@ export class FormStepperControlDirective implements OnInit, OnDestroy {
   }
 
   private get onEnterConfig(): FormStepperControlOnEnter {
-    return { ...FORM_STEPPER_CONTROL_ON_ENTER_DEFAULT, ...(this.formStepperOnEnter ?? {}) };
+    return { ...FORM_STEPPER_CONTROL_ON_ENTER_DEFAULT, ...(this.fsOnEnter ?? {}) };
   }
 
   constructor(private service: FormStepperService, private elementRef: ElementRef) {}

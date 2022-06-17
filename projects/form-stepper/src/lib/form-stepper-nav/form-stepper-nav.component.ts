@@ -41,7 +41,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
   /**
    * Determines whether to remove the Onboarding link from the "nav".
    */
-  @Input() set formStepperNoOnboardingNav(value: BooleanInput) {
+  @Input() set fsNoOnboardingNav(value: BooleanInput) {
     this.noOnboardingNav = coerceBooleanProperty(value);
   }
 
@@ -50,7 +50,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
   /**
    * Determines whether to hide the steps from the "nav".
    */
-  @Input() set formStepperNoStepsNav(value: BooleanInput) {
+  @Input() set fsNoStepsNav(value: BooleanInput) {
     this.noStepsNav = coerceBooleanProperty(value);
   }
 

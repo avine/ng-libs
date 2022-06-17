@@ -14,10 +14,10 @@ export class FormStepperStepDirective {
    * If the section has only one step then leave empty and the value will be inferred from `formStepperSection`.
    *
    * @example
-   * // When using the config object signature, `formStepperTitle` and `formStepperPath` inputs are ignored.
+   * // When using the config object signature, `fsTitle` and `fsPath` inputs are ignored.
    * interface FormStepperStepConfig { control?: AbstractControl | string; title?: string; path: string }
    *
-   * // When using the control signature, `formStepperTitle` and `formStepperPath` inputs can be used to complete the step configuration.
+   * // When using the control signature, `fsTitle` and `fsPath` inputs can be used to complete the step configuration.
    * type FormStepperStepControl = string | AbstractControl
    */
   @Input() formStepperStep!: FormStepperStepConfig | FormStepperStepControl;
@@ -36,20 +36,20 @@ export class FormStepperStepDirective {
    *
    * If the section has only one step then leave empty and the value will be inferred from the title of `formStepperSection`.
    */
-  @Input() formStepperTitle!: string;
+  @Input() fsTitle!: string;
 
   /**
    * The route parameter to use to navigate to the step (ie: the value of `FORM_STEPPER_PATH_PARAM`).
    *
    * This input is required.
    */
-  @Input() formStepperPath!: string;
+  @Input() fsPath!: string;
 
   /**
    * Determines whether to go to the next step each time value changes (and the current step is valid).
    * This is useful when for example the step only contains radio buttons choice.
    */
-  @Input() formStepperAutoNextOnValueChange: BooleanInput = false;
+  @Input() fsAutoNextOnValueChange: BooleanInput = false;
 
   getStep = (): AbstractControl | string => {
     const { stepConfig } = this;
@@ -62,12 +62,12 @@ export class FormStepperStepDirective {
     );
   };
 
-  getTitle = (): string => this.stepConfig?.title || this.formStepperTitle;
+  getTitle = (): string => this.stepConfig?.title || this.fsTitle;
 
-  getPath = (): string => this.stepConfig?.path || this.formStepperPath;
+  getPath = (): string => this.stepConfig?.path || this.fsPath;
 
   getAutoNextOnValueChange = (): boolean =>
-    this.stepConfig?.autoNextOnValueChange || coerceBooleanProperty(this.formStepperAutoNextOnValueChange);
+    this.stepConfig?.autoNextOnValueChange || coerceBooleanProperty(this.fsAutoNextOnValueChange);
 
   constructor(public template: TemplateRef<any>) {}
 

@@ -9,7 +9,7 @@ import { FormStepperStep } from '../form-stepper.types';
 /**
  * Render the form's value in a nice summary with links to jump to a any step.
  *
- * Use the `formStepperCompact` input to adjust the HTML output.
+ * Use the `fsCompact` input to adjust the HTML output.
  */
 @Component({
   selector: 'form-stepper-quicknav',
@@ -26,7 +26,7 @@ export class FormStepperQuicknavComponent {
    * Determines whether to remove the sections from the summary.
    * Should be set to `true` when the FormStepper has only one level (each section has only one step).
    */
-  @Input() set formStepperCompact(value: BooleanInput) {
+  @Input() set fsCompact(value: BooleanInput) {
     this.compact = coerceBooleanProperty(value);
   }
 
@@ -35,7 +35,7 @@ export class FormStepperQuicknavComponent {
    *
    * @returns Return a `string` to overwrite the default formatting or `void` to bypass.
    */
-  @Input() formStepperFormat!: (path: string, controlValue: any) => string | void;
+  @Input() fsFormat!: (path: string, controlValue: any) => string | void;
 
   nav$ = this.service.state$.pipe(map(({ nav }) => nav));
 
@@ -45,8 +45,8 @@ export class FormStepperQuicknavComponent {
 
   getStepValue(step: FormStepperStep): string {
     const { path, control } = step;
-    if (typeof this.formStepperFormat === 'function') {
-      const result = this.formStepperFormat(path, control.value);
+    if (typeof this.fsFormat === 'function') {
+      const result = this.fsFormat(path, control.value);
       if (result !== undefined) {
         return result;
       }

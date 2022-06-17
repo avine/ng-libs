@@ -31,7 +31,7 @@ export class FormStepperNextDirective implements AfterViewInit, OnDestroy {
   /**
    * CSS class to add when the button should be mark as inactive.
    */
-  @Input() formStepperInactive!: string;
+  @Input() fsInactive!: string;
 
   private subscription!: Subscription;
 
@@ -39,12 +39,12 @@ export class FormStepperNextDirective implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.subscription = this.service.state$.subscribe(({ hasNextStep, isStepValid }) => {
-      if (!this.formStepperInactive) {
+      if (!this.fsInactive) {
         return;
       }
       this.renderer[hasNextStep && isStepValid ? 'removeClass' : 'addClass'](
         this.elementRef.nativeElement,
-        this.formStepperInactive
+        this.fsInactive
       );
     });
   }

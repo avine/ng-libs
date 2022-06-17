@@ -12,17 +12,17 @@ import { sectionIconAnimations } from './form-stepper-section-icon.animations';
   animations: sectionIconAnimations,
 })
 export class FormStepperSectionIconComponent {
-  @Input() formStepperIcon!: TemplateRef<any>;
+  @Input() fsIcon!: TemplateRef<any>;
 
   isValid: BooleanInput = false;
 
-  @Input() set formStepperIsValid(value: BooleanInput) {
+  @Input() set fsIsValid(value: BooleanInput) {
     this.isValid = value;
   }
 
   disableAnimation: BooleanInput = false;
 
-  @Input() set formStepperDisableAnimation(value: BooleanInput) {
+  @Input() set fsDisableAnimation(value: BooleanInput) {
     this.disableAnimation = value;
   }
 

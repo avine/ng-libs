@@ -135,7 +135,7 @@ Use the `<form-stepper-container>` component to declare the `FormStepper` in `st
 
 ```html
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <form-stepper-container [formStepperGroupRoot]="formGroup" #formStepper>
+  <form-stepper-container [fsGroupRoot]="formGroup" #formStepper>
     <ng-template formStepperMain>
       <ng-container *ngIf="formStepper.main$ | async as main">
         <h2>{{ main.stepTitle }}</h2>
@@ -156,27 +156,27 @@ Use the `<form-stepper-container>` component to declare the `FormStepper` in `st
       </ng-container>
     </ng-template>
 
-    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+    <ng-template formStepperOnboarding fsTitle="Onboarding" fsPath="onboarding">
       <p>Welcome to Form Stepper.</p>
     </ng-template>
 
-    <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
-      <ng-template formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
+    <ng-container formGroupName="fullName" formStepperSection fsTitle="Full name">
+      <ng-template formStepperStep="firstName" fsTitle="First name" fsPath="first-name">
         <input formControlName="firstName" formStepperControl />
       </ng-template>
 
-      <ng-template formStepperStep="lastName" formStepperTitle="Last name" formStepperPath="last-name">
+      <ng-template formStepperStep="lastName" fsTitle="Last name" fsPath="last-name">
         <input formControlName="lastName" formStepperControl />
       </ng-template>
     </ng-container>
 
-    <ng-container formStepperSection="email" formStepperTitle="Email">
-      <ng-template formStepperStep formStepperPath="email">
+    <ng-container formStepperSection="email" fsTitle="Email">
+      <ng-template formStepperStep fsPath="email">
         <input formControlName="email" formStepperControl />
       </ng-template>
     </ng-container>
 
-    <ng-template formStepperSummary formStepperTitle="Summary" formStepperPath="summary">
+    <ng-template formStepperSummary fsTitle="Summary" fsPath="summary">
       <form-stepper-quicknav></form-stepper-quicknav>
     </ng-template>
   </form-stepper-container>

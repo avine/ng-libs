@@ -45,27 +45,27 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   /**
    * Tracks the validity state of the form root.
    */
-  @Input() formStepperGroupRoot!: FormGroup;
+  @Input() fsGroupRoot!: FormGroup;
 
   /**
    * Determines whether navigation between steps uses routing.
    */
-  @Input() formStepperUseRouting: BooleanInput = true;
+  @Input() fsUseRouting: BooleanInput = true;
 
   /**
    * Template to use as section icon when all the steps in the section are valid.
    */
-  @Input() formStepperValidSectionIcon!: TemplateRef<any>;
+  @Input() fsValidSectionIcon!: TemplateRef<any>;
 
   /**
    * Determines whether to remove the Onboarding link from the "nav".
    */
-  @Input() formStepperNoOnboardingNav: BooleanInput = false;
+  @Input() fsNoOnboardingNav: BooleanInput = false;
 
   /**
    * Determines whether to hide the steps from the "nav".
    */
-  @Input() formStepperNoStepsNav: BooleanInput = false;
+  @Input() fsNoStepsNav: BooleanInput = false;
 
   @ContentChild(FormStepperMainDirective) mainDirective!: FormStepperMainDirective;
 
@@ -98,12 +98,12 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.service.formGroupRoot = this.formStepperGroupRoot;
-    this.service.useRouting = coerceBooleanProperty(this.formStepperUseRouting);
+    this.service.formGroupRoot = this.fsGroupRoot;
+    this.service.useRouting = coerceBooleanProperty(this.fsUseRouting);
   }
 
   ngAfterContentInit() {
-    this.service.validSectionIcon = this.formStepperValidSectionIcon;
+    this.service.validSectionIcon = this.fsValidSectionIcon;
 
     if (this.onboardingDirective) {
       this.service.onboarding = this.getExtraPage(this.onboardingDirective);
@@ -126,9 +126,9 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   }
 
   private getExtraPage({
-    formStepperTitle: title,
-    formStepperIcon: icon,
-    formStepperPath: path,
+    fsTitle: title,
+    fsIcon: icon,
+    fsPath: path,
     template,
   }: FormStepperOnboardingDirective | FormStepperSummaryDirective): FormStepperExtraPage {
     return { title, icon, path, template };

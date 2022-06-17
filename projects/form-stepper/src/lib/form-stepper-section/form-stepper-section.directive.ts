@@ -17,10 +17,10 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
    * The `AbstractControl` of the section (tracks the validity state of the section).
    *
    * @example
-   * // When using the config object signature, `formStepperTitle` and `formStepperIcon` inputs are ignored.
+   * // When using the config object signature, `fsTitle` and `fsIcon` inputs are ignored.
    * interface FormStepperSectionConfig { control?: AbstractControl | string; title?: string; icon?: TemplateRef<any> }
    *
-   * // When using the control signature, `formStepperTitle` and `formStepperIcon` inputs can be used to complete the section configuration.
+   * // When using the control signature, `fsTitle` and `fsIcon` inputs can be used to complete the section configuration.
    * type FormStepperSectionControl = string | AbstractControl
    */
   @Input() formStepperSection!: FormStepperSectionConfig | FormStepperSectionControl;
@@ -37,19 +37,19 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   /**
    * The title of the step.
    */
-  @Input() formStepperTitle!: string;
+  @Input() fsTitle!: string;
 
   /**
    * The icon template of the section to use in the the "nav" and the "quicknav".
    */
-  @Input() formStepperIcon!: TemplateRef<any>;
+  @Input() fsIcon!: TemplateRef<any>;
 
   /**
    * Determines wheter to exclude the section from the "quicknav".
    *
    * It is usefull if the "quicknav" itself is dispayed in one of the steps (and not in the summary directive).
    */
-  @Input() formStepperNoQuicknav: BooleanInput = false;
+  @Input() fsNoQuicknav: BooleanInput = false;
 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
@@ -64,9 +64,9 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
     );
   };
 
-  getTitle = (): string => this.sectionConfig?.title || this.formStepperTitle;
+  getTitle = (): string => this.sectionConfig?.title || this.fsTitle;
 
-  getIcon = (): TemplateRef<any> => this.sectionConfig?.icon || this.formStepperIcon;
+  getIcon = (): TemplateRef<any> => this.sectionConfig?.icon || this.fsIcon;
 
   private stepsSubscription!: Subscription;
 
@@ -84,7 +84,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
       control: this.service.getControl(this.getSection()),
       stepIndexOffset,
       steps,
-      hasQuicknav: !coerceBooleanProperty(this.formStepperNoQuicknav),
+      hasQuicknav: !coerceBooleanProperty(this.fsNoQuicknav),
     });
   }
 

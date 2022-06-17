@@ -17,8 +17,8 @@
         >
           <form-stepper-section-icon
             class="form-stepper-nav-section__icon"
-            [formStepperIcon]="state.onboardingInfo.icon"
-            [formStepperIsValid]="state.maxStepIndexViewed >= 0"
+            [fsIcon]="state.onboardingInfo.icon"
+            [fsIsValid]="state.maxStepIndexViewed >= 0"
           ></form-stepper-section-icon>
 
           <span
@@ -66,8 +66,8 @@
 
           <form-stepper-section-icon
             class="form-stepper-nav-section__icon"
-            [formStepperIcon]="section.icon"
-            [formStepperIsValid]="section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid"
+            [fsIcon]="section.icon"
+            [fsIsValid]="section.stepIndexOffset <= state.maxStepIndexViewed && section.control.valid"
           ></form-stepper-section-icon>
 
           <span
@@ -156,8 +156,8 @@
         >
           <form-stepper-section-icon
             class="form-stepper-nav-section__icon"
-            [formStepperIcon]="state.summaryInfo.icon"
-            [formStepperIsValid]="state.allStepsViewed"
+            [fsIcon]="state.summaryInfo.icon"
+            [fsIsValid]="state.allStepsViewed"
           ></form-stepper-section-icon>
 
           <span

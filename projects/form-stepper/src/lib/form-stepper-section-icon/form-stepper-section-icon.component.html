@@ -13,7 +13,7 @@
 
 <ng-template #isNotValid>
   <span class="form-stepper-section-icon__container" [@fadeInOut]="disableAnimation ? '' : 'enabled'">
-    <ng-container *ngIf="formStepperIcon; else defaultIcon" [ngTemplateOutlet]="formStepperIcon"></ng-container>
+    <ng-container *ngIf="fsIcon; else defaultIcon" [ngTemplateOutlet]="fsIcon"></ng-container>
   </span>
 
   <ng-template #defaultIcon>

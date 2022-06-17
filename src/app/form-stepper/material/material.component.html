@@ -1,5 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <form-stepper-container [formStepperGroupRoot]="formGroup" #formStepper>
+  <form-stepper-container [fsGroupRoot]="formGroup" #formStepper>
     <ng-template formStepperMain>
       <ng-container *ngIf="formStepper.main$ | async as main">
         <h2>{{ main.stepTitle }}</h2>
@@ -14,20 +14,14 @@
           type="button"
           tabindex="-1"
           formStepperPrev
-          formStepperInactive="mat-button-disabled"
+          fsInactive="mat-button-disabled"
           class="prev"
         >
           Prev
         </button>
 
         <ng-container *ngIf="!main.isLastStep; else submitButton">
-          <button
-            mat-raised-button
-            type="button"
-            tabindex="-1"
-            formStepperNext
-            formStepperInactive="mat-button-disabled"
-          >
+          <button mat-raised-button type="button" tabindex="-1" formStepperNext fsInactive="mat-button-disabled">
             {{ main.isFirstStep ? 'Start' : 'Next' }}
           </button>
         </ng-container>
@@ -40,19 +34,19 @@
       </ng-container>
     </ng-template>
 
-    <ng-template formStepperOnboarding formStepperTitle="Onboarding" formStepperPath="onboarding">
+    <ng-template formStepperOnboarding fsTitle="Onboarding" fsPath="onboarding">
       <p>Welcome to Form Stepper with Material integration.</p>
     </ng-template>
 
-    <ng-container formGroupName="fullName" formStepperSection formStepperTitle="Full name">
-      <ng-template formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
+    <ng-container formGroupName="fullName" formStepperSection fsTitle="Full name">
+      <ng-template formStepperStep="firstName" fsTitle="First name" fsPath="first-name">
         <mat-form-field appearance="fill">
           <mat-label>First name</mat-label>
           <input matInput formControlName="firstName" formStepperControl />
         </mat-form-field>
       </ng-template>
 
-      <ng-template formStepperStep="lastName" formStepperTitle="Last name" formStepperPath="last-name">
+      <ng-template formStepperStep="lastName" fsTitle="Last name" fsPath="last-name">
         <mat-form-field appearance="fill">
           <mat-label>Last name</mat-label>
           <input matInput formControlName="lastName" formStepperControl />
@@ -60,8 +54,8 @@
       </ng-template>
     </ng-container>
 
-    <ng-container formStepperSection="email" formStepperTitle="Email">
-      <ng-template formStepperStep formStepperPath="email">
+    <ng-container formStepperSection="email" fsTitle="Email">
+      <ng-template formStepperStep fsPath="email">
         <mat-form-field appearance="fill">
           <mat-label>Email</mat-label>
           <input matInput placeholder="Enter a valid email" formControlName="email" formStepperControl />
@@ -69,8 +63,8 @@
       </ng-template>
     </ng-container>
 
-    <ng-container formStepperSection="cgu" formStepperTitle="Summary" formStepperNoQuicknav>
-      <ng-template formStepperStep formStepperPath="summary">
+    <ng-container formStepperSection="cgu" fsTitle="Summary" fsNoQuicknav>
+      <ng-template formStepperStep fsPath="summary">
         <form-stepper-quicknav></form-stepper-quicknav>
         <mat-checkbox formControlName="cgu" formStepperControl>CGU</mat-checkbox>
         <div class="spacer"></div>

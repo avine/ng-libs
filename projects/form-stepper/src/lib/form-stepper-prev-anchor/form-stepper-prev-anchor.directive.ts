@@ -34,7 +34,7 @@ export class FormStepperPrevAnchorDirective implements AfterViewInit, OnDestroy 
   /**
    * CSS class to add when the anchor should be mark as inactive.
    */
-  @Input() formStepperInactive!: string;
+  @Input() fsInactive!: string;
 
   private subscription!: Subscription;
 
@@ -42,12 +42,12 @@ export class FormStepperPrevAnchorDirective implements AfterViewInit, OnDestroy 
 
   ngAfterViewInit() {
     this.subscription = this.service.state$.subscribe(({ hasPrevStep }) => {
-      if (!this.formStepperInactive) {
+      if (!this.fsInactive) {
         return;
       }
       this.renderer[!this.service.useRouting && !hasPrevStep ? 'addClass' : 'removeClass'](
         this.elementRef.nativeElement,
-        this.formStepperInactive
+        this.fsInactive
       );
     });
   }

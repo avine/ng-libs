@@ -1,8 +1,8 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <!--
-    `formStepperGroupRoot` is required to allow the FormStepper to determine when a step, a section or the entire form is valid.
+    `fsGroupRoot` is required to allow the FormStepper to determine when a step, a section or the entire form is valid.
   -->
-  <form-stepper-container [formStepperGroupRoot]="formGroup" [formStepperValidSectionIcon]="validIcon" #formStepper>
+  <form-stepper-container [fsGroupRoot]="formGroup" [fsValidSectionIcon]="validIcon" #formStepper>
     <!--
       `formStepperMain` directive is optional. By default, the `formStepperStep` template is displayed as current step content.
       In this case, it is your responsability to display the step title and the previous and next buttons in each step template.
@@ -12,14 +12,14 @@
     -->
     <ng-template formStepperMain>
       <ng-container *ngIf="formStepper.main$ | async as main">
-        <a formStepperPrevAnchor class="prev" formStepperInactive="prev--disabled" href="#prev">Previous</a>
+        <a formStepperPrevAnchor fsInactive="prev--disabled" href="#prev" class="prev">Previous</a>
 
         <h2>{{ main.stepTitle }}</h2>
 
         <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
 
         <p class="actions">
-          <button *ngIf="!main.isLastStep; else submitButton" type="button" tabindex="-1" formStepperNext>
+          <button *ngIf="!main.isLastStep; else submitButton" formStepperNext type="button" tabindex="-1">
             {{ main.isOnboarding ? 'Start' : 'Next' }}
           </button>
 
@@ -32,14 +32,9 @@
 
     <!--
       `formStepperOnboarding` is optional and display a static page as first step (can not contain any form field).
-      `formStepperTitle` and `formStepperPath` are required inputs.
+      `fsTitle` and `fsPath` are required inputs.
     -->
-    <ng-template
-      formStepperOnboarding
-      formStepperTitle="Onboarding"
-      formStepperPath="onboarding"
-      [formStepperIcon]="onboardingIcon"
-    >
+    <ng-template formStepperOnboarding fsTitle="Onboarding" fsPath="onboarding" [fsIcon]="onboardingIcon">
       <p>Welcome to Form Stepper.</p>
     </ng-template>
 
@@ -47,15 +42,10 @@
       `formStepperSection` is required to define a section.
         - the value is optional if a `formGroup`, `formGroupName` or `formArrayName` directive is present.
 
-      `formStepperTitle` is a required input.
-      `formStepperIcon` is always an optional input.
+      `fsTitle` is a required input.
+      `fsIcon` is always an optional input.
     -->
-    <ng-container
-      formGroupName="fullName"
-      formStepperSection
-      formStepperTitle="Full name"
-      [formStepperIcon]="fullNameIcon"
-    >
+    <ng-container formGroupName="fullName" formStepperSection fsTitle="Full name" [fsIcon]="fullNameIcon">
       <!--
         `formStepperStep` is required and define a step inside a section.
           - the value is optional if a `formGroup`, `formGroupName` or `formArrayName` directive is present.
@@ -66,9 +56,9 @@
           - an AbstractControl like `this.formGroup.get(['fullName', 'firstName'])`.
           - a string like `"firstName"` (assuming that it represent a child of the parent section - "fullName" in this case, which is a FormGroup).
 
-        `formStepperTitle` and `formStepperPath` are required inputs.
+        `fsTitle` and `fsPath` are required inputs.
       -->
-      <ng-template formStepperStep="firstName" formStepperTitle="First name" formStepperPath="first-name">
+      <ng-template formStepperStep="firstName" fsTitle="First name" fsPath="first-name">
         <label>
           <!--
             Notice the `formStepperControl` directive that allow to:
@@ -76,7 +66,7 @@
               - prevent submitting the form when pressing "Enter" key.
               - jump to the next step when pressing "Enter" key (if the current step is valid).
 
-            You can adapt the behavior of the directive using `formStepperOnEnter` input which have the following type:
+            You can adapt the behavior of the directive using `fsOnEnter` input which have the following type:
               - `{ preventDefault: boolean; nextStep: boolean }`
           -->
           First name<br />
@@ -86,7 +76,7 @@
 
       <!--
         Notice the alternate signature of the `formStepperStep` input.
-        When using a config object, `formStepperTitle` and `formStepperPath` inputs are ignored.
+        When using a config object, `fsTitle` and `fsPath` inputs are ignored.
       -->
       <ng-template [formStepperStep]="{ control: 'lastName', title: 'Last name', path: 'last-name' }">
         <label>
@@ -100,19 +90,20 @@
       This section only have one step. In this case, the value of `formStepperStep` is optional.
 
       Notice the alternate signature of the `formStepperSection` input.
-      When using a config object, `formStepperTitle` and `formStepperIcon` inputs are ignored.
+      When using a config object, `fsTitle` and `fsIcon` inputs are ignored.
     -->
     <ng-container [formStepperSection]="{ control: 'haveCompany', title: 'Have company ?', icon: companyIcon }">
       <!--
         This step only contains radio buttons choice.
-        In this situation, using the `formStepperAutoNextOnValueChange` input, allow to jump
+        In this situation, using the `fsAutoNextOnValueChange` input, allow to jump
         to the next step each time the value changes (and the current step is valid).
       -->
-      <ng-template formStepperStep formStepperAutoNextOnValueChange formStepperPath="have-company">
+      <ng-template formStepperStep fsAutoNextOnValueChange fsPath="have-company">
         <label>
           <input type="radio" [value]="false" formControlName="haveCompany" />
           No
         </label>
+
         <label>
           <input type="radio" [value]="true" formControlName="haveCompany" />
           Yes
@@ -128,10 +119,10 @@
         *ngSwitchCase="false"
         formArrayName="hobbies"
         formStepperSection
-        formStepperTitle="Hobbies"
-        [formStepperIcon]="hobbiesIcon"
+        fsTitle="Hobbies"
+        [fsIcon]="hobbiesIcon"
       >
-        <ng-template formStepperStep formStepperPath="hobbies">
+        <ng-template formStepperStep fsPath="hobbies">
           <label *ngFor="let _ of hobbiesCtrl.controls; let index = index">
             Hobby {{ index + 1 }}<br />
             <input [formControlName]="index" formStepperControl />
@@ -147,10 +138,10 @@
         *ngSwitchCase="false"
         formGroupName="contact"
         formStepperSection
-        formStepperTitle="Contact"
-        [formStepperIcon]="contactIcon"
+        fsTitle="Contact"
+        [fsIcon]="contactIcon"
       >
-        <ng-template formStepperStep="email" formStepperTitle="Email" formStepperPath="email">
+        <ng-template formStepperStep="email" fsTitle="Email" fsPath="email">
           <label>
             Email<br />
             <input formControlName="email" formStepperControl />
@@ -159,9 +150,9 @@
         </ng-template>
 
         <!--
-        This step demonstrate that it is possible to have multiple FormControl in one step.
-      -->
-        <ng-template formGroupName="address" formStepperStep formStepperTitle="Address" formStepperPath="address">
+          This step demonstrate that it is possible to have multiple FormControl in one step.
+        -->
+        <ng-template formGroupName="address" formStepperStep fsTitle="Address" fsPath="address">
           <label>
             Street<br />
             <input formControlName="street" formStepperControl />
@@ -175,8 +166,8 @@
       </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="haveCompany$ | async" formGroupName="company" formStepperSection formStepperTitle="Company">
-      <ng-template formStepperStep formStepperPath="company">
+    <ng-container *ngIf="haveCompany$ | async" formGroupName="company" formStepperSection fsTitle="Company">
+      <ng-template formStepperStep fsPath="company">
         <label>
           Name<br />
           <input formControlName="name" formStepperControl />
@@ -189,8 +180,8 @@
       </ng-template>
     </ng-container>
 
-    <ng-container formStepperSection="message" formStepperTitle="Message" [formStepperIcon]="messageIcon">
-      <ng-template formStepperStep formStepperPath="message">
+    <ng-container formStepperSection="message" fsTitle="Message" [fsIcon]="messageIcon">
+      <ng-template formStepperStep fsPath="message">
         <label>
           <!--
             Because this is a `<textarea>`, this time pressing on "Enter" key should not trigger navigation.
@@ -199,7 +190,7 @@
           <textarea
             formControlName="message"
             formStepperControl
-            [formStepperOnEnter]="{ preventDefault: false, nextStep: false }"
+            [fsOnEnter]="{ preventDefault: false, nextStep: false }"
           ></textarea>
         </label>
       </ng-template>
@@ -208,20 +199,15 @@
     <!--
       `formStepperSummary` is optional and display a static page as last step (can not contain any form field)
     -->
-    <ng-template
-      formStepperSummary
-      formStepperTitle="Summary"
-      formStepperPath="summary"
-      [formStepperIcon]="summaryIcon"
-    >
+    <ng-template formStepperSummary fsTitle="Summary" fsPath="summary" [fsIcon]="summaryIcon">
       <!--
         The quicknav display a summary of the form.
         You can use it in the `formStepperSummary` like in this example.
 
         But if for example, you need a checkbox for CGU just below the summary, you can use it in a regular `formStepperStep`.
-        In this case, however, you should use `[formStepperNoQuicknav]="true"` at the section level to remove the entire section from the quicknav.
+        In this case, however, you should use `[fsNoQuicknav]="true"` at the section level to remove the entire section from the quicknav.
       -->
-      <form-stepper-quicknav [formStepperFormat]="quicknavFormatter"></form-stepper-quicknav>
+      <form-stepper-quicknav [fsFormat]="quicknavFormatter"></form-stepper-quicknav>
     </ng-template>
   </form-stepper-container>
 </form>

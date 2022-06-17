@@ -191,7 +191,9 @@
             formControlName="message"
             formStepperControl
             [fsOnEnter]="{ preventDefault: false, nextStep: false }"
+            placeholder="Leave an optional message"
           ></textarea>
+          <p>Click on "Next" to skip this step.</p>
         </label>
       </ng-template>
     </ng-container>

@@ -11,8 +11,7 @@ import { IconAlias, IconsMap } from './form-stepper-icon.types';
 export class FormStepperIconComponent {
   @HostBinding('class.form-stepper-icon') hasClass = true;
 
-  // TODO: rename for fsIcon
-  @Input() icon!: IconAlias;
+  @Input() fsIcon!: IconAlias;
 
   // Copyright Font Awesome Free
   iconsMap: IconsMap = {

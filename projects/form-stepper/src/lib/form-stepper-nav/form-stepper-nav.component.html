@@ -78,7 +78,7 @@
           >
 
           <form-stepper-icon
-            icon="arrowDown"
+            fsIcon="arrowDown"
             *ngIf="!noStepsNav && isMobile && state.sectionProgression && state.sectionIndex === sectionIndex"
             [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
             class="form-stepper-nav-section__arrow"
@@ -121,7 +121,7 @@
               "
               [class.form-stepper-nav-step--current]="state.stepIndex === section.stepIndexOffset + relativeStepIndex"
             >
-              <form-stepper-icon icon="checkCircle" class="form-stepper-nav-step__icon"></form-stepper-icon>
+              <form-stepper-icon fsIcon="checkCircle" class="form-stepper-nav-step__icon"></form-stepper-icon>
 
               <button
                 type="button"

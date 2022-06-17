@@ -1,6 +1,6 @@
 # FormStepper
 
-Advanced multi-step form that plays well with ReactiveFormModule.
+Advanced multi-step form that plays well with Angular ReactiveFormModule.
 
 ## Tutorial
 

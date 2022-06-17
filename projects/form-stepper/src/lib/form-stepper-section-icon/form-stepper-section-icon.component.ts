@@ -1,4 +1,4 @@
-import { BooleanInput } from '@angular/cdk/coercion';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
 
 import { FormStepperService } from '../form-stepper.service';
@@ -14,16 +14,16 @@ import { sectionIconAnimations } from './form-stepper-section-icon.animations';
 export class FormStepperSectionIconComponent {
   @Input() fsIcon!: TemplateRef<any>;
 
-  isValid: BooleanInput = false;
+  isValid = false;
 
   @Input() set fsIsValid(value: BooleanInput) {
-    this.isValid = value;
+    this.isValid = coerceBooleanProperty(value);
   }
 
-  disableAnimation: BooleanInput = false;
+  disableAnimation = false;
 
   @Input() set fsDisableAnimation(value: BooleanInput) {
-    this.disableAnimation = value;
+    this.disableAnimation = coerceBooleanProperty(value);
   }
 
   formStepperValidIcon = this.service.validSectionIcon;

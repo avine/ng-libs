@@ -21,8 +21,9 @@
   },
   "homepage": "https://github.com/avine/ng-libs/tree/main/projects/form-stepper#readme",
   "peerDependencies": {
-    "@angular/common": ">12.2.0",
-    "@angular/core": ">12.2.0"
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0",
+    "@angular/cdk": "^14.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

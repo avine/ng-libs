@@ -14,15 +14,18 @@ export class FormStepperControlDirective implements OnInit, OnDestroy {
    * - prevent form submission when pressing "Enter" key.
    * - jump to the next step when pressing "Enter" key (if the current step is valid).
    *
-   * Note: use the `fsOnEnter` input to adjust the behavior of the directive.
+   * Note: use the `fsOnEnter` input to adjust the directive behavior.
    */
   @Input() formStepperControl!: '';
 
   /**
-   * Adjust the behavior of the directive.
+   * Adjust the directive behavior.
    *
    * @example
+   * For a `<textarea>` you probably want to configure the directive as follows:
+   * ```ts
    * { preventDefault: false, nextStep: false }
+   * ```
    */
   @Input() fsOnEnter!: Partial<FormStepperControlOnEnter>;
 

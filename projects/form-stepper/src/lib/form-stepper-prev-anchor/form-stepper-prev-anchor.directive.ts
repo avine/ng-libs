@@ -14,7 +14,9 @@ import {
 import { FormStepperService } from '../form-stepper.service';
 
 /**
- * Jump to the previous step on click event (for `<a>`).
+ * Jump to the previous step on click event.
+ *
+ * Use this directive on `<a>` elements (for `<button>` elements, use `formStepperPrev` directive instead).
  */
 @Directive({
   selector: '[formStepperPrevAnchor]',

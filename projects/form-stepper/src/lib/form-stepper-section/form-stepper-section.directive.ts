@@ -17,11 +17,13 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
    * The `AbstractControl` of the section (tracks the validity state of the section).
    *
    * @example
+   * ```ts
    * // When using the config object signature, `fsTitle` and `fsIcon` inputs are ignored.
    * interface FormStepperSectionConfig { control?: AbstractControl | string; title?: string; icon?: TemplateRef<any> }
    *
    * // When using the control signature, `fsTitle` and `fsIcon` inputs can be used to complete the section configuration.
-   * type FormStepperSectionControl = string | AbstractControl
+   * type FormStepperSectionControl = string | AbstractControl;
+   * ```
    */
   @Input() formStepperSection!: FormStepperSectionConfig | FormStepperSectionControl;
 

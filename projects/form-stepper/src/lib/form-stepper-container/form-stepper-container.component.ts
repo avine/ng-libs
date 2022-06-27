@@ -28,9 +28,6 @@ import { FormStepperExtraPage } from '../form-stepper.types';
 
 /**
  * Root component of the FormStepper.
- *
- * To get more control of the HTML output, consider using the `FormStepperContainerDirective`
- * instead of the `FormStepperContainerComponent`.
  */
 @Component({
   selector: 'form-stepper-container',
@@ -43,9 +40,9 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   @HostBinding('class.form-stepper-container') hasClass = true;
 
   /**
-   * Tracks the validity state of the form root.
+   * Tracks the validity state of the `FormGroup` root.
    */
-  @Input() fsGroupRoot!: FormGroup;
+  @Input() fsFormGroupRoot!: FormGroup;
 
   /**
    * Determines whether navigation between steps uses routing.
@@ -53,7 +50,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   @Input() fsUseRouting: BooleanInput = true;
 
   /**
-   * Template to use as section icon when all the steps in the section are valid.
+   * Template to use as section icon when all the steps in a section are valid.
    */
   @Input() fsValidSectionIcon!: TemplateRef<any>;
 
@@ -64,6 +61,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
 
   /**
    * Determines whether to hide the steps from the "nav".
+   * In this case, only the "sections" are displayed.
    */
   @Input() fsNoStepsNav: BooleanInput = false;
 
@@ -84,10 +82,18 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
    * Get the main infos snapshot.
    *
    * @example
+   * Make sure the form can only be submitted when the user is in the last step.
    * ```ts
-   * const { isLastStep } = this.formStepper.mainSnapshot();
-   * if (isLastStep) {
-   *   // The current step is the last one.
+   * \@Component({ ... })
+   * export class DemoComponent {
+   *   \@ViewChild(FormStepperContainerComponent) formStepper!: FormStepperContainerComponent;
+   *
+   *   onSubmit() {
+   *     const { isLastStep } = this.formStepper.mainSnapshot();
+   *     if (!isLastStep) {
+   *       return;
+   *     }
+   *   }
    * }
    * ```
    */
@@ -98,7 +104,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.service.formGroupRoot = this.fsGroupRoot;
+    this.service.formGroupRoot = this.fsFormGroupRoot;
     this.service.useRouting = coerceBooleanProperty(this.fsUseRouting);
   }
 

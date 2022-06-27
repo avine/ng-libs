@@ -1,7 +1,9 @@
 import { Directive, Input, TemplateRef } from '@angular/core';
 
 /**
- * Add a static step as first step (can not contain any `FormControl`).
+ * Add a static step as last step (can not contain any `FormControl`).
+ *
+ * Use it for example to display the "quicknav".
  */
 @Directive({
   selector: '[formStepperSummary]',

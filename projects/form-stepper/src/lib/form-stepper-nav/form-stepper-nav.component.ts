@@ -49,6 +49,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
 
   /**
    * Determines whether to hide the steps from the "nav".
+   * In this case, only the "sections" are displayed.
    */
   @Input() set fsNoStepsNav(value: BooleanInput) {
     this.noStepsNav = coerceBooleanProperty(value);

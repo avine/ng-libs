@@ -7,7 +7,7 @@ import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
 
 /**
- * Render the form's value in a nice summary with links to jump to a any step.
+ * Render the form's value in a nice summary with links to jump back to any step.
  *
  * Use the `fsCompact` input to adjust the HTML output.
  */

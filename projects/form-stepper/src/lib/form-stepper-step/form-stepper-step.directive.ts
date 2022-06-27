@@ -14,11 +14,13 @@ export class FormStepperStepDirective {
    * If the section has only one step then leave empty and the value will be inferred from `formStepperSection`.
    *
    * @example
+   * ```ts
    * // When using the config object signature, `fsTitle` and `fsPath` inputs are ignored.
    * interface FormStepperStepConfig { control?: AbstractControl | string; title?: string; path: string }
    *
    * // When using the control signature, `fsTitle` and `fsPath` inputs can be used to complete the step configuration.
    * type FormStepperStepControl = string | AbstractControl
+   * ```
    */
   @Input() formStepperStep!: FormStepperStepConfig | FormStepperStepControl;
 

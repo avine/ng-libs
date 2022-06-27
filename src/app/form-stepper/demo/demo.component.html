@@ -1,11 +1,11 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <!--
-    `fsGroupRoot` is required to allow the FormStepper to determine when a step, a section or the entire form is valid.
+    `fsFormGroupRoot` is required to allow the FormStepper to determine when a step, a section or the entire form is valid.
   -->
-  <form-stepper-container [fsGroupRoot]="formGroup" [fsValidSectionIcon]="validIcon" #formStepper>
+  <form-stepper-container [fsFormGroupRoot]="formGroup" [fsValidSectionIcon]="validIcon" #formStepper>
     <!--
-      `formStepperMain` directive is optional. By default, the `formStepperStep` template is displayed as current step content.
-      In this case, it is your responsability to display the step title and the previous and next buttons in each step template.
+      `formStepperMain` directive is optional. By default, the `formStepperStep` template is displayed as current the step content.
+      In this case, it is your responsability to display the step title, the previous and next buttons in each step template.
 
       By setting the `formStepperMain` directive, you can customize the template of the current step.
       To achieve this, use the `formStepper.main$` observable which exposes the details of the current step.

@@ -135,7 +135,7 @@ Use the `<form-stepper-container>` component to declare the `FormStepper` in `st
 
 ```html
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <form-stepper-container [fsGroupRoot]="formGroup" #formStepper>
+  <form-stepper-container [fsFormGroupRoot]="formGroup" #formStepper>
     <ng-template formStepperMain>
       <ng-container *ngIf="formStepper.main$ | async as main">
         <h2>{{ main.stepTitle }}</h2>

@@ -51,7 +51,10 @@
           type="button"
           tabindex="-1"
           class="form-stepper-nav-section__btn"
-          [disabled]="section.stepIndexOffset > state.maxStepIndexViewed && section.steps[0].control.pristine"
+          [disabled]="
+            !section.steps.length ||
+            (section.stepIndexOffset > state.maxStepIndexViewed && section.steps[0].control.pristine)
+          "
           (click)="navigateByStepIndex($event, section.stepIndexOffset, sectionIndex)"
           cdkOverlayOrigin
           #mobileOverlayOrigin="cdkOverlayOrigin"

@@ -88,15 +88,19 @@ export class FormStepperService implements OnDestroy {
   main$: Observable<FormStepperMain> = combineLatest([this.stepTemplate$, this.state$]).pipe(
     map(([stepTemplate, state]) => {
       const { sectionTitle, stepTitle } = this.currentTitles;
-      const { stepIndex, firstStepIndex, lastStepIndex, onboardingInfo, summaryInfo } = state;
+      const { isStepValid, stepIndex, firstStepIndex, lastStepIndex, onboardingInfo, summaryInfo } = state;
       return {
         sectionTitle,
         stepTitle,
         stepTemplate,
+        isStepValid,
         isFirstStep: stepIndex === firstStepIndex,
         isLastStep: stepIndex === lastStepIndex,
         isOnboarding: stepIndex === onboardingInfo?.index,
         isSummary: stepIndex === summaryInfo?.index,
+        progressionInPercent: Math.round(
+          100 - ((lastStepIndex - stepIndex) / (lastStepIndex + (onboardingInfo ? 1 : 0))) * 100
+        ),
       };
     }),
     tap((main) => (this.mainSnapshot = main))

@@ -59,10 +59,12 @@ export interface FormStepperMain {
   sectionTitle: string;
   stepTitle: string;
   stepTemplate: TemplateRef<any>;
+  isStepValid: boolean;
   isFirstStep: boolean;
   isLastStep: boolean;
   isOnboarding: boolean;
   isSummary: boolean;
+  progressionInPercent: number;
 }
 
 export interface FormStepperConfig {

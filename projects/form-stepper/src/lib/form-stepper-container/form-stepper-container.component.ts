@@ -55,7 +55,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   @Input() fsValidSectionIcon!: TemplateRef<any>;
 
   /**
-   * Determines whether to remove the Onboarding link from the "nav".
+   * Determines whether to remove the link to the Onboarding step from the "nav".
    */
   @Input() fsNoOnboardingNav: BooleanInput = false;
 

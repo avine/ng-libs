@@ -1,6 +1,6 @@
 {
   "name": "@avine/ng-form-stepper",
-  "description": "Advanced multi-step form that plays well with Angular ReactiveFormModule.",
+  "description": "Advanced multi-step form that plays well with Angular ReactiveFormsModule.",
   "version": "0.0.5",
   "private": false,
   "repository": {

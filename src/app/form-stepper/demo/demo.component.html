@@ -1,14 +1,17 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <!--
-    `fsFormGroupRoot` is required to allow the FormStepper to determine when a step, a section or the entire form is valid.
+    `FormStepperContainerComponent` is the stepper root component.
+
+    `fsFormGroupRoot` input is required and allows the FormStepper to determine when a step, a section or the entire form is valid.
   -->
   <form-stepper-container [fsFormGroupRoot]="formGroup" [fsValidSectionIcon]="validIcon" #formStepper>
     <!--
-      `formStepperMain` directive is optional. By default, the `formStepperStep` template is displayed as current the step content.
-      In this case, it is your responsability to display the step title, the previous and next buttons in each step template.
+      `formStepperMain` directive is optional.
+      By default, the `formStepperStep` template is displayed as current step content.
+      If the directive is not present, it is your responsability to display the step title, the previous and next buttons in each step template.
 
-      By setting the `formStepperMain` directive, you can customize the template of the current step.
-      To achieve this, use the `formStepper.main$` observable which exposes the details of the current step.
+      By using the `formStepperMain` directive, you can customize the template of the current step.
+      To achieve this, use the `formStepper.main$` observable which exposes the current step details.
     -->
     <ng-template formStepperMain>
       <ng-container *ngIf="formStepper.main$ | async as main">
@@ -31,7 +34,7 @@
     </ng-template>
 
     <!--
-      `formStepperOnboarding` is optional and display a static page as first step (can not contain any form field).
+      `formStepperOnboarding` is optional and displays a static page as first step (can not contain any form field).
       `fsTitle` and `fsPath` are required inputs.
     -->
     <ng-template formStepperOnboarding fsTitle="Onboarding" fsPath="onboarding" [fsIcon]="onboardingIcon">
@@ -199,11 +202,11 @@
     </ng-container>
 
     <!--
-      `formStepperSummary` is optional and display a static page as last step (can not contain any form field)
+      `formStepperSummary` is optional and displays a static page as last step (can not contain any form field).
     -->
     <ng-template formStepperSummary fsTitle="Summary" fsPath="summary" [fsIcon]="summaryIcon">
       <!--
-        The quicknav display a summary of the form.
+        The quicknav displays a summary of the form value.
         You can use it in the `formStepperSummary` like in this example.
 
         But if for example, you need a checkbox for CGU just below the summary, you can use it in a regular `formStepperStep`.

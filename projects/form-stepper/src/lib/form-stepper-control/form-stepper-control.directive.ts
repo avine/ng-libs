@@ -14,7 +14,7 @@ export class FormStepperControlDirective implements OnInit, OnDestroy {
    * - prevent form submission when pressing "Enter" key.
    * - jump to the next step when pressing "Enter" key (if the current step is valid).
    *
-   * Note: use the `fsOnEnter` input to adjust the directive behavior.
+   * Note: use `fsOnEnter` input to adjust the directive behavior.
    */
   @Input() formStepperControl!: '';
 

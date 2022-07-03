@@ -1,6 +1,10 @@
 # FormStepper
 
-Advanced multi-step form that plays well with Angular ReactiveFormModule.
+Advanced multi-step form that plays well with Angular ReactiveFormsModule.
+
+## Demo
+
+Check out the [demo](https://avine.github.io/ng-libs/form-stepper/demo/onboarding) and the demo [source code](https://github.com/avine/ng-libs/blob/main/src/app/form-stepper/demo/demo.component.html) for detailed explanations.
 
 ## Tutorial
 
@@ -16,7 +20,7 @@ Install Angular CDK:
 ng add @angular/cdk
 ```
 
-Install the `FormStepper` library:
+Install the FormStepper library:
 
 ```bash
 npm install @avine/ng-form-stepper
@@ -58,10 +62,10 @@ Import the CDK Overlays styles in your `style.scss`:
 
 Learn more about the [CDK Overlays](https://material.angular.io/cdk/overlay/overview).
 
-Import the `FormStepper` styles in your `style.scss`:
+Import the FormStepper styles in your `style.scss`:
 
 ```scss
-@use 'node_modules/@avine/ng-form-stepper/src/lib/scss/form-stepper.scss' with (
+@use '~@avine/ng-form-stepper/src/lib/scss/form-stepper.scss' with (
   $breakpoint: 960px
 );
 ```
@@ -72,7 +76,7 @@ Create a new component:
 ng generate component stepper
 ```
 
-Update the routing in `app-routing.module.ts` to navigate to the `StepperComponent`:
+Update the routing in `app-routing.module.ts` to add navigation to the `StepperComponent`:
 
 ```ts
 import { NgModule } from '@angular/core';
@@ -95,7 +99,7 @@ const routes: Routes = [
 export class AppRoutingModule {}
 ```
 
-The route parameter `:${FORM_STEPPER_PATH_PARAM}` is required by the `FormStepper` library to navigate between steps.
+The route parameter `:${FORM_STEPPER_PATH_PARAM}` is required by the FormStepper library to navigate between steps.
 
 Use the `FormBuilder` to create the form structure in `stepper.component.ts`:
 
@@ -131,11 +135,22 @@ export class StepperComponent {
 }
 ```
 
-Use the `<form-stepper-container>` component to declare the `FormStepper` in `stepper.component.html`:
+Use the `<form-stepper-container>` component to declare the FormStepper in `stepper.component.html`:
 
 ```html
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <!--
+    `FormStepperContainerComponent` is the stepper root component.
+
+    `fsFormGroupRoot` input is required and allows the FormStepper to determine when a step, a section or the entire form is valid.
+  -->
   <form-stepper-container [fsFormGroupRoot]="formGroup" #formStepper>
+    <!--
+      `formStepperMain` directive is optional and allows you to customize the template of the current step.
+
+      By default, the `formStepperStep` template is displayed as current step content.
+      Therefore, you need to display the step title, the previous and next buttons directly in each step template.
+    -->
     <ng-template formStepperMain>
       <ng-container *ngIf="formStepper.main$ | async as main">
         <h2>{{ main.stepTitle }}</h2>
@@ -156,11 +171,23 @@ Use the `<form-stepper-container>` component to declare the `FormStepper` in `st
       </ng-container>
     </ng-template>
 
+    <!--
+      `formStepperOnboarding` is optional and displays a static page as first step (can not contain any form field).
+    -->
     <ng-template formStepperOnboarding fsTitle="Onboarding" fsPath="onboarding">
       <p>Welcome to Form Stepper.</p>
     </ng-template>
 
+    <!--
+      The `formStepperSection` directive adds a section to the stepper.
+      A section groups together a bunch of steps.
+    -->
     <ng-container formGroupName="fullName" formStepperSection fsTitle="Full name">
+      <!--
+        The `formStepperStep` directive adds a step to the stepper.
+        Steps must be nested within sections.
+        Finally, it is in the step that you define the form field controls.
+      -->
       <ng-template formStepperStep="firstName" fsTitle="First name" fsPath="first-name">
         <input formControlName="firstName" formStepperControl />
       </ng-template>
@@ -176,7 +203,13 @@ Use the `<form-stepper-container>` component to declare the `FormStepper` in `st
       </ng-template>
     </ng-container>
 
+    <!--
+      `formStepperSummary` is optional and displays a static page as last step (can not contain any form field).
+    -->
     <ng-template formStepperSummary fsTitle="Summary" fsPath="summary">
+      <!--
+        The quicknav displays a summary of the form value.
+      -->
       <form-stepper-quicknav></form-stepper-quicknav>
     </ng-template>
   </form-stepper-container>
@@ -185,11 +218,44 @@ Use the `<form-stepper-container>` component to declare the `FormStepper` in `st
 <pre>Form {{ formGroup.value | json }}</pre>
 ```
 
-## Demo
+## How it works?
 
-Check out [demo here](https://avine.github.io/ng-libs/form-stepper/demo/onboarding).
+The FormStepper is made of steps, and steps are grouped into sections.
 
-Check out the [demo source code](https://github.com/avine/ng-libs/blob/main/src/app/form-stepper/demo/demo.component.html) for detailed explanations.
+Each step contains one or more form controls.
+
+The structure of the `FormGroup` you define in your component should reflect the structure of the FormStepper you want to achieve.
+
+- In the example above, we want the FormStepper to have 2 sections: `fullName` and `email`.
+- Next, we want the first section to have 2 steps: `firstName` and `lastName`.
+- Finally, we want the second section to have one step: `email`.
+
+```ts
+class StepperComponent {
+  formGroup = this.formBuilder.group({
+    fullName: this.formBuilder.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+    }),
+    email: ['', [Validators.required, Validators.email]],
+  });
+}
+```
+
+Now we can bind the `FormGroup` to the FormStepper in the HTML template like this:
+
+```html
+<form-stepper-container [fsFormGroupRoot]="formGroup">
+  <ng-container formStepperSection="fullName">
+    <ng-template formStepperStep="firstName">...</ng-template>
+    <ng-template formStepperStep="lastName">...</ng-template>
+  </ng-container>
+
+  <ng-container formStepperSection="email">
+    <ng-template formStepperStep>...</ng-template>
+  </ng-container>
+</form-stepper-container>
+```
 
 ## License
 

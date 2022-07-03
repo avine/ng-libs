@@ -7,9 +7,9 @@ import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
 
 /**
- * Render the form's value in a nice summary with links to jump back to any step.
+ * Render the form value in a nice summary with links to jump back to any step.
  *
- * Use the `fsCompact` input to adjust the HTML output.
+ * Use the `fsFormat` input to customize the HTML output of any form field value.
  */
 @Component({
   selector: 'form-stepper-quicknav',
@@ -31,9 +31,9 @@ export class FormStepperQuicknavComponent {
   }
 
   /**
-   * Customize the value of any step.
+   * Customize the HTML output of any form field value.
    *
-   * @returns Return a `string` to overwrite the default formatting or `void` to bypass.
+   * @returns Return a `string` to overwrite the default formatting or `void` to keep the default.
    */
   @Input() fsFormat!: (path: string, controlValue: any) => string | void;
 

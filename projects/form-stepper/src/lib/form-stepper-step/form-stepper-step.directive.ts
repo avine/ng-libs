@@ -24,13 +24,13 @@ export class FormStepperStepDirective {
    */
   @Input() formStepperStep!: FormStepperStepConfig | FormStepperStepControl;
 
-  /** The value of `formStepperStep` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
+  /** The value of `formStepperStep` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formGroup!: AbstractControl;
 
-  /** The value of `formStepperStep` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
+  /** The value of `formStepperStep` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formGroupName!: string;
 
-  /** The value of `formStepperStep` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
+  /** The value of `formStepperStep` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formArrayName!: string;
 
   /**

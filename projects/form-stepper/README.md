@@ -65,7 +65,7 @@ Learn more about the [CDK Overlays](https://material.angular.io/cdk/overlay/over
 Import the FormStepper styles in your `style.scss`:
 
 ```scss
-@use '~@avine/ng-form-stepper/src/lib/scss/form-stepper.scss' with (
+@use 'node_modules/@avine/ng-form-stepper/src/lib/scss/form-stepper.scss' with (
   $breakpoint: 960px
 );
 ```
@@ -148,7 +148,7 @@ Use the `<form-stepper-container>` component to declare the FormStepper in `step
     <!--
       `formStepperMain` directive is optional and allows you to customize the template of the current step.
 
-      By default, the `formStepperStep` template is displayed as current step content.
+      If the directive is not present, the `formStepperStep` template is displayed as current step content.
       Therefore, you need to display the step title, the previous and next buttons directly in each step template.
     -->
     <ng-template formStepperMain>
@@ -231,15 +231,13 @@ The structure of the `FormGroup` you define in your component should reflect the
 - Finally, we want the second section to have one step: `email`.
 
 ```ts
-class StepperComponent {
-  formGroup = this.formBuilder.group({
-    fullName: this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-    }),
-    email: ['', [Validators.required, Validators.email]],
-  });
-}
+formGroup = this.formBuilder.group({
+  fullName: this.formBuilder.group({
+    firstName: ['', [Validators.required]],
+    lastName: ['', [Validators.required]],
+  }),
+  email: ['', [Validators.required, Validators.email]],
+});
 ```
 
 Now we can bind the `FormGroup` to the FormStepper in the HTML template like this:
@@ -256,6 +254,119 @@ Now we can bind the `FormGroup` to the FormStepper in the HTML template like thi
   </ng-container>
 </form-stepper-container>
 ```
+
+## API
+
+### FormStepperContainerComponent
+
+This is the FormStepper root component.
+
+```html
+<form-stepper-container></form-stepper-container>
+```
+
+#### Inputs
+
+| Input              | Type         | Default   | Description                                                                                                 |
+| ------------------ | ------------ | --------- | ----------------------------------------------------------------------------------------------------------- |
+| fsFormGroupRoot    | FormGroup    | undefined | Tracks the validity state of the `FormGroup` root (required).                                               |
+| fsUseRouting       | BooleanInput | true      | Determines whether navigation between steps uses routing.                                                   |
+| fsValidSectionIcon | TemplateRef  | undefined | Template to use as section icon when all the steps in a section are valid.                                  |
+| fsNoOnboardingNav  | BooleanInput | false     | Determines whether to remove the link to the Onboarding step from the "nav".                                |
+| fsNoStepsNav       | BooleanInput | false     | Determines whether to hide the steps from the "nav". When set to `true`, only the "sections" are displayed. |
+
+#### Properties and methods
+
+**`main$` and `mainSnapshot()`**
+
+Get access to the current step infos from the component.
+
+```ts
+@Component({ ... })
+class SomeComponent implements AfterViewInit {
+  @ViewChild(FormStepperContainerComponent) formStepper!: FormStepperContainerComponent;
+
+  formGroup = this.formBuilder.group({ ... });
+
+  isBeingSubmitted = false;
+
+  ngAfterViewInit() {
+    // Get an observable of the main infos needed to render the current step.
+    this.formStepper.main$.subscribe((main: FormStepperMain) => { ... });
+  }
+
+  onSubmit() {
+    // Get a snapshot of the main infos.
+    const main: FormStepperMain = this.formStepper.mainSnapshot();
+  }
+}
+```
+
+Get access to the current step infos from the template.
+
+```html
+<form-stepper-container [fsFormGroupRoot]="formGroup" #formStepper>
+  <ng-template formStepperMain>
+    <ng-container *ngIf="formStepper.main$ | async as main">
+      <h2>{{ main.stepTitle }}</h2>
+
+      <div>
+        <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
+      </div>
+
+      <button *ngIf="!main.isFirstStep" type="button" tabindex="-1" formStepperPrev>Previous</button>
+
+      <button *ngIf="!main.isLastStep; else submitButton" type="button" tabindex="-1" formStepperNext>
+        {{ main.isOnboarding ? 'Start' : 'Next' }}
+      </button>
+
+      <ng-template #submitButton>
+        <button type="submit" [disabled]="formGroup.invalid || isBeingSubmitted">Submit</button>
+      </ng-template>
+    </ng-container>
+  </ng-template>
+</form-stepper-container>
+```
+
+### FormStepperSectionDirective
+
+The `AbstractControl` of the section (tracks the validity state of the section).
+
+```html
+<ng-container formStepperSection></ng-container>
+```
+
+#### Inputs
+
+| Input              | Type                                                  | Default   | Description                                                                  |
+| ------------------ | ----------------------------------------------------- | --------- | ---------------------------------------------------------------------------- |
+| formStepperSection | FormStepperSectionConfig \| FormStepperSectionControl | undefined | Tracks the validity state of the section (required).                         |
+| formGroup          | AbstractControl                                       | undefined | When provided, the value of `formStepperSection` is optional.                |
+| formGroupName      | string                                                | undefined | When provided, the value of `formStepperSection` is optional.                |
+| formArrayName      | string                                                | undefined | When provided, the value of `formStepperSection` is optional.                |
+| fsTitle            | string                                                | undefined | The title of the step (required).                                            |
+| fsIcon             | TemplateRef                                           | undefined | The icon template of the section to use in the the "nav" and the "quicknav". |
+| fsNoQuicknav       | BooleanInput                                          | false     | Determines wheter to exclude the section from the "quicknav".                |
+
+### FormStepperStepDirective
+
+The `AbstractControl` of the step (tracks the validity state of the step).
+
+```html
+<ng-template formStepperStep></ng-template>
+```
+
+#### Inputs
+
+| Input           | Type                                            | Default   | Description                                                                  |
+| --------------- | ----------------------------------------------- | --------- | ---------------------------------------------------------------------------- |
+| formStepperStep | FormStepperStepConfig \| FormStepperStepControl | undefined | Tracks the validity state of the step (required).                            |
+| formGroup       | AbstractControl                                 | undefined | When provided, the value of `formStepperStep` is optional.                   |
+| formGroupName   | string                                          | undefined | When provided, the value of `formStepperStep` is optional.                   |
+| formArrayName   | string                                          | undefined | When provided, the value of `formStepperStep` is optional.                   |
+| fsTitle         | string                                          | undefined | The title of the step (required).                                            |
+| fsIcon          | TemplateRef                                     | undefined | The icon template of the section to use in the the "nav" and the "quicknav". |
+| fsNoQuicknav    | BooleanInput                                    | false     | Determines wheter to exclude the section from the "quicknav".                |
 
 ## License
 

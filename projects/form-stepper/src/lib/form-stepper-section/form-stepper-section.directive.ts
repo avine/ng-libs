@@ -27,13 +27,13 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
    */
   @Input() formStepperSection!: FormStepperSectionConfig | FormStepperSectionControl;
 
-  /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
+  /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formGroup!: AbstractControl;
 
-  /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
+  /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formGroupName!: string;
 
-  /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided */
+  /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formArrayName!: string;
 
   /**

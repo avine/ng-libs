@@ -6,11 +6,11 @@
   -->
   <form-stepper-container [fsFormGroupRoot]="formGroup" [fsValidSectionIcon]="validIcon" #formStepper>
     <!--
-      `formStepperMain` directive allows you to customize the template of the current step.
+      `formStepperMain` directive is optional and allows you to customize the template of the current step.
       To do so, use the `formStepper.main$` observable which exposes the current step details.
 
-      This is optional. If the directive is not present, the `formStepperStep` template is displayed as current step content.
-      Therefore, you need to display the step title, the previous and next buttons directly in each step template.
+      Note: if the directive is not present, the `formStepperStep` template is displayed as the current step content.
+      And therfore, you need to display the step title, the previous and next buttons directly in each step template.
     -->
     <ng-template formStepperMain>
       <ng-container *ngIf="formStepper.main$ | async as main">

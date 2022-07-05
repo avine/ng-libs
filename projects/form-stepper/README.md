@@ -99,7 +99,7 @@ const routes: Routes = [
 export class AppRoutingModule {}
 ```
 
-The route parameter `:${FORM_STEPPER_PATH_PARAM}` is required by the FormStepper library to navigate between steps.
+The `:${FORM_STEPPER_PATH_PARAM}` route parameter is required by the FormStepper library to identify the path when navigating between steps.
 
 Use the `FormBuilder` to create the form structure in `stepper.component.ts`:
 
@@ -126,10 +126,9 @@ export class StepperComponent {
   constructor(private formBuilder: FormBuilder) {}
 
   onSubmit() {
-    this.isBeingSubmitted = true;
-
     console.log('FormStepper -> onSubmit', this.formGroup.value);
 
+    this.isBeingSubmitted = true;
     setTimeout(() => (this.isBeingSubmitted = false), 1000); // Simulate backend request...
   }
 }
@@ -147,9 +146,10 @@ Use the `<form-stepper-container>` component to declare the FormStepper in `step
   <form-stepper-container [fsFormGroupRoot]="formGroup" #formStepper>
     <!--
       `formStepperMain` directive is optional and allows you to customize the template of the current step.
+      To do so, use the `formStepper.main$` observable which exposes the current step details.
 
-      If the directive is not present, the `formStepperStep` template is displayed as current step content.
-      Therefore, you need to display the step title, the previous and next buttons directly in each step template.
+      Note: if the directive is not present, the `formStepperStep` template is displayed as the current step content.
+      And therfore, you need to display the step title, the previous and next buttons directly in each step template.
     -->
     <ng-template formStepperMain>
       <ng-container *ngIf="formStepper.main$ | async as main">
@@ -221,10 +221,9 @@ Use the `<form-stepper-container>` component to declare the FormStepper in `step
 ## How it works?
 
 The FormStepper is made of steps, and steps are grouped into sections.
-
 Each step contains one or more form controls.
 
-The structure of the `FormGroup` you define in your component should reflect the structure of the FormStepper you want to achieve.
+The structure of the `FormGroup` you define in your component should reflect the structure of the FormStepper you want to achieve:
 
 - In the example above, we want the FormStepper to have 2 sections: `fullName` and `email`.
 - Next, we want the first section to have 2 steps: `firstName` and `lastName`.
@@ -240,20 +239,25 @@ formGroup = this.formBuilder.group({
 });
 ```
 
-Now we can bind the `FormGroup` to the FormStepper in the HTML template like this:
+Now we can bind the `FormGroup` to the FormStepper in the HTML template:
 
 ```html
 <form-stepper-container [fsFormGroupRoot]="formGroup">
-  <ng-container formStepperSection="fullName">
-    <ng-template formStepperStep="firstName">...</ng-template>
-    <ng-template formStepperStep="lastName">...</ng-template>
+  <ng-container formStepperSection="fullName" fsTitle="Full name">
+    <ng-template formStepperStep="firstName" fsTitle="First name" fsPath="first-name">...</ng-template>
+    <ng-template formStepperStep="lastName" fsTitle="Last name" fsPath="last-name">...</ng-template>
   </ng-container>
 
-  <ng-container formStepperSection="email">
-    <ng-template formStepperStep>...</ng-template>
+  <ng-container formStepperSection="email" fsTitle="Email">
+    <ng-template formStepperStep fsPath="email">...</ng-template>
   </ng-container>
 </form-stepper-container>
 ```
+
+Note:
+
+- `formStepperSection` directive requires `fsTitle` input.
+- `formStepperStep` directive requires `fsTitle` (if there's more than one step in the section) and `fsPath` inputs.
 
 ## API
 
@@ -367,6 +371,52 @@ The `AbstractControl` of the step (tracks the validity state of the step).
 | fsTitle         | string                                          | undefined | The title of the step (required).                                            |
 | fsIcon          | TemplateRef                                     | undefined | The icon template of the section to use in the the "nav" and the "quicknav". |
 | fsNoQuicknav    | BooleanInput                                    | false     | Determines wheter to exclude the section from the "quicknav".                |
+
+### FormStepperPrevDirective and FormStepperPrevAnchorDirective
+
+Jump to the previous step on click event.
+
+```html
+<button formStepperPrev>Previous</button>
+or
+<a formStepperPrevAnchor>Previous</a>
+```
+
+#### Inputs
+
+| Input      | Type   | Default   | Description                                                  |
+| ---------- | ------ | --------- | ------------------------------------------------------------ |
+| fsInactive | string | undefined | CSS class to add when the button should be mark as inactive. |
+
+### FormStepperNextDirective
+
+Jump to the next step on click event.
+
+```html
+<button formStepperNext>Next</button>
+```
+
+#### Inputs
+
+| Input      | Type   | Default   | Description                                                  |
+| ---------- | ------ | --------- | ------------------------------------------------------------ |
+| fsInactive | string | undefined | CSS class to add when the button should be mark as inactive. |
+
+### FormStepperOnboardingDirective and FormStepperSummaryDirective
+
+Add a static step as first and/or last step (can not contain any `FormControl`).
+
+```html
+<ng-template formStepperOnboarding>...</ng-template>
+and/or
+<ng-template formStepperSummary>...</ng-template>
+```
+
+| Input   | Type        | Default   | Description                                                           |
+| ------- | ----------- | --------- | --------------------------------------------------------------------- |
+| fsTitle | string      | undefined | The title of the static step (required).                              |
+| fsPath  | string      | undefined | The route parameter to use to navigate to the static step (required). |
+| fsIcon  | TemplateRef | undefined | The icon template of the static step.                                 |
 
 ## License
 

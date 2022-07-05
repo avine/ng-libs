@@ -5,8 +5,9 @@ import { FormStepperService } from '../form-stepper.service';
 /**
  * Customize the template of the current step.
  *
- * This directive is optional. By default, the `formStepperStep` template is displayed as current step content.
- * Therefore, when not present, you need to display the step title, the previous and next buttons directly in each step template.
+ * The directive is optional.
+ * If not present, the `formStepperStep` template is displayed as the current step content.
+ * And therfore, you need to display the step title, the previous and next buttons directly in each step template.
  *
  * Example of usage:
  * ```html

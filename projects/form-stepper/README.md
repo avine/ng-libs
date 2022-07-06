@@ -39,7 +39,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -47,6 +46,7 @@ import { AppComponent } from './app.component';
     FormStepperModule.config({ breakpoint: '960px' }),
     AppRoutingModule,
   ],
+  declarations: [AppComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
@@ -145,8 +145,8 @@ Use the `<form-stepper-container>` component to declare the FormStepper in `step
   -->
   <form-stepper-container [fsFormGroupRoot]="formGroup" #formStepper>
     <!--
-      `formStepperMain` directive is optional and allows you to customize the template of the current step.
-      To do so, use the `formStepper.main$` observable which exposes the current step details.
+      The `formStepperMain` directive is optional and allows you to customize the current step template.
+      To achieve this, use the `formStepper.main$` observable which exposes the details of the current step.
 
       Note: if the directive is not present, the `formStepperStep` template is displayed as the current step content.
       And therfore, you need to display the step title, the previous and next buttons directly in each step template.
@@ -189,6 +189,12 @@ Use the `<form-stepper-container>` component to declare the FormStepper in `step
         Finally, it is in the step that you define the form field controls.
       -->
       <ng-template formStepperStep="firstName" fsTitle="First name" fsPath="first-name">
+        <!--
+          The `formStepperControl` directive adds smart behaviors to the `FormControl`:
+            - autofocus the first `FormControl` of the step (when it has no value).
+            - prevent form submission when pressing "Enter" key.
+            - jump to the next step when pressing "Enter" key (if the current step is valid).
+        -->
         <input formControlName="firstName" formStepperControl />
       </ng-template>
 
@@ -362,15 +368,56 @@ The `AbstractControl` of the step (tracks the validity state of the step).
 
 #### Inputs
 
-| Input           | Type                                            | Default   | Description                                                                  |
-| --------------- | ----------------------------------------------- | --------- | ---------------------------------------------------------------------------- |
-| formStepperStep | FormStepperStepConfig \| FormStepperStepControl | undefined | Tracks the validity state of the step (required).                            |
-| formGroup       | AbstractControl                                 | undefined | When provided, the value of `formStepperStep` is optional.                   |
-| formGroupName   | string                                          | undefined | When provided, the value of `formStepperStep` is optional.                   |
-| formArrayName   | string                                          | undefined | When provided, the value of `formStepperStep` is optional.                   |
-| fsTitle         | string                                          | undefined | The title of the step (required).                                            |
-| fsIcon          | TemplateRef                                     | undefined | The icon template of the section to use in the the "nav" and the "quicknav". |
-| fsNoQuicknav    | BooleanInput                                    | false     | Determines wheter to exclude the section from the "quicknav".                |
+| Input                   | Type                                            | Default   | Description                                                                                        |
+| ----------------------- | ----------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------- |
+| formStepperStep         | FormStepperStepConfig \| FormStepperStepControl | undefined | Tracks the validity state of the step (required).                                                  |
+| formGroup               | AbstractControl                                 | undefined | When provided, the value of `formStepperStep` is optional.                                         |
+| formGroupName           | string                                          | undefined | When provided, the value of `formStepperStep` is optional.                                         |
+| formArrayName           | string                                          | undefined | When provided, the value of `formStepperStep` is optional.                                         |
+| fsTitle                 | string                                          | undefined | The title of the step (required).                                                                  |
+| fsPath                  | string                                          | undefined | The route parameter to use to navigate to the step (required).                                     |
+| fsAutoNextOnValueChange | BooleanInput                                    | false     | Determines whether to go to the next step each time value changes (and the current step is valid). |
+
+### FormStepperControlDirective
+
+Add smart behaviors to the `FormControl`:
+
+- autofocus the first `FormControl` of the step (when it has no value).
+- prevent form submission when pressing "Enter" key.
+- jump to the next step when pressing "Enter" key (if the current step is valid).
+
+```html
+<input formStepperControl />
+```
+
+#### Inputs
+
+| Input     | Type                                     | Default   | Description                    |
+| --------- | ---------------------------------------- | --------- | ------------------------------ |
+| fsOnEnter | Partial&lt;FormStepperControlOnEnter&gt; | undefined | Adjust the directive behavior. |
+
+For a `<textarea>` you probably want to configure the directive as follows:
+
+```html
+<textarea formStepperControl [fsEnter]="{ preventDefault: false, nextStep: false }"></textarea>
+```
+
+### FormStepperQuicknavComponent
+
+Render the form value in a nice summary with links to jump back to any step.
+
+```html
+<form-stepper-quicknav></form-stepper-quicknav>
+```
+
+#### Inputs
+
+| Input     | Type                                                | Default   | Description                                                 |
+| --------- | --------------------------------------------------- | --------- | ----------------------------------------------------------- |
+| fsCompact | BooleanInput                                        | false     | Determines whether to remove the sections from the summary. |
+| fsFormat  | (path: string, controlValue: any) => string \| void | undefined | Customize the HTML output of any form field value.          |
+
+Note: `fsCompact` input should be set to `true` when the FormStepper has only one level (each section has only one step).
 
 ### FormStepperPrevDirective and FormStepperPrevAnchorDirective
 

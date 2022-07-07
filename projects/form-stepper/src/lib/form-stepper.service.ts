@@ -20,6 +20,8 @@ import {
 export class FormStepperService implements OnDestroy {
   useRouting = true;
 
+  scrollToTopElementOnNavigation?: HTMLElement;
+
   formGroupRoot!: FormGroup;
 
   validSectionIcon!: TemplateRef<any>;
@@ -258,6 +260,8 @@ export class FormStepperService implements OnDestroy {
   }
 
   private handlePath(path: string | null) {
+    this.scrollToTop();
+
     this.path = path;
 
     if (path === this.onboarding?.path) {
@@ -275,6 +279,10 @@ export class FormStepperService implements OnDestroy {
     }
 
     this.handleSkippedStep(stepIndex) || this.setStepByIndex(stepIndex);
+  }
+
+  private scrollToTop(): void {
+    this.scrollToTopElementOnNavigation?.scrollIntoView(true);
   }
 
   private navigateByStepIndexWithRouting(stepIndex: number) {

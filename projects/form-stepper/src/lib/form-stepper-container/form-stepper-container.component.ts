@@ -9,6 +9,7 @@ import {
   Component,
   ContentChild,
   ContentChildren,
+  ElementRef,
   HostBinding,
   Input,
   OnDestroy,
@@ -53,6 +54,11 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
    * Template to use as section icon when all the steps in a section are valid.
    */
   @Input() fsValidSectionIcon!: TemplateRef<any>;
+
+  /**
+   * Determines whether to scroll to the top of the `<form-stepper-container>` element on navigation.
+   */
+  @Input() fsNoScrollToTopOnNavigation: BooleanInput = false;
 
   /**
    * Determines whether to remove the link to the Onboarding step from the "nav".
@@ -101,11 +107,18 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
 
   private sectionsSubscription!: Subscription;
 
-  constructor(private service: FormStepperService, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private service: FormStepperService,
+    private elementRef: ElementRef<HTMLElement>,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.service.formGroupRoot = this.fsFormGroupRoot;
     this.service.useRouting = coerceBooleanProperty(this.fsUseRouting);
+    if (!coerceBooleanProperty(this.fsNoScrollToTopOnNavigation)) {
+      this.service.scrollToTopElementOnNavigation = this.elementRef.nativeElement;
+    }
   }
 
   ngAfterContentInit() {

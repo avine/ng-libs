@@ -277,13 +277,14 @@ This is the FormStepper root component.
 
 #### Inputs
 
-| Input              | Type         | Default   | Description                                                                                                 |
-| ------------------ | ------------ | --------- | ----------------------------------------------------------------------------------------------------------- |
-| fsFormGroupRoot    | FormGroup    | undefined | Tracks the validity state of the `FormGroup` root (required).                                               |
-| fsUseRouting       | BooleanInput | true      | Determines whether navigation between steps uses routing.                                                   |
-| fsValidSectionIcon | TemplateRef  | undefined | Template to use as section icon when all the steps in a section are valid.                                  |
-| fsNoOnboardingNav  | BooleanInput | false     | Determines whether to remove the link to the Onboarding step from the "nav".                                |
-| fsNoStepsNav       | BooleanInput | false     | Determines whether to hide the steps from the "nav". When set to `true`, only the "sections" are displayed. |
+| Input                       | Type         | Default   | Description                                                                                                 |
+| --------------------------- | ------------ | --------- | ----------------------------------------------------------------------------------------------------------- |
+| fsFormGroupRoot             | FormGroup    | undefined | Tracks the validity state of the `FormGroup` root (required).                                               |
+| fsUseRouting                | BooleanInput | true      | Determines whether navigation between steps uses routing.                                                   |
+| fsValidSectionIcon          | TemplateRef  | undefined | Template to use as section icon when all the steps in a section are valid.                                  |
+| fsNoScrollToTopOnNavigation | BooleanInput | false     | Determines whether to scroll to the top of the `<form-stepper-container>` element on navigation.            |
+| fsNoOnboardingNav           | BooleanInput | false     | Determines whether to remove the link to the Onboarding step from the "nav".                                |
+| fsNoStepsNav                | BooleanInput | false     | Determines whether to hide the steps from the "nav". When set to `true`, only the "sections" are displayed. |
 
 #### Properties and methods
 

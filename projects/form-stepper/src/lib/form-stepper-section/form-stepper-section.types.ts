@@ -1,10 +1,7 @@
 import { TemplateRef } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
 
-export interface FormStepperSectionConfig {
-  control?: FormStepperSectionControl;
+export interface FormStepperSectionOptions {
   title?: string;
   icon?: TemplateRef<any>;
+  noQuicknav?: boolean;
 }
-
-export type FormStepperSectionControl = AbstractControl | string;

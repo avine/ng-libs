@@ -1,10 +1,5 @@
-import { AbstractControl } from '@angular/forms';
-
-export interface FormStepperStepConfig {
-  control?: FormStepperStepControl;
+export interface FormStepperStepOptions {
   title?: string;
   autoNextOnValueChange?: boolean;
   path: string;
 }
-
-export type FormStepperStepControl = AbstractControl | string;

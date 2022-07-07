@@ -7,7 +7,7 @@ import { AbstractControl } from '@angular/forms';
 import { FormStepperStepDirective } from '../form-stepper-step/form-stepper-step.directive';
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
-import { FormStepperSectionConfig, FormStepperSectionControl } from './form-stepper-section.types';
+import { FormStepperSectionOptions } from './form-stepper-section.types';
 
 @Directive({
   selector: '[formStepperSection]',
@@ -15,17 +15,8 @@ import { FormStepperSectionConfig, FormStepperSectionControl } from './form-step
 export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {
   /**
    * The `AbstractControl` of the section (tracks the validity state of the section).
-   *
-   * @example
-   * ```ts
-   * // When using the config object signature, `fsTitle` and `fsIcon` inputs are ignored.
-   * interface FormStepperSectionConfig { control?: AbstractControl | string; title?: string; icon?: TemplateRef<any> }
-   *
-   * // When using the control signature, `fsTitle` and `fsIcon` inputs can be used to complete the section configuration.
-   * type FormStepperSectionControl = string | AbstractControl;
-   * ```
    */
-  @Input() formStepperSection!: FormStepperSectionConfig | FormStepperSectionControl;
+  @Input() formStepperSection!: AbstractControl | string;
 
   /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formGroup!: AbstractControl;
@@ -35,6 +26,13 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formArrayName!: string;
+
+  /**
+   * Configure section options
+   *
+   * When defined, `fsTitle`, `fsIcon` and `fsNoQuicknav` inputs are ignored.
+   */
+  @Input() fsOptions!: FormStepperSectionOptions;
 
   /**
    * The title of the step.
@@ -55,20 +53,14 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
-  getSection = (): AbstractControl | string => {
-    const { sectionConfig } = this;
-    return (
-      sectionConfig?.control ||
-      (!sectionConfig && (this.formStepperSection as FormStepperSectionControl)) ||
-      this.formGroup ||
-      this.formGroupName ||
-      this.formArrayName
-    );
-  };
+  getSection = (): AbstractControl | string =>
+    this.formStepperSection || this.formGroup || this.formGroupName || this.formArrayName;
 
-  getTitle = (): string => this.sectionConfig?.title || this.fsTitle;
+  getTitle = (): string => this.fsOptions?.title || this.fsTitle;
 
-  getIcon = (): TemplateRef<any> => this.sectionConfig?.icon || this.fsIcon;
+  getIcon = (): TemplateRef<any> => this.fsOptions?.icon || this.fsIcon;
+
+  getNoQuicknav = (): boolean => this.fsOptions?.noQuicknav || coerceBooleanProperty(this.fsNoQuicknav);
 
   private stepsSubscription!: Subscription;
 
@@ -86,7 +78,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
       control: this.service.getControl(this.getSection()),
       stepIndexOffset,
       steps,
-      hasQuicknav: !coerceBooleanProperty(this.fsNoQuicknav),
+      hasQuicknav: !this.getNoQuicknav(),
     });
   }
 
@@ -125,12 +117,5 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
         return step;
       }
     );
-  }
-
-  private get sectionConfig(): FormStepperSectionConfig | void {
-    if (this.formStepperSection instanceof AbstractControl || typeof this.formStepperSection === 'string') {
-      return;
-    }
-    return this.formStepperSection;
   }
 }

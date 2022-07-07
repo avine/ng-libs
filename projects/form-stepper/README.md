@@ -249,13 +249,13 @@ Now we can bind the `FormGroup` to the FormStepper in the HTML template:
 
 ```html
 <form-stepper-container [fsFormGroupRoot]="formGroup">
-  <ng-container formStepperSection="fullName" fsTitle="Full name">
-    <ng-template formStepperStep="firstName" fsTitle="First name" fsPath="first-name">...</ng-template>
-    <ng-template formStepperStep="lastName" fsTitle="Last name" fsPath="last-name">...</ng-template>
+  <ng-container formStepperSection="fullName">
+    <ng-template formStepperStep="firstName">...</ng-template>
+    <ng-template formStepperStep="lastName">...</ng-template>
   </ng-container>
 
-  <ng-container formStepperSection="email" fsTitle="Email">
-    <ng-template formStepperStep fsPath="email">...</ng-template>
+  <ng-container formStepperSection="email">
+    <ng-template formStepperStep>...</ng-template>
   </ng-container>
 </form-stepper-container>
 ```
@@ -272,7 +272,7 @@ Note:
 This is the FormStepper root component.
 
 ```html
-<form-stepper-container></form-stepper-container>
+<form-stepper-container [fsFormGroupRoot]="..."></form-stepper-container>
 ```
 
 #### Inputs
@@ -343,40 +343,62 @@ Get access to the current step infos from the template.
 The `AbstractControl` of the section (tracks the validity state of the section).
 
 ```html
-<ng-container formStepperSection></ng-container>
+<ng-container formStepperSection fsTitle="..."></ng-container>
 ```
 
 #### Inputs
 
-| Input              | Type                                                  | Default   | Description                                                                  |
-| ------------------ | ----------------------------------------------------- | --------- | ---------------------------------------------------------------------------- |
-| formStepperSection | FormStepperSectionConfig \| FormStepperSectionControl | undefined | Tracks the validity state of the section (required).                         |
-| formGroup          | AbstractControl                                       | undefined | When provided, the value of `formStepperSection` is optional.                |
-| formGroupName      | string                                                | undefined | When provided, the value of `formStepperSection` is optional.                |
-| formArrayName      | string                                                | undefined | When provided, the value of `formStepperSection` is optional.                |
-| fsTitle            | string                                                | undefined | The title of the step (required).                                            |
-| fsIcon             | TemplateRef                                           | undefined | The icon template of the section to use in the the "nav" and the "quicknav". |
-| fsNoQuicknav       | BooleanInput                                          | false     | Determines wheter to exclude the section from the "quicknav".                |
+| Input              | Type                      | Default   | Description                                                                  |
+| ------------------ | ------------------------- | --------- | ---------------------------------------------------------------------------- |
+| formStepperSection | AbstractControl \| string | undefined | Tracks the validity state of the section (required).                         |
+| formGroup          | AbstractControl           | undefined | When provided, the value of `formStepperSection` is optional.                |
+| formGroupName      | string                    | undefined | When provided, the value of `formStepperSection` is optional.                |
+| formArrayName      | string                    | undefined | When provided, the value of `formStepperSection` is optional.                |
+| fsOptions          | FormStepperSectionOptions | undefined | Configure section options.                                                   |
+| fsTitle            | string                    | undefined | The title of the step (required).                                            |
+| fsIcon             | TemplateRef               | undefined | The icon template of the section to use in the the "nav" and the "quicknav". |
+| fsNoQuicknav       | BooleanInput              | false     | Determines wheter to exclude the section from the "quicknav".                |
+
+When `fsOptions` is defined, `fsTitle`, `fsIcon` and `fsNoQuicknav` inputs are ignored.
+
+```ts
+interface FormStepperSectionOptions {
+  title?: string;
+  icon?: TemplateRef<any>;
+  noQuicknav?: boolean;
+}
+```
 
 ### FormStepperStepDirective
 
 The `AbstractControl` of the step (tracks the validity state of the step).
 
 ```html
-<ng-template formStepperStep></ng-template>
+<ng-template formStepperStep fsTitle="..." fsPath="..."></ng-template>
 ```
 
 #### Inputs
 
-| Input                   | Type                                            | Default   | Description                                                                                        |
-| ----------------------- | ----------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------- |
-| formStepperStep         | FormStepperStepConfig \| FormStepperStepControl | undefined | Tracks the validity state of the step (required).                                                  |
-| formGroup               | AbstractControl                                 | undefined | When provided, the value of `formStepperStep` is optional.                                         |
-| formGroupName           | string                                          | undefined | When provided, the value of `formStepperStep` is optional.                                         |
-| formArrayName           | string                                          | undefined | When provided, the value of `formStepperStep` is optional.                                         |
-| fsTitle                 | string                                          | undefined | The title of the step (required).                                                                  |
-| fsPath                  | string                                          | undefined | The route parameter to use to navigate to the step (required).                                     |
-| fsAutoNextOnValueChange | BooleanInput                                    | false     | Determines whether to go to the next step each time value changes (and the current step is valid). |
+| Input                   | Type                      | Default   | Description                                                                                        |
+| ----------------------- | ------------------------- | --------- | -------------------------------------------------------------------------------------------------- |
+| formStepperStep         | AbstractControl \| string | undefined | Tracks the validity state of the step (required).                                                  |
+| formGroup               | AbstractControl           | undefined | When provided, the value of `formStepperStep` is optional.                                         |
+| formGroupName           | string                    | undefined | When provided, the value of `formStepperStep` is optional.                                         |
+| formArrayName           | string                    | undefined | When provided, the value of `formStepperStep` is optional.                                         |
+| fsOptions               | FormStepperStepOptions    | undefined | Configure step options.                                                                            |
+| fsTitle                 | string                    | undefined | The title of the step (required, if there's more than one step in the section).                    |
+| fsAutoNextOnValueChange | BooleanInput              | false     | Determines whether to go to the next step each time value changes (and the current step is valid). |
+| fsPath                  | string                    | undefined | The route parameter to use to navigate to the step (required).                                     |
+
+When `fsOptions` is defined, `fsTitle`, `fsAutoNextOnValueChange` and `fsPath` inputs are ignored.
+
+```ts
+interface FormStepperStepOptions {
+  title?: string;
+  autoNextOnValueChange?: boolean;
+  path: string;
+}
+```
 
 ### FormStepperControlDirective
 
@@ -385,6 +407,8 @@ Add smart behaviors to the `FormControl`:
 - autofocus the first `FormControl` of the step (when it has no value).
 - prevent form submission when pressing "Enter" key.
 - jump to the next step when pressing "Enter" key (if the current step is valid).
+
+Here's an example with an `input` field:
 
 ```html
 <input formStepperControl />
@@ -401,23 +425,6 @@ For a `<textarea>` you probably want to configure the directive as follows:
 ```html
 <textarea formStepperControl [fsEnter]="{ preventDefault: false, nextStep: false }"></textarea>
 ```
-
-### FormStepperQuicknavComponent
-
-Render the form value in a nice summary with links to jump back to any step.
-
-```html
-<form-stepper-quicknav></form-stepper-quicknav>
-```
-
-#### Inputs
-
-| Input     | Type                                                | Default   | Description                                                 |
-| --------- | --------------------------------------------------- | --------- | ----------------------------------------------------------- |
-| fsCompact | BooleanInput                                        | false     | Determines whether to remove the sections from the summary. |
-| fsFormat  | (path: string, controlValue: any) => string \| void | undefined | Customize the HTML output of any form field value.          |
-
-Note: `fsCompact` input should be set to `true` when the FormStepper has only one level (each section has only one step).
 
 ### FormStepperPrevDirective and FormStepperPrevAnchorDirective
 
@@ -464,6 +471,23 @@ and/or
 | fsTitle | string      | undefined | The title of the static step (required).                              |
 | fsPath  | string      | undefined | The route parameter to use to navigate to the static step (required). |
 | fsIcon  | TemplateRef | undefined | The icon template of the static step.                                 |
+
+### FormStepperQuicknavComponent
+
+Render the form value in a nice summary with links to jump back to any step.
+
+```html
+<form-stepper-quicknav></form-stepper-quicknav>
+```
+
+#### Inputs
+
+| Input     | Type                                                | Default   | Description                                                 |
+| --------- | --------------------------------------------------- | --------- | ----------------------------------------------------------- |
+| fsCompact | BooleanInput                                        | false     | Determines whether to remove the sections from the summary. |
+| fsFormat  | (path: string, controlValue: any) => string \| void | undefined | Customize the HTML output of any form field value.          |
+
+Note: `fsCompact` input should be set to `true` when the FormStepper has only one level (each section has only one step).
 
 ## License
 

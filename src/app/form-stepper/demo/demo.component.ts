@@ -87,7 +87,7 @@ export class DemoComponent {
       return;
     }
 
-    // This is optional but ensure that valid form can be submitted only when the user is on the last step.
+    // Ensure that a valid form can only be submitted when the user is in the last step (this is optional).
     const { isLastStep } = this.formStepper.mainSnapshot();
     if (!isLastStep) {
       return;

@@ -70,6 +70,8 @@ Import the FormStepper styles in your `style.scss`:
 );
 ```
 
+See below for Sass customization.
+
 Create a new component:
 
 ```bash
@@ -297,10 +299,6 @@ Get access to the current step infos from the component.
 class SomeComponent implements AfterViewInit {
   @ViewChild(FormStepperContainerComponent) formStepper!: FormStepperContainerComponent;
 
-  formGroup = this.formBuilder.group({ ... });
-
-  isBeingSubmitted = false;
-
   ngAfterViewInit() {
     // Get an observable of the main infos needed to render the current step.
     this.formStepper.main$.subscribe((main: FormStepperMain) => { ... });
@@ -309,6 +307,11 @@ class SomeComponent implements AfterViewInit {
   onSubmit() {
     // Get a snapshot of the main infos.
     const main: FormStepperMain = this.formStepper.mainSnapshot();
+
+    // For example, you can ensure that a valid form can only be submitted when the user is in the last step.
+    if (!main.isLastStep) {
+      return;
+    }
   }
 }
 ```
@@ -489,6 +492,46 @@ Render the form value in a nice summary with links to jump back to any step.
 | fsFormat  | (path: string, controlValue: any) => string \| void | undefined | Customize the HTML output of any form field value.          |
 
 Note: `fsCompact` input should be set to `true` when the FormStepper has only one level (each section has only one step).
+
+### Sass customization
+
+You can fully customize the FormStepper CSS using Sass.
+
+Below the [list of Sass variables](https://github.com/avine/ng-libs/blob/main/projects/form-stepper/src/lib/scss/_variables.scss):
+
+```scss
+@use 'node_modules/@avine/ng-form-stepper/src/lib/scss/form-stepper.scss' with (
+  $breakpoint: 1024px,
+
+  // ----- prev -----
+  $prev-anchor-disabled-color: #999999,
+
+  // ----- nav -----
+  $nav-bg-color: #ffffff,
+  $nav-timeline-color: #e1e1e1,
+  $nav-bullet-color: #e1e1e1,
+
+  $nav-text-color__default: #636363,
+  $nav-text-color__valid: #222222,
+
+  $nav-valid__bg-color: #43a047,
+  $nav-valid__text-color: #e8f5e9,
+
+  $nav-section-current__bg-color: #00acc1,
+  $nav-section-current__text-color: #e0f7fa,
+
+  $nav-step__underline-color: #d1d1d1,
+
+  $nav-mobile-steps__box-shadow: 0px 3px 6px -1px rgba(0, 0, 0, 0.15),
+  $nav-mobile-steps__border-color: #cccccc,
+  $nav-mobile-steps__bg-color: #ffffff,
+
+  // ----- quicknav -----
+  $quicknav-border-color: #d7d7d7,
+  $quicknav-bg-color: #f7f7f7,
+  $quicknav-icon-bg-color: #e7e7e7
+);
+```
 
 ## License
 

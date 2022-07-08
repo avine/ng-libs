@@ -88,7 +88,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
    * Get the main infos snapshot.
    *
    * @example
-   * Make sure the form can only be submitted when the user is in the last step.
+   * Ensure that a valid form can only be submitted when the user is in the last step.
    * ```ts
    * \@Component({ ... })
    * export class DemoComponent {

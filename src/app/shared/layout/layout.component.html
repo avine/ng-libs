@@ -1,0 +1,27 @@
+<mat-toolbar class="header">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <h1 class="header__brand" routerLink="/">ng-libs</h1>
+
+  <img src="assets/angular-brands.svg" alt="Github" height="28" />
+
+  <span class="header__spacer"></span>
+
+  <a href="https://github.com/avine/ng-libs" mat-icon-button>
+    <img src="assets/github-brands.svg" alt="Github" height="28" />
+  </a>
+</mat-toolbar>
+
+<mat-sidenav-container class="container" [hasBackdrop]="false">
+  <mat-sidenav #sidenav mode="push" class="container__sidenav">
+    <app-menu></app-menu>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="container__content">
+    <div class="container__main">
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

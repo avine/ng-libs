@@ -2,6 +2,10 @@
 
 Nullish coalescing operator as Angular structural directive and more...
 
+## Demo
+
+Check out [demo here](https://avine.github.io/ng-libs/if-non-nullish).
+
 ## Installation
 
 Import `IfNonNullishModule` in your `app.module.ts`:
@@ -109,10 +113,6 @@ export class AppComponent {
   data = undefined;
 }
 ```
-
-## Demo
-
-Check out [demo here](https://avine.github.io/ng-libs/)
 
 ## License
 

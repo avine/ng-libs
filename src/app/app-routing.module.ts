@@ -18,6 +18,12 @@ const routes: Routes = [
     loadChildren: () => import('./form-stepper/form-stepper.module').then((module) => module.FormStepperModule),
     title: 'Form Stepper',
   },
+  {
+    path: 'autocomplete',
+    loadChildren: () =>
+      import('./autocomplete-demo/autocomplete-demo.module').then((module) => module.AutocompleteDemoModule),
+    title: 'Autocomplete',
+  },
 ];
 
 @Injectable()

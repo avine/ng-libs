@@ -1,0 +1,25 @@
+.autocomplete__suggestions {
+  max-height: 50vh;
+  overflow: auto;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+}
+
+.autocomplete__suggestion {
+  padding: 0.75em 1.25em;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.autocomplete__suggestion--focused {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.autocomplete__suggestion-prefix {
+  margin-right: 0.5em;
+}

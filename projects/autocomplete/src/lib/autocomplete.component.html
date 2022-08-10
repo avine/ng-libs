@@ -1,0 +1,35 @@
+<input
+  cdkOverlayOrigin
+  #dropDownOrigin="cdkOverlayOrigin"
+  #inputRef
+  [placeholder]="placeholder"
+  [disabled]="isInputDisabled"
+  [value]="value"
+  (focus)="onFocus()"
+  (input)="onInput(inputRef.value)"
+  (blur)="controlValueTouched()"
+  (keydown.ArrowUp)="onArrowUp($event)"
+  (keydown.ArrowDown)="onArrowDown($event)"
+  (keydown.Enter)="onEnter()"
+  (keydown.Escape)="onEscape()"
+/>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="dropDownOrigin"
+  [cdkConnectedOverlayOpen]="shouldDisplaySuggestions && suggestions.length > 0"
+>
+  <div class="autocomplete__suggestions">
+    <div
+      #suggestionsQueryList
+      tabindex="0"
+      *ngFor="let suggestion of suggestions; index as suggestionIndex; trackBy: trackBySuggestionValue"
+      class="autocomplete__suggestion"
+      [class.autocomplete__suggestion--focused]="suggestionIndex === focusedSuggestionIndex"
+      (click)="selectSuggestion(suggestion)"
+    >
+      <span *ngIf="suggestion.prefix" class="autocomplete__suggestion-prefix">{{ suggestion.prefix }}</span>
+      <span [innerHTML]="highlightSuggestion(suggestion)"></span>
+    </div>
+  </div>
+</ng-template>

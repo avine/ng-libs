@@ -143,6 +143,35 @@
           }
         }
       }
+    },
+    "autocomplete": {
+      "projectType": "library",
+      "root": "projects/autocomplete",
+      "sourceRoot": "projects/autocomplete/src",
+      "prefix": "autocomplete",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/autocomplete/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/autocomplete/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/autocomplete/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/autocomplete/**/*.ts", "projects/autocomplete/**/*.html"]
+          }
+        }
+      }
     }
   },
   "cli": {

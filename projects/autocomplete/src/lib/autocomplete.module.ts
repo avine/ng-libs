@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { AutocompleteComponent } from './autocomplete.component';
+import { AutocompleteTemplateDirective, AutocompleteSuggestionDirective } from './autocomplete.directive';
 
 @NgModule({
-  declarations: [AutocompleteComponent],
   imports: [CommonModule, OverlayModule],
-  exports: [AutocompleteComponent],
+  declarations: [AutocompleteComponent, AutocompleteTemplateDirective, AutocompleteSuggestionDirective],
+  exports: [AutocompleteComponent, AutocompleteTemplateDirective, AutocompleteSuggestionDirective],
 })
 export class AutocompleteModule {}

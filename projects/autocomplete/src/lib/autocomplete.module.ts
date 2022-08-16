@@ -5,9 +5,11 @@ import { NgModule } from '@angular/core';
 import { AutocompleteComponent } from './autocomplete.component';
 import { AutocompleteTemplateDirective, AutocompleteSuggestionDirective } from './autocomplete.directive';
 
+const features = [AutocompleteComponent, AutocompleteTemplateDirective, AutocompleteSuggestionDirective];
+
 @NgModule({
   imports: [CommonModule, OverlayModule],
-  declarations: [AutocompleteComponent, AutocompleteTemplateDirective, AutocompleteSuggestionDirective],
-  exports: [AutocompleteComponent, AutocompleteTemplateDirective, AutocompleteSuggestionDirective],
+  declarations: [features],
+  exports: [features],
 })
 export class AutocompleteModule {}

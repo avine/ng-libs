@@ -5,12 +5,14 @@
     formControlName="list"
     [dataList]="dataList"
     [inputMinLengthToShowDataList]="inputMinLengthToShowDataList"
+    #autocomplete
   >
     <ng-template autocompleteTemplate let-suggestions let-focusedSuggestionIndex="focusedSuggestionIndex">
       <div>
         <div
           *ngFor="let suggestion of suggestions; index as suggestionIndex"
-          [autocompleteSuggestion]="suggestionIndex"
+          autocompleteSuggestion
+          (click)="autocomplete.selectSuggestion(suggestion)"
         >
           {{ suggestion.value }}
           {{ focusedSuggestionIndex === suggestionIndex ? ' X' : '' }}

@@ -32,11 +32,11 @@
 
   <div *ngIf="!suggestionsTemplate" class="autocomplete-datalist__suggestions">
     <div
-      [autocompleteSuggestion]="suggestionIndex"
       tabindex="0"
       *ngFor="let suggestion of suggestions; index as suggestionIndex; trackBy: trackBySuggestionValue"
       class="autocomplete-datalist__suggestion"
       [class.autocomplete-datalist__suggestion--focused]="suggestionIndex === focusedSuggestionIndex"
+      autocompleteSuggestion
       (click)="selectSuggestion(suggestion)"
     >
       <span>

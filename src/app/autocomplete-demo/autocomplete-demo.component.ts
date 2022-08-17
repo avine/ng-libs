@@ -7,14 +7,14 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./autocomplete-demo.component.scss'],
 })
 export class AutocompleteDemoComponent {
-  value = '';
+  value = 'ello';
 
   datalist = ['Hello', 'Hel', 'Hello wor', 'Hello world!'];
 
   minLength = 0;
 
   formGroup = this.fb.group({
-    list: [null],
+    list: ['wor'],
   });
 
   constructor(private fb: FormBuilder) {}

@@ -74,6 +74,12 @@ export class AutocompleteInputComponent implements ControlValueAccessor, Validat
 
   @ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
 
+  get inputWidthPx(): string {
+    return this.inputRef.nativeElement.offsetWidth + 'px';
+  }
+
+  @Input() inputClass = '';
+
   /* --- Datalist related properties --- */
 
   private datalist$ = new BehaviorSubject<string[]>([]);
@@ -87,8 +93,6 @@ export class AutocompleteInputComponent implements ControlValueAccessor, Validat
   }
 
   /* ----- Suggestions related properties ----- */
-
-  @Input() highlightTag = 'strong';
 
   suggestions$ = combineLatest([this.value$, this.datalist$]).pipe(
     map(([value, datalist]) => {

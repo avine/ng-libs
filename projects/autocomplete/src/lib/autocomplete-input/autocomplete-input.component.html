@@ -3,6 +3,8 @@
   cdkOverlayOrigin
   #dropDownOrigin="cdkOverlayOrigin"
   autocomplete="off"
+  class="autocomplete-input__input"
+  [class]="inputClass"
   [type]="type"
   [placeholder]="placeholder ?? ''"
   [readonly]="readonly"
@@ -25,7 +27,7 @@
 >
   <ng-container *ngTemplateOutlet="suggestionsTemplate ?? null"></ng-container>
 
-  <div *ngIf="!suggestionsTemplate" class="autocomplete-input__suggestions">
+  <div *ngIf="!suggestionsTemplate" class="autocomplete-input__suggestions" [style.width]="inputWidthPx">
     <div
       tabindex="0"
       autocompleteSuggestion
@@ -36,7 +38,7 @@
     >
       <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: value"></span>
 
-      <em *ngIf="suggestion === value"> OK</em>
+      <span *ngIf="suggestion === value" class="autocomplete-input__suggestion-check">&check;</span>
     </div>
   </div>
 </ng-template>

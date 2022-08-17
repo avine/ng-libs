@@ -1,33 +1,24 @@
 <pre>{{ formGroup.value | json }}</pre>
 
 <form [formGroup]="formGroup">
-  <autocomplete-container
-    formControlName="list"
-    [dataList]="dataList"
-    [inputMinLengthToShowDataList]="inputMinLengthToShowDataList"
-    #autocomplete
-  >
-    <ng-template autocompleteTemplate let-suggestions let-focusedSuggestionIndex="focusedSuggestionIndex">
+  <autocomplete-input formControlName="list" [datalist]="datalist" [minLength]="minLength" #autocomplete>
+    <ng-template autocompleteSuggestionsTemplate>
       <div>
         <div
-          *ngFor="let suggestion of suggestions; index as suggestionIndex"
+          *ngFor="let suggestion of autocomplete.suggestions$ | async; index as suggestionIndex"
           autocompleteSuggestion
           (click)="autocomplete.selectSuggestion(suggestion)"
         >
           {{ suggestion.value }}
-          {{ focusedSuggestionIndex === suggestionIndex ? ' X' : '' }}
+          {{ autocomplete.focusedSuggestionIndex === suggestionIndex ? ' X' : '' }}
         </div>
       </div>
     </ng-template>
-  </autocomplete-container>
+  </autocomplete-input>
 </form>
 
 <br /><br /><br /><br /><br />
 
 <pre>{{ value | json }}</pre>
 
-<autocomplete-container
-  [dataList]="dataList"
-  [(value)]="value"
-  [inputMinLengthToShowDataList]="inputMinLengthToShowDataList"
-></autocomplete-container>
+<autocomplete-input [datalist]="datalist" [(value)]="value" [minLength]="minLength"></autocomplete-input>

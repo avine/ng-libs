@@ -23,24 +23,19 @@
   [cdkConnectedOverlayOrigin]="dropDownOrigin"
   [cdkConnectedOverlayOpen]="shouldDisplaySuggestions && suggestions.length > 0"
 >
-  <ng-container
-    *ngTemplateOutlet="
-      suggestionsTemplate ?? null;
-      context: { $implicit: suggestions, focusedSuggestionIndex: focusedSuggestionIndex }
-    "
-  ></ng-container>
+  <ng-container *ngTemplateOutlet="suggestionsTemplate ?? null"></ng-container>
 
-  <div *ngIf="!suggestionsTemplate" class="autocomplete-datalist__suggestions">
+  <div *ngIf="!suggestionsTemplate" class="autocomplete-input__suggestions">
     <div
       tabindex="0"
       *ngFor="let suggestion of suggestions; index as suggestionIndex; trackBy: trackBySuggestionValue"
-      class="autocomplete-datalist__suggestion"
-      [class.autocomplete-datalist__suggestion--focused]="suggestionIndex === focusedSuggestionIndex"
+      class="autocomplete-input__suggestion"
+      [class.autocomplete-input__suggestion--focused]="suggestionIndex === focusedSuggestionIndex"
       autocompleteSuggestion
       (click)="selectSuggestion(suggestion)"
     >
       <span>
-        <span *ngIf="suggestion.prefix" class="autocomplete-datalist__suggestion-prefix">{{ suggestion.prefix }}</span>
+        <span *ngIf="suggestion.prefix" class="autocomplete-input__suggestion-prefix">{{ suggestion.prefix }}</span>
         <span [innerHTML]="highlightSuggestion(suggestion)"></span>
       </span>
 

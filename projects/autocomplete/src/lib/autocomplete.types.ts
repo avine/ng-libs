@@ -1,4 +1,4 @@
-export interface AutocompleteDataListItem {
+export interface AutocompleteDatalistItem {
   value: string;
   prefix?: string;
 }

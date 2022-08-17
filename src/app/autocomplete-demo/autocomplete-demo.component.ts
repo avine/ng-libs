@@ -9,9 +9,9 @@ import { FormBuilder } from '@angular/forms';
 export class AutocompleteDemoComponent {
   value = '';
 
-  dataList = ['Hello', 'Hel', 'Hello wor', 'Hello world!'];
+  datalist = ['Hello', 'Hel', 'Hello wor', 'Hello world!'];
 
-  inputMinLengthToShowDataList = 0;
+  minLength = 0;
 
   formGroup = this.fb.group({
     list: [null],

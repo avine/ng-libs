@@ -25,29 +25,30 @@ import {
   Validator,
 } from '@angular/forms';
 
-import { AutocompleteTemplateDirective, AutocompleteSuggestionDirective } from './autocomplete.directive';
-import { AutocompleteDataListItem } from './autocomplete.types';
-import { escapeRegExp, getAutocompleteDataListItem } from './autocomplete.utils';
+import { AutocompleteSuggestionDirective } from '../autocomplete-suggestion.directive';
+import { AutocompleteSuggestionsTemplateDirective } from '../autocomplete-suggestions-template.directive';
+import { AutocompleteDatalistItem } from '../autocomplete.types';
+import { getAutocompleteDatalistItem, highlightSuggestion } from '../autocomplete.utils';
 
 @Component({
-  selector: 'autocomplete-container',
-  templateUrl: './autocomplete.component.html',
-  styleUrls: ['./autocomplete.component.scss'],
+  selector: 'autocomplete-input',
+  templateUrl: './autocomplete-input.component.html',
+  styleUrls: ['./autocomplete-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: AutocompleteComponent,
+      useExisting: AutocompleteInputComponent,
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: AutocompleteComponent,
+      useExisting: AutocompleteInputComponent,
       multi: true,
     },
   ],
 })
-export class AutocompleteComponent implements ControlValueAccessor, Validator {
+export class AutocompleteInputComponent implements ControlValueAccessor, Validator {
   @Input() type: 'text' | 'password' = 'text';
 
   @Input() placeholder?: string;
@@ -55,20 +56,6 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator {
   @Input() readonly = false;
 
   @Input() disabled = false;
-
-  @ContentChild(AutocompleteTemplateDirective, { read: TemplateRef }) suggestionsTemplate?: TemplateRef<unknown>;
-
-  /* --- DataList related properties --- */
-
-  private dataList$ = new BehaviorSubject<AutocompleteDataListItem[]>([]);
-
-  private dataListValues: string[] = [];
-
-  @Input() set dataList(data: (string | AutocompleteDataListItem)[]) {
-    const dataList = data.map(getAutocompleteDataListItem);
-    this.dataList$.next(dataList);
-    this.dataListValues = dataList.map(({ value }) => value);
-  }
 
   /* --- Input related properties --- */
 
@@ -84,18 +71,30 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator {
 
   @Output() valueChange: EventEmitter<string> = new EventEmitter();
 
-  @Input() inputMinLengthToShowDataList = 0;
+  @Input() minLength = 0;
 
   @ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
+
+  /* --- Datalist related properties --- */
+
+  private datalist$ = new BehaviorSubject<AutocompleteDatalistItem[]>([]);
+
+  private datalistValues: string[] = [];
+
+  @Input() set datalist(data: (string | AutocompleteDatalistItem)[]) {
+    const datalist = data.map(getAutocompleteDatalistItem);
+    this.datalist$.next(datalist);
+    this.datalistValues = datalist.map(({ value }) => value);
+  }
 
   /* ----- Suggestions related properties ----- */
 
   @Input() highlightTag = 'i';
 
-  suggestions$ = combineLatest([this.dataList$, this.value$]).pipe(
-    map(([dataList, value]) => {
+  suggestions$ = combineLatest([this.value$, this.datalist$]).pipe(
+    map(([value, datalist]) => {
       const valueInLowerCase = value.toLowerCase();
-      return dataList.filter((item) => item.value.toLowerCase().includes(valueInLowerCase));
+      return datalist.filter((item) => item.value.toLowerCase().includes(valueInLowerCase));
     }),
     tap((suggestions) => {
       if (this.focusedSuggestionIndex >= suggestions.length) {
@@ -103,6 +102,9 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator {
       }
     })
   );
+
+  @ContentChild(AutocompleteSuggestionsTemplateDirective, { read: TemplateRef })
+  suggestionsTemplate?: TemplateRef<unknown>;
 
   @ContentChildren(AutocompleteSuggestionDirective, { descendants: true })
   suggestionsFromContentQueryList!: QueryList<AutocompleteSuggestionDirective>;
@@ -135,12 +137,12 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator {
 
   onFocus(): void {
     this.shouldDisplaySuggestions =
-      this.value$.value.length >= this.inputMinLengthToShowDataList && !this.dataListValues.includes(this.value);
+      this.value$.value.length >= this.minLength && !this.datalistValues.includes(this.value);
   }
 
   onInput(value: string): void {
     this.dispatchValue(value);
-    this.shouldDisplaySuggestions = value.length >= this.inputMinLengthToShowDataList;
+    this.shouldDisplaySuggestions = value.length >= this.minLength;
   }
 
   onBlur(): void {
@@ -150,7 +152,7 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator {
   onArrowUp(event: Event): void {
     event.preventDefault();
     if (!this.suggestionsQueryList.length) {
-      this.shouldDisplaySuggestions = this.value$.value.length >= this.inputMinLengthToShowDataList;
+      this.shouldDisplaySuggestions = this.value$.value.length >= this.minLength;
       return;
     }
     this.focusedSuggestionIndex = Math.max(0, Number(this.focusedSuggestionIndex) - 1);
@@ -160,7 +162,7 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator {
   onArrowDown(event: Event): void {
     event.preventDefault();
     if (!this.suggestionsQueryList.length) {
-      this.shouldDisplaySuggestions = this.value$.value.length >= this.inputMinLengthToShowDataList;
+      this.shouldDisplaySuggestions = this.value$.value.length >= this.minLength;
       return;
     }
     this.focusedSuggestionIndex = Math.min(
@@ -190,7 +192,7 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator {
     this.shouldDisplaySuggestions = false;
   }
 
-  selectSuggestion(suggestion: AutocompleteDataListItem): void {
+  selectSuggestion(suggestion: AutocompleteDatalistItem): void {
     this.dispatchValue(suggestion.value);
     this.shouldDisplaySuggestions = false;
     this.focusedSuggestionIndex = -1;
@@ -202,13 +204,12 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator {
       [this.focusedSuggestionIndex].elementRef.nativeElement.scrollIntoView({ block: 'nearest' });
   }
 
-  trackBySuggestionValue(_: number, suggestion: AutocompleteDataListItem): string {
+  trackBySuggestionValue(_: number, suggestion: AutocompleteDatalistItem): string {
     return suggestion.value;
   }
 
-  highlightSuggestion(suggestion: AutocompleteDataListItem): string {
-    const tag = this.highlightTag;
-    return suggestion.value.replace(new RegExp(escapeRegExp(this.value$.value), 'i'), `<${tag}>$&</${tag}>`);
+  highlightSuggestion(suggestion: AutocompleteDatalistItem): string {
+    return highlightSuggestion(suggestion.value, this.value$.value, this.highlightTag);
   }
 
   private onChange = (_value: string): void => undefined;
@@ -239,8 +240,8 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator {
   }
 
   validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return !control.value || !this.dataListValues.length || this.dataListValues.includes(control.value)
+    return !control.value || !this.datalistValues.length || this.datalistValues.includes(control.value)
       ? null
-      : { dataList: true };
+      : { datalist: true };
   }
 }

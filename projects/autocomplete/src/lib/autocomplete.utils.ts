@@ -1,6 +1,9 @@
-import { AutocompleteDataListItem } from './autocomplete.types';
+import { AutocompleteDatalistItem } from './autocomplete.types';
 
-export const getAutocompleteDataListItem = (data: string | AutocompleteDataListItem): AutocompleteDataListItem =>
-  typeof data === 'string' ? ({ value: data } as AutocompleteDataListItem) : data;
+export const getAutocompleteDatalistItem = (data: string | AutocompleteDatalistItem): AutocompleteDatalistItem =>
+  typeof data === 'string' ? ({ value: data } as AutocompleteDatalistItem) : data;
 
-export const escapeRegExp = (value: string) => value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+const escapeRegExp = (value: string) => value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
+export const highlightSuggestion = (suggestionValue: string, inputValue: string, tag: string): string =>
+  suggestionValue.replace(new RegExp(escapeRegExp(inputValue), 'i'), `<${tag}>$&</${tag}>`);

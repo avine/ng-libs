@@ -28,18 +28,15 @@
   <div *ngIf="!suggestionsTemplate" class="autocomplete-input__suggestions">
     <div
       tabindex="0"
+      autocompleteSuggestion
       *ngFor="let suggestion of suggestions; index as suggestionIndex; trackBy: trackBySuggestionValue"
       class="autocomplete-input__suggestion"
       [class.autocomplete-input__suggestion--focused]="suggestionIndex === focusedSuggestionIndex"
-      autocompleteSuggestion
       (click)="selectSuggestion(suggestion)"
     >
-      <span>
-        <span *ngIf="suggestion.prefix" class="autocomplete-input__suggestion-prefix">{{ suggestion.prefix }}</span>
-        <span [innerHTML]="highlightSuggestion(suggestion)"></span>
-      </span>
+      <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: value"></span>
 
-      <em *ngIf="suggestion.value === value"> OK</em>
+      <em *ngIf="suggestion === value"> OK</em>
     </div>
   </div>
 </ng-template>

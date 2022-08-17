@@ -1,6 +1,7 @@
 import { BehaviorSubject, combineLatest, firstValueFrom } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
+import { coerceStringArray } from '@angular/cdk/coercion';
 import {
   Component,
   ContentChild,
@@ -27,8 +28,6 @@ import {
 
 import { AutocompleteSuggestionDirective } from '../autocomplete-suggestion.directive';
 import { AutocompleteSuggestionsTemplateDirective } from '../autocomplete-suggestions-template.directive';
-import { AutocompleteDatalistItem } from '../autocomplete.types';
-import { getAutocompleteDatalistItem, highlightSuggestion } from '../autocomplete.utils';
 
 @Component({
   selector: 'autocomplete-input',
@@ -77,24 +76,24 @@ export class AutocompleteInputComponent implements ControlValueAccessor, Validat
 
   /* --- Datalist related properties --- */
 
-  private datalist$ = new BehaviorSubject<AutocompleteDatalistItem[]>([]);
+  private datalist$ = new BehaviorSubject<string[]>([]);
 
-  private datalistValues: string[] = [];
+  @Input() set datalist(datalist: string[]) {
+    this.datalist$.next(coerceStringArray(datalist));
+  }
 
-  @Input() set datalist(data: (string | AutocompleteDatalistItem)[]) {
-    const datalist = data.map(getAutocompleteDatalistItem);
-    this.datalist$.next(datalist);
-    this.datalistValues = datalist.map(({ value }) => value);
+  get datalist(): string[] {
+    return this.datalist$.value;
   }
 
   /* ----- Suggestions related properties ----- */
 
-  @Input() highlightTag = 'i';
+  @Input() highlightTag = 'strong';
 
   suggestions$ = combineLatest([this.value$, this.datalist$]).pipe(
     map(([value, datalist]) => {
       const valueInLowerCase = value.toLowerCase();
-      return datalist.filter((item) => item.value.toLowerCase().includes(valueInLowerCase));
+      return datalist.filter((item) => item.toLowerCase().includes(valueInLowerCase));
     }),
     tap((suggestions) => {
       if (this.focusedSuggestionIndex >= suggestions.length) {
@@ -136,8 +135,7 @@ export class AutocompleteInputComponent implements ControlValueAccessor, Validat
   }
 
   onFocus(): void {
-    this.shouldDisplaySuggestions =
-      this.value$.value.length >= this.minLength && !this.datalistValues.includes(this.value);
+    this.shouldDisplaySuggestions = this.value$.value.length >= this.minLength && !this.datalist.includes(this.value);
   }
 
   onInput(value: string): void {
@@ -180,7 +178,7 @@ export class AutocompleteInputComponent implements ControlValueAccessor, Validat
     if (this.suggestionsQueryList.length === 1) {
       this.focusedSuggestionIndex = 0;
     } else if (this.focusedSuggestionIndex === -1) {
-      if (suggestions.find(({ value }) => value === this.value)) {
+      if (suggestions.find((suggestion) => suggestion === this.value)) {
         this.shouldDisplaySuggestions = false;
       }
       return;
@@ -192,8 +190,8 @@ export class AutocompleteInputComponent implements ControlValueAccessor, Validat
     this.shouldDisplaySuggestions = false;
   }
 
-  selectSuggestion(suggestion: AutocompleteDatalistItem): void {
-    this.dispatchValue(suggestion.value);
+  selectSuggestion(suggestion: string): void {
+    this.dispatchValue(suggestion);
     this.shouldDisplaySuggestions = false;
     this.focusedSuggestionIndex = -1;
   }
@@ -204,12 +202,8 @@ export class AutocompleteInputComponent implements ControlValueAccessor, Validat
       [this.focusedSuggestionIndex].elementRef.nativeElement.scrollIntoView({ block: 'nearest' });
   }
 
-  trackBySuggestionValue(_: number, suggestion: AutocompleteDatalistItem): string {
-    return suggestion.value;
-  }
-
-  highlightSuggestion(suggestion: AutocompleteDatalistItem): string {
-    return highlightSuggestion(suggestion.value, this.value$.value, this.highlightTag);
+  trackBySuggestionValue(_: number, suggestion: string): string {
+    return suggestion;
   }
 
   private onChange = (_value: string): void => undefined;
@@ -240,8 +234,6 @@ export class AutocompleteInputComponent implements ControlValueAccessor, Validat
   }
 
   validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return !control.value || !this.datalistValues.length || this.datalistValues.includes(control.value)
-      ? null
-      : { datalist: true };
+    return !control.value || !this.datalist.length || this.datalist.includes(control.value) ? null : { datalist: true };
   }
 }

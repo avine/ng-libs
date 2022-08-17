@@ -17,7 +17,7 @@
       background-color: rgba(0, 0, 0, 0.05);
     }
 
-    i {
+    strong {
       font-style: normal;
       color: #1e7000;
     }
@@ -25,9 +25,5 @@
 
   &__suggestion--focused {
     background-color: rgba(0, 0, 0, 0.05);
-  }
-
-  &__suggestion-prefix {
-    margin-right: 0.5em;
   }
 }

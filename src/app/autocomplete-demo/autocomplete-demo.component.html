@@ -5,12 +5,12 @@
     <ng-template autocompleteSuggestionsTemplate>
       <div>
         <div
-          *ngFor="let suggestion of autocomplete.suggestions$ | async; index as suggestionIndex"
           autocompleteSuggestion
+          *ngFor="let suggestion of autocomplete.suggestions$ | async; index as suggestionIndex"
           (click)="autocomplete.selectSuggestion(suggestion)"
         >
-          {{ suggestion.value }}
-          {{ autocomplete.focusedSuggestionIndex === suggestionIndex ? ' X' : '' }}
+          <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.value"></span>
+          {{ suggestionIndex === autocomplete.focusedSuggestionIndex ? ' X' : '' }}
         </div>
       </div>
     </ng-template>

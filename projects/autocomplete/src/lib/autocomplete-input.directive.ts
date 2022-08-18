@@ -3,63 +3,67 @@ import { firstValueFrom } from 'rxjs';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { AbstractControl, AsyncValidator, NG_ASYNC_VALIDATORS, ValidationErrors } from '@angular/forms';
 
-import { AutocompleteSuggestionsComponent } from '../autocomplete-suggestions/autocomplete-suggestions.component';
+import { AutocompleteSuggestionsComponent } from './autocomplete-suggestions/autocomplete-suggestions.component';
 
 @Directive({
-  selector: '[autocompleteInput2]',
-  exportAs: 'autocompleteInput2',
+  selector: '[autocompleteInput]',
+  exportAs: 'autocompleteInput',
   providers: [
     {
       provide: NG_ASYNC_VALIDATORS,
-      useExisting: AutocompleteInput2Directive,
+      useExisting: AutocompleteInputDirective,
       multi: true,
     },
   ],
 })
-export class AutocompleteInput2Directive implements AsyncValidator {
-  @Input() autocompleteInput2!: AutocompleteSuggestionsComponent;
+export class AutocompleteInputDirective implements AsyncValidator {
+  @Input() autocompleteInput!: AutocompleteSuggestionsComponent;
 
-  constructor(private elementRef: ElementRef) {}
+  get inputWidthPx(): string {
+    return this.elementRef.nativeElement.offsetWidth + 'px';
+  }
+
+  constructor(private elementRef: ElementRef<HTMLElement>) {}
 
   @HostListener('document:click', ['$event']) closeSuggestion(event: Event): void {
     if (event.target === this.elementRef.nativeElement) {
       return;
     }
-    this.autocompleteInput2.hideSuggestions();
+    this.autocompleteInput.hideSuggestions();
   }
 
   @HostListener('focus')
   onFocus(): void {
-    this.autocompleteInput2.onFocus();
+    this.autocompleteInput.onFocus();
   }
 
   @HostListener('input', ['$event.target.value'])
   onInput(value: string): void {
-    this.autocompleteInput2.onInput(value);
+    this.autocompleteInput.onInput(value);
   }
 
   @HostListener('keydown.ArrowUp', ['$event'])
   onArrowUp(event: Event): void {
-    this.autocompleteInput2.onArrowUp(event);
+    this.autocompleteInput.onArrowUp(event);
   }
 
   @HostListener('keydown.ArrowDown', ['$event'])
   onArrowDown(event: Event): void {
-    this.autocompleteInput2.onArrowDown(event);
+    this.autocompleteInput.onArrowDown(event);
   }
 
   @HostListener('keydown.Enter')
   async onEnter(): Promise<void> {
-    this.autocompleteInput2.onEnter();
+    this.autocompleteInput.onEnter();
   }
 
   @HostListener('keydown.Escape')
   onEscape(): void {
-    this.autocompleteInput2.onEscape();
+    this.autocompleteInput.onEscape();
   }
 
   async validate(control: AbstractControl<any, any>): Promise<ValidationErrors | null> {
-    const datalist = await firstValueFrom(this.autocompleteInput2.datalist$);
+    const datalist = await firstValueFrom(this.autocompleteInput.datalist$);
     return !control.value || !datalist.length || datalist.includes(control.value) ? null : { datalist: true };
   }
 }

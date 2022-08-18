@@ -1,21 +1,15 @@
-import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class DemoComponent {
   value = 'ello';
 
   datalist = ['Hello', 'Hel', 'Hello wor', 'Hello world!'];
 
-  minLength = 0;
-
-  formGroup = this.fb.group({
-    list: ['wor'],
-  });
-
-  constructor(private fb: FormBuilder) {}
+  inputMinLength = 0;
 }

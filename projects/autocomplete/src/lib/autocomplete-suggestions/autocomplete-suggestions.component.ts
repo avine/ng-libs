@@ -1,4 +1,4 @@
-import { BehaviorSubject, combineLatest, filter, map, Observable, ReplaySubject, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, ReplaySubject, tap } from 'rxjs';
 
 import { coerceStringArray } from '@angular/cdk/coercion';
 import { Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core';
@@ -8,7 +8,6 @@ import { AutocompleteSuggestionDirective } from '../autocomplete-suggestion.dire
 @Component({
   selector: 'autocomplete-suggestions',
   templateUrl: './autocomplete-suggestions.component.html',
-  styleUrls: ['./autocomplete-suggestions.component.scss'],
 })
 export class AutocompleteSuggestionsComponent {
   /* --- Value related properties --- */
@@ -25,7 +24,7 @@ export class AutocompleteSuggestionsComponent {
 
   @Output() valueChange: EventEmitter<string> = new EventEmitter();
 
-  @Input() minLength = 0;
+  @Input() inputMinLength = 0;
 
   /* --- Datalist related properties --- */
 
@@ -78,18 +77,19 @@ export class AutocompleteSuggestionsComponent {
   }
 
   onFocus(): void {
-    this.shouldDisplaySuggestions = this.value$.value.length >= this.minLength && !this.datalist.includes(this.value);
+    this.shouldDisplaySuggestions =
+      this.value$.value.length >= this.inputMinLength && !this.datalist.includes(this.value);
   }
 
   onInput(value: string): void {
     this.dispatchValue(value);
-    this.shouldDisplaySuggestions = value.length >= this.minLength;
+    this.shouldDisplaySuggestions = value.length >= this.inputMinLength;
   }
 
   onArrowUp(event: Event): void {
     event.preventDefault();
     if (!this.suggestions.length) {
-      this.shouldDisplaySuggestions = this.value$.value.length >= this.minLength;
+      this.shouldDisplaySuggestions = this.value$.value.length >= this.inputMinLength;
       return;
     }
     this.focusedSuggestionIndex = Math.max(0, Number(this.focusedSuggestionIndex) - 1);
@@ -99,7 +99,7 @@ export class AutocompleteSuggestionsComponent {
   onArrowDown(event: Event): void {
     event.preventDefault();
     if (!this.suggestions.length) {
-      this.shouldDisplaySuggestions = this.value$.value.length >= this.minLength;
+      this.shouldDisplaySuggestions = this.value$.value.length >= this.inputMinLength;
       return;
     }
     this.focusedSuggestionIndex = Math.min(this.suggestions.length - 1, Number(this.focusedSuggestionIndex) + 1);

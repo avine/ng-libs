@@ -6,7 +6,7 @@ import { escapeRegExp } from './autocomplete.utils';
   name: 'autocompleteHighlightSuggestion',
 })
 export class AutocompleteHighlightSuggestionPipe implements PipeTransform {
-  transform(suggestionValue: string, inputValue: string, tag = 'span'): unknown {
+  transform(suggestionValue: string, inputValue: string, tag = 'span'): string {
     return suggestionValue.replace(
       new RegExp(escapeRegExp(inputValue), 'i'),
       `<${tag} class="autocomplete-input__suggestion-highlight">$&</${tag}>`

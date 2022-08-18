@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'autocomplete',
     loadChildren: () =>
-      import('./autocomplete-demo/autocomplete-demo.module').then((module) => module.AutocompleteDemoModule),
+      import('./autocomplete/autocomplete-demo.module').then((module) => module.AutocompleteDemoModule),
     title: 'Autocomplete',
   },
 ];

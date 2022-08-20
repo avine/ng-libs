@@ -11,6 +11,7 @@
     "build:if-non-nullish": "ng build if-non-nullish",
     "build:form-stepper": "ng build form-stepper",
     "postbuild:form-stepper": "sass ./projects/form-stepper/src/lib/scss/form-stepper.scss ./dist/form-stepper/form-stepper.css --style compressed",
+    "build:scaffolding": "ng build scaffolding",
     "watch": "ng build --watch --configuration development",
     "docs": "ng build --base-href /ng-libs/ --output-path docs && cp ./docs/index.html ./docs/404.html",
     "lint": "ng lint",

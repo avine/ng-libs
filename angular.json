@@ -172,6 +172,35 @@
           }
         }
       }
+    },
+    "scaffolding": {
+      "projectType": "library",
+      "root": "projects/scaffolding",
+      "sourceRoot": "projects/scaffolding/src",
+      "prefix": "scaffolding",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/scaffolding/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/scaffolding/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/scaffolding/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/scaffolding/**/*.ts", "projects/scaffolding/**/*.html"]
+          }
+        }
+      }
     }
   },
   "cli": {

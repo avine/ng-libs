@@ -8,9 +8,10 @@ import { AutocompleteRoutingModule } from './autocomplete-routing.module';
 import { DemoComponent } from './demo/demo.component';
 import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
 import { TemplateFormComponent } from './template-form/template-form.component';
+import { StandaloneComponent } from './standalone/standalone.component';
 
 @NgModule({
-  declarations: [DemoComponent, ReactiveFormComponent, TemplateFormComponent],
+  declarations: [DemoComponent, ReactiveFormComponent, TemplateFormComponent, StandaloneComponent],
   imports: [
     CommonModule,
     FormsModule,

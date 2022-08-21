@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DemoComponent } from './demo/demo.component';
 import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
+import { StandaloneComponent } from './standalone/standalone.component';
 import { TemplateFormComponent } from './template-form/template-form.component';
 
 const routes: Routes = [
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'template-form',
     component: TemplateFormComponent,
+  },
+  {
+    path: 'standalone',
+    component: StandaloneComponent,
   },
 ];
 

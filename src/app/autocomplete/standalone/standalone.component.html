@@ -1,0 +1,20 @@
+<pre>{{ text | json }}</pre>
+
+<autocomplete-suggestions #autocomplete [datalist]="datalist" [inputMinLength]="inputMinLength" [(inputValue)]="text">
+  <div *ngIf="autocomplete.suggestions$ | async as suggestions" class="autocomplete-input__suggestions">
+    <div
+      autocompleteSuggestion
+      *ngFor="let suggestion of suggestions; index as suggestionIndex"
+      class="autocomplete-input__suggestion"
+      [class.autocomplete-input__suggestion--focused]="suggestionIndex === autocomplete.focusedSuggestionIndex"
+      (click)="autocomplete.selectSuggestion(suggestion)"
+    >
+      <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.inputValue"></span>
+
+      <span *ngIf="suggestion === autocomplete.inputValue" class="autocomplete-input__suggestion-check">&check;</span>
+    </div>
+  </div>
+</autocomplete-suggestions>
+
+<br /><br />
+<button (click)="text = ''">Reset</button>

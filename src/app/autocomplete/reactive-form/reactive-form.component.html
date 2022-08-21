@@ -14,14 +14,14 @@
     #autocomplete
     [datalist]="datalist"
     [inputMinLength]="inputMinLength"
-    [value]="formGroup.controls.list.value ?? ''"
-    (suggestion)="formGroup.controls.list.setValue($event)"
+    [inputValue]="formGroup.controls.list.value ?? ''"
+    (inputValueChange)="formGroup.controls.list.setValue($event)"
   >
     <ng-template
       *ngIf="autocomplete.suggestions$ | async as suggestions"
       cdkConnectedOverlay
       [cdkConnectedOverlayOrigin]="dropDownOrigin"
-      [cdkConnectedOverlayOpen]="autocomplete.shouldDisplaySuggestions && suggestions.length > 0"
+      [cdkConnectedOverlayOpen]="suggestions.length > 0 && autocomplete.shouldDisplaySuggestions"
     >
       <div class="autocomplete-input__suggestions" [style.width]="autocompleteInput.inputWidthPx">
         <div
@@ -31,9 +31,9 @@
           [class.autocomplete-input__suggestion--focused]="suggestionIndex === autocomplete.focusedSuggestionIndex"
           (click)="autocomplete.selectSuggestion(suggestion)"
         >
-          <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.value"></span>
+          <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.inputValue"></span>
 
-          <span *ngIf="suggestion === autocomplete.value" class="autocomplete-input__suggestion-check">&check;</span>
+          <span *ngIf="suggestion === autocomplete.inputValue" class="autocomplete-input__suggestion-check">&check;</span>
         </div>
       </div>
     </ng-template>

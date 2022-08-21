@@ -10,22 +10,6 @@ import { AutocompleteSuggestionDirective } from '../autocomplete-suggestion.dire
   templateUrl: './autocomplete-suggestions.component.html',
 })
 export class AutocompleteSuggestionsComponent {
-  /* --- Value related properties --- */
-
-  private value$ = new BehaviorSubject<string>('');
-
-  @Input() set value(value: string) {
-    this.value$.next(String(value));
-  }
-
-  get value(): string {
-    return this.value$.value;
-  }
-
-  @Output() valueChange: EventEmitter<string> = new EventEmitter();
-
-  @Input() inputMinLength = 0;
-
   /* --- Datalist related properties --- */
 
   private _datalist?: string[];
@@ -43,6 +27,22 @@ export class AutocompleteSuggestionsComponent {
     return this._datalist ?? [];
   }
 
+  /* --- Value related properties --- */
+
+  private inputValue$ = new BehaviorSubject<string>('');
+
+  @Input() set inputValue(value: string) {
+    this.inputValue$.next(String(value));
+  }
+
+  get inputValue(): string {
+    return this.inputValue$.value;
+  }
+
+  @Output() inputValueChange = new EventEmitter<string>();
+
+  @Input() inputMinLength = 0;
+
   /* ----- Suggestions related properties ----- */
 
   @ContentChildren(AutocompleteSuggestionDirective, { descendants: true })
@@ -50,8 +50,8 @@ export class AutocompleteSuggestionsComponent {
 
   private suggestions: string[] = [];
 
-  suggestions$ = combineLatest([this.value$, this.datalist$]).pipe(
-    map(([value, datalist]) => {
+  suggestions$ = combineLatest([this.datalist$, this.inputValue$]).pipe(
+    map(([datalist, value]) => {
       const valueInLowerCase = value.toLowerCase();
       return datalist.filter((item) => item.toLowerCase().includes(valueInLowerCase));
     }),
@@ -67,29 +67,22 @@ export class AutocompleteSuggestionsComponent {
 
   shouldDisplaySuggestions = false;
 
-  @Output() suggestion = new EventEmitter<string>();
-
   /* ----- */
-
-  private dispatchValue(value: string): void {
-    this.value = value;
-    this.valueChange.emit(value);
-  }
 
   onFocus(): void {
     this.shouldDisplaySuggestions =
-      this.value$.value.length >= this.inputMinLength && !this.datalist.includes(this.value);
+      this.inputValue$.value.length >= this.inputMinLength && !this.datalist.includes(this.inputValue);
   }
 
   onInput(value: string): void {
-    this.dispatchValue(value);
+    this.inputValue = value;
     this.shouldDisplaySuggestions = value.length >= this.inputMinLength;
   }
 
   onArrowUp(event: Event): void {
     event.preventDefault();
-    if (!this.suggestions.length) {
-      this.shouldDisplaySuggestions = this.value$.value.length >= this.inputMinLength;
+    if (!this.suggestionsQueryList.length) {
+      this.shouldDisplaySuggestions = this.inputValue$.value.length >= this.inputMinLength;
       return;
     }
     this.focusedSuggestionIndex = Math.max(0, Number(this.focusedSuggestionIndex) - 1);
@@ -98,8 +91,8 @@ export class AutocompleteSuggestionsComponent {
 
   onArrowDown(event: Event): void {
     event.preventDefault();
-    if (!this.suggestions.length) {
-      this.shouldDisplaySuggestions = this.value$.value.length >= this.inputMinLength;
+    if (!this.suggestionsQueryList.length) {
+      this.shouldDisplaySuggestions = this.inputValue$.value.length >= this.inputMinLength;
       return;
     }
     this.focusedSuggestionIndex = Math.min(this.suggestions.length - 1, Number(this.focusedSuggestionIndex) + 1);
@@ -113,7 +106,7 @@ export class AutocompleteSuggestionsComponent {
     if (this.suggestions.length === 1) {
       this.focusedSuggestionIndex = 0;
     } else if (this.focusedSuggestionIndex === -1) {
-      if (this.suggestions.find((suggestion) => suggestion === this.value)) {
+      if (this.suggestions.find((suggestion) => suggestion === this.inputValue)) {
         this.shouldDisplaySuggestions = false;
       }
       return;
@@ -126,10 +119,10 @@ export class AutocompleteSuggestionsComponent {
   }
 
   selectSuggestion(suggestion: string): void {
-    this.dispatchValue(suggestion);
     this.shouldDisplaySuggestions = false;
     this.focusedSuggestionIndex = -1;
-    this.suggestion.emit(suggestion);
+    this.inputValue = suggestion;
+    this.inputValueChange.emit(suggestion);
   }
 
   hideSuggestions(): void {

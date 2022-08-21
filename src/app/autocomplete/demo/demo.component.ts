@@ -7,9 +7,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
 })
 export class DemoComponent {
-  value = 'ello';
-
   datalist = ['Hello', 'Hel', 'Hello wor', 'Hello world!'];
 
   inputMinLength = 0;
+
+  text = 'ello';
 }

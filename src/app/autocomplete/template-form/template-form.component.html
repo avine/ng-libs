@@ -1,22 +1,17 @@
 <pre>{{ formGroup.value | json }}</pre>
 
-<form [formGroup]="formGroup">
+<form #formGroup="ngForm">
   <input
     cdkOverlayOrigin
     #dropDownOrigin="cdkOverlayOrigin"
     autocomplete="off"
-    formControlName="text"
+    name="text"
+    [(ngModel)]="text"
     [autocompleteInput]="autocomplete"
     #autocompleteInput="autocompleteInput"
   />
 
-  <autocomplete-suggestions
-    #autocomplete
-    [datalist]="datalist"
-    [inputMinLength]="inputMinLength"
-    [inputValue]="formGroup.controls.text.value ?? ''"
-    (inputValueChange)="formGroup.controls.text.setValue($event)"
-  >
+  <autocomplete-suggestions #autocomplete [datalist]="datalist" [inputMinLength]="inputMinLength" [(inputValue)]="text">
     <ng-template
       *ngIf="autocomplete.suggestions$ | async as suggestions"
       cdkConnectedOverlay

@@ -13,7 +13,7 @@ export class ReactiveFormComponent {
   inputMinLength = 0;
 
   formGroup = this.formBuilder.group({
-    list: ['wor'],
+    text: ['wor'],
   });
 
   constructor(private formBuilder: FormBuilder) {}

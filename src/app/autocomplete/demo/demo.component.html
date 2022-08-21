@@ -1,22 +1,17 @@
-<pre>{{ value | json }}</pre>
+<pre>{{ text | json }}</pre>
 
 <input
   #inputRef
   cdkOverlayOrigin
   #dropDownOrigin="cdkOverlayOrigin"
   autocomplete="off"
-  [value]="value"
-  (input)="value = inputRef.value"
+  [value]="text"
+  (input)="text = inputRef.value"
   [autocompleteInput]="autocomplete"
   #autocompleteInput="autocompleteInput"
 />
 
-<autocomplete-suggestions
-  #autocomplete
-  [datalist]="datalist"
-  [inputMinLength]="inputMinLength"
-  [(inputValue)]="value"
->
+<autocomplete-suggestions #autocomplete [datalist]="datalist" [inputMinLength]="inputMinLength" [(inputValue)]="text">
   <ng-template
     *ngIf="autocomplete.suggestions$ | async as suggestions"
     cdkConnectedOverlay

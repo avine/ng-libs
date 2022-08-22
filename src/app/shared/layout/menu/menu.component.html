@@ -19,4 +19,17 @@
     <a mat-list-item routerLink="/form-stepper/one-level/onboarding" routerLinkActive="active">One level</a>
     <a mat-list-item routerLink="/form-stepper/material/onboarding" routerLinkActive="active">Material</a>
   </mat-nav-list>
+
+  <mat-divider></mat-divider>
+
+  <h3 matSubheader><mat-icon>grade</mat-icon> &nbsp; Autocomplete</h3>
+
+  <mat-nav-list>
+    <a mat-list-item routerLink="/autocomplete" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+      Demo
+    </a>
+    <a mat-list-item routerLink="/autocomplete/reactive-form" routerLinkActive="active">Reactive Form</a>
+    <a mat-list-item routerLink="/autocomplete/template-form" routerLinkActive="active">Template Form</a>
+    <a mat-list-item routerLink="/autocomplete/standalone" routerLinkActive="active">Standalone</a>
+  </mat-nav-list>
 </mat-list>

@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 @Component({
   selector: 'app-reactive-form',
   templateUrl: './reactive-form.component.html',
-  styleUrls: ['./reactive-form.component.scss'],
+  styleUrls: ['../autocomplete.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class ReactiveFormComponent {

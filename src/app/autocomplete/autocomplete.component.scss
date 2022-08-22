@@ -1,3 +1,13 @@
+h2.title {
+  margin: 16px 0 36px;
+  line-height: 48px;
+  font-size: 36px;
+
+  @media (max-width: 479px) {
+    font-size: 28px;
+  }
+}
+
 .autocomplete-input {
   &__input {
     // width: 100%;
@@ -52,12 +62,10 @@ input {
   padding: 1rem;
 }
 
-input.ng-dirty.ng-invalid,
 input.ng-touched.ng-invalid {
   border-color: red;
 }
 
-input.ng-dirty.ng-valid,
 input.ng-touched.ng-valid {
   border-color: green;
 }

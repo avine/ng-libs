@@ -1,15 +1,27 @@
-import { BehaviorSubject, combineLatest, map, ReplaySubject, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, ReplaySubject, startWith, Subscription, tap } from 'rxjs';
 
 import { coerceStringArray } from '@angular/cdk/coercion';
-import { Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList,
+  Renderer2,
+} from '@angular/core';
 
 import { AutocompleteSuggestionDirective } from '../autocomplete-suggestion.directive';
 
 @Component({
   selector: 'autocomplete-suggestions',
   templateUrl: './autocomplete-suggestions.component.html',
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AutocompleteSuggestionsComponent {
+export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestroy {
   /* --- Datalist related properties --- */
 
   private _datalist?: string[];
@@ -68,6 +80,18 @@ export class AutocompleteSuggestionsComponent {
   shouldDisplaySuggestions = false;
 
   /* ----- */
+
+  subscription!: Subscription;
+
+  constructor(private renderer: Renderer2) {}
+
+  ngAfterViewInit(): void {
+    this.subscription = this.listenToClickedSuggestion();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 
   onFocus(): void {
     this.shouldDisplaySuggestions =
@@ -129,9 +153,17 @@ export class AutocompleteSuggestionsComponent {
     this.shouldDisplaySuggestions = false;
   }
 
+  private listenToClickedSuggestion(): Subscription {
+    return this.suggestionsQueryList.changes.pipe(startWith('whatever')).subscribe(() => {
+      this.suggestionsQueryList.forEach(({ elementRef: { nativeElement }, autocompleteSuggestion }) => {
+        this.renderer.listen(nativeElement, 'click', () => this.selectSuggestion(autocompleteSuggestion));
+      });
+    });
+  }
+
   private scrollToFocusedSuggestion(): void {
     this.suggestionsQueryList
-      .toArray()
-      [this.focusedSuggestionIndex].elementRef.nativeElement.scrollIntoView({ block: 'nearest' });
+      .get(this.focusedSuggestionIndex)
+      ?.elementRef.nativeElement.scrollIntoView({ block: 'nearest' });
   }
 }

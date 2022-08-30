@@ -1,8 +1,10 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, Input } from '@angular/core';
 
 @Directive({
   selector: '[autocompleteSuggestion]',
 })
 export class AutocompleteSuggestionDirective {
-  constructor(public elementRef: ElementRef) {}
+  @Input() autocompleteSuggestion!: string;
+
+  constructor(public elementRef: ElementRef<HTMLElement>) {}
 }

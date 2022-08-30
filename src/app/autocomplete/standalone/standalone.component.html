@@ -5,11 +5,10 @@
 <autocomplete-suggestions #autocomplete [datalist]="datalist" [inputMinLength]="inputMinLength" [(inputValue)]="text">
   <div *ngIf="autocomplete.suggestions$ | async as suggestions" class="autocomplete-input__suggestions">
     <div
-      autocompleteSuggestion
       *ngFor="let suggestion of suggestions; index as suggestionIndex"
+      [autocompleteSuggestion]="suggestion"
       class="autocomplete-input__suggestion"
       [class.autocomplete-input__suggestion--focused]="suggestionIndex === autocomplete.focusedSuggestionIndex"
-      (click)="autocomplete.selectSuggestion(suggestion)"
     >
       <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.inputValue"></span>
 

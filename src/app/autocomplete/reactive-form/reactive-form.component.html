@@ -27,11 +27,10 @@
     >
       <div class="autocomplete-input__suggestions" [style.width]="autocompleteInput.inputWidthPx">
         <div
-          autocompleteSuggestion
           *ngFor="let suggestion of suggestions; index as suggestionIndex"
+          [autocompleteSuggestion]="suggestion"
           class="autocomplete-input__suggestion"
           [class.autocomplete-input__suggestion--focused]="suggestionIndex === autocomplete.focusedSuggestionIndex"
-          (click)="autocomplete.selectSuggestion(suggestion)"
         >
           <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.inputValue"></span>
 

@@ -116,7 +116,9 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
       this.areSuggestionsExpected$.next(this.inputValue$.value.length >= this.inputMinLength);
       return;
     }
-    this._focusedSuggestionIndex$.next(Math.max(0, Number(this._focusedSuggestionIndex$.value) - 1));
+    this._focusedSuggestionIndex$.next(
+      this._focusedSuggestionIndex$.value > 0 ? this._focusedSuggestionIndex$.value - 1 : this.suggestions.length - 1
+    );
     this.scrollToFocusedSuggestion();
   }
 
@@ -127,7 +129,7 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
       return;
     }
     this._focusedSuggestionIndex$.next(
-      Math.min(this.suggestions.length - 1, Number(this._focusedSuggestionIndex$.value) + 1)
+      this._focusedSuggestionIndex$.value < this.suggestions.length - 1 ? this._focusedSuggestionIndex$.value + 1 : 0
     );
     this.scrollToFocusedSuggestion();
   }

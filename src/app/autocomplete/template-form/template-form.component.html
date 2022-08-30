@@ -18,14 +18,16 @@
       *ngIf="autocomplete.suggestions$ | async as suggestions"
       cdkConnectedOverlay
       [cdkConnectedOverlayOrigin]="dropDownOrigin"
-      [cdkConnectedOverlayOpen]="suggestions.length > 0 && autocomplete.shouldDisplaySuggestions"
+      [cdkConnectedOverlayOpen]="(autocomplete.shouldDisplaySuggestions$ | async) ?? false"
     >
       <div class="autocomplete-input__suggestions" [style.width]="autocompleteInput.inputWidthPx">
         <div
           *ngFor="let suggestion of suggestions; index as suggestionIndex"
           [autocompleteSuggestion]="suggestion"
           class="autocomplete-input__suggestion"
-          [class.autocomplete-input__suggestion--focused]="suggestionIndex === autocomplete.focusedSuggestionIndex"
+          [class.autocomplete-input__suggestion--focused]="
+            suggestionIndex === (autocomplete.focusedSuggestionIndex$ | async)
+          "
         >
           <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.inputValue"></span>
 

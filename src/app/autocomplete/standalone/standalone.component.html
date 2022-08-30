@@ -8,7 +8,9 @@
       *ngFor="let suggestion of suggestions; index as suggestionIndex"
       [autocompleteSuggestion]="suggestion"
       class="autocomplete-input__suggestion"
-      [class.autocomplete-input__suggestion--focused]="suggestionIndex === autocomplete.focusedSuggestionIndex"
+      [class.autocomplete-input__suggestion--focused]="
+        suggestionIndex === (autocomplete.focusedSuggestionIndex$ | async)
+      "
     >
       <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.inputValue"></span>
 

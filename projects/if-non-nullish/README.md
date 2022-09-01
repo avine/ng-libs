@@ -8,17 +8,17 @@ Check out [demo here](https://avine.github.io/ng-libs/if-non-nullish).
 
 ## Installation
 
-Import `IfNonNullishModule` in your `app.module.ts`:
+Import `IfNonNullishDirective` (standalone directive) in your `app.module.ts`:
 
 ```ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IfNonNullishModule } from '@avine/ng-if-non-nullish';
+import { IfNonNullishDirective } from '@avine/ng-if-non-nullish';
 import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IfNonNullishModule],
+  imports: [BrowserModule, IfNonNullishDirective],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

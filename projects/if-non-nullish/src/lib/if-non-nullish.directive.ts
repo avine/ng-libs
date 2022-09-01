@@ -3,6 +3,7 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { IfNonNullishContext, IfNullish } from './if-non-nullish.types';
 
 @Directive({
+  standalone: true,
   selector: '[ifNonNullish]',
 })
 export class IfNonNullishDirective<T = unknown> {

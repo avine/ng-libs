@@ -1,23 +1,27 @@
 <h2 class="title">Autocomplete</h2>
 
-<pre>{{ country | json }}</pre>
+<pre>{{ selectedValue | json }}</pre>
+
+<button (click)="selectedList = nextList">Switch to {{ nextList }} list</button>
+
+<br /><br />
 
 <input
   #inputRef
   cdkOverlayOrigin
   #dropDownOrigin="cdkOverlayOrigin"
   autocomplete="off"
-  [value]="country"
-  (input)="country = inputRef.value"
+  [value]="selectedValue"
+  (input)="selectedValue = inputRef.value"
   [autocompleteInput]="autocomplete"
   #autocompleteInput="autocompleteInput"
 />
 
 <autocomplete-suggestions
   #autocomplete
-  [datalist]="countries"
+  [datalist]="this[selectedList]"
   [inputMinLength]="inputMinLength"
-  [(inputValue)]="country"
+  [(inputValue)]="selectedValue"
 >
   <ng-template
     *ngIf="autocomplete.suggestions$ | async as suggestions"

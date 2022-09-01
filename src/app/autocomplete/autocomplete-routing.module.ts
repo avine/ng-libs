@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { CascadeComponent } from './cascade/cascade.component';
 import { DemoComponent } from './demo/demo.component';
 import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
 import { StandaloneComponent } from './standalone/standalone.component';
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'standalone',
     component: StandaloneComponent,
+  },
+  {
+    path: 'cascade',
+    component: CascadeComponent,
   },
 ];
 

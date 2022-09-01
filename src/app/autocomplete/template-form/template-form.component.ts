@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+
+import { getCountries } from '../countries';
 
 @Component({
   selector: 'app-template-form',
   templateUrl: './template-form.component.html',
   styleUrls: ['../autocomplete.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class TemplateFormComponent {
-  datalist = ['Hello', 'Hel', 'Hello wor', 'Hello world!'];
-
   inputMinLength = 0;
 
-  text = 'wor';
+  countries = getCountries();
+
+  country = 'France';
 }

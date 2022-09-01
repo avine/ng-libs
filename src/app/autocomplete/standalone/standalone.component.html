@@ -1,8 +1,17 @@
 <h2 class="title">Autocomplete standalone</h2>
 
-<pre>{{ text | json }}</pre>
+<pre>{{ country | json }}</pre>
 
-<autocomplete-suggestions #autocomplete [datalist]="datalist" [inputMinLength]="inputMinLength" [(inputValue)]="text">
+<input #inputRef [value]="country" (input)="country = inputRef.value" />
+
+<br /><br />
+
+<autocomplete-suggestions
+  #autocomplete
+  [datalist]="countries"
+  [inputMinLength]="inputMinLength"
+  [(inputValue)]="country"
+>
   <div *ngIf="autocomplete.suggestions$ | async as suggestions" class="autocomplete-input__suggestions">
     <div
       *ngFor="let suggestion of suggestions; index as suggestionIndex"
@@ -12,7 +21,7 @@
         suggestionIndex === (autocomplete.focusedSuggestionIndex$ | async)
       "
     >
-      <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.inputValue"></span>
+      <span [innerHTML]="suggestion | autocompleteHighlight: autocomplete.inputValue"></span>
 
       <span *ngIf="suggestion === autocomplete.inputValue" class="autocomplete-input__suggestion-check">&check;</span>
     </div>
@@ -20,4 +29,5 @@
 </autocomplete-suggestions>
 
 <br /><br />
-<button (click)="text = ''">Reset</button>
+
+<button (click)="country = ''">Reset</button>

@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
+import { getCountries } from '../countries';
+
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
@@ -7,9 +9,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
 })
 export class DemoComponent {
-  datalist = ['Hello', 'Hel', 'Hello wor', 'Hello world!'];
-
   inputMinLength = 0;
 
-  text = 'ello';
+  countries = getCountries();
+
+  country = 'France';
 }

@@ -1,6 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
+import { getCountries } from '../countries';
+
 @Component({
   selector: 'app-reactive-form',
   templateUrl: './reactive-form.component.html',
@@ -8,13 +10,11 @@ import { FormBuilder } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
 })
 export class ReactiveFormComponent {
-  datalist = ['Hello', 'Hel', 'Hello wor', 'Hello world!'];
-
   inputMinLength = 0;
 
-  formGroup = this.formBuilder.group({
-    text: ['wor'],
-  });
+  countries = getCountries();
+
+  formGroup = this.formBuilder.group({ country: ['France'] });
 
   constructor(private formBuilder: FormBuilder) {}
 }

@@ -32,33 +32,27 @@ export class AutocompleteInputDirective implements AsyncValidator {
     this.autocompleteInput.hideSuggestions();
   }
 
-  @HostListener('focus')
-  onFocus(): void {
+  @HostListener('focus') onFocus(): void {
     this.autocompleteInput.onFocus();
   }
 
-  @HostListener('input', ['$event.target.value'])
-  onInput(value: string): void {
+  @HostListener('input', ['$event.target.value']) onInput(value: string): void {
     this.autocompleteInput.onInput(value);
   }
 
-  @HostListener('keydown.ArrowUp', ['$event'])
-  onArrowUp(event: Event): void {
+  @HostListener('keydown.ArrowUp', ['$event']) onArrowUp(event: Event): void {
     this.autocompleteInput.onArrowUp(event);
   }
 
-  @HostListener('keydown.ArrowDown', ['$event'])
-  onArrowDown(event: Event): void {
+  @HostListener('keydown.ArrowDown', ['$event']) onArrowDown(event: Event): void {
     this.autocompleteInput.onArrowDown(event);
   }
 
-  @HostListener('keydown.Enter')
-  async onEnter(): Promise<void> {
+  @HostListener('keydown.Enter') async onEnter(): Promise<void> {
     this.autocompleteInput.onEnter();
   }
 
-  @HostListener('keydown.Escape')
-  onEscape(): void {
+  @HostListener('keydown.Escape') onEscape(): void {
     this.autocompleteInput.onEscape();
   }
 

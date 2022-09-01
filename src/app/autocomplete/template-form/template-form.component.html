@@ -7,13 +7,18 @@
     cdkOverlayOrigin
     #dropDownOrigin="cdkOverlayOrigin"
     autocomplete="off"
-    name="text"
-    [(ngModel)]="text"
+    name="country"
+    [(ngModel)]="country"
     [autocompleteInput]="autocomplete"
     #autocompleteInput="autocompleteInput"
   />
 
-  <autocomplete-suggestions #autocomplete [datalist]="datalist" [inputMinLength]="inputMinLength" [(inputValue)]="text">
+  <autocomplete-suggestions
+    #autocomplete
+    [datalist]="countries"
+    [inputMinLength]="inputMinLength"
+    [(inputValue)]="country"
+  >
     <ng-template
       *ngIf="autocomplete.suggestions$ | async as suggestions"
       cdkConnectedOverlay
@@ -29,7 +34,12 @@
             suggestionIndex === (autocomplete.focusedSuggestionIndex$ | async)
           "
         >
-          <span [innerHTML]="suggestion | autocompleteHighlightSuggestion: autocomplete.inputValue"></span>
+          <span
+            [innerHTML]="
+              suggestion
+                | autocompleteHighlight: autocomplete.inputValue:{ css: 'autocomplete-input__suggestion-highlight' }
+            "
+          ></span>
 
           <span *ngIf="suggestion === autocomplete.inputValue" class="autocomplete-input__suggestion-check">
             &check;

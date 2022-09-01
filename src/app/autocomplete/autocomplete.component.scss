@@ -31,8 +31,8 @@ h2.title {
     border-radius: 4px;
     box-shadow: 0 6px 12px 0 rgba(34, 34, 34, 0.3);
     box-sizing: border-box;
-    border: 1px solid #eeeeee;
-    background-color: #ffffff;
+    border: 1px solid #eee;
+    background-color: #fff;
     padding: 0.4em 0;
   }
 
@@ -50,7 +50,12 @@ h2.title {
 
     &-highlight,
     &-check {
-      color: #1e7000;
+      color: #0f5132;
+    }
+
+    &-highlight {
+      border-bottom: 1px solid #badbcc;
+      background-color: #d1e7dd;
     }
   }
 }
@@ -63,9 +68,9 @@ input {
 }
 
 input.ng-touched.ng-invalid {
-  border-color: red;
+  border-color: #dc3545;
 }
 
 input.ng-touched.ng-valid {
-  border-color: green;
+  border-color: #198754;
 }

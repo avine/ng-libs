@@ -30,6 +30,9 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
 
   datalist$ = this._datalist$.asObservable();
 
+  /**
+   * List of items on which to perform the search.
+   */
   @Input() set datalist(datalist: string[]) {
     this._datalist = coerceStringArray(datalist);
     this._datalist$.next(this._datalist);
@@ -41,8 +44,11 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
 
   /* --- Value related properties --- */
 
-  private inputValue$ = new BehaviorSubject<string>('');
+  private inputValue$ = new BehaviorSubject('');
 
+  /**
+   * The input string to search in the datalist.
+   */
   @Input() set inputValue(value: string) {
     this.inputValue$.next(String(value));
   }
@@ -53,6 +59,9 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
 
   @Output() inputValueChange = new EventEmitter<string>();
 
+  /**
+   * Minimum string length required to start searching the datalist.
+   */
   @Input() inputMinLength = 0;
 
   /* ----- Suggestions related properties ----- */
@@ -62,6 +71,9 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
 
   private suggestions: string[] = [];
 
+  /**
+   * Subset of the datalist that matches the searched string.
+   */
   suggestions$ = combineLatest([this.datalist$, this.inputValue$]).pipe(
     map(([datalist, value]) => {
       const valueInLowerCase = value.toLowerCase();
@@ -77,17 +89,26 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
 
   private _focusedSuggestionIndex$ = new BehaviorSubject(-1);
 
+  /**
+   * Index of the focused suggestion when navigating between them using the up and down arrows.
+   */
   focusedSuggestionIndex$ = this._focusedSuggestionIndex$.asObservable();
 
-  private areSuggestionsExpected$ = new BehaviorSubject<boolean>(false);
+  /**
+   * Primarily relies on input string length to determine whether suggestions should be displayed.
+   */
+  private areSuggestionsExpected$ = new BehaviorSubject(false);
 
+  /**
+   * Relies on suggestion availability and input string length to determine whether suggestions should be displayed.
+   */
   shouldDisplaySuggestions$ = combineLatest([this.suggestions$, this.areSuggestionsExpected$]).pipe(
     map(([{ length }, areSuggestionsExpected]) => length > 0 && areSuggestionsExpected)
   );
 
   /* ----- */
 
-  subscription!: Subscription;
+  private subscription!: Subscription;
 
   constructor(private renderer: Renderer2) {}
 

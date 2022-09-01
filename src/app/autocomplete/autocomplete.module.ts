@@ -9,9 +9,10 @@ import { DemoComponent } from './demo/demo.component';
 import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
 import { TemplateFormComponent } from './template-form/template-form.component';
 import { StandaloneComponent } from './standalone/standalone.component';
+import { CascadeComponent } from './cascade/cascade.component';
 
 @NgModule({
-  declarations: [DemoComponent, ReactiveFormComponent, TemplateFormComponent, StandaloneComponent],
+  declarations: [DemoComponent, ReactiveFormComponent, TemplateFormComponent, StandaloneComponent, CascadeComponent],
   imports: [
     CommonModule,
     FormsModule,

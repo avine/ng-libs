@@ -1,6 +1,10 @@
 # Autocomplete
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0.
+Fully customizable autocomplete component for Angular.
+
+## Demo
+
+Check out the [demo](https://avine.github.io/ng-libs/autocomplete) and the demo [source code](https://github.com/avine/ng-libs/blob/main/src/app/autocomplete/demo/demo.component.html) for detailed explanations.
 
 ## Code scaffolding
 

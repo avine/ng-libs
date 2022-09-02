@@ -16,9 +16,26 @@ import {
 
 import { AutocompleteSuggestionDirective } from '../autocomplete-suggestion.directive';
 
+/**
+ * Provides all the information needed to render suggestions.
+ * 
+ * @example
+ * ```html
+ * <autocomplete-suggestions
+ *   [datalist]="myDatalist"
+ *   [inputMinLength]="myInputMinLength"
+ *   [(inputValue)]="myInputValue"
+ *   #autocomplete
+ *  >
+ *   <div *ngFor="let suggestion of autocomplete.suggestions$ | async">
+ *     {{ suggestion }}
+ *   </div>
+ * </autocomplete-suggestions>
+ * ```
+ */
 @Component({
   selector: 'autocomplete-suggestions',
-  templateUrl: './autocomplete-suggestions.component.html',
+  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestroy {

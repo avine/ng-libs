@@ -16,6 +16,10 @@ export class AutocompleteHighlightPipe implements PipeTransform {
 
   /**
    * Highlight the part of the suggestion that matches the input string.
+   * 
+   * the `AutocompleteHighlightConfig` can be set:
+   * - locally when applying the pipe
+   * - globally by providing the `AUTOCOMPLETE_HIGHLIGHT_CONFIG` injection token.
    */
   transform(suggestionValue: string, inputValue: string, config?: AutocompleteHighlightConfig): string {
     const { tag, css } = {

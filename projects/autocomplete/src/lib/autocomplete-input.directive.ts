@@ -17,6 +17,15 @@ import { AutocompleteSuggestionsComponent } from './autocomplete-suggestions/aut
   ],
 })
 export class AutocompleteInputDirective implements AsyncValidator {
+  /**
+   * Attach the autocomplete suggestions component to a form field (typically an HTMLInputElement).
+   * 
+   * The autocomplete suggestions component reacts to following events fired by the form field:
+   * - `focus` and `input`: determines whether to display the suggestions
+   * - `keydown.ArrowUp` and `keydown.ArrowDown`: navigate between suggestions and focus on one in particular
+   * - `keydown.Enter`: selects focused suggestion if any
+   * - `keydown.Escape`: hide suggestions
+   */
   @Input() autocompleteInput!: AutocompleteSuggestionsComponent;
 
   get inputWidthPx(): string {

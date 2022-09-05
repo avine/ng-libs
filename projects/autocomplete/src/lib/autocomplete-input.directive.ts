@@ -3,7 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { AbstractControl, AsyncValidator, NG_ASYNC_VALIDATORS, ValidationErrors } from '@angular/forms';
 
-import { AutocompleteSuggestionsComponent } from './autocomplete-suggestions/autocomplete-suggestions.component';
+import { AutocompleteSuggestionsComponent } from './autocomplete-suggestions.component';
 
 @Directive({
   selector: '[autocompleteInput]',
@@ -19,8 +19,8 @@ import { AutocompleteSuggestionsComponent } from './autocomplete-suggestions/aut
 export class AutocompleteInputDirective implements AsyncValidator {
   /**
    * Attach the autocomplete suggestions component to a form field (typically an HTMLInputElement).
-   * 
-   * The autocomplete suggestions component reacts to following events fired by the form field:
+   *
+   * The autocomplete suggestions component reacts to the following events fired by the form field:
    * - `focus` and `input`: determines whether to display the suggestions
    * - `keydown.ArrowUp` and `keydown.ArrowDown`: navigate between suggestions and focus on one in particular
    * - `keydown.Enter`: selects focused suggestion if any
@@ -34,7 +34,7 @@ export class AutocompleteInputDirective implements AsyncValidator {
 
   constructor(private elementRef: ElementRef<HTMLElement>) {}
 
-  @HostListener('document:click', ['$event']) closeSuggestion(event: Event): void {
+  @HostListener('document:click', ['$event']) onClick(event: Event): void {
     if (event.target === this.elementRef.nativeElement) {
       return;
     }
@@ -65,8 +65,14 @@ export class AutocompleteInputDirective implements AsyncValidator {
     this.autocompleteInput.onEscape();
   }
 
-  async validate(control: AbstractControl<any, any>): Promise<ValidationErrors | null> {
+  async validate({ value }: AbstractControl<any, any>): Promise<ValidationErrors | null> {
+    if (!value) {
+      return null;
+    }
     const datalist = await firstValueFrom(this.autocompleteInput.datalist$);
-    return !control.value || !datalist.length || datalist.includes(control.value) ? null : { datalist: true };
+    if ((!datalist.length && this.autocompleteInput.isEmptyDatalistAllowed) || datalist.includes(value)) {
+      return null;
+    }
+    return { datalist };
   }
 }

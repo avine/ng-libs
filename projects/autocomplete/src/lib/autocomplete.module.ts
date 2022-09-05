@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AutocompleteHighlightPipe } from './autocomplete-highlight/autocomplete-highlight.pipe';
 import { AutocompleteInputDirective } from './autocomplete-input.directive';
 import { AutocompleteSuggestionDirective } from './autocomplete-suggestion.directive';
-import { AutocompleteSuggestionsComponent } from './autocomplete-suggestions/autocomplete-suggestions.component';
+import { AutocompleteSuggestionsComponent } from './autocomplete-suggestions.component';
 
 const features = [
   AutocompleteHighlightPipe,

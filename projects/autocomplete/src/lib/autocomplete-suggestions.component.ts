@@ -1,6 +1,6 @@
 import { BehaviorSubject, combineLatest, map, ReplaySubject, startWith, Subscription, tap } from 'rxjs';
 
-import { coerceStringArray } from '@angular/cdk/coercion';
+import { BooleanInput, coerceBooleanProperty, coerceStringArray } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -14,11 +14,11 @@ import {
   Renderer2,
 } from '@angular/core';
 
-import { AutocompleteSuggestionDirective } from '../autocomplete-suggestion.directive';
+import { AutocompleteSuggestionDirective } from './autocomplete-suggestion.directive';
 
 /**
  * Provides all the information needed to render suggestions.
- * 
+ *
  * @example
  * ```html
  * <autocomplete-suggestions
@@ -50,13 +50,26 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
   /**
    * List of items on which to perform the search.
    */
-  @Input() set datalist(datalist: string[]) {
+  @Input() set datalist(datalist: (string | number)[]) {
     this._datalist = coerceStringArray(datalist);
     this._datalist$.next(this._datalist);
   }
 
   get datalist(): string[] {
     return this._datalist ?? [];
+  }
+
+  private _isEmptyDatalistAllowed = false;
+
+  /**
+   * Whether to validate any input string when `datalist` is empty.
+   */
+  @Input() set isEmptyDatalistAllowed(value: BooleanInput) {
+    this._isEmptyDatalistAllowed = coerceBooleanProperty(value);
+  }
+
+  get isEmptyDatalistAllowed() {
+    return this._isEmptyDatalistAllowed;
   }
 
   /* --- Value related properties --- */

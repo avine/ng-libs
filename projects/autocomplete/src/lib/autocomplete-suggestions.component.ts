@@ -34,6 +34,7 @@ import { AutocompleteSuggestionDirective } from './autocomplete-suggestion.direc
  * ```
  */
 @Component({
+  standalone: true,
   selector: 'autocomplete-suggestions',
   template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,

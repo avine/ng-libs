@@ -1,5 +1,11 @@
 import { AutocompleteHighlightConfig } from './autocomplete-highlight.types';
 
-export const DEFAULT_AUTOCOMPLETE_HIGHLIGHT_CONFIG: Required<AutocompleteHighlightConfig> = { tag: 'strong', css: '' };
+export const AUTOCOMPLETE_DEFAULT_HIGHLIGHT_CONFIG: Required<AutocompleteHighlightConfig> = {
+  tag: 'strong',
+  css: '',
+};
 
-export const BASE_AUTOCOMPLETE_HIGHLIGHT_CONFIG: Required<AutocompleteHighlightConfig> = { tag: 'span', css: '' };
+export const AUTOCOMPLETE_BASE_HIGHLIGHT_CONFIG: Required<AutocompleteHighlightConfig> = {
+  tag: 'span',
+  css: '',
+};

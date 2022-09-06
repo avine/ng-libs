@@ -1,9 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { AUTOCOMPLETE_HIGHLIGHT_CONFIG, AutocompleteHighlightConfig } from '@avine/ng-autocomplete';
+import {
+  AUTOCOMPLETE_DIRECTIVES,
+  AUTOCOMPLETE_HIGHLIGHT_CONFIG,
+  AutocompleteHighlightConfig,
+} from '@avine/ng-autocomplete';
 
 import { getCountries } from '../countries';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, ...AUTOCOMPLETE_DIRECTIVES],
   selector: 'app-standalone',
   templateUrl: './standalone.component.html',
   styleUrls: ['../autocomplete.component.scss'],

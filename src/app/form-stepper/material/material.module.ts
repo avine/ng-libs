@@ -5,14 +5,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { FormStepperModule } from '@avine/ng-form-stepper';
-import { ViewCodeModule } from 'src/app/shared/view-code/view-code.module';
 
+import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
 import { MaterialComponent } from './material.component';
 
-const materialModules = [MatButtonModule, MatCheckboxModule, MatInputModule];
+const materialModules = [MatButtonModule, MatCheckboxModule, MatInputModule] as const;
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, materialModules, ViewCodeModule, FormStepperModule],
+  imports: [CommonModule, ReactiveFormsModule, ...materialModules, ViewCodeComponent, FormStepperModule],
   declarations: [MaterialComponent],
   exports: [MaterialComponent],
 })

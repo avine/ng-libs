@@ -1,9 +1,14 @@
+import { OverlayModule } from '@angular/cdk/overlay';
+import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AUTOCOMPLETE_DIRECTIVES } from '@avine/ng-autocomplete';
 
 import { getCountries } from '../countries';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, OverlayModule, ...AUTOCOMPLETE_DIRECTIVES],
   selector: 'app-reactive-form',
   templateUrl: './reactive-form.component.html',
   styleUrls: ['../autocomplete.component.scss'],

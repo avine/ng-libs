@@ -4,12 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LayoutModule } from './shared/layout/layout.module';
+import { LayoutComponent } from './shared/layout/layout.component';
 
 @NgModule({
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, LayoutComponent],
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, LayoutModule],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

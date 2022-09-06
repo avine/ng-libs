@@ -4,21 +4,21 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { FormStepperModule as FormStepperLibModule } from '@avine/ng-form-stepper';
 
-import { ViewCodeModule } from '../shared/view-code/view-code.module';
+import { ViewCodeComponent } from '../shared/view-code/view-code.component';
 import { MaterialModule } from './material/material.module';
 import { DemoComponent } from './demo/demo.component';
 import { FormStepperRoutingModule } from './form-stepper-routing.module';
 import { OneLevelComponent } from './one-level/one-level.component';
 
-const materialModules = [MatIconModule];
+const materialModules = [MatIconModule] as const;
 
 @NgModule({
   imports: [
     CommonModule,
     FormStepperRoutingModule,
     ReactiveFormsModule,
-    materialModules,
-    ViewCodeModule,
+    ...materialModules,
+    ViewCodeComponent,
     FormStepperLibModule.config({ breakpoint: '960px' }),
     MaterialModule,
   ],

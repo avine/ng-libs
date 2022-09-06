@@ -5,22 +5,22 @@ import { RouterModule, RouterStateSnapshot, Routes, TitleStrategy } from '@angul
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./shared/home/home.module').then((module) => module.HomeModule),
+    loadComponent: () => import('./shared/home/home.component').then((m) => m.HomeComponent),
     pathMatch: 'full',
   },
   {
     path: 'if-non-nullish',
-    loadChildren: () => import('./if-non-nullish/if-non-nullish.module').then((module) => module.IfNonNullishModule),
+    loadComponent: () => import('./if-non-nullish/if-non-nullish.component').then((m) => m.IfNonNullishComponent),
     title: 'If non nullish',
   },
   {
     path: 'form-stepper',
-    loadChildren: () => import('./form-stepper/form-stepper.module').then((module) => module.FormStepperModule),
+    loadChildren: () => import('./form-stepper/form-stepper.module').then((m) => m.FormStepperModule),
     title: 'Form Stepper',
   },
   {
     path: 'autocomplete',
-    loadChildren: () => import('./autocomplete/autocomplete.module').then((module) => module.AutocompleteDemoModule),
+    loadChildren: () => import('./autocomplete/autocomplete.routes').then((m) => m.AUTOCOMPLETE_ROUTES),
     title: 'Autocomplete',
   },
 ];

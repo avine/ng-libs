@@ -2,7 +2,9 @@
 
 <pre>{{ selectedValue | json }}</pre>
 
-<button (click)="selectedList = nextList">Switch to {{ nextList }} list</button>
+<button (click)="changeList()">
+  Switch to list of <strong>{{ nextList }}</strong>
+</button>
 
 <br /><br />
 

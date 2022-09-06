@@ -1,6 +1,7 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 
 @Directive({
+  standalone: true,
   selector: '[autocompleteSuggestion]',
 })
 export class AutocompleteSuggestionDirective {

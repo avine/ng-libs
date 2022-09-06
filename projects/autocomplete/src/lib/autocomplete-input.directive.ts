@@ -6,6 +6,7 @@ import { AbstractControl, AsyncValidator, NG_ASYNC_VALIDATORS, ValidationErrors 
 import { AutocompleteSuggestionsComponent } from './autocomplete-suggestions.component';
 
 @Directive({
+  standalone: true,
   selector: '[autocompleteInput]',
   exportAs: 'autocompleteInput',
   providers: [

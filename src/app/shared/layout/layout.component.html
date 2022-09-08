@@ -15,7 +15,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container class="container" [hasBackdrop]="false">
-  <mat-sidenav #sidenav mode="push" class="container__sidenav">
+  <mat-sidenav #sidenav [mode]="drawerMode" class="container__sidenav">
     <app-menu class="container__sidenav-menu"></app-menu>
   </mat-sidenav>
 

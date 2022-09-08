@@ -25,7 +25,7 @@ const components = [
   FormStepperNavComponent,
   FormStepperQuicknavComponent,
   FormStepperSectionIconComponent,
-];
+] as const;
 
 const directives = [
   FormStepperControlDirective,
@@ -37,12 +37,12 @@ const directives = [
   FormStepperSectionDirective,
   FormStepperStepDirective,
   FormStepperSummaryDirective,
-];
+] as const;
 
 @NgModule({
   imports: [CommonModule, OverlayModule],
-  declarations: [components, directives],
-  exports: [components, directives],
+  declarations: [...components, ...directives],
+  exports: [...components, ...directives],
 })
 export class FormStepperModule {
   /**

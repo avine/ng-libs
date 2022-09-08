@@ -1,7 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
+import { FormStepperModule } from '@avine/ng-form-stepper';
+
+import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
+
+const materialModules = [MatButtonModule, MatCheckboxModule, MatInputModule] as const;
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, ...materialModules, ViewCodeComponent, FormStepperModule],
   selector: 'app-material',
   templateUrl: './material.component.html',
   styleUrls: ['./material.component.scss'],

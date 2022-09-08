@@ -1,12 +1,21 @@
 import { shareReplay, startWith, tap } from 'rxjs/operators';
 
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { formatQuicknavValueFromListToHtml, FormStepperContainerComponent } from '@avine/ng-form-stepper';
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import {
+  formatQuicknavValueFromListToHtml,
+  FormStepperContainerComponent,
+  FormStepperModule,
+} from '@avine/ng-form-stepper';
 
+import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
 import { DemoForm } from './demo.types';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewCodeComponent, FormStepperModule],
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],

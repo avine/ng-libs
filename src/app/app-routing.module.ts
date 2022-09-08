@@ -1,6 +1,7 @@
 import { Injectable, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterModule, RouterStateSnapshot, Routes, TitleStrategy } from '@angular/router';
+import { provideFormStepperConfig } from '@avine/ng-form-stepper';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'form-stepper',
-    loadChildren: () => import('./form-stepper/form-stepper.module').then((m) => m.FormStepperModule),
+    providers: [provideFormStepperConfig({ breakpoint: '960px' })],
+    loadChildren: () => import('./form-stepper/form-stepper.routes').then((m) => m.FORM_STEPPER_ROUTES),
     title: 'Form Stepper',
   },
   {

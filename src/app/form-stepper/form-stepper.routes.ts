@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { FORM_STEPPER_PATH_PARAM } from '@avine/ng-form-stepper';
 
 import { MaterialComponent } from './material/material.component';
 import { DemoComponent } from './demo/demo.component';
 import { OneLevelComponent } from './one-level/one-level.component';
 
-const routes: Routes = [
+export const FORM_STEPPER_ROUTES: Routes = [
   {
     path: `demo/:${FORM_STEPPER_PATH_PARAM}`,
     component: DemoComponent,
@@ -20,9 +19,3 @@ const routes: Routes = [
     component: MaterialComponent,
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class FormStepperRoutingModule {}

@@ -5,9 +5,9 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import {
+  FORM_STEPPER_DIRECTIVES,
   formatQuicknavValueFromListToHtml,
   FormStepperContainerComponent,
-  FormStepperModule,
 } from '@avine/ng-form-stepper';
 
 import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
@@ -15,7 +15,7 @@ import { DemoForm } from './demo.types';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewCodeComponent, FormStepperModule],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewCodeComponent, ...FORM_STEPPER_DIRECTIVES],
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],

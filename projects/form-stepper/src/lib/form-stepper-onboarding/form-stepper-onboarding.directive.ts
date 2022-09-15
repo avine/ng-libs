@@ -4,6 +4,7 @@ import { Directive, Input, TemplateRef } from '@angular/core';
  * Add a static step as first step (can not contain any `FormControl`).
  */
 @Directive({
+  standalone: true,
   selector: '[formStepperOnboarding]',
 })
 export class FormStepperOnboardingDirective {

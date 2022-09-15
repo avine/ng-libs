@@ -1,6 +1,7 @@
 import { Subscription } from 'rxjs';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -21,6 +22,7 @@ import {
 import { FormGroup } from '@angular/forms';
 
 import { FormStepperMainDirective } from '../form-stepper-main/form-stepper-main.directive';
+import { FormStepperNavComponent } from '../form-stepper-nav/form-stepper-nav.component';
 import { FormStepperOnboardingDirective } from '../form-stepper-onboarding/form-stepper-onboarding.directive';
 import { FormStepperSectionDirective } from '../form-stepper-section/form-stepper-section.directive';
 import { FormStepperSummaryDirective } from '../form-stepper-summary/form-stepper-summary.directive';
@@ -31,6 +33,8 @@ import { FormStepperExtraPage } from '../form-stepper.types';
  * Root component of the FormStepper.
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FormStepperNavComponent],
   selector: 'form-stepper-container',
   templateUrl: './form-stepper-container.component.html',
   providers: [FormStepperService],

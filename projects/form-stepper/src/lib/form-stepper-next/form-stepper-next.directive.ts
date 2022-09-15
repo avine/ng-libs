@@ -17,6 +17,7 @@ import { FormStepperService } from '../form-stepper.service';
  * Jump to the next step on click event.
  */
 @Directive({
+  standalone: true,
   selector: '[formStepperNext]',
 })
 export class FormStepperNextDirective implements AfterViewInit, OnDestroy {

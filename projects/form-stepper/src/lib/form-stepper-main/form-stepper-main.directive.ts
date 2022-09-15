@@ -33,6 +33,7 @@ import { FormStepperService } from '../form-stepper.service';
  * ```
  */
 @Directive({
+  standalone: true,
   selector: '[formStepperMain]',
   exportAs: 'formStepperMain',
 })

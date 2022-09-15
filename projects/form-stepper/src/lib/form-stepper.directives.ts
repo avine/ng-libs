@@ -1,7 +1,3 @@
-import { OverlayModule } from '@angular/cdk/overlay';
-import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
-
 import { FormStepperContainerComponent } from './form-stepper-container/form-stepper-container.component';
 import { FormStepperControlDirective } from './form-stepper-control/form-stepper-control.directive';
 import { FormStepperIconComponent } from './form-stepper-icon/form-stepper-icon.component';
@@ -16,18 +12,16 @@ import { FormStepperSectionIconComponent } from './form-stepper-section-icon/for
 import { FormStepperSectionDirective } from './form-stepper-section/form-stepper-section.directive';
 import { FormStepperStepDirective } from './form-stepper-step/form-stepper-step.directive';
 import { FormStepperSummaryDirective } from './form-stepper-summary/form-stepper-summary.directive';
-import { FormStepperConfig } from './form-stepper.types';
-import { provideFormStepperConfig } from './form-stepper.utils';
 
-const components = [
+export const FORM_STEPPER_DIRECTIVES = [
+  // Components
   FormStepperContainerComponent,
   FormStepperIconComponent,
   FormStepperNavComponent,
   FormStepperQuicknavComponent,
   FormStepperSectionIconComponent,
-] as const;
 
-const directives = [
+  // Directives
   FormStepperControlDirective,
   FormStepperMainDirective,
   FormStepperNextDirective,
@@ -38,20 +32,3 @@ const directives = [
   FormStepperStepDirective,
   FormStepperSummaryDirective,
 ] as const;
-
-@NgModule({
-  imports: [CommonModule, OverlayModule],
-  declarations: [...components, ...directives],
-  exports: [...components, ...directives],
-})
-export class FormStepperModule {
-  /**
-   * Import the `FormStepperModule` and provide the `FORM_STEPPER_CONFIG` injection token at once.
-   */
-  static config(config?: Partial<FormStepperConfig>): ModuleWithProviders<FormStepperModule> {
-    return {
-      ngModule: FormStepperModule,
-      providers: [provideFormStepperConfig(config)],
-    };
-  }
-}

@@ -3,7 +3,7 @@
  */
 
 export * from './lib/form-stepper.config';
-export * from './lib/form-stepper.module';
+export * from './lib/form-stepper.directives';
 export * from './lib/form-stepper.types';
 export * from './lib/form-stepper.utils';
 

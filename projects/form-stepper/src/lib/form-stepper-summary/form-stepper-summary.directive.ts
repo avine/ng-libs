@@ -6,6 +6,7 @@ import { Directive, Input, TemplateRef } from '@angular/core';
  * Use it for example to display the "quicknav".
  */
 @Directive({
+  standalone: true,
   selector: '[formStepperSummary]',
 })
 export class FormStepperSummaryDirective {

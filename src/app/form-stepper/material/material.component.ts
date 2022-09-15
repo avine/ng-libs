@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
-import { FormStepperModule } from '@avine/ng-form-stepper';
+import { FORM_STEPPER_DIRECTIVES } from '@avine/ng-form-stepper';
 
 import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
 
@@ -12,7 +12,7 @@ const materialModules = [MatButtonModule, MatCheckboxModule, MatInputModule] as 
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ...materialModules, ViewCodeComponent, FormStepperModule],
+  imports: [CommonModule, ReactiveFormsModule, ...materialModules, ViewCodeComponent, ...FORM_STEPPER_DIRECTIVES],
   selector: 'app-material',
   templateUrl: './material.component.html',
   styleUrls: ['./material.component.scss'],

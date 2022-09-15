@@ -5,6 +5,7 @@ import { FORM_STEPPER_CONTROL_ON_ENTER_DEFAULT } from './form-stepper-control.co
 import { FormStepperControlOnEnter } from './form-stepper-control.types';
 
 @Directive({
+  standalone: true,
   selector: '[formStepperControl]',
 })
 export class FormStepperControlDirective implements OnInit, OnDestroy {

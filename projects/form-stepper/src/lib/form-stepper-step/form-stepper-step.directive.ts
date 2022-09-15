@@ -5,6 +5,7 @@ import { AbstractControl } from '@angular/forms';
 import { FormStepperStepOptions } from './form-stepper-step.types';
 
 @Directive({
+  standalone: true,
   selector: '[formStepperStep]',
 })
 export class FormStepperStepDirective {

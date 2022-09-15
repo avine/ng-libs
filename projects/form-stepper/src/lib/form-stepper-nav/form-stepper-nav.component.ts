@@ -3,7 +3,8 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { ConnectedPosition } from '@angular/cdk/overlay';
+import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,6 +16,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { FormStepperIconComponent } from '../form-stepper-icon/form-stepper-icon.component';
+import { FormStepperSectionIconComponent } from '../form-stepper-section-icon/form-stepper-section-icon.component';
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperNavSection, FormStepperStep } from '../form-stepper.types';
 import { navAnimations } from './form-stepper-nav.animations';
@@ -23,6 +26,8 @@ import { navAnimations } from './form-stepper-nav.animations';
  * Render the FormStepper navigation.
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, OverlayModule, FormStepperIconComponent, FormStepperSectionIconComponent],
   selector: 'form-stepper-nav',
   templateUrl: './form-stepper-nav.component.html',
   encapsulation: ViewEncapsulation.None,

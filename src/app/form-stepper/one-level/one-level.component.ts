@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { FormStepperModule } from '@avine/ng-form-stepper';
+import { FORM_STEPPER_DIRECTIVES } from '@avine/ng-form-stepper';
 
 import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewCodeComponent, FormStepperModule],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewCodeComponent, ...FORM_STEPPER_DIRECTIVES],
   selector: 'app-one-level',
   templateUrl: './one-level.component.html',
   styleUrls: ['./one-level.component.scss'],

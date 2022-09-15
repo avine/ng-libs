@@ -19,6 +19,7 @@ import { FormStepperService } from '../form-stepper.service';
  * Use this directive on `<button>` elements (for `<a>` elements, use `formStepperPrevAnchor` directive instead).
  */
 @Directive({
+  standalone: true,
   selector: '[formStepperPrev]',
 })
 export class FormStepperPrevDirective implements AfterViewInit, OnDestroy {

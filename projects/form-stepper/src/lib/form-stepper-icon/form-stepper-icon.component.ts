@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulati
 import { IconAlias, IconsMap } from './form-stepper-icon.types';
 
 @Component({
+  standalone: true,
   selector: 'form-stepper-icon',
   templateUrl: './form-stepper-icon.component.html',
   encapsulation: ViewEncapsulation.None,

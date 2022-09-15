@@ -10,6 +10,7 @@ import { FormStepperStep } from '../form-stepper.types';
 import { FormStepperSectionOptions } from './form-stepper-section.types';
 
 @Directive({
+  standalone: true,
   selector: '[formStepperSection]',
 })
 export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {

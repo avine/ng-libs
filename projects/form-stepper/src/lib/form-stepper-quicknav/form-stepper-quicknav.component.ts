@@ -1,8 +1,11 @@
 import { map } from 'rxjs/operators';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
+import { FormStepperIconComponent } from '../form-stepper-icon/form-stepper-icon.component';
+import { FormStepperSectionIconComponent } from '../form-stepper-section-icon/form-stepper-section-icon.component';
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
 
@@ -12,6 +15,8 @@ import { FormStepperStep } from '../form-stepper.types';
  * Use the `fsFormat` input to customize the HTML output of any form field value.
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FormStepperIconComponent, FormStepperSectionIconComponent],
   selector: 'form-stepper-quicknav',
   templateUrl: './form-stepper-quicknav.component.html',
   encapsulation: ViewEncapsulation.None,

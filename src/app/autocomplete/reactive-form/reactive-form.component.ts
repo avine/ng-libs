@@ -8,7 +8,7 @@ import { getCountries } from '../countries';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, OverlayModule, ...AUTOCOMPLETE_DIRECTIVES],
+  imports: [CommonModule, OverlayModule, ReactiveFormsModule, ...AUTOCOMPLETE_DIRECTIVES],
   selector: 'app-reactive-form',
   templateUrl: './reactive-form.component.html',
   styleUrls: ['../autocomplete.component.scss'],

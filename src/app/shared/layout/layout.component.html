@@ -1,5 +1,5 @@
 <mat-toolbar class="header">
-  <button mat-icon-button (click)="sidenav.toggle()">
+  <button mat-icon-button (click)="toggleSidenav()">
     <mat-icon>menu</mat-icon>
   </button>
 
@@ -15,7 +15,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container class="container" [hasBackdrop]="false">
-  <mat-sidenav #sidenav [mode]="drawerMode" class="container__sidenav">
+  <mat-sidenav [mode]="drawerMode" [opened]="isSidenavOpened$ | async" class="container__sidenav">
     <app-menu class="container__sidenav-menu"></app-menu>
   </mat-sidenav>
 

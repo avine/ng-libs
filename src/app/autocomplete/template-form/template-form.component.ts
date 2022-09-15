@@ -8,7 +8,7 @@ import { getCountries } from '../countries';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, OverlayModule, ...AUTOCOMPLETE_DIRECTIVES],
+  imports: [CommonModule, OverlayModule, FormsModule, ...AUTOCOMPLETE_DIRECTIVES],
   selector: 'app-template-form',
   templateUrl: './template-form.component.html',
   styleUrls: ['../autocomplete.component.scss'],

@@ -3,11 +3,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 
-const materialModules = [MatButtonModule, MatCardModule] as const;
-
 @Component({
   standalone: true,
-  imports: [RouterModule, ...materialModules],
+  imports: [RouterModule, MatButtonModule, MatCardModule],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],

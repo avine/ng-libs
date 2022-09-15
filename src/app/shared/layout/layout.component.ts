@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { BreakpointObserver, Breakpoints, LayoutModule } from '@angular/cdk/layout';
@@ -12,7 +12,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 import { MenuComponent } from './menu/menu.component';
 
-const materialModules = [MatButtonModule, MatIconModule, MatSidenavModule, MatToolbarModule, LayoutModule] as const;
+const materialModules = [LayoutModule, MatButtonModule, MatIconModule, MatSidenavModule, MatToolbarModule] as const;
 
 @Component({
   standalone: true,
@@ -31,6 +31,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   closeOnNavigationEnd!: boolean;
 
+  isSidenavOpened$ = new ReplaySubject<boolean>(1);
+
   private readonly subscription = new Subscription();
 
   constructor(
@@ -40,6 +42,20 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.subscription.add(
+      this.breakpointObserver.observe(Breakpoints.Web).subscribe(({ matches: isWeb }) => {
+        if (isWeb) {
+          this.drawerMode = 'side';
+          this.closeOnNavigationEnd = false;
+        } else {
+          this.drawerMode = 'over';
+          this.closeOnNavigationEnd = true;
+        }
+      })
+    );
+
+    this.isSidenavOpened$.next(this.drawerMode === 'over' ? false : true);
+
     this.subscription.add(
       this.router.events
         .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
@@ -53,21 +69,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
           );
         })
     );
-
-    this.subscription.add(
-      this.breakpointObserver.observe(Breakpoints.Handset).subscribe(({ matches }) => {
-        if (matches) {
-          this.drawerMode = 'over';
-          this.closeOnNavigationEnd = true;
-        } else {
-          this.drawerMode = 'side';
-          this.closeOnNavigationEnd = false;
-        }
-      })
-    );
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  toggleSidenav() {
+    this.sidenav.toggle();
   }
 }

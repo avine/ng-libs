@@ -527,7 +527,7 @@ Below the [list of Sass variables](https://github.com/avine/ng-libs/blob/main/pr
   $nav-mobile-steps__bg-color: #ffffff,
 
   // ----- quicknav -----
-  $quicknav-border-color: #d7d7d7,
+  $quicknav-border-color: #eaeaea,
   $quicknav-bg-color: #f7f7f7,
   $quicknav-icon-bg-color: #e7e7e7
 );

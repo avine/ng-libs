@@ -7,6 +7,7 @@
     "test": "jest",
     "test:app": "jest ./src/**",
     "test:projects": "jest ./projects/**",
+    "build:all": "npm run build && npm run build:if-non-nullish && npm run build:form-stepper && npm run build:autocomplete",
     "build": "ng build",
     "build:if-non-nullish": "ng build if-non-nullish",
     "build:form-stepper": "ng build form-stepper",

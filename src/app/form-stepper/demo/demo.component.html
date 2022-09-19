@@ -116,13 +116,14 @@
 
     <!--
       This section demonstrate that the FormStepper supports `formArrayName` directive.
+      It also demonstrate that `fsTitle` is dynamic and therfore can be updated at any time.
     -->
     <ng-container [ngSwitch]="haveCompany$ | async">
       <ng-container
         *ngSwitchCase="false"
         formArrayName="hobbies"
         formStepperSection
-        fsTitle="Hobbies"
+        [fsTitle]="'Hobbies (' + hobbiesCtrl.controls.length + ')'"
         [fsIcon]="hobbiesIcon"
       >
         <ng-template formStepperStep fsPath="hobbies">

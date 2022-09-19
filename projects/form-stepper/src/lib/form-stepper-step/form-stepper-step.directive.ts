@@ -2,6 +2,8 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Directive, Input, TemplateRef } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
+import { FormStepperService } from '../form-stepper.service';
+import { getUniqueId } from '../form-stepper.utils';
 import { FormStepperStepOptions } from './form-stepper-step.types';
 
 @Directive({
@@ -9,6 +11,8 @@ import { FormStepperStepOptions } from './form-stepper-step.types';
   selector: '[formStepperStep]',
 })
 export class FormStepperStepDirective {
+  readonly id = getUniqueId();
+
   /**
    * The `AbstractControl` of the step (tracks the validity state of the step).
    *
@@ -30,14 +34,23 @@ export class FormStepperStepDirective {
    *
    * When defined, `fsTitle`, `fsPath` and `fsAutoNextOnValueChange` inputs are ignored.
    */
-  @Input() fsOptions!: FormStepperStepOptions;
+  @Input() fsOptions?: FormStepperStepOptions;
+
+  private _fsTitle!: string;
 
   /**
    * The title of the step.
    *
    * If the section has only one step then leave empty and the value will be inferred from the title of `formStepperSection`.
    */
-  @Input() fsTitle!: string;
+  @Input() set fsTitle(title: string) {
+    this._fsTitle = title;
+    this.service.updateStepTitle(this.id, title);
+  }
+
+  get fsTitle(): string {
+    return this._fsTitle;
+  }
 
   /**
    * The route parameter to use to navigate to the step (ie: the value of `FORM_STEPPER_PATH_PARAM`).
@@ -62,5 +75,5 @@ export class FormStepperStepDirective {
   getAutoNextOnValueChange = (): boolean =>
     this.fsOptions?.autoNextOnValueChange || coerceBooleanProperty(this.fsAutoNextOnValueChange);
 
-  constructor(public template: TemplateRef<any>) {}
+  constructor(public template: TemplateRef<any>, private service: FormStepperService) {}
 }

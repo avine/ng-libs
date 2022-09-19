@@ -26,26 +26,23 @@ Install the FormStepper library:
 npm install @avine/ng-form-stepper
 ```
 
-Import `BrowserAnimationsModule`, `ReactiveFormsModule` and `FormStepperModule` in your `app.module.ts`:
+Import `BrowserAnimationsModule`, `ReactiveFormsModule` and `FORM_STEPPER_DIRECTIVES` in your `app.module.ts`:
+
+You also need to provide the injection token `FORM_STEPPER_CONFIG`. To , you can use the utility `provideFormStepperConfig`.
 
 ```ts
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormStepperModule } from '@avine/ng-form-stepper';
+import { FORM_STEPPER_DIRECTIVES, provideFormStepperConfig } from '@avine/ng-form-stepper';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    FormStepperModule.config({ breakpoint: '960px' }),
-    AppRoutingModule,
-  ],
+  imports: [BrowserModule, BrowserAnimationsModule, ReactiveFormsModule, AppRoutingModule, ...FORM_STEPPER_DIRECTIVES],
+  providers: [provideFormStepperConfig({ breakpoint: '960px' })],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
 })

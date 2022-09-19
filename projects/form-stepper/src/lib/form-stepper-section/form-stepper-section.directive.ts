@@ -7,6 +7,7 @@ import { AbstractControl } from '@angular/forms';
 import { FormStepperStepDirective } from '../form-stepper-step/form-stepper-step.directive';
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
+import { getUniqueId } from '../form-stepper.utils';
 import { FormStepperSectionOptions } from './form-stepper-section.types';
 
 @Directive({
@@ -14,6 +15,8 @@ import { FormStepperSectionOptions } from './form-stepper-section.types';
   selector: '[formStepperSection]',
 })
 export class FormStepperSectionDirective implements AfterContentInit, OnDestroy {
+  readonly id = getUniqueId();
+
   /**
    * The `AbstractControl` of the section (tracks the validity state of the section).
    */
@@ -29,16 +32,25 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   @Input() formArrayName!: string;
 
   /**
-   * Configure section options
+   * Configure section options.
    *
    * When defined, `fsTitle`, `fsIcon` and `fsNoQuicknav` inputs are ignored.
    */
-  @Input() fsOptions!: FormStepperSectionOptions;
+  @Input() fsOptions?: FormStepperSectionOptions;
+
+  private _fsTitle!: string;
 
   /**
-   * The title of the step.
+   * The title of the section.
    */
-  @Input() fsTitle!: string;
+  @Input() set fsTitle(title: string) {
+    this._fsTitle = title;
+    this.service.updateSectionTitle(this.id, this._fsTitle);
+  }
+
+  get fsTitle(): string {
+    return this._fsTitle;
+  }
 
   /**
    * The icon template of the section to use in the the "nav" and the "quicknav".
@@ -74,6 +86,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
     this.service.addSteps(steps);
 
     this.service.addNavSection({
+      id: this.id,
       title: this.getTitle(),
       icon: this.getIcon(),
       control: this.service.getControl(this.getSection()),
@@ -92,9 +105,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   }
 
   private updateSteps() {
-    const { sectionIndex, stepIndexOffset } = this.service.findExistingIndexes(
-      this.service.getControl(this.getSection())
-    );
+    const { sectionIndex, stepIndexOffset } = this.service.findExistingIndexes(this.id);
     const newSteps = this.getSteps(sectionIndex, stepIndexOffset);
     this.service.replaceSteps(sectionIndex, newSteps);
     this.service.refreshCurrentStep();
@@ -102,8 +113,9 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   private getSteps(sectionIndex: number, stepIndexOffset: number) {
     return this.stepDirectiveQueryList.map(
-      ({ getTitle, getPath, getAutoNextOnValueChange, getStep, template }, relativeStepIndex) => {
+      ({ id, getTitle, getPath, getAutoNextOnValueChange, getStep, template }, relativeStepIndex) => {
         const step: FormStepperStep = {
+          id,
           title: getTitle() || this.getTitle(),
           path: getPath(),
           autoNextOnValueChange: getAutoNextOnValueChange(),

@@ -167,8 +167,8 @@ export class FormStepperService implements OnDestroy {
     return { sectionIndex: this.nav.length, stepIndexOffset: this.steps.length };
   }
 
-  findExistingIndexes(formStepperSection: AbstractControl) {
-    const sectionIndex = this.nav.findIndex((navSection) => navSection.control === formStepperSection);
+  findExistingIndexes(sectionId: number) {
+    const sectionIndex = this.nav.findIndex(({ id }) => id === sectionId);
     const { stepIndexOffset } = this.nav[sectionIndex];
     return { sectionIndex, stepIndexOffset };
   }
@@ -212,6 +212,30 @@ export class FormStepperService implements OnDestroy {
 
   removeControlElement(element: HTMLElement) {
     this.currentStepElements.delete(element);
+  }
+
+  updateSectionTitle(sectionId: number, title: string) {
+    const sectionIndex = this.nav.findIndex(({ id }) => id === sectionId);
+    if (sectionIndex === -1) {
+      return;
+    }
+    this.nav[sectionIndex].title = title;
+
+    // In case the section contains only one step, the step title is supposed to be inferred from the section title.
+    if (this.nav[sectionIndex].steps.length === 1) {
+      this.nav[sectionIndex].steps[0].title = title;
+    }
+
+    this._state$.next(this.state);
+  }
+
+  updateStepTitle(stepId: number, title: string) {
+    const stepIndex = this.steps.findIndex(({ id }) => id === stepId);
+    if (stepIndex === -1) {
+      return;
+    }
+    this.steps[stepIndex].title = title;
+    this._state$.next(this.state);
   }
 
   // ----- Navigate -----

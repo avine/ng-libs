@@ -18,6 +18,7 @@ export interface FormStepperState {
 }
 
 export interface FormStepperNavSection {
+  id: number;
   title: string;
   icon: TemplateRef<any>;
   control: AbstractControl;
@@ -27,6 +28,7 @@ export interface FormStepperNavSection {
 }
 
 export interface FormStepperStep {
+  id: number;
   title: string;
   path: string;
   autoNextOnValueChange: boolean;

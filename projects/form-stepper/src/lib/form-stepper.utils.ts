@@ -20,3 +20,6 @@ export const formatQuicknavValueFromListToHtml = (list: string[], bullet = '•'
     list.filter((item) => item).join(breakLine + bulletWithSpace)
   );
 };
+
+let id = 0;
+export const getUniqueId = () => id++;

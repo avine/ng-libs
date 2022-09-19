@@ -1,3 +1,5 @@
+import { tap } from 'rxjs';
+
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -22,10 +24,20 @@ export class MaterialComponent {
     fullName: this.formBuilder.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
+      haveNickName: [false],
+      nickName: [''],
     }),
     email: ['', [Validators.required, Validators.email]],
     cgu: ['', [Validators.requiredTrue]],
   });
+
+  haveNickName$ = this.formGroup.controls.fullName.controls.haveNickName.valueChanges.pipe(
+    tap((haveNickName) => {
+      const nickName = this.formGroup.controls.fullName.controls.nickName;
+      nickName.setValidators(haveNickName ? [Validators.required] : []);
+      nickName.updateValueAndValidity();
+    })
+  );
 
   isBeingSubmitted = false;
 

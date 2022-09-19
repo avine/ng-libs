@@ -52,6 +52,18 @@
           <input matInput formControlName="lastName" formStepperControl />
         </mat-form-field>
       </ng-template>
+
+      <ng-template formStepperStep="haveNickName" fsTitle="Have nick name ?" fsPath="have-nick-name">
+        <mat-checkbox formControlName="haveNickName" formStepperControl>Have a nick name ?</mat-checkbox>
+        <div class="spacer"></div>
+      </ng-template>
+
+      <ng-template *ngIf="haveNickName$ | async" formStepperStep="nickName" fsTitle="Nick name" fsPath="nick-name">
+        <mat-form-field appearance="fill">
+          <mat-label>Nick name</mat-label>
+          <input matInput formControlName="nickName" formStepperControl />
+        </mat-form-field>
+      </ng-template>
     </ng-container>
 
     <ng-container formStepperSection="email" fsTitle="Email">

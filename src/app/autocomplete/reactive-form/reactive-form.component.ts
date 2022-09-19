@@ -4,11 +4,12 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AUTOCOMPLETE_DIRECTIVES } from '@avine/ng-autocomplete';
 
+import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
 import { getCountries } from '../countries';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, OverlayModule, ReactiveFormsModule, ...AUTOCOMPLETE_DIRECTIVES],
+  imports: [CommonModule, OverlayModule, ReactiveFormsModule, ViewCodeComponent, ...AUTOCOMPLETE_DIRECTIVES],
   selector: 'app-reactive-form',
   templateUrl: './reactive-form.component.html',
   styleUrls: ['../autocomplete.component.scss'],

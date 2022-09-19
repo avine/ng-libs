@@ -66,6 +66,9 @@ MIT
 @angular/router
 MIT
 
+@avine/ng-autocomplete
+MIT
+
 @avine/ng-form-stepper
 MIT
 

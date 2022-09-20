@@ -2,7 +2,13 @@
 
 <pre>Country: {{ country | json }}</pre>
 
-<input #inputRef class="input" [value]="country" (input)="country = inputRef.value" />
+<input
+  #inputRef
+  class="input"
+  [value]="country"
+  (input)="country = inputRef.value"
+  [autocompleteInput]="autocomplete"
+/>
 
 <br /><br />
 
@@ -24,6 +30,10 @@
       <span [innerHTML]="suggestion | autocompleteHighlight: autocomplete.inputValue"></span>
 
       <span *ngIf="suggestion === autocomplete.inputValue" class="autocomplete-input__suggestion-check">&check;</span>
+    </div>
+
+    <div *ngIf="!suggestions.length" class="autocomplete-input__suggestion autocomplete-input__suggestion--none">
+      No suggestion
     </div>
   </div>
 </autocomplete-suggestions>

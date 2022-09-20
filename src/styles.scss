@@ -15,26 +15,3 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
-
-.link {
-  position: relative;
-  text-decoration: underline;
-  color: #000;
-
-  &:hover {
-    text-decoration: none;
-  }
-}
-
-.link--external {
-  &::after {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    left: 0.5em;
-    width: 1em;
-    height: 1em;
-    background-image: url(assets/external-link-alt-solid.svg);
-  }
-}

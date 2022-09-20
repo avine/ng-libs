@@ -1,8 +1,8 @@
-<h2 class="title">Autocomplete standalone</h2>
+<h1>Autocomplete standalone</h1>
 
-<pre>{{ country | json }}</pre>
+<pre>Country: {{ country | json }}</pre>
 
-<input #inputRef [value]="country" (input)="country = inputRef.value" />
+<input #inputRef class="input" [value]="country" (input)="country = inputRef.value" />
 
 <br /><br />
 
@@ -32,6 +32,6 @@
 
 <button (click)="country = ''">Reset</button>
 
-<app-view-code
+<app-view-source
   linkHref="https://github.com/avine/ng-libs/blob/main/src/app/autocomplete/standalone/standalone.component.html"
-></app-view-code>
+></app-view-source>

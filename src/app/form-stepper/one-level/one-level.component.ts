@@ -4,11 +4,11 @@ import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { MatIconModule } from '@angular/material/icon';
 import { FORM_STEPPER_DIRECTIVES } from '@avine/ng-form-stepper';
 
-import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
+import { ViewSourceComponent } from '../../shared/view-source/view-source.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewCodeComponent, ...FORM_STEPPER_DIRECTIVES],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewSourceComponent, ...FORM_STEPPER_DIRECTIVES],
   selector: 'app-one-level',
   templateUrl: './one-level.component.html',
   styleUrls: ['./one-level.component.scss'],

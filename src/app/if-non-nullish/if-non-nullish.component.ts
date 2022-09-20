@@ -6,11 +6,11 @@ import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@ang
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { IfNonNullishDirective } from '@avine/ng-if-non-nullish';
 
-import { ViewCodeComponent } from '../shared/view-code/view-code.component';
+import { ViewSourceComponent } from '../shared/view-source/view-source.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, IfNonNullishDirective, MatSlideToggleModule, ViewCodeComponent],
+  imports: [CommonModule, IfNonNullishDirective, MatSlideToggleModule, ViewSourceComponent],
   selector: 'app-if-non-nullish',
   templateUrl: './if-non-nullish.component.html',
   styleUrls: ['./if-non-nullish.component.scss'],

@@ -1,4 +1,4 @@
-<h2 class="title">Autocomplete with Reactive Form</h2>
+<h1>Autocomplete with Reactive Form</h1>
 
 <pre>{{ formGroup.value | json }}</pre>
 
@@ -7,6 +7,7 @@
     cdkOverlayOrigin
     #dropDownOrigin="cdkOverlayOrigin"
     autocomplete="off"
+    class="input"
     formControlName="country"
     [autocompleteInput]="autocomplete"
     #autocompleteInput="autocompleteInput"
@@ -50,6 +51,6 @@
   </autocomplete-suggestions>
 </form>
 
-<app-view-code
+<app-view-source
   linkHref="https://github.com/avine/ng-libs/blob/main/src/app/autocomplete/reactive-form/reactive-form.component.html"
-></app-view-code>
+></app-view-source>

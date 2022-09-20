@@ -6,12 +6,12 @@ import {
   AutocompleteHighlightConfig,
 } from '@avine/ng-autocomplete';
 
-import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
+import { ViewSourceComponent } from '../../shared/view-source/view-source.component';
 import { getCountries } from '../countries';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ViewCodeComponent, ...AUTOCOMPLETE_DIRECTIVES],
+  imports: [CommonModule, ViewSourceComponent, ...AUTOCOMPLETE_DIRECTIVES],
   selector: 'app-standalone',
   templateUrl: './standalone.component.html',
   styleUrls: ['../autocomplete.component.scss'],

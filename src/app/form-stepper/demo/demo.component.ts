@@ -10,12 +10,12 @@ import {
   FormStepperContainerComponent,
 } from '@avine/ng-form-stepper';
 
-import { ViewCodeComponent } from '../../shared/view-code/view-code.component';
+import { ViewSourceComponent } from '../../shared/view-source/view-source.component';
 import { DemoForm } from './demo.types';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewCodeComponent, ...FORM_STEPPER_DIRECTIVES],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewSourceComponent, ...FORM_STEPPER_DIRECTIVES],
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],

@@ -8,6 +8,14 @@
   vertical-align: bottom;
 }
 
+@media (min-width: 720px) {
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 1.5rem;
+  }
+}
+
 mat-card {
   margin-bottom: 1.5rem;
   background-color: #f7f7f7;

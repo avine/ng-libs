@@ -57,10 +57,17 @@ export class IfNonNullishDirective<T = unknown> {
   private viewState: 'regular' | 'fallback' | 'clear' = 'clear';
 
   /**
-   * Asserts the correct type of the context for the template that `NgIf` will render.
+   * Assert the correct type of the expression bound to the `ngIf` input within the template.
+   *
+   * @see https://github.com/angular/angular/blob/master/packages/common/src/directives/ng_if.ts
+   */
+  static ngTemplateGuard_ifNonNullish: 'binding';
+
+  /**
+   * Asserts the correct type of the context for the template that `IfNonNullish` will render.
    *
    * The presence of this method is a signal to the Ivy template type-check compiler that the
-   * `NgIf` structural directive renders its template with a specific context type.
+   * `IfNonNullish` structural directive renders its template with a specific context type.
    *
    * @see https://github.com/angular/angular/blob/master/packages/common/src/directives/ng_if.ts
    */

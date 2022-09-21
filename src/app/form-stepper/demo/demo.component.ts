@@ -1,6 +1,6 @@
 import { shareReplay, startWith, tap } from 'rxjs/operators';
 
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +15,19 @@ import { DemoForm } from './demo.types';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewSourceComponent, ...FORM_STEPPER_DIRECTIVES],
+  imports: [
+    AsyncPipe,
+    JsonPipe,
+    NgFor,
+    NgIf,
+    NgSwitch,
+    NgSwitchCase,
+    NgTemplateOutlet,
+    ReactiveFormsModule,
+    MatIconModule,
+    ViewSourceComponent,
+    ...FORM_STEPPER_DIRECTIVES,
+  ],
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],

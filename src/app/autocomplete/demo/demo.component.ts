@@ -1,5 +1,5 @@
 import { OverlayModule } from '@angular/cdk/overlay';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AUTOCOMPLETE_DIRECTIVES } from '@avine/ng-autocomplete';
 
@@ -8,7 +8,7 @@ import { getCountries } from '../countries';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, OverlayModule, ViewSourceComponent, ...AUTOCOMPLETE_DIRECTIVES],
+  imports: [AsyncPipe, JsonPipe, NgIf, OverlayModule, ViewSourceComponent, ...AUTOCOMPLETE_DIRECTIVES],
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['../autocomplete.component.scss'],

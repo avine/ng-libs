@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
 import { FormStepperIconComponent } from '../form-stepper-icon/form-stepper-icon.component';
@@ -16,7 +16,16 @@ import { FormStepperStep } from '../form-stepper.types';
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, FormStepperIconComponent, FormStepperSectionIconComponent],
+  imports: [
+    AsyncPipe,
+    NgFor,
+    NgIf,
+    NgSwitch,
+    NgSwitchCase,
+    NgTemplateOutlet,
+    FormStepperIconComponent,
+    FormStepperSectionIconComponent,
+  ],
   selector: 'form-stepper-quicknav',
   templateUrl: './form-stepper-quicknav.component.html',
   encapsulation: ViewEncapsulation.None,

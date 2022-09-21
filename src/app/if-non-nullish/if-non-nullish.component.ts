@@ -1,7 +1,7 @@
 import { interval, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { IfNonNullishDirective } from '@avine/ng-if-non-nullish';
@@ -10,7 +10,7 @@ import { ViewSourceComponent } from '../shared/view-source/view-source.component
 
 @Component({
   standalone: true,
-  imports: [CommonModule, IfNonNullishDirective, MatSlideToggleModule, ViewSourceComponent],
+  imports: [AsyncPipe, NgTemplateOutlet, IfNonNullishDirective, MatSlideToggleModule, ViewSourceComponent],
   selector: 'app-if-non-nullish',
   templateUrl: './if-non-nullish.component.html',
   styleUrls: ['./if-non-nullish.component.scss'],

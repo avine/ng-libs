@@ -1,6 +1,6 @@
 import { tap } from 'rxjs';
 
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +14,16 @@ const materialModules = [MatButtonModule, MatCheckboxModule, MatInputModule] as 
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ...materialModules, ViewSourceComponent, ...FORM_STEPPER_DIRECTIVES],
+  imports: [
+    AsyncPipe,
+    NgFor,
+    NgIf,
+    NgTemplateOutlet,
+    ReactiveFormsModule,
+    ...materialModules,
+    ViewSourceComponent,
+    ...FORM_STEPPER_DIRECTIVES,
+  ],
   selector: 'app-material',
   templateUrl: './material.component.html',
   styleUrls: ['./material.component.scss'],

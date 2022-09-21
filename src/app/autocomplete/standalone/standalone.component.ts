@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgFor, NgIf } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import {
   AUTOCOMPLETE_DIRECTIVES,
@@ -11,7 +11,7 @@ import { getCountries } from '../countries';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ViewSourceComponent, ...AUTOCOMPLETE_DIRECTIVES],
+  imports: [AsyncPipe, JsonPipe, NgFor, NgIf, ViewSourceComponent, ...AUTOCOMPLETE_DIRECTIVES],
   selector: 'app-standalone',
   templateUrl: './standalone.component.html',
   styleUrls: ['../autocomplete.component.scss'],

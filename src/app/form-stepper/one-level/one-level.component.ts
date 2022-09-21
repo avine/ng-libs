@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { JsonPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +8,15 @@ import { ViewSourceComponent } from '../../shared/view-source/view-source.compon
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule, ViewSourceComponent, ...FORM_STEPPER_DIRECTIVES],
+  imports: [
+    JsonPipe,
+    NgFor,
+    NgTemplateOutlet,
+    ReactiveFormsModule,
+    MatIconModule,
+    ViewSourceComponent,
+    ...FORM_STEPPER_DIRECTIVES,
+  ],
   selector: 'app-one-level',
   templateUrl: './one-level.component.html',
   styleUrls: ['./one-level.component.scss'],

@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -34,7 +34,7 @@ import { FormStepperExtraPage } from '../form-stepper.types';
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, FormStepperNavComponent],
+  imports: [AsyncPipe, NgIf, NgTemplateOutlet, FormStepperNavComponent],
   selector: 'form-stepper-container',
   templateUrl: './form-stepper-container.component.html',
   providers: [FormStepperService],

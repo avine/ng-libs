@@ -1,5 +1,5 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
 
 import { FormStepperIconComponent } from '../form-stepper-icon/form-stepper-icon.component';
@@ -8,7 +8,7 @@ import { sectionIconAnimations } from './form-stepper-section-icon.animations';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormStepperIconComponent],
+  imports: [NgIf, NgTemplateOutlet, FormStepperIconComponent],
   selector: 'form-stepper-section-icon',
   templateUrl: './form-stepper-section-icon.component.html',
   encapsulation: ViewEncapsulation.None,

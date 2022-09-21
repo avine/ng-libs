@@ -4,7 +4,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -27,7 +27,15 @@ import { navAnimations } from './form-stepper-nav.animations';
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, OverlayModule, FormStepperIconComponent, FormStepperSectionIconComponent],
+  imports: [
+    AsyncPipe,
+    NgFor,
+    NgIf,
+    NgTemplateOutlet,
+    OverlayModule,
+    FormStepperIconComponent,
+    FormStepperSectionIconComponent,
+  ],
   selector: 'form-stepper-nav',
   templateUrl: './form-stepper-nav.component.html',
   encapsulation: ViewEncapsulation.None,

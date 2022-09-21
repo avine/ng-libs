@@ -2,7 +2,7 @@ import { ReplaySubject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { BreakpointObserver, Breakpoints, LayoutModule } from '@angular/cdk/layout';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +16,7 @@ const materialModules = [LayoutModule, MatButtonModule, MatIconModule, MatSidena
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, ...materialModules, MenuComponent],
+  imports: [AsyncPipe, RouterModule, ...materialModules, MenuComponent],
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],

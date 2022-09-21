@@ -27,6 +27,7 @@ export class AutocompleteHighlightPipe implements PipeTransform {
       ...AUTOCOMPLETE_BASE_HIGHLIGHT_CONFIG,
       ...(config ?? this.config ?? AUTOCOMPLETE_DEFAULT_HIGHLIGHT_CONFIG),
     };
-    return suggestionValue.replace(new RegExp(escapeRegExp(inputValue), 'i'), `<${tag} class="${css}">$&</${tag}>`);
+    const attr = css ? ` class="${css}"` : '';
+    return suggestionValue.replace(new RegExp(escapeRegExp(inputValue), 'gi'), `<${tag}${attr}>$&</${tag}>`);
   }
 }

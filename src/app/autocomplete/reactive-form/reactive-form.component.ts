@@ -1,5 +1,5 @@
 import { OverlayModule } from '@angular/cdk/overlay';
-import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgFor, NgIf } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AUTOCOMPLETE_DIRECTIVES } from '@avine/ng-autocomplete';
@@ -12,6 +12,7 @@ import { getCountries } from '../countries';
   imports: [
     AsyncPipe,
     JsonPipe,
+    NgFor,
     NgIf,
     OverlayModule,
     ReactiveFormsModule,

@@ -6,7 +6,7 @@
     "ng-libs": {
       "projectType": "application",
       "schematics": {
-        "@schematics/angular:component": {
+        "@ngneat/spectator:spectator-component": {
           "style": "scss"
         }
       },
@@ -204,6 +204,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "defaultCollection": "@angular-eslint/schematics",
+    "schematicCollections": ["@ngneat/spectator"]
   }
 }

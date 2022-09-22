@@ -11,8 +11,8 @@ describe('AutocompleteHighlightPipe ', () => {
     suggestionValue | inputValue | highlighted
     ${'abcd'}       | ${'x'}     | ${'abcd'}
     ${'abcd'}       | ${'bc'}    | ${'a<strong>bc</strong>d'}
-    ${'abcd abcd'}  | ${'bc'}    | ${'a<strong>bc</strong>d a<strong>bc</strong>d'}
-    ${'abCd aBcd'}  | ${'BC'}    | ${'a<strong>bC</strong>d a<strong>Bc</strong>d'}
+    ${'abCd'}       | ${'Bc'}    | ${'a<strong>bC</strong>d'}
+    ${'abcd abcd'}  | ${'bc'}    | ${'a<strong>bc</strong>d abcd'}
   `(
     'returns "$highlighted" when matching "$suggestionValue" with "$inputValue"',
     ({ suggestionValue, inputValue, highlighted }) => {

@@ -33,6 +33,7 @@ describe('AutocompleteInputDirective', () => {
     });
 
     const spy = jest.spyOn(spectator.directive.autocompleteInput, 'onFocus').mockReturnValue();
+    expect(spy).not.toHaveBeenCalled();
     spectator.dispatchMouseEvent(spectator.element, 'focus');
     expect(spy).toHaveBeenCalled();
   });
@@ -45,6 +46,7 @@ describe('AutocompleteInputDirective', () => {
     });
 
     const spy = jest.spyOn(spectator.directive.autocompleteInput, 'onInput').mockReturnValue();
+    expect(spy).not.toHaveBeenCalled();
     spectator.dispatchMouseEvent(spectator.element, 'input');
     expect(spy).toHaveBeenCalled();
   });
@@ -56,7 +58,8 @@ describe('AutocompleteInputDirective', () => {
       },
     });
 
-    const spy = jest.spyOn(spectator.directive.autocompleteInput, 'onArrowUp').mockReturnValue();
+    const spy = jest.spyOn(spectator.directive.autocompleteInput, 'onArrowUp').mockReturnValue(Promise.resolve());
+    expect(spy).not.toHaveBeenCalled();
     spectator.dispatchKeyboardEvent(spectator.element, 'keydown', { key: 'ArrowUp', keyCode: 38 });
     expect(spy).toHaveBeenCalled();
   });
@@ -68,7 +71,8 @@ describe('AutocompleteInputDirective', () => {
       },
     });
 
-    const spy = jest.spyOn(spectator.directive.autocompleteInput, 'onArrowDown').mockReturnValue();
+    const spy = jest.spyOn(spectator.directive.autocompleteInput, 'onArrowDown').mockReturnValue(Promise.resolve());
+    expect(spy).not.toHaveBeenCalled();
     spectator.dispatchKeyboardEvent(spectator.element, 'keydown', { key: 'ArrowDown', keyCode: 40 });
     expect(spy).toHaveBeenCalled();
   });
@@ -81,6 +85,7 @@ describe('AutocompleteInputDirective', () => {
     });
 
     const spy = jest.spyOn(spectator.directive.autocompleteInput, 'onEnter').mockReturnValue();
+    expect(spy).not.toHaveBeenCalled();
     spectator.dispatchKeyboardEvent(spectator.element, 'keydown', 'Enter');
     expect(spy).toHaveBeenCalled();
   });
@@ -93,8 +98,24 @@ describe('AutocompleteInputDirective', () => {
     });
 
     const spy = jest.spyOn(spectator.directive.autocompleteInput, 'onEscape').mockReturnValue();
+    expect(spy).not.toHaveBeenCalled();
     spectator.dispatchKeyboardEvent(spectator.element, 'keydown', 'Escape');
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should validate any value against empty datalist when isEmptyDatalistAllowed is true', async () => {
+    spectator = createDirective('<input autocompleteInput />', {
+      props: {
+        autocompleteInput: new AutocompleteSuggestionsComponent({ listen: jest.fn() as any } as Renderer2),
+      },
+    });
+
+    spectator.directive.autocompleteInput.datalist = [];
+
+    expect(await spectator.directive.validate({ value: 'a' } as AbstractControl)).toEqual({ datalist: [] });
+
+    spectator.directive.isEmptyDatalistAllowed = true;
+    expect(await spectator.directive.validate({ value: 'a' } as AbstractControl)).toBeNull();
   });
 
   it('should validate against datalist', async () => {
@@ -106,6 +127,7 @@ describe('AutocompleteInputDirective', () => {
 
     spectator.directive.autocompleteInput.datalist = ['a', 'b'];
 
+    expect(await spectator.directive.validate({ value: '' } as AbstractControl)).toBeNull();
     expect(await spectator.directive.validate({ value: 'a' } as AbstractControl)).toBeNull();
     expect(await spectator.directive.validate({ value: 'b' } as AbstractControl)).toBeNull();
     expect(await spectator.directive.validate({ value: 'oops' } as AbstractControl)).toEqual({ datalist: ['a', 'b'] });

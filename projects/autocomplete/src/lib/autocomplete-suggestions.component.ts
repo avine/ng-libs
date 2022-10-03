@@ -1,6 +1,17 @@
-import { BehaviorSubject, combineLatest, map, ReplaySubject, startWith, Subscription, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  firstValueFrom,
+  map,
+  ReplaySubject,
+  shareReplay,
+  startWith,
+  Subscription,
+  tap,
+} from 'rxjs';
 
-import { BooleanInput, coerceBooleanProperty, coerceStringArray } from '@angular/cdk/coercion';
+import { coerceStringArray } from '@angular/cdk/coercion';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -35,6 +46,7 @@ import { AutocompleteSuggestionDirective } from './autocomplete-suggestion.direc
  */
 @Component({
   standalone: true,
+  imports: [AsyncPipe, NgIf],
   selector: 'autocomplete-suggestions',
   template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,19 +70,6 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
 
   get datalist(): string[] {
     return this._datalist ?? [];
-  }
-
-  private _isEmptyDatalistAllowed = false;
-
-  /**
-   * Whether to validate any input string when `datalist` is empty.
-   */
-  @Input() set isEmptyDatalistAllowed(value: BooleanInput) {
-    this._isEmptyDatalistAllowed = coerceBooleanProperty(value);
-  }
-
-  get isEmptyDatalistAllowed() {
-    return this._isEmptyDatalistAllowed;
   }
 
   /* --- Value related properties --- */
@@ -115,7 +114,8 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
         this._focusedSuggestionIndex$.next(-1);
       }
     }),
-    tap((suggestions) => (this.suggestions = suggestions))
+    tap((suggestions) => (this.suggestions = suggestions)),
+    shareReplay(1)
   );
 
   private _focusedSuggestionIndex$ = new BehaviorSubject(-1);
@@ -134,7 +134,8 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
    * Relies on suggestion availability and input string length to determine whether suggestions should be displayed.
    */
   shouldDisplaySuggestions$ = combineLatest([this.suggestions$, this.areSuggestionsExpected$]).pipe(
-    map(([{ length }, areSuggestionsExpected]) => length > 0 && areSuggestionsExpected)
+    map(([suggestions, areSuggestionsExpected]) => suggestions.length > 0 && areSuggestionsExpected),
+    shareReplay(1)
   );
 
   /* ----- */
@@ -162,9 +163,8 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
     this.areSuggestionsExpected$.next(value.length >= this.inputMinLength);
   }
 
-  onArrowUp(event: Event): void {
-    event.preventDefault();
-    if (!this.suggestionsQueryList.length) {
+  async onArrowUp(): Promise<void> {
+    if (!(await firstValueFrom(this.shouldDisplaySuggestions$))) {
       this.areSuggestionsExpected$.next(this.inputValue$.value.length >= this.inputMinLength);
       return;
     }
@@ -174,9 +174,8 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
     this.scrollToFocusedSuggestion();
   }
 
-  onArrowDown(event: Event): void {
-    event.preventDefault();
-    if (!this.suggestionsQueryList.length) {
+  async onArrowDown(): Promise<void> {
+    if (!(await firstValueFrom(this.shouldDisplaySuggestions$))) {
       this.areSuggestionsExpected$.next(this.inputValue$.value.length >= this.inputMinLength);
       return;
     }
@@ -191,7 +190,9 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
       return;
     }
     if (this.suggestions.length === 1) {
-      this._focusedSuggestionIndex$.next(0);
+      if (this._focusedSuggestionIndex$.value !== 0) {
+        this._focusedSuggestionIndex$.next(0);
+      }
     } else if (this._focusedSuggestionIndex$.value === -1) {
       if (this.suggestions.find((suggestion) => suggestion === this.inputValue)) {
         this.areSuggestionsExpected$.next(false);

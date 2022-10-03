@@ -1,5 +1,6 @@
 import { firstValueFrom } from 'rxjs';
 
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { AbstractControl, AsyncValidator, NG_ASYNC_VALIDATORS, ValidationErrors } from '@angular/forms';
 
@@ -29,6 +30,19 @@ export class AutocompleteInputDirective implements AsyncValidator {
    */
   @Input() autocompleteInput!: AutocompleteSuggestionsComponent;
 
+  private _isEmptyDatalistAllowed = false;
+
+  /**
+   * Whether to validate any input string when `datalist` is empty.
+   */
+  @Input() set isEmptyDatalistAllowed(value: BooleanInput) {
+    this._isEmptyDatalistAllowed = coerceBooleanProperty(value);
+  }
+
+  get isEmptyDatalistAllowed() {
+    return this._isEmptyDatalistAllowed;
+  }
+
   get inputWidthPx(): string {
     return this.elementRef.nativeElement.offsetWidth + 'px';
   }
@@ -51,11 +65,13 @@ export class AutocompleteInputDirective implements AsyncValidator {
   }
 
   @HostListener('keydown.ArrowUp', ['$event']) onArrowUp(event: Event): void {
-    this.autocompleteInput.onArrowUp(event);
+    event.preventDefault();
+    this.autocompleteInput.onArrowUp();
   }
 
   @HostListener('keydown.ArrowDown', ['$event']) onArrowDown(event: Event): void {
-    this.autocompleteInput.onArrowDown(event);
+    event.preventDefault();
+    this.autocompleteInput.onArrowDown();
   }
 
   @HostListener('keydown.Enter') async onEnter(): Promise<void> {
@@ -71,7 +87,7 @@ export class AutocompleteInputDirective implements AsyncValidator {
       return null;
     }
     const datalist = await firstValueFrom(this.autocompleteInput.datalist$);
-    if ((!datalist.length && this.autocompleteInput.isEmptyDatalistAllowed) || datalist.includes(value)) {
+    if ((!datalist.length && this.isEmptyDatalistAllowed) || datalist.includes(value)) {
       return null;
     }
     return { datalist };

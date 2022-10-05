@@ -1,0 +1,42 @@
+<h1>Autocomplete</h1>
+
+<p>
+  Change input minlength required to open suggestions:
+  <button (click)="changeInputMinLength()">{{ inputMinLength }}</button>
+</p>
+
+<pre>Country: {{ country | json }}</pre>
+
+<input
+  #inputRef
+  cdkOverlayOrigin
+  #dropDownOrigin="cdkOverlayOrigin"
+  autocomplete="off"
+  class="input"
+  [value]="country"
+  (input)="country = inputRef.value"
+  [autocompleteInput]="autocomplete"
+  #autocompleteInput="autocompleteInput"
+/>
+
+<autocomplete-suggestions
+  #autocomplete
+  [datalist]="countries"
+  [inputMinLength]="inputMinLength"
+  [(inputValue)]="country"
+>
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="dropDownOrigin"
+    [cdkConnectedOverlayOpen]="(autocomplete.shouldDisplaySuggestions$ | async) ?? false"
+  >
+    <autocomplete-suggestions-view
+      [style.width]="autocompleteInput.inputWidthPx"
+      [suggestionsComponent]="autocomplete"
+    ></autocomplete-suggestions-view>
+  </ng-template>
+</autocomplete-suggestions>
+
+<app-view-source
+  linkHref="https://github.com/avine/ng-libs/blob/main/src/app/autocomplete/demo-view/demo-view.component.html"
+></app-view-source>

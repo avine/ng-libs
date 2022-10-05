@@ -1,0 +1,19 @@
+<div *ngIf="suggestionsComponent.suggestions$ | async as suggestions" class="autocomplete__suggestions">
+  <div
+    *ngFor="let suggestion of suggestions; index as suggestionIndex"
+    [autocompleteSuggestion]="suggestion"
+    class="autocomplete__suggestion"
+    [class.autocomplete__suggestion--focused]="
+      suggestionIndex === (suggestionsComponent.focusedSuggestionIndex$ | async)
+    "
+  >
+    <span
+      [innerHTML]="
+        suggestion
+          | autocompleteHighlight: suggestionsComponent.inputValue:{ css: 'autocomplete__suggestion-highlight' }
+      "
+    ></span>
+
+    <span *ngIf="suggestion === suggestionsComponent.inputValue" class="autocomplete__suggestion-check">&check;</span>
+  </div>
+</div>

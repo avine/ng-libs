@@ -19,7 +19,7 @@ import { getCountries } from '../countries';
   providers: [
     {
       provide: AUTOCOMPLETE_HIGHLIGHT_CONFIG,
-      useValue: { css: 'autocomplete-input__suggestion-highlight' } as AutocompleteHighlightConfig,
+      useValue: { css: 'demo-autocomplete__suggestion-highlight' } as AutocompleteHighlightConfig,
     },
   ],
 })

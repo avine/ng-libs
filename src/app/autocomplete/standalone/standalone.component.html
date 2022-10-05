@@ -18,21 +18,21 @@
   [inputMinLength]="inputMinLength"
   [(inputValue)]="country"
 >
-  <div *ngIf="autocomplete.suggestions$ | async as suggestions" class="autocomplete-input__suggestions">
+  <div *ngIf="autocomplete.suggestions$ | async as suggestions" class="demo-autocomplete__suggestions">
     <div
       *ngFor="let suggestion of suggestions; index as suggestionIndex"
       [autocompleteSuggestion]="suggestion"
-      class="autocomplete-input__suggestion"
-      [class.autocomplete-input__suggestion--focused]="
+      class="demo-autocomplete__suggestion"
+      [class.demo-autocomplete__suggestion--focused]="
         suggestionIndex === (autocomplete.focusedSuggestionIndex$ | async)
       "
     >
       <span [innerHTML]="suggestion | autocompleteHighlight: autocomplete.inputValue"></span>
 
-      <span *ngIf="suggestion === autocomplete.inputValue" class="autocomplete-input__suggestion-check">&check;</span>
+      <span *ngIf="suggestion === autocomplete.inputValue" class="demo-autocomplete__suggestion-check">&check;</span>
     </div>
 
-    <div *ngIf="!suggestions.length" class="autocomplete-input__suggestion autocomplete-input__suggestion--none">
+    <div *ngIf="!suggestions.length" class="demo-autocomplete__suggestion demo-autocomplete__suggestion--none">
       No suggestion
     </div>
   </div>

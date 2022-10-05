@@ -13,6 +13,7 @@
     "build:all": "npm run build && npm run build:autocomplete && npm run build:form-stepper && npm run build:if-non-nullish",
     "build": "ng build",
     "build:autocomplete": "ng build autocomplete",
+    "postbuild:autocomplete": "sass ./projects/autocomplete/src/lib/scss/autocomplete.scss ./dist/autocomplete/autocomplete.css --style compressed",
     "build:form-stepper": "ng build form-stepper",
     "postbuild:form-stepper": "sass ./projects/form-stepper/src/lib/scss/form-stepper.scss ./dist/form-stepper/form-stepper.css --style compressed",
     "build:if-non-nullish": "ng build if-non-nullish",

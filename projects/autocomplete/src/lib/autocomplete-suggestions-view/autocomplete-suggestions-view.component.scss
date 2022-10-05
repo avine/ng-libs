@@ -1,39 +1,52 @@
+@use '../scss/variables' as v;
+
 autocomplete-suggestions-view {
   display: block;
+
+  --autocomplete-max-height: #{v.$autocomplete-max-height};
+  --autocomplete-box-shadow: #{v.$autocomplete-box-shadow};
+  --autocomplete-border-radius: #{v.$autocomplete-border-radius};
+  --autocomplete-border: #{v.$autocomplete-border};
+  --autocomplete-padding-base: #{v.$autocomplete-padding-base};
+  --autocomplete-bg-color: #{v.$autocomplete-bg-color};
+  --autocomplete-bg-color-focused: #{v.$autocomplete-bg-color-focused};
+  --autocomplete-highlight-color: #{v.$autocomplete-highlight-color};
+  --autocomplete-highlight-border-color: #{v.$autocomplete-highlight-border-color};
+  --autocomplete-highlight-bg-color: #{v.$autocomplete-highlight-bg-color};
 }
 
 .autocomplete {
   &__suggestions {
-    max-height: 50vh;
+    max-height: var(--autocomplete-max-height);
     overflow: auto;
-    border-radius: 4px;
-    box-shadow: 0 6px 12px 0 rgba(34, 34, 34, 0.3);
+    border-radius: var(--autocomplete-border-radius);
+    box-shadow: var(--autocomplete-box-shadow);
     box-sizing: border-box;
-    border: 1px solid #eee;
-    background-color: #fff;
-    padding: 0.4em 0;
+    border: var(--autocomplete-border);
+    background-color: var(--autocomplete-bg-color);
+    padding: var(--autocomplete-padding-base) 0;
   }
 
   &__suggestion {
     display: flex;
     justify-content: space-between;
-    padding: 0.8em 1.2em;
+    padding: calc(var(--autocomplete-padding-base) * 2) calc(var(--autocomplete-padding-base) * 3);
     outline: none;
     cursor: pointer;
 
     &:hover,
     &--focused {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: var(--autocomplete-bg-color-focused);
     }
 
     &-highlight,
     &-check {
-      color: #0f5132;
+      color: var(--autocomplete-highlight-color);
     }
 
     &-highlight {
-      border-bottom: 1px solid #badbcc;
-      background-color: #d1e7dd;
+      border-bottom: 1px solid var(--autocomplete-highlight-border-color);
+      background-color: var(--autocomplete-highlight-bg-color);
     }
   }
 }

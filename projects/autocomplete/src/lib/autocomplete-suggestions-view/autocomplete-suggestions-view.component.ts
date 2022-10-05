@@ -10,7 +10,6 @@ import { AutocompleteSuggestionsComponent } from '../autocomplete-suggestions.co
   imports: [AsyncPipe, NgFor, NgIf, AutocompleteHighlightPipe, AutocompleteSuggestionDirective],
   selector: 'autocomplete-suggestions-view',
   templateUrl: './autocomplete-suggestions-view.component.html',
-  styleUrls: ['./autocomplete-suggestions-view.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class AutocompleteSuggestionsViewComponent {

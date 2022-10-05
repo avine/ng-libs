@@ -1,5 +1,7 @@
 @use './theme/material.scss';
 
+@use 'projects/autocomplete/src/lib/scss/autocomplete.scss';
+
 @use 'projects/form-stepper/src/lib/scss/form-stepper.scss' with (
   $breakpoint: 960px
 );

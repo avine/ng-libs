@@ -33,14 +33,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <div *ifNonNullish="data$ | async as value">{{ value }}</div>
-  `,
+  template: `<div *ifNonNullish="data$ | async as value">{{ value }}</div>`,
 })
 export class AppComponent {
-  data$: Observable<false | null> = interval(1000).pipe(
-    map((i) => i % 2 ? false : null)
-  );
+  data$: Observable<false | null> = interval(1000).pipe(map((i) => (i % 2 ? false : null)));
 }
 ```
 
@@ -61,12 +57,13 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
+    <div *ifNonNullish="data">{{ data }}</div>
     <div *ifNonNullish="data as value">{{ value }}</div>
     <div *ifNonNullish="data; let value">{{ value }}</div>
   `,
 })
 export class AppComponent {
-  data = 'Data';
+  data: number | null = 0;
 }
 ```
 

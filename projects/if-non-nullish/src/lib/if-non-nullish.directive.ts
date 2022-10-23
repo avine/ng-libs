@@ -14,15 +14,17 @@ export class IfNonNullishDirective<T = unknown> {
 
   // NOTE:
   // Ideally, this function signature should have been `data: T` and not `data: any`.
-  // But if we do so, we encounter the following problem with the Ivy language service:
+  // But if we do so, TypeScript is not able to determine the actual value of `T`
+  // when `default: ` is not provided in the template:
+  // Here's a code example:
   //
   // @Component({
   //   template: `
   //     <!-- When default input is defined, value has the expected type (string or number in this example) -->
-  //     <ng-container *ifNonNullish="data as value; default: defaultValue"></ng-container>
+  //     <ng-container *ifNonNullish="data as value; default: defaultValue">{{ value }}</ng-container>
   //
-  //     <!-- But when default input is not defined, value is strangely of type any -->
-  //     <ng-container *ifNonNullish="data as value"></ng-container>
+  //     <!-- But when default input is not defined, value becomes of type any -->
+  //     <ng-container *ifNonNullish="data as value">{{ value }}</ng-container>
   //   `
   // })
   // class AppComponent {
@@ -56,12 +58,18 @@ export class IfNonNullishDirective<T = unknown> {
   private viewState: 'regular' | 'fallback' | 'clear' = 'clear';
 
   /**
-   * Asserts the correct type of the context for the template that `NgIf` will render.
+   * Assert the correct type of the expression bound to the `ifNonNullish` input within the template.
    *
-   * The presence of this method is a signal to the Ivy template type-check compiler that the
-   * `NgIf` structural directive renders its template with a specific context type.
+   * @see https://angular.io/guide/structural-directives#improving-template-type-checking-for-custom-directives
+   */
+  static ngTemplateGuard_ifNonNullish<T>(_directive: IfNonNullishDirective<T>, data: T): data is Exclude<T, IfNullish> {
+    return true;
+  }
+
+  /**
+   * Asserts the correct type of the context for the template that `IfNonNullish` will render.
    *
-   * @see https://github.com/angular/angular/blob/master/packages/common/src/directives/ng_if.ts
+   * @see https://angular.io/guide/structural-directives#improving-template-type-checking-for-custom-directives
    */
   static ngTemplateContextGuard<T>(
     _directive: IfNonNullishDirective<T>,

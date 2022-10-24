@@ -1,9 +1,9 @@
-import { Injectable, NgModule } from '@angular/core';
+import { ClassProvider, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { RouterModule, RouterStateSnapshot, Routes, TitleStrategy } from '@angular/router';
+import { RouterStateSnapshot, Routes, TitleStrategy } from '@angular/router';
 import { provideFormStepperConfig } from '@avine/ng-form-stepper';
 
-const routes: Routes = [
+export const APP_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () => import('./shared/home/home.component').then((m) => m.HomeComponent),
@@ -39,9 +39,4 @@ export class AppTitleStrategy extends TitleStrategy {
   }
 }
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  providers: [{ provide: TitleStrategy, useClass: AppTitleStrategy }],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
+export const APP_TITLE_STRATEGY: ClassProvider = { provide: TitleStrategy, useClass: AppTitleStrategy };

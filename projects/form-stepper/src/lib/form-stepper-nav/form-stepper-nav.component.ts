@@ -61,7 +61,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
   noStepsNav = false;
 
   /**
-   * Determines whether to hide the steps from the "nav".
+   * Determines whether to hide the steps in the "nav" for all sections.
    * When set to `true`, only the "sections" are displayed.
    */
   @Input() set fsNoStepsNav(value: BooleanInput) {

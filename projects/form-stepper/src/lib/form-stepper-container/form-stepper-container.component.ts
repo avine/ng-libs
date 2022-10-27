@@ -70,7 +70,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   @Input() fsNoOnboardingNav: BooleanInput = false;
 
   /**
-   * Determines whether to hide the steps from the "nav".
+   * Determines whether to hide the steps in the "nav" for all sections.
    * When set to `true`, only the "sections" are displayed.
    */
   @Input() fsNoStepsNav: BooleanInput = false;

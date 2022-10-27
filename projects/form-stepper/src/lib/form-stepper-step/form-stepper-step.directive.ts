@@ -68,12 +68,12 @@ export class FormStepperStepDirective {
   getStep = (): AbstractControl | string =>
     this.formStepperStep || this.formGroup || this.formGroupName || this.formArrayName;
 
-  getTitle = (): string => this.fsOptions?.title || this.fsTitle;
+  getTitle = (): string => this.fsOptions?.title ?? this.fsTitle;
 
-  getPath = (): string => this.fsOptions?.path || this.fsPath;
+  getPath = (): string => this.fsOptions?.path ?? this.fsPath;
 
   getAutoNextOnValueChange = (): boolean =>
-    this.fsOptions?.autoNextOnValueChange || coerceBooleanProperty(this.fsAutoNextOnValueChange);
+    this.fsOptions?.autoNextOnValueChange ?? coerceBooleanProperty(this.fsAutoNextOnValueChange);
 
   constructor(public template: TemplateRef<any>, private service: FormStepperService) {}
 }

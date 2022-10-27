@@ -82,14 +82,19 @@
 
           <form-stepper-icon
             fsIcon="arrowDown"
-            *ngIf="!noStepsNav && isMobile && state.sectionProgression && state.sectionIndex === sectionIndex"
+            *ngIf="
+              !(section.noStepsNav ?? noStepsNav) &&
+              isMobile &&
+              state.sectionProgression &&
+              state.sectionIndex === sectionIndex
+            "
             [@smoothWidth]="state.sectionIndex === sectionIndex ? 'show' : 'hide'"
             class="form-stepper-nav-section__arrow"
             [class.form-stepper-nav-section__arrow--open]="isMobileOverlayOpen"
           ></form-stepper-icon>
         </button>
 
-        <ng-container *ngIf="!noStepsNav && state.sectionIndex === sectionIndex">
+        <ng-container *ngIf="!(section.noStepsNav ?? noStepsNav) && state.sectionIndex === sectionIndex">
           <ng-container *ngIf="!isMobile; else mobileOverlayTemplate" [ngTemplateOutlet]="stepsTemplate"></ng-container>
 
           <ng-template #mobileOverlayTemplate>

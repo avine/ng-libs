@@ -137,6 +137,10 @@
       </ng-container>
     </ng-container>
 
+    <!--
+      This section demonstrate the usage of the input `fsNoStepsNav` to hide the steps in the "nav" for one particular section only.
+      Note that you can configure this for the entire stepper using the input `fsNoStepsNav` on `<form-stepper-container>`.
+    -->
     <ng-container [ngSwitch]="haveCompany$ | async">
       <ng-container
         *ngSwitchCase="false"
@@ -144,6 +148,7 @@
         formStepperSection
         fsTitle="Contact"
         [fsIcon]="contactIcon"
+        fsNoStepsNav
       >
         <ng-template formStepperStep="email" fsTitle="Email" fsPath="email">
           <label>

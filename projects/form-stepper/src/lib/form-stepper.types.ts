@@ -25,6 +25,7 @@ export interface FormStepperNavSection {
   stepIndexOffset: number;
   steps: FormStepperStep[];
   hasQuicknav: boolean;
+  noStepsNav?: boolean;
 }
 
 export interface FormStepperStep {

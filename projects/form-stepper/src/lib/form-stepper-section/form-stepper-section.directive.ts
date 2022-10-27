@@ -64,16 +64,31 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
    */
   @Input() fsNoQuicknav: BooleanInput = false;
 
+  /**
+   * Determines whether to hide the steps in the "nav" for this section.
+   */
+  @Input() fsNoStepsNav?: BooleanInput;
+
   @ContentChildren(FormStepperStepDirective) stepDirectiveQueryList!: QueryList<FormStepperStepDirective>;
 
   getSection = (): AbstractControl | string =>
     this.formStepperSection || this.formGroup || this.formGroupName || this.formArrayName;
 
-  getTitle = (): string => this.fsOptions?.title || this.fsTitle;
+  getTitle = (): string => this.fsOptions?.title ?? this.fsTitle;
 
-  getIcon = (): TemplateRef<any> => this.fsOptions?.icon || this.fsIcon;
+  getIcon = (): TemplateRef<any> => this.fsOptions?.icon ?? this.fsIcon;
 
-  getNoQuicknav = (): boolean => this.fsOptions?.noQuicknav || coerceBooleanProperty(this.fsNoQuicknav);
+  getNoQuicknav = (): boolean => this.fsOptions?.noQuicknav ?? coerceBooleanProperty(this.fsNoQuicknav);
+
+  getNoStepsNav = (): boolean | undefined => {
+    if (this.fsOptions?.noStepsNav !== undefined) {
+      return this.fsOptions.noStepsNav;
+    }
+    if (this.fsNoStepsNav !== undefined) {
+      return coerceBooleanProperty(this.fsNoStepsNav);
+    }
+    return undefined;
+  };
 
   private stepsSubscription!: Subscription;
 
@@ -93,6 +108,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
       stepIndexOffset,
       steps,
       hasQuicknav: !this.getNoQuicknav(),
+      noStepsNav: this.getNoStepsNav(),
     });
   }
 

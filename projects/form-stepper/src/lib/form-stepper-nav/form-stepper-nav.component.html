@@ -11,7 +11,6 @@
 
         <button
           type="button"
-          tabindex="-1"
           class="form-stepper-nav-section__btn"
           (click)="navigateByStepIndex($event, state.onboardingInfo.index)"
         >
@@ -49,7 +48,6 @@
 
         <button
           type="button"
-          tabindex="-1"
           class="form-stepper-nav-section__btn"
           [disabled]="
             !section.steps.length ||
@@ -133,7 +131,6 @@
 
               <button
                 type="button"
-                tabindex="-1"
                 class="form-stepper-nav-step__btn"
                 [disabled]="
                   section.stepIndexOffset + relativeStepIndex > state.maxStepIndexViewed && step.control.pristine
@@ -157,7 +154,6 @@
 
         <button
           type="button"
-          tabindex="-1"
           class="form-stepper-nav-section__btn"
           [disabled]="!state.allStepsViewed"
           (click)="navigateByStepIndex($event, state.summaryInfo.index)"

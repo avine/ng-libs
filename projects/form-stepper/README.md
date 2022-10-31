@@ -158,9 +158,9 @@ Use the `<form-stepper-container>` component to declare the FormStepper in `step
           <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
         </div>
 
-        <button *ngIf="!main.isFirstStep" type="button" tabindex="-1" formStepperPrev>Previous</button>
+        <button *ngIf="!main.isFirstStep" type="button" formStepperPrev>Previous</button>
 
-        <button *ngIf="!main.isLastStep; else submitButton" type="button" tabindex="-1" formStepperNext>
+        <button *ngIf="!main.isLastStep; else submitButton" type="button" formStepperNext>
           {{ main.isOnboarding ? 'Start' : 'Next' }}
         </button>
 
@@ -325,9 +325,9 @@ Get access to the current step infos from the template.
         <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
       </div>
 
-      <button *ngIf="!main.isFirstStep" type="button" tabindex="-1" formStepperPrev>Previous</button>
+      <button *ngIf="!main.isFirstStep" type="button" formStepperPrev>Previous</button>
 
-      <button *ngIf="!main.isLastStep; else submitButton" type="button" tabindex="-1" formStepperNext>
+      <button *ngIf="!main.isLastStep; else submitButton" type="button" formStepperNext>
         {{ main.isOnboarding ? 'Start' : 'Next' }}
       </button>
 

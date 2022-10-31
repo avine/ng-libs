@@ -21,7 +21,7 @@
         <ng-container [ngTemplateOutlet]="main.stepTemplate"></ng-container>
 
         <p class="actions">
-          <button *ngIf="!main.isLastStep; else submitButton" formStepperNext type="button" tabindex="-1">
+          <button *ngIf="!main.isLastStep; else submitButton" formStepperNext type="button">
             {{ main.isOnboarding ? 'Start' : 'Next' }}
           </button>
 

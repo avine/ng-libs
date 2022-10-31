@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDrawerMode, MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
 import { MenuComponent } from './menu/menu.component';
 
@@ -16,7 +16,7 @@ const materialModules = [LayoutModule, MatButtonModule, MatIconModule, MatSidena
 
 @Component({
   standalone: true,
-  imports: [AsyncPipe, RouterModule, ...materialModules, MenuComponent],
+  imports: [AsyncPipe, RouterLink, ...materialModules, MenuComponent],
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { RouterModule } from '@angular/router';
+import { RouterLinkWithHref, RouterLinkActive } from '@angular/router';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, MatIconModule, MatListModule],
+  imports: [RouterLinkWithHref, RouterLinkActive, MatIconModule, MatListModule],
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],

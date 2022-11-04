@@ -2,7 +2,7 @@ import { debounceTime, filter, Observable, of, ReplaySubject, shareReplay, start
 
 export class RxDataStore<T, A extends any[]> {
   /**
-   * Cached values from the data source.
+   * Cache of the latest values from the data source per arguments.
    */
   private cache = new Map<string, T>();
 
@@ -22,17 +22,18 @@ export class RxDataStore<T, A extends any[]> {
       if (data) {
         return of(data);
       }
-      const args = JSON.stringify(this.args);
+      let cacheKey: string | void;
       if (this.useCache) {
-        const cached = this.cache.get(args);
+        cacheKey = this.buildCacheKey(this.args as A);
+        const cached = cacheKey && this.cache.get(cacheKey);
         if (cached) {
           return of(cached);
         }
       }
       return this.dataSource(...(this.args as A)).pipe(
         tap((data) => {
-          if (this.useCache) {
-            this.cache.set(args, data);
+          if (this.useCache && cacheKey) {
+            this.cache.set(cacheKey, data);
           }
         })
       );
@@ -86,7 +87,10 @@ export class RxDataStore<T, A extends any[]> {
       return;
     }
     if (this.useCache) {
-      this.cache.delete(JSON.stringify(this.args));
+      const cacheKey = this.buildCacheKey(this.args);
+      if (cacheKey) {
+        this.cache.delete(cacheKey);
+      }
     }
     this.dispatcher$.next(undefined);
   }
@@ -105,5 +109,16 @@ export class RxDataStore<T, A extends any[]> {
    */
   clearCache() {
     this.cache.clear();
+  }
+
+  /**
+   * Build cache key safely.
+   */
+  private buildCacheKey(args: A): string | void {
+    try {
+      return JSON.stringify(args);
+    } catch {
+      console.error('RxDataStore: unable to build cache key from arguments', args);
+    }
   }
 }

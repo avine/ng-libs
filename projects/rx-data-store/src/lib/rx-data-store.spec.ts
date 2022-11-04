@@ -1,11 +1,15 @@
-import { interval, Observable, of, skip, tap, zip } from 'rxjs';
+import { interval, Observable, of, skip, take, tap, zip } from 'rxjs';
 
 import { RxDataStore } from './rx-data-store';
 
 describe('RxDataStore', () => {
-  let fetch: jest.Mock<Observable<string>, [arg: string]>;
+  let dataSource: jest.Mock<Observable<string>, [arg: string]>;
   beforeEach(() => {
-    fetch = jest.fn((arg: string) => of(arg));
+    dataSource = jest.fn((arg: string) => of(arg));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('constructor', () => {
@@ -13,7 +17,7 @@ describe('RxDataStore', () => {
       expect.assertions(1);
 
       // Given
-      const dataStore = new RxDataStore(fetch, ['FETCHED']);
+      const dataStore = new RxDataStore(dataSource, ['FETCHED']);
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toBe('FETCHED'));
@@ -25,7 +29,7 @@ describe('RxDataStore', () => {
       expect.assertions(0);
 
       // Given
-      const dataStore = new RxDataStore(fetch);
+      const dataStore = new RxDataStore(dataSource);
 
       // When / Then
       dataStore.data$.subscribe(() => expect(true).toBeTruthy());
@@ -39,7 +43,7 @@ describe('RxDataStore', () => {
       expect.assertions(1);
 
       // Given (subscribe) / Then (expect)
-      const dataStore = new RxDataStore(fetch);
+      const dataStore = new RxDataStore(dataSource);
       dataStore.data$.subscribe((data) => expect(data).toBe('FETCHED'));
 
       // When
@@ -52,7 +56,7 @@ describe('RxDataStore', () => {
       expect.assertions(1);
 
       // Given
-      const dataStore = new RxDataStore(fetch);
+      const dataStore = new RxDataStore(dataSource);
 
       // When
       dataStore.fetch('FETCHED');
@@ -67,7 +71,7 @@ describe('RxDataStore', () => {
       expect.assertions(1);
 
       // Given (subscribe) / Then (expect)
-      const dataStore = new RxDataStore(fetch);
+      const dataStore = new RxDataStore(dataSource);
       dataStore.data$.subscribe((data) => expect(data).toBe('FETCHED'));
 
       // When
@@ -82,10 +86,10 @@ describe('RxDataStore', () => {
       expect.assertions(2);
 
       // Given
-      const dataStore = new RxDataStore(fetch);
+      const dataStore = new RxDataStore(dataSource);
       zip([dataStore.data$, dataStore.data$, dataStore.data$]).subscribe((dataList) => {
         // Then
-        expect(fetch).toHaveBeenCalledTimes(1);
+        expect(dataSource).toHaveBeenCalledTimes(1);
         expect(dataList).toEqual(['FETCHED', 'FETCHED', 'FETCHED']);
       });
 
@@ -99,7 +103,7 @@ describe('RxDataStore', () => {
       expect.assertions(2);
 
       // Given
-      const dataStore = new RxDataStore(fetch);
+      const dataStore = new RxDataStore(dataSource);
       const fetched = ['FETCHED 1', 'FETCHED 2'];
 
       // Given (subscribe) / Then (expect)
@@ -116,21 +120,21 @@ describe('RxDataStore', () => {
       expect.assertions(2);
 
       // Given
-      const dataStore = new RxDataStore(fetch);
+      const dataStore = new RxDataStore(dataSource);
 
       // Given (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toBe('DATA'));
 
       // When
       dataStore.set('DATA');
-      await sequence(() => expect(fetch).not.toHaveBeenCalled());
+      await sequence(() => expect(dataSource).not.toHaveBeenCalled());
     });
 
     it('should trigger data$ to emit multiple times without fetching', async () => {
       expect.assertions(3);
 
       // Given
-      const dataStore = new RxDataStore(fetch);
+      const dataStore = new RxDataStore(dataSource);
       const dataset = ['DATA 1', 'DATA 2'];
 
       // Given (subscribe) / Then (expect)
@@ -140,7 +144,7 @@ describe('RxDataStore', () => {
       dataStore.set('DATA 1');
       await sequence(
         () => dataStore.set('DATA 2'),
-        () => expect(fetch).not.toHaveBeenCalled()
+        () => expect(dataSource).not.toHaveBeenCalled()
       );
     });
   });
@@ -150,7 +154,7 @@ describe('RxDataStore', () => {
       expect.assertions(3);
 
       // Given
-      const dataStore = new RxDataStore(fetch, ['FETCHED']);
+      const dataStore = new RxDataStore(dataSource, ['FETCHED']);
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toBe('FETCHED'));
@@ -158,7 +162,7 @@ describe('RxDataStore', () => {
       // When
       await sequence(
         () => dataStore.refresh(),
-        () => expect(fetch).toHaveBeenCalledTimes(2)
+        () => expect(dataSource).toHaveBeenCalledTimes(2)
       );
     });
 
@@ -166,14 +170,14 @@ describe('RxDataStore', () => {
       expect.assertions(1);
 
       // Given
-      const dataStore = new RxDataStore(fetch);
+      const dataStore = new RxDataStore(dataSource);
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe(() => expect(true).toBeTruthy());
 
       // When
       dataStore.refresh();
-      await sequence(() => expect(fetch).toHaveBeenCalledTimes(0));
+      await sequence(() => expect(dataSource).toHaveBeenCalledTimes(0));
     });
   });
 
@@ -182,7 +186,7 @@ describe('RxDataStore', () => {
       expect.assertions(3);
 
       // Given
-      const dataStore = new RxDataStore(fetch, ['FETCHED'], true);
+      const dataStore = new RxDataStore(dataSource, ['FETCHED'], true);
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toBe('FETCHED'));
@@ -190,7 +194,7 @@ describe('RxDataStore', () => {
       // When
       await sequence(
         () => dataStore.fetch('FETCHED'),
-        () => expect(fetch).toHaveBeenCalledTimes(1)
+        () => expect(dataSource).toHaveBeenCalledTimes(1)
       );
     });
 
@@ -198,7 +202,7 @@ describe('RxDataStore', () => {
       expect.assertions(4);
 
       // Given
-      const dataStore = new RxDataStore(fetch, ['FETCHED 1'], true);
+      const dataStore = new RxDataStore(dataSource, ['FETCHED 1'], true);
       const fetched = ['FETCHED 1', 'FETCHED 2', 'FETCHED 1'];
 
       // When (subscribe) / Then (expect)
@@ -208,7 +212,7 @@ describe('RxDataStore', () => {
       await sequence(
         () => dataStore.fetch('FETCHED 2'),
         () => dataStore.fetch('FETCHED 1'),
-        () => expect(fetch).toHaveBeenCalledTimes(2)
+        () => expect(dataSource).toHaveBeenCalledTimes(2)
       );
     });
 
@@ -216,7 +220,7 @@ describe('RxDataStore', () => {
       expect.assertions(3);
 
       // Given
-      const dataStore = new RxDataStore(fetch, ['FETCHED'], true);
+      const dataStore = new RxDataStore(dataSource, ['FETCHED'], true);
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toBe('FETCHED'));
@@ -224,7 +228,7 @@ describe('RxDataStore', () => {
       // When
       await sequence(
         () => dataStore.refresh(),
-        () => expect(fetch).toHaveBeenCalledTimes(2)
+        () => expect(dataSource).toHaveBeenCalledTimes(2)
       );
     });
 
@@ -232,7 +236,7 @@ describe('RxDataStore', () => {
       expect.assertions(5);
 
       // Given
-      const dataStore = new RxDataStore(fetch, ['FETCHED 1'], true);
+      const dataStore = new RxDataStore(dataSource, ['FETCHED 1'], true);
       const fetched = ['FETCHED 1', 'FETCHED 2', 'FETCHED 2', 'FETCHED 1'];
 
       // When (subscribe) / Then (expect)
@@ -243,7 +247,7 @@ describe('RxDataStore', () => {
         () => dataStore.fetch('FETCHED 2'),
         () => dataStore.refresh(),
         () => dataStore.fetch('FETCHED 1'),
-        () => expect(fetch).toHaveBeenCalledTimes(3)
+        () => expect(dataSource).toHaveBeenCalledTimes(3)
       );
     });
 
@@ -251,7 +255,7 @@ describe('RxDataStore', () => {
       expect.assertions(3);
 
       // Given
-      const dataStore = new RxDataStore(fetch, ['FETCHED'], true);
+      const dataStore = new RxDataStore(dataSource, ['FETCHED'], true);
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toBe('FETCHED'));
@@ -260,7 +264,153 @@ describe('RxDataStore', () => {
       await sequence(
         () => dataStore.clearCache(),
         () => dataStore.fetch('FETCHED'),
-        () => expect(fetch).toHaveBeenCalledTimes(2)
+        () => expect(dataSource).toHaveBeenCalledTimes(2)
+      );
+    });
+  });
+
+  describe('dataSnapshot', () => {
+    it('should be the latest emitted value', async () => {
+      expect.assertions(5);
+
+      // Given
+      const dataStore = new RxDataStore(dataSource);
+      const mixed = ['FETCHED', 'DATA'];
+      expect(dataStore.dataSnapshot).toBeUndefined();
+
+      // When (subscribe) / Then (expect)
+      dataStore.data$.subscribe((data) => expect(data).toBe(mixed.shift()));
+
+      // When
+      dataStore.fetch('FETCHED');
+
+      await sequence(
+        () => expect(dataStore.dataSnapshot).toBe('FETCHED'), // Then
+        () => dataStore.set('DATA'), // When
+        () => expect(dataStore.dataSnapshot).toBe('DATA') // Then
+      );
+    });
+  });
+
+  describe('when dataSource emits more than one value', () => {
+    it('should works', (done) => {
+      expect.assertions(4);
+
+      // Given
+      const _dataSource = jest.fn(() => interval(0).pipe(take(3)));
+      const dataStore = new RxDataStore(_dataSource, []);
+      const dataset = [0, 1, 2];
+
+      // When
+      dataStore.data$.subscribe((data) => {
+        // Then
+        expect(data).toBe(dataset.shift());
+        if (dataset.length === 0) {
+          expect(_dataSource).toHaveBeenCalledTimes(1);
+          done();
+        }
+      });
+    });
+
+    it('should cancel previous dataSource subscription when fetching in between', (done) => {
+      expect.assertions(6);
+
+      // Given
+      const _dataSource = jest.fn(() => interval(0).pipe(take(3)));
+      const dataStore = new RxDataStore(_dataSource, []);
+      const dataset = [0, 1, 0, 1, 2];
+
+      // When
+      dataStore.data$.subscribe((data) => {
+        // Then
+        expect(data).toBe(dataset.shift());
+
+        if (dataset.length === 3) {
+          // When
+          dataStore.fetch();
+        } else if (dataset.length === 0) {
+          // Then
+          expect(_dataSource).toHaveBeenCalledTimes(2);
+          done();
+        }
+      });
+    });
+
+    it('should emits the "last" dataSource value (when using cache)', (done) => {
+      expect.assertions(5);
+
+      // Given
+      const _dataSource = jest.fn(() => interval(0).pipe(take(3)));
+      const dataStore = new RxDataStore(_dataSource, [], true);
+      const dataset = [0, 1, 2, 2];
+
+      // When
+      dataStore.data$.subscribe((data) => {
+        // Then
+        expect(data).toBe(dataset.shift());
+
+        if (dataset.length === 1) {
+          // When
+          dataStore.fetch();
+        } else if (dataset.length === 0) {
+          // Then
+          expect(_dataSource).toHaveBeenCalledTimes(1);
+          done();
+        }
+      });
+    });
+
+    it('should emits the "latest" dataSource value (when using cache)', (done) => {
+      expect.assertions(4);
+
+      // Given
+      const _dataSource = jest.fn(() => interval(0).pipe(take(3)));
+      const dataStore = new RxDataStore(_dataSource, [], true);
+      const dataset = [0, 1, 1];
+
+      // When
+      dataStore.data$.subscribe((data) => {
+        // Then
+        expect(data).toBe(dataset.shift());
+
+        if (dataset.length === 1) {
+          // When
+          dataStore.fetch();
+        } else if (dataset.length === 0) {
+          // Then
+          expect(_dataSource).toHaveBeenCalledTimes(1);
+          done();
+        }
+      });
+    });
+  });
+
+  describe('buildCacheKey', () => {
+    it('should call console.error when unable to build key', async () => {
+      expect.assertions(4);
+
+      // Given
+      const badArg: { circular?: {} } = {};
+      badArg.circular = badArg;
+
+      const _dataSource = jest.fn((arg: typeof badArg) => of(arg));
+      const dataStore = new RxDataStore(_dataSource, [badArg], true);
+
+      const consoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+
+      // When (subscribe) / Then (expect)
+      dataStore.data$.subscribe((data) => expect(data).toBe(badArg));
+
+      await sequence(
+        // When
+        () => dataStore.fetch(badArg),
+        // Then
+        () => {
+          expect(consoleError).toHaveBeenCalledTimes(2);
+
+          // Because the data could not be cached, the _dataSource has been triggered 2 times
+          expect(_dataSource).toHaveBeenCalledTimes(2);
+        }
       );
     });
   });

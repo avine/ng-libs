@@ -20,9 +20,10 @@
     "module": "es2020",
     "lib": ["es2020", "dom"],
     "paths": {
-      "@avine/ng-if-non-nullish": ["projects/if-non-nullish/src/public-api.ts"],
-      "@avine/ng-form-stepper": ["projects/form-stepper/src/public-api.ts"],
       "@avine/ng-autocomplete": ["projects/autocomplete/src/public-api.ts"],
+      "@avine/ng-form-stepper": ["projects/form-stepper/src/public-api.ts"],
+      "@avine/ng-if-non-nullish": ["projects/if-non-nullish/src/public-api.ts"],
+      "@avine/rx-data-store": ["projects/rx-data-store/src/public-api.ts"],
       "@avine/ng-scaffolding": ["projects/scaffolding/src/public-api.ts"]
     }
   },

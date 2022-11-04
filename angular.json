@@ -86,23 +86,23 @@
         }
       }
     },
-    "if-non-nullish": {
+    "autocomplete": {
       "projectType": "library",
-      "root": "projects/if-non-nullish",
-      "sourceRoot": "projects/if-non-nullish/src",
-      "prefix": "if",
+      "root": "projects/autocomplete",
+      "sourceRoot": "projects/autocomplete/src",
+      "prefix": "autocomplete",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/if-non-nullish/ng-package.json"
+            "project": "projects/autocomplete/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/if-non-nullish/tsconfig.lib.prod.json"
+              "tsConfig": "projects/autocomplete/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/if-non-nullish/tsconfig.lib.json"
+              "tsConfig": "projects/autocomplete/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -110,7 +110,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/if-non-nullish/**/*.ts", "projects/if-non-nullish/**/*.html"]
+            "lintFilePatterns": ["projects/autocomplete/**/*.ts", "projects/autocomplete/**/*.html"]
           }
         }
       }
@@ -144,23 +144,23 @@
         }
       }
     },
-    "autocomplete": {
+    "if-non-nullish": {
       "projectType": "library",
-      "root": "projects/autocomplete",
-      "sourceRoot": "projects/autocomplete/src",
-      "prefix": "autocomplete",
+      "root": "projects/if-non-nullish",
+      "sourceRoot": "projects/if-non-nullish/src",
+      "prefix": "if",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/autocomplete/ng-package.json"
+            "project": "projects/if-non-nullish/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/autocomplete/tsconfig.lib.prod.json"
+              "tsConfig": "projects/if-non-nullish/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/autocomplete/tsconfig.lib.json"
+              "tsConfig": "projects/if-non-nullish/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -168,7 +168,36 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/autocomplete/**/*.ts", "projects/autocomplete/**/*.html"]
+            "lintFilePatterns": ["projects/if-non-nullish/**/*.ts", "projects/if-non-nullish/**/*.html"]
+          }
+        }
+      }
+    },
+    "rx-data-store": {
+      "projectType": "library",
+      "root": "projects/rx-data-store",
+      "sourceRoot": "projects/rx-data-store/src",
+      "prefix": "rx-data-store",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/rx-data-store/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/rx-data-store/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/rx-data-store/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/rx-data-store/**/*.ts", "projects/rx-data-store/**/*.html"]
           }
         }
       }

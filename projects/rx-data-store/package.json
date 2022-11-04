@@ -1,0 +1,24 @@
+{
+  "name": "@avine/rx-data-store",
+  "description": "",
+  "version": "0.0.1",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avine/ng-libs.git"
+  },
+  "keywords": [],
+  "author": "Stéphane Francel <contact@avine.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avine/ng-libs/issues"
+  },
+  "homepage": "https://github.com/avine/ng-libs/tree/main/projects/rx-data-store#readme",
+  "peerDependencies": {
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

@@ -23,6 +23,10 @@ export const APP_ROUTES: Routes = [
     loadChildren: () => import('./autocomplete/autocomplete.routes').then((m) => m.AUTOCOMPLETE_ROUTES),
     title: 'Autocomplete',
   },
+  {
+    path: '**',
+    redirectTo: '/',
+  },
 ];
 
 @Injectable()

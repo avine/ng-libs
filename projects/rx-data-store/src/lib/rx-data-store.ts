@@ -1,6 +1,15 @@
-import { debounceTime, filter, Observable, of, ReplaySubject, shareReplay, startWith, switchMap, tap } from 'rxjs';
+import { debounceTime, filter, map, Observable, of, ReplaySubject, shareReplay, startWith, switchMap, tap } from 'rxjs';
 
 export class RxDataStore<T, A extends any[]> {
+  /**
+   * Define a global mapper that maps the value just before it is emitted by `data$`.
+   * To bypass the global mapper for a particular instance, set the instance property `map` to `'noop'`.
+   *
+   * @description
+   * You can use this feature to, for example, clone the data before it is emitted.
+   */
+  static map?: <T>(data: T) => T;
+
   /**
    * Cache of the latest values from the data source per arguments.
    */
@@ -39,13 +48,33 @@ export class RxDataStore<T, A extends any[]> {
       );
     }),
     tap((data) => (this.dataSnapshot = data)),
-    shareReplay(1)
+    shareReplay(1),
+    map((data) => {
+      if (this.map) {
+        return this.map !== 'noop' ? this.map(data) : data;
+      }
+      if (RxDataStore.map) {
+        return RxDataStore.map(data);
+      }
+      return data;
+    })
   );
 
   /**
    * Get the data as instant snapshot.
    */
   dataSnapshot?: T;
+
+  /**
+   * Maps the value just before it is emitted by `data$`.
+   *
+   * If the instance mapper is not defined then the global mapper `RxDataStore.map` is used (if defined).
+   * To bypass the global mapper, set the instance mapper value to `'noop'`.
+   *
+   * @description
+   * You can use this feature to, for example, clone the data before it is emitted.
+   */
+  map?: ((data: T) => T) | 'noop';
 
   /**
    * Reactive data store

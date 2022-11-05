@@ -292,6 +292,77 @@ describe('RxDataStore', () => {
     });
   });
 
+  describe('map', () => {
+    afterEach(() => {
+      RxDataStore.map = undefined;
+    });
+
+    it('should map the emitted value', async () => {
+      expect.assertions(5);
+
+      // Given
+      const _data = { prop: 1 };
+      const _dataSource = () => of(_data);
+      const dataStore = new RxDataStore(_dataSource, []);
+      dataStore.map = (d) => ({ ...d });
+
+      // When (subscribe) / Then (expect)
+      zip([dataStore.data$, dataStore.data$]).subscribe(([data1, data2]) => {
+        expect(data2).not.toBe(data1);
+
+        expect(data1).not.toBe(_data);
+        expect(data1).toEqual(_data);
+
+        expect(data2).not.toBe(_data);
+        expect(data2).toEqual(_data);
+      });
+
+      await sequence(noop);
+    });
+
+    it('should map globally the emitted value', async () => {
+      expect.assertions(5);
+
+      // Given
+      RxDataStore.map = (d) => ({ ...d });
+      const _data = { prop: 1 };
+      const _dataSource = () => of(_data);
+      const dataStore = new RxDataStore(_dataSource, []);
+
+      // When (subscribe) / Then (expect)
+      zip([dataStore.data$, dataStore.data$]).subscribe(([data1, data2]) => {
+        expect(data2).not.toBe(data1);
+
+        expect(data1).not.toBe(_data);
+        expect(data1).toEqual(_data);
+
+        expect(data2).not.toBe(_data);
+        expect(data2).toEqual(_data);
+      });
+
+      await sequence(noop);
+    });
+
+    it('should do nothing when equal to "noop" (bypassing the global mapper)', async () => {
+      expect.assertions(2);
+
+      // Given
+      RxDataStore.map = (d) => ({ ...d });
+      const _data = { prop: 1 };
+      const _dataSource = () => of(_data);
+      const dataStore = new RxDataStore(_dataSource, []);
+      dataStore.map = 'noop';
+
+      // When (subscribe) / Then (expect)
+      zip([dataStore.data$, dataStore.data$]).subscribe(([data1, data2]) => {
+        expect(data1).toBe(_data);
+        expect(data2).toBe(_data);
+      });
+
+      await sequence(noop);
+    });
+  });
+
   describe('when dataSource emits more than one value', () => {
     it('should works', (done) => {
       expect.assertions(4);

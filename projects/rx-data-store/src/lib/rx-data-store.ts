@@ -1,6 +1,18 @@
-import { debounceTime, filter, map, Observable, of, ReplaySubject, shareReplay, startWith, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  debounceTime,
+  filter,
+  map,
+  Observable,
+  of,
+  ReplaySubject,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs';
 
-export class RxDataStore<T, A extends any[]> {
+export class RxDataStore<T, A extends any[] = []> {
   /**
    * Define a global mapper that maps the value just before it is emitted by `data$`.
    * To bypass the global mapper for a particular instance, set the instance property `map` to `'noop'`.
@@ -11,7 +23,7 @@ export class RxDataStore<T, A extends any[]> {
   static map?: <T>(data: T) => T;
 
   /**
-   * Cache of the latest values from the data source per arguments.
+   * Cache of the latest values from the `dataSource` per arguments.
    */
   private cache = new Map<string, T>();
 
@@ -39,12 +51,14 @@ export class RxDataStore<T, A extends any[]> {
           return of(cached);
         }
       }
+      this._pending$.next(true);
       return this.dataSource(...(this.args as A)).pipe(
         tap((data) => {
           if (this.useCache && cacheKey) {
             this.cache.set(cacheKey, data);
           }
-        })
+        }),
+        tap(() => this._pending$.next(false))
       );
     }),
     tap((data) => (this.dataSnapshot = data)),
@@ -59,6 +73,13 @@ export class RxDataStore<T, A extends any[]> {
       return data;
     })
   );
+
+  private _pending$ = new BehaviorSubject(false);
+
+  /**
+   * Check the pending status of the `dataSource`.
+   */
+  pending$ = this._pending$.asObservable();
 
   /**
    * Get the data as instant snapshot.
@@ -125,12 +146,33 @@ export class RxDataStore<T, A extends any[]> {
   }
 
   /**
-   * Set the data without fetching from the `dataSource`.
+   * Set the pending status of the data store.
    *
-   * @param data
+   * @description
+   * Call this method when starting an asynchronous data update to mark the pending status as `true`.
+   * When the data is finally available, calling `.set()` will automatically mark the pending status as `false`.
+   *
+   * @example
+   * const dataStore = new RxDataStore(() => of('Initial data'), []);
+   * dataStore.data$.subscribe();
+   * dataStore.pending$.subscribe(console.log);
+   * dataStore.pending(); // `pending$` will emits `true`.
+   * setTimeout(() => {
+   *   dataStore.set('Updated data'); // `pending$` will emits `false`.
+   * }, 1000);
+   */
+  pending(state = true) {
+    this._pending$.next(state);
+  }
+
+  /**
+   * Set the data without fetching it from the `dataSource`.
    */
   set(data: T) {
     this.dispatcher$.next(data);
+    if (this._pending$.value) {
+      this._pending$.next(false);
+    }
   }
 
   /**

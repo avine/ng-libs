@@ -181,6 +181,38 @@ describe('RxDataStore', () => {
     });
   });
 
+  describe('pending', () => {
+    it('should change when fetching data', async () => {
+      expect.assertions(3);
+
+      // Given
+      const dataStore = new RxDataStore(dataSource, ['DATA']);
+      const pendingStatus = [false, true, false];
+
+      // When (subscribe) / Then (expect)
+      dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
+      dataStore.data$.subscribe();
+
+      await sequence(noop);
+    });
+
+    it('should change when calling .pending() and .set()', async () => {
+      expect.assertions(3);
+
+      // Given
+      const dataStore = new RxDataStore(dataSource);
+      const pendingStatus = [false, true, false];
+
+      // When (subscribe) / Then (expect)
+      dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
+      dataStore.data$.subscribe();
+
+      // When
+      dataStore.pending();
+      await sequence(() => dataStore.set('DATA'));
+    });
+  });
+
   describe('cache', () => {
     it('should be used when fetching with same args multiple times (basic)', async () => {
       expect.assertions(3);

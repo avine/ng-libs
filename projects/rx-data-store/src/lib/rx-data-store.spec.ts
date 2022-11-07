@@ -115,7 +115,7 @@ describe('RxDataStore', () => {
     });
   });
 
-  describe('set', () => {
+  describe('update', () => {
     it('should trigger data$ to emit without fetching', async () => {
       expect.assertions(2);
 
@@ -126,7 +126,7 @@ describe('RxDataStore', () => {
       dataStore.data$.subscribe((data) => expect(data).toBe('DATA'));
 
       // When
-      dataStore.set('DATA');
+      dataStore.update('DATA');
       await sequence(() => expect(dataSource).not.toHaveBeenCalled());
     });
 
@@ -141,9 +141,9 @@ describe('RxDataStore', () => {
       dataStore.data$.subscribe((data) => expect(data).toBe(dataset.shift()));
 
       // When
-      dataStore.set('DATA 1');
+      dataStore.update('DATA 1');
       await sequence(
-        () => dataStore.set('DATA 2'),
+        () => dataStore.update('DATA 2'),
         () => expect(dataSource).not.toHaveBeenCalled()
       );
     });
@@ -209,7 +209,7 @@ describe('RxDataStore', () => {
 
       // When
       dataStore.pending();
-      await sequence(() => dataStore.set('DATA'));
+      await sequence(() => dataStore.update('DATA'));
     });
   });
 
@@ -318,7 +318,7 @@ describe('RxDataStore', () => {
 
       await sequence(
         () => expect(dataStore.dataSnapshot).toBe('FETCHED'), // Then
-        () => dataStore.set('DATA'), // When
+        () => dataStore.update('DATA'), // When
         () => expect(dataStore.dataSnapshot).toBe('DATA') // Then
       );
     });

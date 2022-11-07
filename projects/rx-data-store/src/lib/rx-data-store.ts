@@ -77,7 +77,7 @@ export class RxDataStore<T, A extends any[] = []> {
   private _pending$ = new BehaviorSubject(false);
 
   /**
-   * Check the pending status of the `dataSource`.
+   * Check the pending status of the data store.
    */
   pending$ = this._pending$.asObservable();
 
@@ -166,9 +166,9 @@ export class RxDataStore<T, A extends any[] = []> {
   }
 
   /**
-   * Set the data without fetching it from the `dataSource`.
+   * Update the data without fetching it from the `dataSource`.
    */
-  set(data: T) {
+  update(data: T) {
     this.dispatcher$.next(data);
     if (this._pending$.value) {
       this._pending$.next(false);

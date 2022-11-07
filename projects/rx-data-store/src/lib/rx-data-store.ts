@@ -37,18 +37,17 @@ export class RxDataStore<T, A extends any[] = []> {
    */
   data$: Observable<T> = this.dispatcher$.pipe(
     startWith(undefined),
-    filter((data) => !!(data || this.args)),
+    filter((data) => !!(data !== undefined || this.args)),
     debounceTime(0),
     switchMap((data) => {
-      if (data) {
+      if (data !== undefined) {
         return of(data);
       }
       let cacheKey: string | void;
       if (this.useCache) {
         cacheKey = this.buildCacheKey(this.args as A);
-        const cached = cacheKey && this.cache.get(cacheKey);
-        if (cached) {
-          return of(cached);
+        if (cacheKey && this.cache.has(cacheKey)) {
+          return of(this.cache.get(cacheKey) as T);
         }
       }
       this._pending$.next(true);

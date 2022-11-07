@@ -147,6 +147,21 @@ describe('RxDataStore', () => {
         () => expect(dataSource).not.toHaveBeenCalled()
       );
     });
+
+    it('should work with falsy values', async () => {
+      expect.assertions(2);
+
+      // Given
+      const _dataSource = jest.fn(() => of(true));
+      const dataStore = new RxDataStore(_dataSource);
+
+      // Given (subscribe) / Then (expect)
+      dataStore.data$.subscribe((data) => expect(data).toBe(false));
+
+      // When
+      dataStore.update(false);
+      await sequence(() => expect(_dataSource).not.toHaveBeenCalled());
+    });
   });
 
   describe('refresh', () => {
@@ -245,6 +260,23 @@ describe('RxDataStore', () => {
         () => dataStore.fetch('FETCHED 2'),
         () => dataStore.fetch('FETCHED 1'),
         () => expect(dataSource).toHaveBeenCalledTimes(2)
+      );
+    });
+
+    it('should work with falsy values', async () => {
+      expect.assertions(3);
+
+      // Given
+      const _dataSource = jest.fn(() => of(false));
+      const dataStore = new RxDataStore(_dataSource, [], true);
+
+      // When (subscribe) / Then (expect)
+      dataStore.data$.subscribe((data) => expect(data).toBe(false));
+
+      // When
+      await sequence(
+        () => dataStore.fetch(),
+        () => expect(_dataSource).toHaveBeenCalledTimes(1)
       );
     });
 

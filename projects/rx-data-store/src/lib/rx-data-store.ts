@@ -165,13 +165,24 @@ export class RxDataStore<T, A extends any[] = []> {
   }
 
   /**
-   * Update the data without fetching it from the `dataSource`.
+   * Set the data without fetching it from the `dataSource`.
    */
-  update(data: T) {
+  set(data: T) {
     this.dispatcher$.next(data);
     if (this._pending$.value) {
       this._pending$.next(false);
     }
+  }
+
+  /**
+   * Update the data (from current data snapshot) without fetching it from the `dataSource`.
+   */
+  update(mutate: (data: T) => T) {
+    if (this.dataSnapshot === undefined) {
+      console.error('RxDataStore: unable to update because the current data snapshot is undefined.');
+      return;
+    }
+    this.set(mutate(this.dataSnapshot));
   }
 
   /**

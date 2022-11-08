@@ -390,6 +390,25 @@ describe('RxDataStore', () => {
         () => expect(dataStore.dataSnapshot).toBe('DATA') // Then
       );
     });
+
+    it('should map data when mapper available', async () => {
+      expect.assertions(2);
+
+      // Given
+      const _data = { prop: 1 };
+      const _dataSource = jest.fn(() => of(_data));
+      const dataStore = new RxDataStore(_dataSource, []);
+      dataStore.map = (d) => ({ ...d });
+
+      // When
+      dataStore.data$.subscribe();
+
+      // Then
+      await sequence(() => {
+        expect(dataStore.dataSnapshot).not.toBe(_data);
+        expect(dataStore.dataSnapshot).toEqual(_data);
+      });
+    });
   });
 
   describe('map', () => {

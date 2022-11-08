@@ -1,6 +1,7 @@
 import {
   BehaviorSubject,
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   Observable,
@@ -60,17 +61,9 @@ export class RxDataStore<T, A extends any[] = []> {
         tap(() => this._pending$.next(false))
       );
     }),
-    tap((data) => (this.dataSnapshot = data)),
+    tap((data) => (this._dataSnapshot = data)),
     shareReplay(1),
-    map((data) => {
-      if (this.map) {
-        return this.map !== 'noop' ? this.map(data) : data;
-      }
-      if (RxDataStore.map) {
-        return RxDataStore.map(data);
-      }
-      return data;
-    })
+    map((data) => this._map(data))
   );
 
   private _pending$ = new BehaviorSubject(false);
@@ -78,12 +71,19 @@ export class RxDataStore<T, A extends any[] = []> {
   /**
    * Check the pending status of the data store.
    */
-  pending$ = this._pending$.asObservable();
+  pending$ = this._pending$.pipe(distinctUntilChanged());
+
+  private _dataSnapshot?: T;
 
   /**
    * Get the data as instant snapshot.
    */
-  dataSnapshot?: T;
+  get dataSnapshot(): T | undefined {
+    if (this._dataSnapshot === undefined) {
+      return;
+    }
+    return this._map(this._dataSnapshot);
+  }
 
   /**
    * Maps the value just before it is emitted by `data$`.
@@ -169,20 +169,20 @@ export class RxDataStore<T, A extends any[] = []> {
    */
   set(data: T) {
     this.dispatcher$.next(data);
-    if (this._pending$.value) {
-      this._pending$.next(false);
-    }
+    this._pending$.next(false);
   }
 
   /**
    * Update the data (from current data snapshot) without fetching it from the `dataSource`.
    */
   update(mutate: (data: T) => T) {
-    if (this.dataSnapshot === undefined) {
+    const dataSnapshot = this.dataSnapshot; // Use a local variable to run the getter once.
+    if (dataSnapshot === undefined) {
+      this._pending$.next(false);
       console.error('RxDataStore: unable to update because the current data snapshot is undefined.');
       return;
     }
-    this.set(mutate(this.dataSnapshot));
+    this.set(mutate(dataSnapshot));
   }
 
   /**
@@ -190,6 +190,19 @@ export class RxDataStore<T, A extends any[] = []> {
    */
   clearCache() {
     this.cache.clear();
+  }
+
+  /**
+   * Map data using local `this.map()` or global `RxDataStore.map()`.
+   */
+  private _map(data: T): T {
+    if (this.map) {
+      return this.map !== 'noop' ? this.map(data) : data;
+    }
+    if (RxDataStore.map) {
+      return RxDataStore.map(data);
+    }
+    return data;
   }
 
   /**

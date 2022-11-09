@@ -232,6 +232,85 @@ describe('RxDataStore', () => {
     });
   });
 
+  describe('mutation', () => {
+    it('should work when handler provided', async () => {
+      expect.assertions(9);
+
+      // Given
+      const dataStore = new RxDataStore(() => of(['DATA']), []);
+      const dataset = [['DATA'], ['DATA', 'MUTATION']];
+      const pendingStatus = [false, true, false, true, false]; // One `true` for the fetch and another for the mutation
+
+      // When (subscribe) / Then (expect)
+      dataStore.data$.subscribe((data) => expect(data).toEqual(dataset.shift()));
+      dataStore.pending$.subscribe((data) => expect(data).toBe(pendingStatus.shift()));
+
+      const mutate = jest.fn((data: string[], value: string) => {
+        data.push(value);
+        return data;
+      });
+
+      await sequence(() => {
+        dataStore
+          // When
+          .mutation(of('MUTATION'), mutate)
+          // Then
+          .subscribe((response) => {
+            expect(response).toBe('MUTATION');
+            expect(mutate).toHaveBeenCalled();
+          });
+      });
+    });
+
+    it('should work when handler not provided', async () => {
+      expect.assertions(7);
+
+      // Given
+      const dataStore = new RxDataStore(() => of('DATA'), []);
+      const pendingStatus = [false, true, false, true, false]; // One `true` for the fetch and another for the mutation
+
+      // When (subscribe) / Then (expect)
+      dataStore.data$.subscribe((data) => expect(data).toEqual('DATA'));
+      dataStore.pending$.subscribe((data) => expect(data).toBe(pendingStatus.shift()));
+
+      await sequence(() => {
+        dataStore
+          .mutation(of('WHATEVER')) // When
+          .subscribe((response) => expect(response).toBe('WHATEVER')); // Then
+      });
+    });
+
+    it('should handle error', async () => {
+      expect.assertions(8);
+
+      // Given
+      const dataStore = new RxDataStore(() => of(['DATA']), []);
+      const pendingStatus = [false, true, false, true, false]; // One `true` for the fetch and another for the mutation
+
+      // When (subscribe) / Then (expect)
+      dataStore.data$.subscribe((data) => expect(data).toEqual(['DATA']));
+      dataStore.pending$.subscribe((data) => expect(data).toBe(pendingStatus.shift()));
+
+      const mutate = jest.fn();
+
+      await sequence(() => {
+        dataStore
+          // When
+          .mutation(
+            throwError(() => new Error('Oops!')),
+            mutate
+          )
+          // Then
+          .subscribe({
+            error: (error) => {
+              expect(error.message).toBe('Oops!');
+              expect(mutate).not.toHaveBeenCalled();
+            },
+          });
+      });
+    });
+  });
+
   describe('pending', () => {
     it('should change when fetching data', async () => {
       expect.assertions(3);

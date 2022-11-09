@@ -151,6 +151,37 @@ export class RxDataStore<T, A extends any[] = []> {
   }
 
   /**
+   * Executes a request and updates the data store according to the response.
+   *
+   * @description
+   * The pending status will be automatically updated during the process.
+   *
+   * @example
+   * const dataStore = new RxDataStore(() => of(['DATA']), []);
+   * dataStore.data$.subscribe(console.log); // ['DATA'] and ['DATA', 'MUTATION']
+   * dataStore.mutation(of('MUTATION'), (data, value) => {
+   *  data.push(value);
+   *  return data;
+   * }).subscribe(console.log); // 'MUTATION'
+   */
+  mutation<R>(request$: Observable<R>, mutate?: (data: T, response: R) => T): Observable<R> {
+    this._pending$.next(true);
+    return request$.pipe(
+      tap((response) => {
+        if (mutate) {
+          this.updateData((data) => mutate(data, response));
+        } else {
+          this._pending$.next(false);
+        }
+      }),
+      catchError((error) => {
+        this._pending$.next(false);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  /**
    * Set the pending status of the data store.
    *
    * @description

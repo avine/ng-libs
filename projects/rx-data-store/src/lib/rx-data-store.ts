@@ -1,5 +1,6 @@
 import {
   BehaviorSubject,
+  catchError,
   debounceTime,
   distinctUntilChanged,
   filter,
@@ -11,6 +12,7 @@ import {
   startWith,
   switchMap,
   tap,
+  throwError,
 } from 'rxjs';
 
 export class RxDataStore<T, A extends any[] = []> {
@@ -58,7 +60,11 @@ export class RxDataStore<T, A extends any[] = []> {
             this.cache.set(cacheKey, data);
           }
         }),
-        tap(() => this._pending$.next(false))
+        tap(() => this._pending$.next(false)),
+        catchError((error) => {
+          this._pending$.next(false);
+          return throwError(() => error);
+        })
       );
     }),
     tap((data) => (this._dataSnapshot = data)),
@@ -149,7 +155,7 @@ export class RxDataStore<T, A extends any[] = []> {
    *
    * @description
    * Call this method when starting an asynchronous data update to mark the pending status as `true`.
-   * When the data is finally available, calling `.set()` will automatically mark the pending status as `false`.
+   * When the data is finally available, calling `.setData()` will automatically mark the pending status as `false`.
    *
    * @example
    * const dataStore = new RxDataStore(() => of('Initial data'), []);
@@ -157,7 +163,7 @@ export class RxDataStore<T, A extends any[] = []> {
    * dataStore.pending$.subscribe(console.log);
    * dataStore.pending(); // `pending$` will emits `true`.
    * setTimeout(() => {
-   *   dataStore.set('Updated data'); // `pending$` will emits `false`.
+   *   dataStore.setData('Updated data'); // `pending$` will emits `false`.
    * }, 1000);
    */
   pending(state = true) {
@@ -167,7 +173,7 @@ export class RxDataStore<T, A extends any[] = []> {
   /**
    * Set the data without fetching it from the `dataSource`.
    */
-  set(data: T) {
+  setData(data: T) {
     this.dispatcher$.next(data);
     this._pending$.next(false);
   }
@@ -175,14 +181,14 @@ export class RxDataStore<T, A extends any[] = []> {
   /**
    * Update the data (from current data snapshot) without fetching it from the `dataSource`.
    */
-  update(mutate: (data: T) => T) {
+  updateData(mutate: (data: T) => T) {
     const dataSnapshot = this.dataSnapshot; // Use a local variable to run the getter once.
     if (dataSnapshot === undefined) {
       this._pending$.next(false);
-      console.error('RxDataStore: unable to update because the current data snapshot is undefined.');
+      console.error('RxDataStore: unable to update data because the data snapshot is undefined.');
       return;
     }
-    this.set(mutate(dataSnapshot));
+    this.setData(mutate(dataSnapshot));
   }
 
   /**

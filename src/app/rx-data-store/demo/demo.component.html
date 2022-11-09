@@ -1,0 +1,7 @@
+<button (click)="fetch()" [disabled]="dataStore.pending$ | async">Fetch</button>
+
+<button (click)="update()" [disabled]="dataStore.pending$ | async">Update</button>
+
+<br /><br />
+
+<pre>{{ dataStore.data$ | async | json }}</pre>

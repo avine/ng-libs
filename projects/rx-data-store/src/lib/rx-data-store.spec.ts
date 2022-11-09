@@ -361,6 +361,38 @@ describe('RxDataStore', () => {
     });
   });
 
+  describe('error', () => {
+    it('should emit when error occurs while fetching', (done) => {
+      expect.assertions(1);
+
+      // Given
+      const _dataSource = () => throwError(() => new Error('Oops!'));
+      const dataStore = new RxDataStore(_dataSource, []);
+
+      // When (subscribe) / Then (expect)
+      dataStore.error$.subscribe((error) => expect(error?.message).toBe('Oops!'));
+
+      // When
+      dataStore.data$.subscribe({ error: () => done() });
+    });
+
+    it('should emit when error occurs while mutating', async () => {
+      expect.assertions(1);
+
+      // Given
+      const dataStore = new RxDataStore(dataSource, ['DATA']);
+
+      // When (subscribe) / Then (expect)
+      dataStore.data$.subscribe();
+      dataStore.error$.subscribe((error) => expect(error?.message).toBe('Oops!'));
+
+      // When
+      await sequence(() =>
+        dataStore.mutation(throwError(() => new Error('Oops!'))).subscribe({ error: () => undefined })
+      );
+    });
+  });
+
   describe('cache', () => {
     it('should be used when fetching with same args multiple times (basic)', async () => {
       expect.assertions(3);

@@ -10,6 +10,7 @@ import {
   ReplaySubject,
   shareReplay,
   startWith,
+  Subject,
   switchMap,
   tap,
   throwError,
@@ -61,10 +62,7 @@ export class RxDataStore<T, A extends any[] = []> {
           }
         }),
         tap(() => this._pending$.next(false)),
-        catchError((error) => {
-          this._pending$.next(false);
-          return throwError(() => error);
-        })
+        catchError(this.handleError.bind(this))
       );
     }),
     tap((data) => (this._dataSnapshot = data)),
@@ -90,6 +88,13 @@ export class RxDataStore<T, A extends any[] = []> {
     }
     return this._map(this._dataSnapshot);
   }
+
+  private _error$ = new Subject<any>();
+
+  /**
+   * An observable of errors emitted while fetching or mutating data.
+   */
+  error$ = this._error$.asObservable();
 
   /**
    * Maps the value just before it is emitted by `data$`.
@@ -163,6 +168,10 @@ export class RxDataStore<T, A extends any[] = []> {
    *  data.push(value);
    *  return data;
    * }).subscribe(console.log); // 'MUTATION'
+   *
+   * @param request$ The request observable.
+   * @param mutate The handler responsible for updating the data store.
+   * @returns The value emitted by the request observable.
    */
   mutation<R>(request$: Observable<R>, mutate?: (data: T, response: R) => T): Observable<R> {
     this._pending$.next(true);
@@ -174,10 +183,7 @@ export class RxDataStore<T, A extends any[] = []> {
           this._pending$.next(false);
         }
       }),
-      catchError((error) => {
-        this._pending$.next(false);
-        return throwError(() => error);
-      })
+      catchError(this.handleError.bind(this))
     );
   }
 
@@ -251,5 +257,11 @@ export class RxDataStore<T, A extends any[] = []> {
     } catch {
       console.error('RxDataStore: unable to build cache key from arguments', args);
     }
+  }
+
+  private handleError(error: any) {
+    this._pending$.next(false);
+    this._error$.next(error);
+    return throwError(() => error);
   }
 }

@@ -1,7 +1,35 @@
-<button (click)="fetch()" [disabled]="dataStore.pending$ | async">Fetch</button>
+<button (click)="demoService.fetch(1)" [disabled]="demoService.pending$ | async">Fetch</button>
 
-<button (click)="update()" [disabled]="dataStore.pending$ | async">Update</button>
+<button (click)="update()" [disabled]="demoService.pending$ | async">Update</button>
 
 <br /><br />
 
-<pre>{{ dataStore.data$ | async | json }}</pre>
+<!--<mat-selection-list #todoList [disableRipple]="true">
+  <mat-list-option
+    *ngFor="let todo of demoService.data$ | async; trackBy: trackById"
+    [selected]="todo.completed"
+    [value]="todo.id"
+    (click)="toggleCompleted(todo)"
+  >
+    <input
+      #input
+      matInput
+      [value]="todo.title"
+      [disabled]="disabled.includes(todo)"
+      (change)="updateTitle(todo, input.value)"
+    />
+  </mat-list-option>
+</mat-selection-list>-->
+
+<p *ngFor="let todo of demoService.data$ | async; trackBy: trackById">
+  <button (click)="remove(todo.id)">Remove</button>
+
+  <button (click)="toggleCompleted(todo)">
+    {{ todo.completed ? '1' : '0' }}
+  </button>
+
+  <input #input [value]="todo.title" [disabled]="disabled.includes(todo)" (change)="updateTitle(todo, input.value)" />
+</p>
+
+<p>{{ disabled.length }}</p>
+<pre>{{ demoService.data$ | async | json }}</pre>

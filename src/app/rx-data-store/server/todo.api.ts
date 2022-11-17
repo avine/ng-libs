@@ -1,45 +1,39 @@
-import { delay, map, of } from 'rxjs';
+import { delay, map, Observable, of, throwError } from 'rxjs';
 import { getId, todosDB } from './todo.db';
 
 import { Todo } from './todo.types';
 import { cloneTodos, findTodoIndexById } from './todo.utils';
 
-export const getTodosByUserId = (userId: number) => {
-  console.log('Get todos by userId', userId);
+const DELAY = 2000;
 
+export const getTodosByUserId = (userId: number): Observable<Todo[]> => {
   return of(cloneTodos(todosDB)).pipe(
-    map((todos) => todos.filter(({ userId: id }) => id === userId)),
-    delay(500)
+    map((todos) => todos.filter((todo) => todo.userId === userId)),
+    delay(DELAY)
   );
 };
 
-export const updateTodoStatusById = (id: number, completed: boolean) => {
-  const index = findTodoIndexById(todosDB, id);
-  if (index === -1) {
-    console.error('Unable to update todo by id', id);
-    return of(false).pipe(delay(500));
-  }
-
-  console.log('Update todo by id', { ...todosDB[index], completed });
-  todosDB[index] = { ...todosDB[index], completed };
-  return of(true).pipe(delay(500));
-};
-
-export const removeTodoById = (id: number) => {
-  const index = findTodoIndexById(todosDB, id);
-  if (index === -1) {
-    console.error('Unable to remove todo by id', id);
-    return of(false).pipe(delay(500));
-  }
-
-  console.log('Remove todo by id', id);
-  todosDB.splice(index, 1);
-  return of(true).pipe(delay(500));
-};
-
-export const addTodo = (todo: Omit<Todo, 'id'>) => {
+export const addTodo = (todo: Omit<Todo, 'id'>): Observable<Todo> => {
   const id = getId();
-  console.log('Add todo', { ...todo, id });
   todosDB.push({ ...todo, id });
-  return of(id).pipe(delay(500));
+  return of({ ...todo, id }).pipe(delay(DELAY));
+};
+
+export const updateTodo = (todo: Todo): Observable<Todo> => {
+  const index = findTodoIndexById(todosDB, todo.id);
+  if (index === -1) {
+    return throwError(() => new Error(`Unable to update todo with id=${todo.id}`)).pipe(delay(DELAY));
+  }
+  const { title, completed } = todo;
+  todosDB[index] = { ...todosDB[index], title, completed };
+  return of({ ...todosDB[index], title, completed }).pipe(delay(DELAY));
+};
+
+export const removeTodoById = (id: number): Observable<Todo> => {
+  const index = findTodoIndexById(todosDB, id);
+  if (index === -1) {
+    return throwError(() => new Error(`Unable to remove todo with id=${id}`)).pipe(delay(DELAY));
+  }
+  const [todo] = todosDB.splice(index, 1);
+  return of(todo).pipe(delay(DELAY));
 };

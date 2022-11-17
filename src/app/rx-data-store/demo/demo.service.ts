@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RxDataStore } from '@avine/rx-data-store';
-import { tap } from 'rxjs';
 
-import { cloneTodos, findTodoIndexById, getTodosByUserId, Todo, updateTodoStatusById } from '../server';
+import { addTodo, cloneTodos, findTodoIndexById, getTodosByUserId, removeTodoById, Todo, updateTodo } from '../server';
 
 @Injectable({
   providedIn: 'root',
@@ -13,35 +12,26 @@ export class DemoService extends RxDataStore<Todo[], [userId: number]> {
     this.map = cloneTodos;
   }
 
-  updateTodos(id: number, completed: boolean) {
-    this.pending();
-    return updateTodoStatusById(id, completed).pipe(
-      tap((success) => {
-        if (!success) {
-          return;
-        }
-        this.update((todos) => {
-          const index = findTodoIndexById(todos, 3);
-          todos[index].completed = true;
-          return todos;
-        });
-      })
-    );
-  }
-
-  /*
-  updateTodos(id: number, completed: boolean) {
-    this.pending();
-    updateTodoStatusById(id, completed).subscribe((success) => {
-      if (!success) {
-        return;
-      }
-      this.update((todos) => {
-        const index = findTodoIndexById(todos, 3);
-        todos[index].completed = true;
-        return todos;
-      });
+  update(todo: Todo) {
+    this.mutationQueue(updateTodo(todo), (todos, updatedTodo) => {
+      const index = findTodoIndexById(todos, updatedTodo.id);
+      todos[index] = updatedTodo;
+      return todos;
     });
   }
-  */
+
+  remove(id: number) {
+    this.mutationQueue(removeTodoById(id), (todos) => {
+      const index = findTodoIndexById(todos, id);
+      todos.splice(index, 1);
+      return todos;
+    });
+  }
+
+  add(todo: Omit<Todo, 'id'>) {
+    this.mutationQueue(addTodo(todo), (todos, newTodo) => {
+      todos.push(newTodo);
+      return todos;
+    });
+  }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RxDataStore } from '@avine/rx-data-store';
 import { tap } from 'rxjs';
 
-import { cloneTodos, findTodoIndexById, getTodosByUserId, Todo, updateTodoStatusById } from '../server';
+import { cloneTodos, findTodoIndexById, getTodosByUserId, Todo, updateTodo } from '../server';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +16,12 @@ export class DemoV2Service {
 
   update(id: number, completed: boolean) {
     this.dataStore.pending();
-    return updateTodoStatusById(id, completed).pipe(
+    return updateTodo(id, completed).pipe(
       tap((success) => {
         if (!success) {
           return;
         }
-        this.dataStore.update((todos) => {
+        this.dataStore.updateData((todos) => {
           const index = findTodoIndexById(todos, 3);
           todos[index].completed = true;
           return todos;

@@ -4,11 +4,13 @@ import {
   debounceTime,
   distinctUntilChanged,
   filter,
+  finalize,
   map,
   Observable,
   of,
   ReplaySubject,
   shareReplay,
+  skip,
   startWith,
   Subject,
   switchMap,
@@ -16,7 +18,9 @@ import {
   throwError,
 } from 'rxjs';
 
-export class RxDataStore<T, A extends any[] = []> {
+import { RequestsQueue } from './requests-queue';
+
+export class RxDataStore<T, A extends any[] = [], R = any> {
   /**
    * Define a global mapper that maps the value just before it is emitted by `data$`.
    * To bypass the global mapper for a particular instance, set the instance property `map` to `'noop'`.
@@ -61,8 +65,8 @@ export class RxDataStore<T, A extends any[] = []> {
             this.cache.set(cacheKey, data);
           }
         }),
-        tap(() => this._pending$.next(false)),
-        catchError(this.handleError.bind(this))
+        catchError(this.handleError.bind(this)),
+        finalize(() => this._pending$.next(false))
       );
     }),
     tap((data) => (this._dataSnapshot = data)),
@@ -75,7 +79,7 @@ export class RxDataStore<T, A extends any[] = []> {
   /**
    * Check the pending status of the data store.
    */
-  pending$ = this._pending$.pipe(distinctUntilChanged());
+  pending$ = this._pending$.pipe(skip(1), distinctUntilChanged());
 
   private _dataSnapshot?: T;
 
@@ -106,6 +110,18 @@ export class RxDataStore<T, A extends any[] = []> {
    * You can use this feature to, for example, clone the data before it is emitted.
    */
   map?: ((data: T) => T) | 'noop';
+
+  requestsQueue = new RequestsQueue<T, R>((mutations) => {
+    const dataSnapshot = this.dataSnapshot; // Use a local variable to run the getter once.
+    if (!dataSnapshot) {
+      console.error('RxDataStore: unable to handle requestsQueue because the data snapshot is undefined.');
+      return;
+    }
+    this.setData(
+      mutations.reduce((data, [response, mutate]) => (mutate ? mutate(data, response) : data), dataSnapshot as T),
+      true
+    );
+  });
 
   /**
    * Reactive data store
@@ -176,15 +192,15 @@ export class RxDataStore<T, A extends any[] = []> {
   mutation<R>(request$: Observable<R>, mutate?: (data: T, response: R) => T): Observable<R> {
     this._pending$.next(true);
     return request$.pipe(
-      tap((response) => {
-        if (mutate) {
-          this.updateData((data) => mutate(data, response));
-        } else {
-          this._pending$.next(false);
-        }
-      }),
-      catchError(this.handleError.bind(this))
+      tap((response) => mutate && this.updateData((data) => mutate(data, response))),
+      catchError(this.handleError.bind(this)),
+      finalize(() => this._pending$.next(false))
     );
+  }
+
+  mutationQueue(request$: Observable<R>, mutate?: (data: T, response: R) => T): void {
+    this._pending$.next(true);
+    this.requestsQueue.add(request$.pipe(catchError(this.handleError.bind(this))), mutate);
   }
 
   /**
@@ -200,7 +216,7 @@ export class RxDataStore<T, A extends any[] = []> {
    * dataStore.pending$.subscribe(console.log);
    * dataStore.pending(); // `pending$` will emits `true`.
    * setTimeout(() => {
-   *   dataStore.setData('Updated data'); // `pending$` will emits `false`.
+   *   dataStore.setData('Updated data', true); // `pending$` will emits `false`.
    * }, 1000);
    */
   pending(state = true) {
@@ -210,22 +226,26 @@ export class RxDataStore<T, A extends any[] = []> {
   /**
    * Set the data without fetching it from the `dataSource`.
    */
-  setData(data: T) {
+  setData(data: T, endOfPending = false) {
     this.dispatcher$.next(data);
-    this._pending$.next(false);
+    if (endOfPending) {
+      this._pending$.next(false);
+    }
   }
 
   /**
    * Update the data (from current data snapshot) without fetching it from the `dataSource`.
    */
-  updateData(mutate: (data: T) => T) {
+  updateData(mutate: (data: T) => T, endOfPending = false) {
     const dataSnapshot = this.dataSnapshot; // Use a local variable to run the getter once.
     if (dataSnapshot === undefined) {
-      this._pending$.next(false);
+      if (endOfPending) {
+        this._pending$.next(false);
+      }
       console.error('RxDataStore: unable to update data because the data snapshot is undefined.');
       return;
     }
-    this.setData(mutate(dataSnapshot));
+    this.setData(mutate(dataSnapshot), endOfPending);
   }
 
   /**
@@ -260,7 +280,6 @@ export class RxDataStore<T, A extends any[] = []> {
   }
 
   private handleError(error: any) {
-    this._pending$.next(false);
     this._error$.next(error);
     return throwError(() => error);
   }

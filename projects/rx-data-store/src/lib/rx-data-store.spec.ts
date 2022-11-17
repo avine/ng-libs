@@ -182,19 +182,38 @@ describe('RxDataStore', () => {
       );
     });
 
+    it('should set pending status to false when endOfPending set to true', async () => {
+      expect.assertions(2);
+
+      // Given
+      const dataStore = new RxDataStore(dataSource, ['Hello']);
+      const pendingStatus = [true, false];
+
+      // Given (subscribe) / Then (expect)
+      dataStore.data$.subscribe();
+      dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
+
+      // When
+      dataStore.pending();
+      await sequence(() => dataStore.updateData((data) => `${data} World!`, true));
+    });
+
     it('should call console.error when dataSnapshot is undefined', async () => {
-      expect.assertions(1);
+      expect.assertions(3);
 
       // Given
       const dataStore = new RxDataStore(dataSource);
+      const pendingStatus = [true, false];
 
       const consoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined);
 
       dataStore.data$.subscribe();
+      dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
 
       // When
+      dataStore.pending();
       await sequence(
-        () => dataStore.updateData((data) => data),
+        () => dataStore.updateData((data) => data, true),
         () => expect(consoleError).toHaveBeenCalled()
       );
     });
@@ -234,12 +253,12 @@ describe('RxDataStore', () => {
 
   describe('mutation', () => {
     it('should work when handler provided', async () => {
-      expect.assertions(9);
+      expect.assertions(8);
 
       // Given
       const dataStore = new RxDataStore(() => of(['DATA']), []);
       const dataset = [['DATA'], ['DATA', 'MUTATION']];
-      const pendingStatus = [false, true, false, true, false]; // One `true` for the fetch and another for the mutation
+      const pendingStatus = [true, false, true, false]; // One `true` for the fetch and another for the mutation
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toEqual(dataset.shift()));
@@ -263,11 +282,11 @@ describe('RxDataStore', () => {
     });
 
     it('should work when handler not provided', async () => {
-      expect.assertions(7);
+      expect.assertions(6);
 
       // Given
       const dataStore = new RxDataStore(() => of('DATA'), []);
-      const pendingStatus = [false, true, false, true, false]; // One `true` for the fetch and another for the mutation
+      const pendingStatus = [true, false, true, false]; // One `true` for the fetch and another for the mutation
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toEqual('DATA'));
@@ -281,11 +300,11 @@ describe('RxDataStore', () => {
     });
 
     it('should handle error', async () => {
-      expect.assertions(8);
+      expect.assertions(7);
 
       // Given
       const dataStore = new RxDataStore(() => of(['DATA']), []);
-      const pendingStatus = [false, true, false, true, false]; // One `true` for the fetch and another for the mutation
+      const pendingStatus = [true, false, true, false]; // One `true` for the fetch and another for the mutation
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toEqual(['DATA']));
@@ -313,11 +332,11 @@ describe('RxDataStore', () => {
 
   describe('pending', () => {
     it('should change when fetching data', async () => {
-      expect.assertions(3);
+      expect.assertions(2);
 
       // Given
       const dataStore = new RxDataStore(dataSource, ['DATA']);
-      const pendingStatus = [false, true, false];
+      const pendingStatus = [true, false];
 
       // When (subscribe) / Then (expect)
       dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
@@ -327,11 +346,11 @@ describe('RxDataStore', () => {
     });
 
     it('should change when calling .pending() and .setData()', async () => {
-      expect.assertions(3);
+      expect.assertions(2);
 
       // Given
       const dataStore = new RxDataStore(dataSource);
-      const pendingStatus = [false, true, false];
+      const pendingStatus = [true, false];
 
       // When (subscribe) / Then (expect)
       dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
@@ -339,16 +358,16 @@ describe('RxDataStore', () => {
 
       // When
       dataStore.pending();
-      await sequence(() => dataStore.setData('DATA'));
+      await sequence(() => dataStore.setData('DATA', true));
     });
 
     it('should be set to false after dataSource throws error', (done) => {
-      expect.assertions(3);
+      expect.assertions(2);
 
       // Given
       const _dataSource = () => throwError(() => new Error('Oops!'));
       const dataStore = new RxDataStore(_dataSource);
-      const pendingStatus = [false, true, false];
+      const pendingStatus = [true, false];
 
       // When (subscribe) / Then (expect)
       dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));

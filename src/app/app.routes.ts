@@ -26,7 +26,7 @@ export const APP_ROUTES: Routes = [
   {
     path: 'rx-data-store',
     loadChildren: () => import('./rx-data-store/rx-data-store.routes').then((m) => m.RX_DATA_STORE_ROUTES),
-    title: 'Autocomplete',
+    title: 'Reactive data store',
   },
   {
     path: '**',

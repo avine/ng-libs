@@ -1,4 +1,4 @@
-import { finalize, mergeMap, Observable, of, reduce, Subject, withLatestFrom } from 'rxjs';
+import { catchError, EMPTY, finalize, mergeMap, Observable, of, reduce, Subject, withLatestFrom } from 'rxjs';
 
 export type Mutation<T, R> = [R, ((data: T, response: R) => T) | undefined];
 
@@ -15,11 +15,15 @@ export class RequestsQueue<T, R> {
     }, [] as Mutation<T, R>[])
   );
 
-  add(request$: Observable<R>, mutate?: (data: T, response: R) => T) {
+  add(request$: Observable<R>, mutate?: (data: T, response: R) => T, handleError?: (error: any) => void) {
     this.requestsCount += 1;
     this.mutationsQueue$.next(
       request$.pipe(
         withLatestFrom(of(mutate)),
+        catchError((error) => {
+          handleError?.(error);
+          return EMPTY;
+        }),
         finalize(() => {
           this.requestsCount -= 1;
           if (this.requestsCount === 0) {

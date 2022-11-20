@@ -197,7 +197,7 @@ export class RxDataStore<T, A extends any[] = [], R = any> {
       });
     }
     this._pending$.next(true);
-    this.requestsQueue.add(request$.pipe(catchError(this.handleError.bind(this))), mutate);
+    this.requestsQueue.add(request$, mutate, this.handleError.bind(this));
   }
 
   private applyMutations(mutations: Mutation<T, R>[]) {

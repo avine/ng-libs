@@ -18,7 +18,7 @@ import {
   throwError,
 } from 'rxjs';
 
-import { RequestsQueue } from './requests-queue';
+import { Mutation, RequestsQueue } from './requests-queue';
 
 export class RxDataStore<T, A extends any[] = [], R = any> {
   /**
@@ -111,17 +111,7 @@ export class RxDataStore<T, A extends any[] = [], R = any> {
    */
   map?: ((data: T) => T) | 'noop';
 
-  requestsQueue = new RequestsQueue<T, R>((mutations) => {
-    const dataSnapshot = this.dataSnapshot; // Use a local variable to run the getter once.
-    if (!dataSnapshot) {
-      console.error('RxDataStore: unable to handle requestsQueue because the data snapshot is undefined.');
-      return;
-    }
-    this.setData(
-      mutations.reduce((data, [response, mutate]) => (mutate ? mutate(data, response) : data), dataSnapshot as T),
-      true
-    );
-  });
+  private requestsQueue?: RequestsQueue<T, R>;
 
   /**
    * Reactive data store
@@ -199,8 +189,27 @@ export class RxDataStore<T, A extends any[] = [], R = any> {
   }
 
   mutationQueue(request$: Observable<R>, mutate?: (data: T, response: R) => T): void {
+    if (!this.requestsQueue) {
+      this.requestsQueue = new RequestsQueue<T, R>();
+      this.requestsQueue.mutations$.subscribe((mutations) => {
+        this.applyMutations(mutations);
+        this.requestsQueue = undefined;
+      });
+    }
     this._pending$.next(true);
     this.requestsQueue.add(request$.pipe(catchError(this.handleError.bind(this))), mutate);
+  }
+
+  private applyMutations(mutations: Mutation<T, R>[]) {
+    const dataSnapshot = this.dataSnapshot; // Use a local variable to run the getter once.
+    if (!dataSnapshot) {
+      console.error('RxDataStore: unable to handle requestsQueue because the data snapshot is undefined.');
+      return;
+    }
+    this.setData(
+      mutations.reduce((data, [response, mutate]) => (mutate ? mutate(data, response) : data), dataSnapshot as T),
+      true
+    );
   }
 
   /**

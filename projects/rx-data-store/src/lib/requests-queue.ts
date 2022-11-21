@@ -1,4 +1,4 @@
-import { catchError, EMPTY, finalize, mergeMap, Observable, of, reduce, Subject, withLatestFrom } from 'rxjs';
+import { catchError, EMPTY, finalize, map, mergeMap, Observable, of, reduce, Subject, withLatestFrom } from 'rxjs';
 
 export type Mutation<T, R> = [R, ((data: T, response: R) => T) | undefined];
 
@@ -12,7 +12,11 @@ export class RequestsQueue<T, R> {
     reduce((mutations, mutation) => {
       mutations.push(mutation);
       return mutations;
-    }, [] as Mutation<T, R>[])
+    }, [] as Mutation<T, R>[]),
+    map(
+      (mutations) => (data: T) =>
+        mutations.reduce((acc, [response, mutate]) => (mutate ? mutate(acc, response) : acc), data)
+    )
   );
 
   add(request$: Observable<R>, mutate?: (data: T, response: R) => T, handleError?: (error: any) => void) {

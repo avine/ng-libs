@@ -191,25 +191,13 @@ export class RxDataStore<T, A extends any[] = [], R = any> {
   mutationQueue(request$: Observable<R>, mutate?: (data: T, response: R) => T): void {
     if (!this.requestsQueue) {
       this.requestsQueue = new RequestsQueue<T, R>();
-      this.requestsQueue.mutations$.subscribe((mutations) => {
-        this.applyMutations(mutations);
+      this.requestsQueue.mutations$.subscribe((mutate) => {
         this.requestsQueue = undefined;
+        this.updateData(mutate, true);
       });
     }
     this._pending$.next(true);
     this.requestsQueue.add(request$, mutate, this.handleError.bind(this));
-  }
-
-  private applyMutations(mutations: Mutation<T, R>[]) {
-    const dataSnapshot = this.dataSnapshot; // Use a local variable to run the getter once.
-    if (!dataSnapshot) {
-      console.error('RxDataStore: unable to handle requestsQueue because the data snapshot is undefined.');
-      return;
-    }
-    this.setData(
-      mutations.reduce((data, [response, mutate]) => (mutate ? mutate(data, response) : data), dataSnapshot as T),
-      true
-    );
   }
 
   /**

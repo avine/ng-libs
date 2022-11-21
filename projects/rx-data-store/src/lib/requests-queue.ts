@@ -7,6 +7,10 @@ export class RequestsQueue<T, R> {
 
   private mutationsQueue$ = new Subject<Observable<Mutation<T, R>>>();
 
+  /**
+   * An observable that only emits a function when completed.
+   * The emitted function accumulates the requested mutations.
+   */
   mutations$ = this.mutationsQueue$.pipe(
     mergeMap((mutation$: Observable<Mutation<T, R>>) => mutation$, 1),
     reduce((mutations, mutation) => {
@@ -19,6 +23,13 @@ export class RequestsQueue<T, R> {
     )
   );
 
+  /**
+   * Add a request to the queue.
+   *
+   * @param request$ The request observable.
+   * @param mutate The handler responsible for updating the data according to the response (of the request).
+   * @param handleError Handle errors thrown by the request.
+   */
   add(request$: Observable<R>, mutate?: (data: T, response: R) => T, handleError?: (error: any) => void) {
     this.requestsCount += 1;
     this.mutationsQueue$.next(

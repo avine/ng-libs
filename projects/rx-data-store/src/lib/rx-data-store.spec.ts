@@ -1,5 +1,6 @@
-import { interval, Observable, of, skip, take, tap, throwError, zip } from 'rxjs';
+import { delay, interval, Observable, of, skip, take, tap, throwError, zip } from 'rxjs';
 
+import { RequestsQueue } from './requests-queue';
 import { RxDataStore } from './rx-data-store';
 
 describe('RxDataStore', () => {
@@ -327,6 +328,40 @@ describe('RxDataStore', () => {
             },
           });
       });
+    });
+  });
+
+  describe('mutationQueue', () => {
+    it('should work', (done) => {
+      expect.assertions(6);
+
+      // Given
+      const dataStore = new RxDataStore(() => of(['DATA']), []);
+      const dataset = [['DATA'], ['DATA', 'MUTATION 1', 'MUTATION 2']];
+
+      const mutate = jest.fn((data: string[], value: string) => {
+        data.push(value);
+        return data;
+      });
+
+      expect((dataStore as any).requestsQueue).toBeUndefined();
+
+      // When
+      dataStore.data$.subscribe((data) => {
+        // Then
+        expect(data).toEqual(dataset.shift());
+        if (dataset.length === 0) {
+          expect(mutate).toHaveBeenCalledTimes(2);
+          expect((dataStore as any).requestsQueue).toBeUndefined();
+          done();
+        }
+      });
+
+      // When
+      dataStore.mutationQueue(of('MUTATION 1').pipe(delay(0)), mutate);
+      dataStore.mutationQueue(of('MUTATION 2').pipe(delay(0)), mutate);
+
+      expect((dataStore as any).requestsQueue).toBeInstanceOf(RequestsQueue);
     });
   });
 

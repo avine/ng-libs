@@ -263,7 +263,7 @@ describe('RxDataStore', () => {
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toEqual(dataset.shift()));
-      dataStore.pending$.subscribe((data) => expect(data).toBe(pendingStatus.shift()));
+      dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
 
       const mutate = jest.fn((data: string[], value: string) => {
         data.push(value);
@@ -291,7 +291,7 @@ describe('RxDataStore', () => {
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toEqual('DATA'));
-      dataStore.pending$.subscribe((data) => expect(data).toBe(pendingStatus.shift()));
+      dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
 
       await sequence(() => {
         dataStore
@@ -309,7 +309,7 @@ describe('RxDataStore', () => {
 
       // When (subscribe) / Then (expect)
       dataStore.data$.subscribe((data) => expect(data).toEqual(['DATA']));
-      dataStore.pending$.subscribe((data) => expect(data).toBe(pendingStatus.shift()));
+      dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
 
       const mutate = jest.fn();
 
@@ -333,12 +333,15 @@ describe('RxDataStore', () => {
 
   describe('mutationQueue', () => {
     it('should work', (done) => {
-      expect.assertions(6);
+      // Ok, this test is quite big... (testing `requestsQueue`, `data$`, `pending$` and `error$`)
+      expect.assertions(9);
 
       // Given
       const dataStore = new RxDataStore(() => of(['DATA']), []);
       const dataset = [['DATA'], ['DATA', 'MUTATION 1', 'MUTATION 2']];
-
+      const pendingStatus = [true, false];
+      const error = new Error('Oops!');
+    
       const mutate = jest.fn((data: string[], value: string) => {
         data.push(value);
         return data;
@@ -356,11 +359,15 @@ describe('RxDataStore', () => {
           done();
         }
       });
+      dataStore.pending$.subscribe((pending) => expect(pending).toBe(pendingStatus.shift()));
+      dataStore.error$.subscribe((err) => expect(err).toBe(error));
 
       // When
       dataStore.mutationQueue(of('MUTATION 1').pipe(delay(0)), mutate);
+      dataStore.mutationQueue(throwError(() => error).pipe(delay(0)), mutate);
       dataStore.mutationQueue(of('MUTATION 2').pipe(delay(0)), mutate);
 
+      // Then
       expect((dataStore as any).requestsQueue).toBeInstanceOf(RequestsQueue);
     });
   });

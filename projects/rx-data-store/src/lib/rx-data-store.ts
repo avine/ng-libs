@@ -18,7 +18,7 @@ import {
   throwError,
 } from 'rxjs';
 
-import { Mutation, RequestsQueue } from './requests-queue';
+import { RequestsQueue } from './requests-queue';
 
 export class RxDataStore<T, A extends any[] = [], R = any> {
   /**
@@ -191,7 +191,7 @@ export class RxDataStore<T, A extends any[] = [], R = any> {
   /**
    * Adds multiple requests to a queue and updates the data store only once the queue completes.
    *
-   * @param request$ The request observable. 
+   * @param request$ The request observable.
    * @param mutate The handler responsible for updating the data store.
    */
   mutationQueue(request$: Observable<R>, mutate?: (data: T, response: R) => T): void {

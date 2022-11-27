@@ -15,12 +15,10 @@
   height: calc(100vh - 64px); // 64px is the header height.
 
   &__sidenav {
-    min-width: 300px;
+    min-width: 260px;
   }
 
-  &__sidenav-menu {
-    padding: 1.5rem;
-  }
+  // &__sidenav-menu {}
 
   &__content {
     box-sizing: border-box;

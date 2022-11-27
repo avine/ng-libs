@@ -22,14 +22,14 @@ describe('RequestsQueue', () => {
       next: (mutate) => {
         // Then
         expect(mutate(0)).toBe(10); // 0 + 1 + 2 + 3 + 4
-  
+
         expect(mutateA).toHaveBeenNthCalledWith(1, 0, 1);
         expect(mutateA).toHaveBeenNthCalledWith(2, 1, 2);
-  
+
         expect(mutateB).toHaveBeenNthCalledWith(1, 3, 3);
         expect(mutateB).toHaveBeenNthCalledWith(2, 6, 4);
       },
-      complete: done
+      complete: done,
     });
 
     // When
@@ -43,11 +43,11 @@ describe('RequestsQueue', () => {
       next: (mutate) => {
         // Then
         expect(mutate(0)).toBe(3); // 0 + 1 + 2
-  
+
         expect(mutateA).toHaveBeenNthCalledWith(1, 0, 1);
         expect(mutateA).toHaveBeenNthCalledWith(2, 1, 2);
       },
-      complete: done
+      complete: done,
     });
 
     // When
@@ -65,14 +65,14 @@ describe('RequestsQueue', () => {
       next: (mutate) => {
         // Then
         expect(mutate(0)).toBe(10); // 0 + 1 + 2 + 3 + 4
-  
+
         expect(mutateA).toHaveBeenNthCalledWith(1, 0, 1);
         expect(mutateA).toHaveBeenNthCalledWith(2, 1, 2);
-  
+
         expect(mutateB).toHaveBeenNthCalledWith(1, 3, 3);
         expect(mutateB).toHaveBeenNthCalledWith(2, 6, 4);
       },
-      complete: done
+      complete: done,
     });
 
     // When
@@ -92,7 +92,7 @@ describe('RequestsQueue', () => {
         // Then
         expect(handleError).toHaveBeenCalledWith(error);
       },
-      complete: done
+      complete: done,
     });
 
     // When

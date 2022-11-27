@@ -341,7 +341,7 @@ describe('RxDataStore', () => {
       const dataset = [['DATA'], ['DATA', 'MUTATION 1', 'MUTATION 2']];
       const pendingStatus = [true, false];
       const error = new Error('Oops!');
-    
+
       const mutate = jest.fn((data: string[], value: string) => {
         data.push(value);
         return data;

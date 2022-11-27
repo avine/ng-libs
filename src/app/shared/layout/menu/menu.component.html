@@ -1,25 +1,39 @@
 <mat-list>
-  <h3 matSubheader><mat-icon>grade</mat-icon> &nbsp; IfNonNullish</h3>
+  <div mat-subheader>
+    <h2>IfNonNullish</h2>
+  </div>
 
   <mat-nav-list>
+    <!-- HACK -->
+    <a
+      style="position: absolute; left: -9999px"
+      mat-list-item
+      routerLink="/if-non-nullish"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Demo
+    </a>
     <a mat-list-item routerLink="/if-non-nullish" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
       Demo
     </a>
+    <mat-divider></mat-divider>
   </mat-nav-list>
 
-  <mat-divider></mat-divider>
-
-  <h3 matSubheader><mat-icon>grade</mat-icon> &nbsp; FormStepper</h3>
+  <div mat-subheader>
+    <h2>FormStepper</h2>
+  </div>
 
   <mat-nav-list>
     <a mat-list-item routerLink="/form-stepper/demo/onboarding" routerLinkActive="active">Full demo</a>
     <a mat-list-item routerLink="/form-stepper/one-level/onboarding" routerLinkActive="active">One level</a>
     <a mat-list-item routerLink="/form-stepper/material/onboarding" routerLinkActive="active">Material</a>
+    <mat-divider></mat-divider>
   </mat-nav-list>
 
-  <mat-divider></mat-divider>
-
-  <h3 matSubheader><mat-icon>grade</mat-icon> &nbsp; Autocomplete</h3>
+  <div mat-subheader>
+    <h2>Autocomplete</h2>
+  </div>
 
   <mat-nav-list>
     <a mat-list-item routerLink="/autocomplete" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
@@ -29,14 +43,17 @@
     <a mat-list-item routerLink="/autocomplete/reactive-form" routerLinkActive="active">Reactive Form</a>
     <a mat-list-item routerLink="/autocomplete/template-form" routerLinkActive="active">Template Form</a>
     <a mat-list-item routerLink="/autocomplete/standalone" routerLinkActive="active">Standalone</a>
+    <mat-divider></mat-divider>
   </mat-nav-list>
-  <mat-divider></mat-divider>
 
-  <h3 matSubheader><mat-icon>grade</mat-icon> &nbsp; RxDataStore</h3>
+  <div mat-subheader>
+    <h2>RxDataStore</h2>
+  </div>
 
   <mat-nav-list>
     <a mat-list-item routerLink="/rx-data-store" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
       Demo
     </a>
+    <mat-divider></mat-divider>
   </mat-nav-list>
 </mat-list>

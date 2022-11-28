@@ -355,13 +355,10 @@ The `AbstractControl` of the section (tracks the validity state of the section).
 | formGroup          | AbstractControl           | undefined | When provided, the value of `formStepperSection` is optional.                |
 | formGroupName      | string                    | undefined | When provided, the value of `formStepperSection` is optional.                |
 | formArrayName      | string                    | undefined | When provided, the value of `formStepperSection` is optional.                |
-| fsOptions          | FormStepperSectionOptions | undefined | Configure section options.                                                   |
 | fsTitle            | string                    | undefined | The title of the step (required).                                            |
 | fsIcon             | TemplateRef               | undefined | The icon template of the section to use in the the "nav" and the "quicknav". |
 | fsNoQuicknav       | BooleanInput              | false     | Determines wheter to exclude the section from the "quicknav".                |
 | noStepsNav         | BooleanInput              | undefined | Determines whether to hide the steps in the "nav" for a particular section.  |
-
-When `fsOptions` is defined, `fsTitle`, `fsIcon`, `fsNoQuicknav` and `noStepsNav` inputs are ignored.
 
 ```ts
 interface FormStepperSectionOptions {
@@ -388,12 +385,9 @@ The `AbstractControl` of the step (tracks the validity state of the step).
 | formGroup               | AbstractControl           | undefined | When provided, the value of `formStepperStep` is optional.                                         |
 | formGroupName           | string                    | undefined | When provided, the value of `formStepperStep` is optional.                                         |
 | formArrayName           | string                    | undefined | When provided, the value of `formStepperStep` is optional.                                         |
-| fsOptions               | FormStepperStepOptions    | undefined | Configure step options.                                                                            |
 | fsTitle                 | string                    | undefined | The title of the step (required, if there's more than one step in the section).                    |
 | fsAutoNextOnValueChange | BooleanInput              | false     | Determines whether to go to the next step each time value changes (and the current step is valid). |
 | fsPath                  | string                    | undefined | The route parameter to use to navigate to the step (required).                                     |
-
-When `fsOptions` is defined, `fsTitle`, `fsAutoNextOnValueChange` and `fsPath` inputs are ignored.
 
 ```ts
 interface FormStepperStepOptions {

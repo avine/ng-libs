@@ -77,11 +77,7 @@
         </label>
       </ng-template>
 
-      <!--
-        Notice the usage of `fsOptions` input.
-        When defined, `fsTitle`, `fsPath` and `fsAutoNextOnValueChange` inputs are ignored.
-      -->
-      <ng-template formStepperStep="lastName" [fsOptions]="{ title: 'Last name', path: 'last-name' }">
+      <ng-template formStepperStep="lastName" fsTitle="Last name" fsPath="last-name">
         <label>
           Last name<br />
           <input formControlName="lastName" formStepperControl />
@@ -91,11 +87,8 @@
 
     <!--
       This section only have one step. In this case, the value of `formStepperStep` is optional.
-
-      Notice the usage of `fsOptions` input.
-      When defined, `fsTitle`, `fsIcon` and `fsNoQuicknav` inputs are ignored.
     -->
-    <ng-container formStepperSection="haveCompany" [fsOptions]="{ title: 'Have company ?', icon: companyIcon }">
+    <ng-container formStepperSection="haveCompany" fsTitle="Have company ?" [fsIcon]="companyIcon">
       <!--
         This step only contains radio buttons choice.
         In this situation, using the `fsAutoNextOnValueChange` input, allow to jump

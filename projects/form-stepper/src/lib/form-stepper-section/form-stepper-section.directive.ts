@@ -8,7 +8,6 @@ import { FormStepperStepDirective } from '../form-stepper-step/form-stepper-step
 import { FormStepperService } from '../form-stepper.service';
 import { FormStepperStep } from '../form-stepper.types';
 import { getUniqueId } from '../form-stepper.utils';
-import { FormStepperSectionOptions } from './form-stepper-section.types';
 
 @Directive({
   standalone: true,
@@ -30,13 +29,6 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   /** The value of `formStepperSection` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formArrayName!: string;
-
-  /**
-   * Configure section options.
-   *
-   * When defined, `fsTitle`, `fsIcon` and `fsNoQuicknav` inputs are ignored.
-   */
-  @Input() fsOptions?: FormStepperSectionOptions;
 
   private _fsTitle!: string;
 
@@ -74,16 +66,9 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
   getSection = (): AbstractControl | string =>
     this.formStepperSection || this.formGroup || this.formGroupName || this.formArrayName;
 
-  getTitle = (): string => this.fsOptions?.title ?? this.fsTitle;
-
-  getIcon = (): TemplateRef<any> => this.fsOptions?.icon ?? this.fsIcon;
-
-  getNoQuicknav = (): boolean => this.fsOptions?.noQuicknav ?? coerceBooleanProperty(this.fsNoQuicknav);
+  getNoQuicknav = (): boolean => coerceBooleanProperty(this.fsNoQuicknav);
 
   getNoStepsNav = (): boolean | undefined => {
-    if (this.fsOptions?.noStepsNav !== undefined) {
-      return this.fsOptions.noStepsNav;
-    }
     if (this.fsNoStepsNav !== undefined) {
       return coerceBooleanProperty(this.fsNoStepsNav);
     }
@@ -102,8 +87,8 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
     this.service.addNavSection({
       id: this.id,
-      title: this.getTitle(),
-      icon: this.getIcon(),
+      title: this.fsTitle,
+      icon: this.fsIcon,
       control: this.service.getControl(this.getSection()),
       stepIndexOffset,
       steps,
@@ -129,11 +114,11 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
 
   private getSteps(sectionIndex: number, stepIndexOffset: number) {
     return this.stepDirectiveQueryList.map(
-      ({ id, getTitle, getPath, getAutoNextOnValueChange, getStep, template }, relativeStepIndex) => {
+      ({ id, fsTitle, fsPath, getAutoNextOnValueChange, getStep, template }, relativeStepIndex) => {
         const step: FormStepperStep = {
           id,
-          title: getTitle() || this.getTitle(),
-          path: getPath(),
+          title: fsTitle || this.fsTitle,
+          path: fsPath,
           autoNextOnValueChange: getAutoNextOnValueChange(),
           control: this.service.getControl(this.getSection(), getStep()),
           template,

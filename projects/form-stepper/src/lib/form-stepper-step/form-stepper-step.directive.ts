@@ -4,7 +4,6 @@ import { AbstractControl } from '@angular/forms';
 
 import { FormStepperService } from '../form-stepper.service';
 import { getUniqueId } from '../form-stepper.utils';
-import { FormStepperStepOptions } from './form-stepper-step.types';
 
 @Directive({
   standalone: true,
@@ -28,13 +27,6 @@ export class FormStepperStepDirective {
 
   /** The value of `formStepperStep` is optional when `formGroup`, `formGroupName` or `formArrayName` is provided. */
   @Input() formArrayName!: string;
-
-  /**
-   * Configure step options
-   *
-   * When defined, `fsTitle`, `fsPath` and `fsAutoNextOnValueChange` inputs are ignored.
-   */
-  @Input() fsOptions?: FormStepperStepOptions;
 
   private _fsTitle!: string;
 
@@ -68,12 +60,7 @@ export class FormStepperStepDirective {
   getStep = (): AbstractControl | string =>
     this.formStepperStep || this.formGroup || this.formGroupName || this.formArrayName;
 
-  getTitle = (): string => this.fsOptions?.title ?? this.fsTitle;
-
-  getPath = (): string => this.fsOptions?.path ?? this.fsPath;
-
-  getAutoNextOnValueChange = (): boolean =>
-    this.fsOptions?.autoNextOnValueChange ?? coerceBooleanProperty(this.fsAutoNextOnValueChange);
+  getAutoNextOnValueChange = (): boolean => coerceBooleanProperty(this.fsAutoNextOnValueChange);
 
   constructor(public template: TemplateRef<any>, private service: FormStepperService) {}
 }

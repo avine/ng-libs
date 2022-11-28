@@ -24,7 +24,7 @@ import { FormStepperService } from '../form-stepper.service';
 })
 export class FormStepperPrevDirective implements AfterViewInit, OnDestroy {
   @HostBinding('disabled') get isDisabled() {
-    return !this.service.useRouting && !this.service.state.hasPrevStep;
+    return !this.service.state.hasPrevStep;
   }
 
   @HostListener('click') onClick() {

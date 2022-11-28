@@ -261,11 +261,7 @@ export class FormStepperService implements OnDestroy {
   }
 
   prevStep() {
-    if (this.useRouting) {
-      this.location.back();
-    } else {
-      this.navigateByStepIndex(this.stepIndex - 1);
-    }
+    this.navigateByStepIndex(this.stepIndex - 1);
   }
 
   nextStep() {

@@ -26,7 +26,7 @@ export class FormStepperPrevAnchorDirective implements AfterViewInit, OnDestroy 
   @HostBinding('class.form-stepper-prev-anchor') hasClass = true;
 
   @HostBinding('class.form-stepper-prev-anchor--disabled') get isDisabled() {
-    return !this.service.useRouting && !this.service.state.hasPrevStep;
+    return !this.service.state.hasPrevStep;
   }
 
   @HostListener('click', ['$event']) onClick(event: Event) {

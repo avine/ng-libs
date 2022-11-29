@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HistoryService } from '@avine/ng-history';
+
 import { LayoutComponent } from './shared/layout/layout.component';
-import { HistoryService } from './shared/history/history.service';
 
 @Component({
   standalone: true,

@@ -11,6 +11,7 @@ module.exports = {
   moduleNameMapper: {
     '^@avine/ng-autocomplete': '<rootDir>//projects/autocomplete/src/public-api.ts',
     '^@avine/ng-form-stepper': '<rootDir>//projects/form-stepper/src/public-api.ts',
+    '^@avine/ng-history': '<rootDir>//projects/history/src/public-api.ts',
     '^@avine/ng-if-non-nullish': '<rootDir>//projects/if-non-nullish/src/public-api.ts',
     '^@avine/rx-data-store': '<rootDir>//projects/rx-data-store/src/public-api.ts',
     '^@avine/ng-scaffolding': '<rootDir>//projects/scaffolding/src/public-api.ts',

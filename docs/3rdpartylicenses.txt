@@ -72,7 +72,13 @@ MIT
 @avine/ng-form-stepper
 MIT
 
+@avine/ng-history
+MIT
+
 @avine/ng-if-non-nullish
+MIT
+
+@avine/rx-data-store
 MIT
 
 rxjs

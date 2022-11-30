@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-Hmm... This is very verbose just to expose a `user$` observable.
+Hmm... This is very verbose just to expose the `user$` observable.
 Now let's use `RxDataStore` to simplify it all!
 
 ```ts
@@ -84,15 +84,27 @@ export class UserService extends RxDataStore<User> {
   template: '<h1>Hello {{ (user$ | async)?.name }}</h1>',
 })
 export class AppComponent implements OnInit {
-  // The observable `data$` is a instance property of the class `RxDataStore`.
+  // The observable `data$` is an instance property of the class `RxDataStore`.
   user$ = this.userService.data$;
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    // `fetch` is a instance method of the class `RxDataStore`.
+    // `fetch` is an instance method of the class `RxDataStore`.
     this.userService.fetch();
   }
+}
+```
+
+In this example, the `UserService` inherits from `RxDataStore`.
+But, it's perfectly fine to use `RxDataStore` as an instance property of the `UserService`.
+
+```ts
+@Injectable()
+export class UserService {
+  store = new RxDataStore<User>(() => this.userApiService.get());
+
+  constructor(private userApiService: UserApiService) {}
 }
 ```
 
@@ -102,7 +114,7 @@ Let's dive into the rich features of `RxDataStore`.
 ## API
 
 The data source is a function that returns an observable.
-Let's say this observable emits 2 values.
+Let's say this observable emits 2 consecutive values.
 
 ```ts
 import { of } from 'rxjs';
@@ -212,7 +224,7 @@ dataStore.mutationQueue(of(1), (data, response) => data + response); // 3 + 1 ==
 
 ### pending
 
-The observable `pending$` emits `true` when a task is in progress and `false` when it is finished.
+The observable `pending$` emits `true` when a task is in progress and `false` when it is idle.
 
 ```ts
 dataStore.pending$.subscribe(console.log); // true, false

@@ -1,22 +1,22 @@
 import { AsyncPipe, JsonPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
 
 import { Todo } from '../server';
 import { DemoService } from './demo.service';
 
 @Component({
   standalone: true,
-  imports: [AsyncPipe, JsonPipe, NgIf, NgFor, MatListModule, MatInputModule],
+  imports: [AsyncPipe, JsonPipe, NgIf, NgFor],
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.css'],
 })
 export class DemoComponent implements OnDestroy {
+  userId = 0;
+
   disabled: Todo[] = [];
 
-  subscription = this.demoService.pending$.subscribe((pending) => {
+  private subscription = this.demoService.pending$.subscribe((pending) => {
     if (pending === false) {
       this.disabled = [];
     }
@@ -26,6 +26,11 @@ export class DemoComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  fetch() {
+    this.userId = 1 + (this.userId % 5);
+    this.demoService.fetch(this.userId);
   }
 
   update() {

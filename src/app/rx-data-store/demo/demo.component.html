@@ -1,35 +1,23 @@
-<button (click)="demoService.fetch(1)" [disabled]="demoService.pending$ | async">Fetch</button>
+<h1>RxDataStore</h1>
 
-<button (click)="update()" [disabled]="demoService.pending$ | async">Update</button>
+<p>
+  <button (click)="fetch()" [disabled]="demoService.pending$ | async">Fetch todos for the next user</button>
+  &nbsp;
+  <button (click)="update()" [disabled]="demoService.pending$ | async">Update</button>
+</p>
 
-<br /><br />
+<p>Current userId: {{ userId || '' }}</p>
 
-<!--<mat-selection-list #todoList [disableRipple]="true">
-  <mat-list-option
-    *ngFor="let todo of demoService.data$ | async; trackBy: trackById"
-    [selected]="todo.completed"
-    [value]="todo.id"
-    (click)="toggleCompleted(todo)"
-  >
-    <input
-      #input
-      matInput
-      [value]="todo.title"
-      [disabled]="disabled.includes(todo)"
-      (change)="updateTitle(todo, input.value)"
-    />
-  </mat-list-option>
-</mat-selection-list>-->
+<p>Number of mutations in the queue: {{ disabled.length }}</p>
 
 <p *ngFor="let todo of demoService.data$ | async; trackBy: trackById">
   <button (click)="remove(todo.id)">Remove</button>
-
+  &nbsp;
   <button (click)="toggleCompleted(todo)">
-    {{ todo.completed ? '1' : '0' }}
+    {{ todo.completed ? 'Done' : 'Todo' }}
   </button>
-
+  &nbsp;
   <input #input [value]="todo.title" [disabled]="disabled.includes(todo)" (change)="updateTitle(todo, input.value)" />
 </p>
 
-<p>{{ disabled.length }}</p>
-<pre>{{ demoService.data$ | async | json }}</pre>
+<pre *ngIf="demoService.data$ | async as data">Todos {{ data | json }}</pre>

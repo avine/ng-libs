@@ -8,7 +8,13 @@
 
 <p>Current userId: {{ userId || '' }}</p>
 
-<p>Number of mutations in the queue: {{ disabled.length }}</p>
+<p>Number of mutations in the queue (*): {{ disabled.length }}</p>
+
+<p>
+  (*) It only applies to the text of a todo item which uses "mutationQueue()" function.<br />
+  Removing a todo item or changing its state uses regular "mutation()" function.<br />
+  Note that the server simulates a slow internet connection and each request takes 2 seconds...
+</p>
 
 <p *ngFor="let todo of demoService.data$ | async; trackBy: trackById">
   <button (click)="remove(todo.id)">Remove</button>

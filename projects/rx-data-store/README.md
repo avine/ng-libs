@@ -8,7 +8,9 @@ Check out [demo here](https://avine.github.io/ng-libs/rx-data-store).
 
 ## Introduction
 
-If you write the following code all the time, then this package is for you...
+You don't want to use NgRx for the state management of your application, but you are still looking for a lightweight solution.
+
+Now, if you write the following code all the time, then this package is for you...
 
 Let's say you have the following **data source**:
 
@@ -109,7 +111,12 @@ export class UserService {
 ```
 
 We're just scratching the surface here.
-Let's dive into the rich features of `RxDataStore`.
+Let's dive into the features of `RxDataStore`.
+
+## Usage
+
+`RxDataStore` integrates naturally with Angular since it is based on RxJS.
+But since it only depends on RxJS, it can be used with any other framework.
 
 ## API
 
@@ -137,11 +144,12 @@ dataStore.fetch(1);
 dataStore.data$.subscribe((data) => console.log(data)); // 1, 2
 ```
 
-Note that the order does not matter. You can subscribe to `data$` even after the `fetch` method has been called.
+Note that the order does not matter.
+You can subscribe to `data$` even after the `fetch` method has been called.
 
 ### Set default arguments for data fetching
 
-Calling the `fetch` method is not necessary when the default arguments of the data source function are provided.
+Calling the `fetch` method is not necessary when the default arguments of the data source function are provided in the constructor.
 
 ```ts
 // Data will be fetched using the provided arguments (but only when `data$` is subscribed)
@@ -197,7 +205,7 @@ dataStore.refresh();
 
 ### mutation
 
-Subscribe to an observable (the mutation) and update the data in the data store based on the current state of the data and the response of the observable.
+Subscribe to an observable (the mutation) and update the data in the data store based on the current state of the data and the response of the mutation.
 
 ```ts
 const dataStore = new RxDataStore(dataSource, [1]);
@@ -222,7 +230,7 @@ dataStore.mutationQueue(of(1), (data, response) => data + response); // 2 + 1 ==
 dataStore.mutationQueue(of(1), (data, response) => data + response); // 3 + 1 === 4
 ```
 
-### pending
+### pending$
 
 The observable `pending$` emits `true` when a task is in progress and `false` when it is idle.
 
@@ -230,7 +238,7 @@ The observable `pending$` emits `true` when a task is in progress and `false` wh
 dataStore.pending$.subscribe(console.log); // true, false
 ```
 
-### error
+### error$
 
 The observable `error$` emits errors that occur during task processing.
 
@@ -258,7 +266,7 @@ dataStore.map = 'noop';
 
 ### useCache
 
-Note that the lastest data is always cached in the data store.
+Note that the latest data is always cached in the data store.
 Enabling the cache is useful when the data source is called with different arguments.
 
 ```ts
@@ -283,3 +291,5 @@ dataStore.clearCache();
 ## License
 
 [MIT](https://github.com/avine/ng-libs/blob/main/LICENSE)
+
+_Enjoy and have fun with `RxDataStore`._

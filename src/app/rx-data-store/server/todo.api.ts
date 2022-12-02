@@ -4,7 +4,7 @@ import { getId, todosDB } from './todo.db';
 import { Todo } from './todo.types';
 import { cloneTodos, findTodoIndexById } from './todo.utils';
 
-const DELAY = 2000;
+const DELAY = 1500;
 
 export const getTodosByUserId = (userId: number): Observable<Todo[]> => {
   return of(cloneTodos(todosDB)).pipe(

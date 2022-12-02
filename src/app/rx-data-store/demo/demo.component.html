@@ -1,29 +1,54 @@
 <h1>RxDataStore</h1>
 
 <p>
-  <button (click)="fetch()" [disabled]="demoService.pending$ | async">Fetch todos for the next user</button>
-  &nbsp;
-  <button (click)="update()" [disabled]="demoService.pending$ | async">Update</button>
+  Note that the server simulates a slow internet connection and each request takes 1.5 seconds.<br />
+  The request are queued using the <code>mutationQueue()</code> method.
 </p>
-
-<p>Current userId: {{ userId || '' }}</p>
-
-<p>Number of mutations in the queue (*): {{ disabled.length }}</p>
 
 <p>
-  (*) It only applies to the text of a todo item which uses "mutationQueue()" function.<br />
-  Removing a todo item or changing its state uses regular "mutation()" function.<br />
-  Note that the server simulates a slow internet connection and each request takes 2 seconds...
-</p>
-
-<p *ngFor="let todo of demoService.data$ | async; trackBy: trackById">
-  <button (click)="remove(todo.id)">Remove</button>
-  &nbsp;
-  <button (click)="toggleCompleted(todo)">
-    {{ todo.completed ? 'Done' : 'Todo' }}
+  <button mat-raised-button color="primary" (click)="fetch()" [disabled]="demoService.pending$ | async">
+    Fetch todos for the next user
   </button>
+
   &nbsp;
-  <input #input [value]="todo.title" [disabled]="disabled.includes(todo)" (change)="updateTitle(todo, input.value)" />
+
+  <span>{{ (demoService.pending$ | async) ? '🚀 Processing...' : '😴 Idle.' }}</span>
 </p>
 
-<pre *ngIf="demoService.data$ | async as data">Todos {{ data | json }}</pre>
+<h2 *ngIf="userId">Todo list for user with ID: {{ userId || '' }}</h2>
+
+<div class="demo">
+  <div class="demo__form">
+    <p *ngFor="let todo of demoService.data$ | async; trackBy: trackById">
+      <button mat-button [disabled]="disabledTodoIds.has(todo.id)" (click)="remove(todo.id)">Remove</button>
+
+      &nbsp;
+
+      <mat-slide-toggle
+        [disabled]="disabledTodoIds.has(todo.id)"
+        [checked]="todo.completed"
+        (change)="toggleCompleted(todo)"
+      ></mat-slide-toggle>
+
+      &nbsp;
+
+      <mat-form-field appearance="fill">
+        <input
+          #input
+          matInput
+          [disabled]="disabledTodoIds.has(todo.id)"
+          [value]="todo.title"
+          (change)="updateTitle(todo, input.value)"
+        />
+      </mat-form-field>
+
+      &nbsp;
+
+      {{ todo.completed ? '✔' : '✖' }}
+    </p>
+  </div>
+
+  <pre class="demo__data" *ngIf="demoService.data$ | async as data">Todos {{ data | json }}</pre>
+</div>
+
+<app-view-source linkHref="https://github.com/avine/ng-libs/tree/main/src/app/rx-data-store/demo"></app-view-source>

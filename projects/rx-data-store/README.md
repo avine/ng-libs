@@ -76,8 +76,8 @@ export class UserService extends RxDataStore<User> {
   constructor(private userApiService: UserApiService) {
     // Calling 'super' is equivalent to writing:
     //   const dataSource = () => this.userApiService.get();
-    //   const dataStore = new RxDataStore(dataSource);
-    super(() => this.userApiService.get());
+    //   const dataStore = new RxDataStore(dataSource, []);
+    super(() => this.userApiService.get(), []);
   }
 }
 
@@ -85,16 +85,11 @@ export class UserService extends RxDataStore<User> {
   selector: 'app-root',
   template: '<h1>Hello {{ (user$ | async)?.name }}</h1>',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   // The observable `data$` is an instance property of the class `RxDataStore`.
   user$ = this.userService.data$;
 
   constructor(private userService: UserService) {}
-
-  ngOnInit() {
-    // `fetch` is an instance method of the class `RxDataStore`.
-    this.userService.fetch();
-  }
 }
 ```
 
@@ -104,7 +99,7 @@ But, it's perfectly fine to use `RxDataStore` as an instance property of the `Us
 ```ts
 @Injectable()
 export class UserService {
-  store = new RxDataStore<User>(() => this.userApiService.get());
+  store = new RxDataStore<User>(() => this.userApiService.get(), []);
 
   constructor(private userApiService: UserApiService) {}
 }
@@ -277,7 +272,7 @@ dataStore.fetch(1); // Calling `dataSource(1)`
 
 dataStore.fetch(2); // Calling `dataSource(2)`
 
-dataStore.fetch(1); // Gettting data from the data store cache
+dataStore.fetch(1); // Getting data from the data store cache
 ```
 
 ### clearCache

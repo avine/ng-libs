@@ -1,7 +1,7 @@
 import { BehaviorSubject, combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
-import { Location } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
 import { ChangeDetectorRef, Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -139,6 +139,7 @@ export class FormStepperService implements OnDestroy {
 
   constructor(
     @Inject(FORM_STEPPER_CONFIG) public readonly config: FormStepperConfig,
+    @Inject(DOCUMENT) private document: Document,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private location: Location,
@@ -206,7 +207,20 @@ export class FormStepperService implements OnDestroy {
     this.currentStepElements.add(element);
 
     if (this.currentStepElements.size === 1 && this.currentStepHasNoValue) {
-      element.focus?.();
+      this.focusControlElement(element);
+    }
+  }
+
+  private focusControlElement(element: HTMLElement) {
+    const isHtmlFieldElement = [HTMLInputElement, HTMLSelectElement, HTMLTextAreaElement].some(
+      (htmlFieldElement) => element instanceof htmlFieldElement
+    );
+
+    if (isHtmlFieldElement) {
+      element.focus();
+    } else if (this.document.defaultView?.CustomEvent) {
+      // Let's give a change to the element to react to the `focus` event.
+      element.dispatchEvent(new this.document.defaultView.CustomEvent('focus'));
     }
   }
 

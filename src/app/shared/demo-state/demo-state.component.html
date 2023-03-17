@@ -1,0 +1,9 @@
+<button *ngFor="let action of actions" class="btn btn-light btn-sm me-2 mb-2" (click)="handleAction(action.prop)">
+  <strong class="fw-semibold">{{ action.prop }}</strong>
+
+  <ng-container *ngIf="action.value !== null && action.value !== undefined">
+    &nbsp;&gt;&nbsp;
+
+    <code class="text-primary">{{ action.value | json }}</code>
+  </ng-container>
+</button>

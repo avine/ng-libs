@@ -25,6 +25,7 @@
       "@avine/ng-form-stepper": ["projects/form-stepper/src/public-api.ts"],
       "@avine/ng-history": ["projects/history/src/public-api.ts"],
       "@avine/ng-if-non-nullish": ["projects/if-non-nullish/src/public-api.ts"],
+      "@avine/ng-timeline": ["projects/timeline/src/public-api.ts"],
       "@avine/rx-data-store": ["projects/rx-data-store/src/public-api.ts"],
       "@avine/ng-scaffolding": ["projects/scaffolding/src/public-api.ts"]
     }

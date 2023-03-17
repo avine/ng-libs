@@ -9,9 +9,9 @@ export const APP_ROUTES: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'if-non-nullish',
-    loadComponent: () => import('./if-non-nullish/if-non-nullish.component').then((m) => m.IfNonNullishComponent),
-    title: 'If non nullish',
+    path: 'autocomplete',
+    loadChildren: () => import('./autocomplete/autocomplete.routes').then((m) => m.AUTOCOMPLETE_ROUTES),
+    title: 'Autocomplete',
   },
   {
     path: 'form-stepper',
@@ -19,9 +19,14 @@ export const APP_ROUTES: Routes = [
     title: 'Form Stepper',
   },
   {
-    path: 'autocomplete',
-    loadChildren: () => import('./autocomplete/autocomplete.routes').then((m) => m.AUTOCOMPLETE_ROUTES),
-    title: 'Autocomplete',
+    path: 'if-non-nullish',
+    loadComponent: () => import('./if-non-nullish/if-non-nullish.component').then((m) => m.IfNonNullishComponent),
+    title: 'If non nullish',
+  },
+  {
+    path: 'timeline',
+    loadComponent: () => import('./timeline/timeline.component').then((m) => m.TimelineComponent),
+    title: 'Timeline',
   },
   {
     path: 'rx-data-store',

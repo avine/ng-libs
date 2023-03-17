@@ -172,7 +172,7 @@
           }
         }
       }
-    }
+    },
     "if-non-nullish": {
       "projectType": "library",
       "root": "projects/if-non-nullish",
@@ -198,6 +198,35 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": ["projects/if-non-nullish/**/*.ts", "projects/if-non-nullish/**/*.html"]
+          }
+        }
+      }
+    },
+    "timeline": {
+      "projectType": "library",
+      "root": "projects/timeline",
+      "sourceRoot": "projects/timeline/src",
+      "prefix": "timeline",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/timeline/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/timeline/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/timeline/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/timeline/**/*.ts", "projects/timeline/**/*.html"]
           }
         }
       }

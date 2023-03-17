@@ -6,6 +6,8 @@
   $breakpoint: 960px
 );
 
+@use 'projects/timeline/src/lib/scss/timeline.scss';
+
 // Required by the FormStepper
 @import '@angular/cdk/overlay-prebuilt.css';
 
@@ -13,6 +15,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;

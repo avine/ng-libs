@@ -1,0 +1,56 @@
+<div class="container py-4">
+  <h1 class="mb-4 fw-bold">Timeline</h1>
+
+  <app-demo-state [state]="demoState"></app-demo-state>
+
+  <hr />
+  <h3 class="mb-4 text-info">Default</h3>
+
+  <div class="text-center">
+    <timeline-container
+      [items]="items"
+      [pendingFromIndex]="demoState.pendingFromIndex.value"
+      [lineSize]="demoState.gap.value"
+      [reverse]="demoState.reverse.value"
+      [vertical]="demoState.vertical.value"
+      [verticalContentSize]="demoState.verticalContentSize.value"
+      [breakpoint]="demoState.breakpoint.value"
+    ></timeline-container>
+  </div>
+
+  <hr />
+  <h3 class="mb-4 text-info">Using HTML items</h3>
+
+  <div class="text-center">
+    <timeline-container
+      [pendingFromIndex]="demoState.pendingFromIndex.value"
+      [lineSize]="demoState.gap.value"
+      [reverse]="demoState.reverse.value"
+      [vertical]="demoState.vertical.value"
+      [verticalContentSize]="demoState.verticalContentSize.value"
+      [breakpoint]="demoState.breakpoint.value"
+    >
+      <timeline-item>
+        First step<br />
+        <small class="bleu_light">Let's do this...</small>
+      </timeline-item>
+
+      <timeline-item>
+        Second step<br />
+        <small class="bleu_light">Let's do this...</small>
+      </timeline-item>
+
+      <timeline-item *ngIf="updateHtml">
+        Added step<br />
+        <small class="bleu_light">Let's do this...</small>
+      </timeline-item>
+
+      <timeline-item>
+        Final step<br />
+        <small [class]="updateHtml ? 'corail_mh_brand' : 'bleu_light'">And that's it!</small>
+      </timeline-item>
+    </timeline-container>
+  </div>
+
+  <button class="mt-4 btn btn-dark btn-sm" (click)="updateHtml = !updateHtml">Change content</button>
+</div>

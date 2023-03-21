@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { BooleanInput, coerceBooleanProperty, coerceNumberProperty, NumberInput } from '@angular/cdk/coercion';
 import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
@@ -36,7 +36,11 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
     this._items = items.map((content) => ({ content } as TimelineItem));
   }
 
-  @Input() pendingFromIndex?: number;
+  protected _pendingFromIndex?: number;
+
+  @Input() set pendingFromIndex(value: NumberInput) {
+    this._pendingFromIndex = value === undefined ? undefined : coerceNumberProperty(value);
+  }
 
   protected _reverse = false;
 
@@ -50,7 +54,11 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
     this._vertical = coerceBooleanProperty(value);
   }
 
-  @Input() verticalContentSize?: number;
+  protected _verticalContentSize?: number;
+
+  @Input() set verticalContentSize(value: NumberInput) {
+    this._verticalContentSize = value === undefined ? undefined : coerceNumberProperty(value);
+  }
 
   @Input() lineSize: TimelineLineSize = {};
 
@@ -71,7 +79,7 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
   }
 
   @HostBinding('style.--av-timeline-vertical-content-size') get hasVerticalContentSizeStyle() {
-    return this.verticalContentSize ? this.verticalContentSize + 'em' : undefined;
+    return this._verticalContentSize ? this._verticalContentSize + 'em' : undefined;
   }
 
   @HostBinding('style.--av-timeline-line-size-horizontal') get hasLineSizeHorizontalStyle() {

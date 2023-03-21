@@ -14,11 +14,12 @@ import { demoProp, DemoStateComponent } from '../shared/demo-state';
 export class TimelineComponent {
   demoState = {
     pendingFromIndex: demoProp([undefined, 0, 1, 2]),
-    gap: demoProp<TimelineLineSize>([{}, { horizontal: 15, vertical: 3 }]),
+    lineSize: demoProp<TimelineLineSize>([{}, { horizontal: 15, vertical: 3 }]),
     reverse: demoProp([false, true]),
     vertical: demoProp([false, true]),
     verticalContentSize: demoProp([undefined, 20]),
     breakpoint: demoProp([false, true, '768px']),
+    fontSize: demoProp([undefined, '1.5rem', '2rem']),
   };
 
   items = [

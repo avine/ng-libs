@@ -77,11 +77,13 @@
       left: 0;
       border-radius: 50%;
       border: var(--av-timeline-bullet-border-size) solid var(--av-timeline-bullet-border-color);
+      transition: border-color ease 250ms;
     }
   }
 
   &__content {
     line-height: 1.5em;
+    transition: color ease 250ms;
   }
 
   &--reverse &__content {

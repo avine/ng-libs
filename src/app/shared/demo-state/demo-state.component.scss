@@ -2,3 +2,26 @@
   display: block;
   margin-bottom: 1rem;
 }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  border-radius: 4px;
+  margin: 0 0.5rem 0.5rem 0;
+  padding: 0.6em 0.9em;
+  border: 1px solid #ddd;
+  background-color: #eee;
+  text-decoration: none;
+  color: #444;
+  cursor: pointer;
+
+  transition: all ease 250ms;
+
+  &:hover {
+    box-shadow: 0 3px 3px rgba(0 0 0 / 0.075);
+    border-color: #ccc;
+    background-color: #ddd;
+    color: #000;
+  }
+}

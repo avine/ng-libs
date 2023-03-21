@@ -770,7 +770,7 @@ describe('RxDataStore', () => {
       expect.assertions(4);
 
       // Given
-      const badArg: { circular?: {} } = {};
+      const badArg: { circular?: object } = {};
       badArg.circular = badArg;
 
       const _dataSource = jest.fn((arg: typeof badArg) => of(arg));

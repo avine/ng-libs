@@ -1,4 +1,4 @@
-import { trigger, transition, animate, keyframes, style } from '@angular/animations';
+import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 
 export const sectionIconAnimations = [
   trigger('fadeInOut', [

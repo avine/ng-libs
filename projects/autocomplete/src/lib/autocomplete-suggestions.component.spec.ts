@@ -1,4 +1,4 @@
-import { SpectatorHost, createHostFactory } from '@ngneat/spectator/jest';
+import { createHostFactory, SpectatorHost } from '@ngneat/spectator/jest';
 import { firstValueFrom } from 'rxjs';
 import { AutocompleteSuggestionDirective } from './autocomplete-suggestion.directive';
 

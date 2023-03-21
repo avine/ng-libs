@@ -1,9 +1,9 @@
 import { AsyncPipe, JsonPipe, NgFor, NgIf } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import {
+  AutocompleteHighlightConfig,
   AUTOCOMPLETE_DIRECTIVES,
   AUTOCOMPLETE_HIGHLIGHT_CONFIG,
-  AutocompleteHighlightConfig,
 } from '@avine/ng-autocomplete';
 
 import { ViewSourceComponent } from '../../shared/view-source/view-source.component';

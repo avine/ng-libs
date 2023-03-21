@@ -19,7 +19,7 @@ import {
 
 import { TimelineItemComponent } from './timeline-item.component';
 import { TIMELINE_BREAKPOINT_DEFAULT } from './timeline.config';
-import { TimelineLineSize, TimelineItem } from './timeline.types';
+import { TimelineItem, TimelineLineSize } from './timeline.types';
 
 @Component({
   selector: 'timeline-container',

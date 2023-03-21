@@ -7,7 +7,12 @@
     "type": "git",
     "url": "git+https://github.com/avine/ng-libs.git"
   },
-  "keywords": ["rxjs", "redux", "state", "angular"],
+  "keywords": [
+    "rxjs",
+    "redux",
+    "state",
+    "angular"
+  ],
   "author": "Stéphane Francel <contact@avine.io>",
   "license": "MIT",
   "bugs": {

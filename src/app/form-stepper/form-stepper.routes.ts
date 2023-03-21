@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { FORM_STEPPER_PATH_PARAM, provideFormStepperConfig } from '@avine/ng-form-stepper';
 
-import { MaterialComponent } from './material/material.component';
 import { DemoComponent } from './demo/demo.component';
+import { MaterialComponent } from './material/material.component';
 import { OneLevelComponent } from './one-level/one-level.component';
 
 export const FORM_STEPPER_ROUTES: Routes = [

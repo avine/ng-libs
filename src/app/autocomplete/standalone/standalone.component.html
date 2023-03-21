@@ -27,7 +27,7 @@
         suggestionIndex === (autocomplete.focusedSuggestionIndex$ | async)
       "
     >
-      <span [innerHTML]="suggestion | autocompleteHighlight: autocomplete.inputValue"></span>
+      <span [innerHTML]="suggestion | autocompleteHighlight : autocomplete.inputValue"></span>
 
       <span *ngIf="suggestion === autocomplete.inputValue" class="demo-autocomplete__suggestion-check">&check;</span>
     </div>

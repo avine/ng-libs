@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TIMELINE_DIRECTIVES, TimelineLineSize } from '@avine/ng-timeline';
+import { TimelineLineSize, TIMELINE_DIRECTIVES } from '@avine/ng-timeline';
 
 import { demoProp, DemoStateComponent } from '../shared/demo-state';
 

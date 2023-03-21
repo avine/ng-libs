@@ -5,9 +5,9 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import {
-  FORM_STEPPER_DIRECTIVES,
   formatQuicknavValueFromListToHtml,
   FormStepperContainerComponent,
+  FORM_STEPPER_DIRECTIVES,
 } from '@avine/ng-form-stepper';
 
 import { ViewSourceComponent } from '../../shared/view-source/view-source.component';

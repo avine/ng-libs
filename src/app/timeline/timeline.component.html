@@ -1,12 +1,12 @@
-<div class="container py-4" [style.font-size]="demoState.fontSize.value">
-  <h1 class="mb-4 fw-bold">Timeline</h1>
+<div [style.font-size]="demoState.fontSize.value">
+  <h1>Timeline</h1>
 
-  <app-demo-state [state]="demoState"></app-demo-state>
+  <app-demo-state [state]="demoState" />
 
   <hr />
-  <h3 class="mb-4 text-info">Default</h3>
+  <h3>Default</h3>
 
-  <div class="text-center">
+  <div>
     <timeline-container
       [items]="items"
       [pendingFromIndex]="demoState.pendingFromIndex.value"
@@ -19,9 +19,9 @@
   </div>
 
   <hr />
-  <h3 class="mb-4 text-info">Using HTML items</h3>
+  <h3>Using HTML items</h3>
 
-  <div class="text-center">
+  <div>
     <timeline-container
       [pendingFromIndex]="demoState.pendingFromIndex.value"
       [lineSize]="demoState.lineSize.value"
@@ -70,5 +70,6 @@
     </timeline-container>
   </div>
 
-  <button class="mt-4 btn btn-dark btn-sm" (click)="updateHtml = !updateHtml">Change content</button>
+  <br />
+  <button (click)="updateHtml = !updateHtml">Change content</button>
 </div>

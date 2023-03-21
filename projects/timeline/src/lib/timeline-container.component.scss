@@ -28,15 +28,13 @@
   --av-timeline-vertical-content-size: #{v.$timeline-vertical-content-size};
 
   position: relative;
-  display: inline-flex;
+  display: flex;
   justify-content: center;
-  //gap: calc(var(--av-timeline-bullet-outline-size) * 1em);
 
   &__item {
     position: relative;
     display: flex;
     align-items: center;
-    //gap: 1em; // calc(var(--av-timeline-bullet-outline-size) * 1em);
   }
 
   &--reverse &__item {

@@ -34,6 +34,17 @@
   -->
 
   <div mat-subheader>
+    <h2>Timeline</h2>
+  </div>
+
+  <mat-nav-list>
+    <a mat-list-item routerLink="/timeline" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Demo
+    </a>
+    <mat-divider></mat-divider>
+  </mat-nav-list>
+
+  <div mat-subheader>
     <h2>Autocomplete</h2>
   </div>
 

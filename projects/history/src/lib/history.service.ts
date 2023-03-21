@@ -1,6 +1,6 @@
 import { filter, map, Observable, scan, shareReplay, Subscription, tap } from 'rxjs';
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { Navigation } from './history.types';
@@ -10,6 +10,8 @@ import { Navigation } from './history.types';
 })
 export class HistoryService implements OnDestroy {
   historySize?: number;
+
+  private router = inject(Router);
 
   readonly history$: Observable<string[]> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -24,7 +26,7 @@ export class HistoryService implements OnDestroy {
     shareReplay(1)
   );
 
-  _historySnapshot: string[] = [];
+  private _historySnapshot: string[] = [];
 
   get historySnapshot(): string[] {
     return [...this._historySnapshot];
@@ -43,8 +45,6 @@ export class HistoryService implements OnDestroy {
   }
 
   private subscription?: Subscription;
-
-  constructor(private router: Router) {}
 
   init(historySize?: number): void {
     this.historySize = historySize;

@@ -20,6 +20,7 @@
   --av-timeline-bullet-background-color: #{v.$timeline-bullet-background-color};
   --av-timeline-bullet-color: #{v.$timeline-bullet-color};
 
+  --av-timeline-pending-bullet-scale: #{v.$timeline-pending-bullet-scale};
   --av-timeline-pending-bullet-border-color: #{v.$timeline-pending-bullet-border-color};
   --av-timeline-pending-bullet-background-color: #{v.$timeline-pending-bullet-background-color};
   --av-timeline-pending-bullet-color: #{v.$timeline-pending-bullet-color};
@@ -64,7 +65,7 @@
     background-color: var(--av-timeline-bullet-background-color);
     color: var(--av-timeline-bullet-color);
     text-align: center;
-    transition: background-color ease 250ms, color ease 250ms;
+    transition: transform ease 250ms, background-color ease 250ms, color ease 250ms;
 
     &::after {
       content: '';
@@ -95,6 +96,7 @@
   &__item--pending &__bullet {
     background-color: var(--av-timeline-pending-bullet-background-color);
     color: var(--av-timeline-pending-bullet-color);
+    transform: scale(var(--av-timeline-pending-bullet-scale));
 
     &::after {
       border-color: var(--av-timeline-pending-bullet-border-color);

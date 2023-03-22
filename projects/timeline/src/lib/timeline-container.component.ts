@@ -39,25 +39,18 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
   protected _pendingFromIndex?: number;
 
   @Input() set pendingFromIndex(value: NumberInput) {
-    this._pendingFromIndex = value === undefined ? undefined : coerceNumberProperty(value);
+    this._pendingFromIndex = coerceNumberProperty(value, null) ?? undefined;
   }
 
-  protected _reverse = false;
+  @Input() reverse: BooleanInput = false;
 
-  @Input() set reverse(value: BooleanInput) {
-    this._reverse = coerceBooleanProperty(value);
-  }
+  @Input() vertical: BooleanInput = false;
 
-  protected _vertical = false;
-
-  @Input() set vertical(value: BooleanInput) {
-    this._vertical = coerceBooleanProperty(value);
-  }
-
-  protected _verticalContentSize?: number;
+  protected _verticalContentSize?: string;
 
   @Input() set verticalContentSize(value: NumberInput) {
-    this._verticalContentSize = value === undefined ? undefined : coerceNumberProperty(value);
+    const number = coerceNumberProperty(value, null);
+    this._verticalContentSize = number !== null ? `${number}em` : undefined;
   }
 
   @Input() lineSize: TimelineLineSize = {};
@@ -67,19 +60,19 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
   @HostBinding('class.av-timeline') hasCss = true;
 
   @HostBinding('class.av-timeline--reverse') get hasReverseCss() {
-    return this._reverse;
+    return coerceBooleanProperty(this.reverse);
   }
 
   @HostBinding('class.av-timeline--horizontal') get hasHorizontalCss() {
-    return !this._vertical;
+    return !coerceBooleanProperty(this.vertical);
   }
 
   @HostBinding('class.av-timeline--vertical') get hasVerticalCss() {
-    return this._vertical;
+    return coerceBooleanProperty(this.vertical);
   }
 
   @HostBinding('style.--av-timeline-vertical-content-size') get hasVerticalContentSizeStyle() {
-    return this._verticalContentSize ? this._verticalContentSize + 'em' : undefined;
+    return this._verticalContentSize;
   }
 
   @HostBinding('style.--av-timeline-line-size-horizontal') get hasLineSizeHorizontalStyle() {
@@ -142,7 +135,7 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
     this.breakpointSubscription = this.breakpointObserver
       .observe(`(min-width: ${minWidth})`)
       .subscribe(({ matches: isDesktop }) => {
-        this._vertical = !isDesktop;
+        this.vertical = !isDesktop;
         this.changeDetectorRef.markForCheck();
       });
   }

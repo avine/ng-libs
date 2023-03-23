@@ -1,13 +1,16 @@
 {
   "name": "@avine/ng-timeline",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/avine/ng-libs.git"
   },
-  "keywords": [],
+  "keywords": [
+    "timeline",
+    "angular"
+  ],
   "author": "Stéphane Francel <contact@avine.io>",
   "license": "MIT",
   "bugs": {
@@ -15,6 +18,7 @@
   },
   "homepage": "https://github.com/avine/ng-libs/tree/main/projects/timeline#readme",
   "peerDependencies": {
+    "@angular/cdk": "^15.0.0",
     "@angular/common": "^15.0.0",
     "@angular/core": "^15.0.0"
   },

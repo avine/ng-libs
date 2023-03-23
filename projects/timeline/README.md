@@ -1,6 +1,6 @@
 # Timeline
 
-The timeline displays a list of events in chronological order.
+Angular component that displays a list of events in chronological order.
 
 ## Demo
 
@@ -47,8 +47,8 @@ export class TimelineDemoComponent {
 
 | Input               | Type                      | Default   | Description                                                      |
 | ------------------- | ------------------------- | --------- | ---------------------------------------------------------------- |
-| items               | string[]                  | []        | Display the item as pending                                      |
-| pendingFromIndex    | NumberInput               | undefined | Display the item as pending                                      |
+| items               | string[]                  | []        | The list of items to display                                     |
+| pendingFromIndex    | NumberInput               | undefined | Display the items as pending from the specified index            |
 | bulletPoints        | BooleanInput              | false     | Display bullet points instead of bullet content                  |
 | lineSize            | TimelineLineSize          | {}        | Determines the size of the line between bullets                  |
 | reverse             | BooleanInput              | false     | Reverse the bullet and content positions                         |

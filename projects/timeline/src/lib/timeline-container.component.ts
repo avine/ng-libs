@@ -42,6 +42,12 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
     this._pendingFromIndex = coerceNumberProperty(value, null) ?? undefined;
   }
 
+  protected _bulletPoints = false;
+
+  @Input() set bulletPoints(value: BooleanInput) {
+    this._bulletPoints = coerceBooleanProperty(value);
+  }
+
   @Input() reverse: BooleanInput = false;
 
   @Input() vertical: BooleanInput = false;
@@ -58,6 +64,10 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
   @Input() bgColor?: string;
 
   @HostBinding('class.av-timeline') hasCss = true;
+
+  @HostBinding('class.av-timeline--bullet-points') get hasBulletPointsCss() {
+    return coerceBooleanProperty(this._bulletPoints);
+  }
 
   @HostBinding('class.av-timeline--reverse') get hasReverseCss() {
     return coerceBooleanProperty(this.reverse);

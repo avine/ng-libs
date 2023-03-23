@@ -32,6 +32,10 @@
   display: flex;
   justify-content: center;
 
+  &--bullet-points {
+    --av-timeline-bullet-size: 1;
+  }
+
   &__item {
     position: relative;
     display: flex;

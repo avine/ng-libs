@@ -14,6 +14,7 @@ import { demoProp, DemoStateComponent } from '../shared/demo-state';
 export class TimelineComponent {
   demoState = {
     pendingFromIndex: demoProp([undefined, 0, 1, 2]),
+    bulletPoints: demoProp([false, true]),
     lineSize: demoProp<TimelineLineSize>([{}, { horizontal: 15, vertical: 3 }]),
     reverse: demoProp([false, true]),
     vertical: demoProp([false, true]),

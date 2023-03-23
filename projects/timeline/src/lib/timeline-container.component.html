@@ -10,9 +10,11 @@
     [attr.aria-hidden]="item.iconTemplate ? true : null"
     class="av-timeline__bullet {{ item.iconTemplate ?? '' }}"
   >
-    <ng-container *ngIf="item.iconTemplate; else countTemplate" [ngTemplateOutlet]="item.iconTemplate"></ng-container>
+    <ng-container *ngIf="!_bulletPoints">
+      <ng-container *ngIf="item.iconTemplate; else countTemplate" [ngTemplateOutlet]="item.iconTemplate"></ng-container>
 
-    <ng-template #countTemplate>{{ index + 1 }}</ng-template>
+      <ng-template #countTemplate>{{ index + 1 }}</ng-template>
+    </ng-container>
   </div>
 
   <div class="av-timeline__content">

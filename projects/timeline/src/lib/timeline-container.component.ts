@@ -19,6 +19,7 @@ import {
 
 import { TimelineItemComponent } from './timeline-item.component';
 import { TIMELINE_BREAKPOINT_DEFAULT } from './timeline.config';
+import { TIMELINE_BREAKPOINT } from './timeline.token';
 import { TimelineItem, TimelineLineSize } from './timeline.types';
 
 @Component({
@@ -122,6 +123,8 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
     this.changeDetectorRef.markForCheck();
   }
 
+  private BREAKPOINT_DEFAULT = inject(TIMELINE_BREAKPOINT, { optional: true });
+
   private breakpointObserver = inject(BreakpointObserver);
 
   private changeDetectorRef = inject(ChangeDetectorRef);
@@ -141,7 +144,7 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
     if (!value) {
       return;
     }
-    const minWidth = value === true ? TIMELINE_BREAKPOINT_DEFAULT : value;
+    const minWidth = value === true ? this.BREAKPOINT_DEFAULT ?? TIMELINE_BREAKPOINT_DEFAULT : value;
     this.breakpointSubscription = this.breakpointObserver
       .observe(`(min-width: ${minWidth})`)
       .subscribe(({ matches: isDesktop }) => {

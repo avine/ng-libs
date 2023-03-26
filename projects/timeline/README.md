@@ -8,20 +8,25 @@ Check out [demo here](https://avine.github.io/ng-libs/timeline).
 
 ## Usage
 
+### Component
+
 ```ts
 import { Component } from '@angular/core';
-import { TIMELINE_DIRECTIVES } from '@avine/ng-timeline';
+import { TIMELINE_DIRECTIVES, provideTimelineBreakpoint } from '@avine/ng-timeline';
 
 @Component({
   selector: 'app-timeline-demo',
   standalone: true,
   imports: [TIMELINE_DIRECTIVES],
+  providers: [provideTimelineBreakpoint('1280px')], // This is optional
   templateUrl: './timeline.component.html',
 })
 export class TimelineDemoComponent {
   items = ['Step 1', 'Step 2', 'Step 3'];
 }
 ```
+
+### Template
 
 ```html
 <!-- Using items input -->
@@ -35,7 +40,7 @@ export class TimelineDemoComponent {
 
   <timeline-item>
     <ng-template timelineIcon>
-      <!-- your SVG image comes here -->
+      <!-- your SVG icon comes here -->
     </ng-template>
 
     Step 3
@@ -45,18 +50,61 @@ export class TimelineDemoComponent {
 
 ## API
 
-| Input               | Type                      | Default   | Description                                                      |
-| ------------------- | ------------------------- | --------- | ---------------------------------------------------------------- |
-| items               | string[]                  | []        | The list of items to display                                     |
-| pendingFromIndex    | NumberInput               | undefined | Display the items as pending from the specified index            |
-| bulletPoints        | BooleanInput              | false     | Display bullet points instead of bullet content                  |
-| lineSize            | TimelineLineSize          | {}        | Determines the size of the line between bullets                  |
-| reverse             | BooleanInput              | false     | Reverse the bullet and content positions                         |
-| vertical            | BooleanInput              | false     | Display timeline in horizontal of vertical direction             |
-| verticalContentSize | NumberInput               | false     | Limit the content size when the timeline is vertical             |
-| breakpoint          | string \| boolean \| null | false     | Switch between vertical and horizontal according to a breakpoint |
+The different sizes should be entered as numbers (you should not specify units such as `em` or `rem`).
 
-### Sass customization
+These sizes will be treated as `em` relative to the font-size of the root element of the timeline.
+
+| Input               | Type                      | Default   | Description                                                            |
+| ------------------- | ------------------------- | --------- | ---------------------------------------------------------------------- |
+| items               | string[]                  | []        | The list of items to display.                                          |
+| pendingFromIndex    | NumberInput               | undefined | Display the items as pending from the specified index.                 |
+| bulletPoints        | BooleanInput              | false     | Display bullet points instead of bullet content.                       |
+| lineSize            | TimelineLineSize          | {}        | Determines the size of the line between bullets.                       |
+| reverse             | BooleanInput              | false     | Reverse the bullet and content positions.                              |
+| vertical            | BooleanInput              | false     | Display timeline in horizontal or vertical direction.                  |
+| verticalContentSize | NumberInput               | false     | Limit the size (width) of the content when the timeline is vertical.   |
+| breakpoint          | string \| boolean \| null | false     | Switch between vertical and horizontal timeline based on a breakpoint. |
+
+### TimelineLineSize
+
+Determines the size of the line between bullets.
+
+```ts
+interface TimelineLineSize {
+  horizontal?: number;
+  vertical?: number;
+}
+```
+
+### Breakpoint
+
+Switch between vertical and horizontal timeline based on a breakpoint.
+
+If `breakpoint` is set to `true` then the default value is used (`1024px`).
+
+You can provide a different default value using the `provideTimelineBreakpoint` function:
+
+```ts
+import { provideTimelineBreakpoint } from '@avine/ng-timeline';
+
+@Component({
+  providers: [provideTimelineBreakpoint('1440px')],
+})
+export class TimelineDemoComponent {}
+```
+
+Or by providing the `TIMELINE_BREAKPOINT` injection token:
+
+```ts
+import { TIMELINE_BREAKPOINT } from '@avine/ng-timeline';
+
+@Component({
+  providers: [{ provide: TIMELINE_BREAKPOINT, useValue: '1440px' }],
+})
+export class TimelineDemoComponent {}
+```
+
+## Sass customization
 
 You can fully customize the Timeline CSS using Sass.
 
@@ -87,7 +135,7 @@ Below the [list of Sass variables](https://github.com/avine/ng-libs/blob/main/pr
   $timeline-pending-bullet-color: #e9ecef,
   $timeline-pending-content-color: #999,
 
-  $timeline-vertical-content-size: auto !default
+  $timeline-vertical-content-size: auto
 );
 ```
 

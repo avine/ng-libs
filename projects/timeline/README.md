@@ -58,8 +58,9 @@ These sizes will be treated as `em` relative to the font-size of the root elemen
 | ------------------- | ------------------------- | --------- | ---------------------------------------------------------------------- |
 | items               | string[]                  | []        | The list of items to display.                                          |
 | pendingFromIndex    | NumberInput               | undefined | Display the items as pending from the specified index.                 |
-| bulletPoints        | BooleanInput              | false     | Display bullet points instead of bullet content.                       |
+| bgColor             | string \| undefined       | undefined | Indicates the background color of the timeline.                        |
 | lineSize            | TimelineLineSize          | {}        | Determines the size of the line between bullets.                       |
+| bulletPoints        | BooleanInput              | false     | Display bullet points instead of bullet content.                       |
 | reverse             | BooleanInput              | false     | Reverse the bullet and content positions.                              |
 | vertical            | BooleanInput              | false     | Display timeline in horizontal or vertical direction.                  |
 | verticalContentSize | NumberInput               | false     | Limit the size (width) of the content when the timeline is vertical.   |
@@ -88,7 +89,7 @@ You can provide a different default value using the `provideTimelineBreakpoint` 
 import { provideTimelineBreakpoint } from '@avine/ng-timeline';
 
 @Component({
-  providers: [provideTimelineBreakpoint('1440px')],
+  providers: [provideTimelineBreakpoint('1280px')],
 })
 export class TimelineDemoComponent {}
 ```
@@ -99,7 +100,7 @@ Or by providing the `TIMELINE_BREAKPOINT` injection token:
 import { TIMELINE_BREAKPOINT } from '@avine/ng-timeline';
 
 @Component({
-  providers: [{ provide: TIMELINE_BREAKPOINT, useValue: '1440px' }],
+  providers: [{ provide: TIMELINE_BREAKPOINT, useValue: '1280px' }],
 })
 export class TimelineDemoComponent {}
 ```

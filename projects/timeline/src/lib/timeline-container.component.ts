@@ -33,35 +33,50 @@ import { TimelineItem, TimelineLineSize } from './timeline.types';
 export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
   protected _items: TimelineItem[] = [];
 
+  /** The list of items to display. */
   @Input() set items(items: string[]) {
     this._items = items.map((content) => ({ content } as TimelineItem));
   }
 
   protected _pendingFromIndex?: number;
 
+  /** Display the items as pending from the specified index. */
   @Input() set pendingFromIndex(value: NumberInput) {
     this._pendingFromIndex = coerceNumberProperty(value, null) ?? undefined;
   }
 
   protected _bulletPoints = false;
 
+  /** Display bullet points instead of bullet content. */
   @Input() set bulletPoints(value: BooleanInput) {
     this._bulletPoints = coerceBooleanProperty(value);
   }
 
+  /** Reverse the bullet and content positions. */
   @Input() reverse: BooleanInput = false;
 
+  /** Display timeline in horizontal or vertical direction. */
   @Input() vertical: BooleanInput = false;
 
   protected _verticalContentSize?: string;
 
+  /** Limit the size (width) of the content when the timeline is vertical. */
   @Input() set verticalContentSize(value: NumberInput) {
     const number = coerceNumberProperty(value, null);
     this._verticalContentSize = number !== null ? `${number}em` : undefined;
   }
 
+  /**
+   * Determines the size of the line between bullets.
+   *
+   * @example
+   * { horizontal: 10 }
+   * { vertical: 2 }
+   * { horizontal: 10, vertical: 2 }
+   */
   @Input() lineSize: TimelineLineSize = {};
 
+  /** Indicates the background color of the timeline. */
   @Input() bgColor?: string;
 
   @HostBinding('class.av-timeline') hasCss = true;
@@ -132,11 +147,14 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
   private breakpointSubscription?: Subscription;
 
   /**
-   * Enables responsive timeline.
-   * On mobile, the timeline automatically switches to "vertical" mode.
+   * Switch between vertical and horizontal timeline based on a breakpoint.
    *
    * @example
-   * true // use the default breakpoint `TIMELINE_BREAKPOINT_DEFAULT`
+   * // Use provided breakpoint (`TIMELINE_BREAKPOINT` injection token)
+   * // or default breakpoint (`TIMELINE_BREAKPOINT_DEFAULT` which is `1024px`).
+   * true
+   *
+   * // Use specified breakpoint.
    * '768px'
    */
   @Input() set breakpoint(value: string | boolean | null) {

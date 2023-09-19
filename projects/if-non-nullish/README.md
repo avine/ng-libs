@@ -67,30 +67,9 @@ export class AppComponent {
 }
 ```
 
-### Rendering default value
-
-Use `default:` input to provide a default value when data is nullish.
-
-```ts
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-root',
-  template: `
-    <div *ifNonNullish="data as value; default: defaultValue">
-      {{ value }}
-    </div>
-  `,
-})
-export class AppComponent {
-  data = undefined;
-  defaultValue = 'Default';
-}
-```
-
 ### Rendering fallback template
 
-Use `fallback:` input to provide a `templateRef` when data and default value are nullish.
+Use `fallback:` input to provide a `templateRef` when data is nullish.
 
 ```ts
 import { Component } from '@angular/core';

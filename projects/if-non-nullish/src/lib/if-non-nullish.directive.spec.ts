@@ -64,7 +64,7 @@ describe('IfNonNullishDirective', () => {
     });
 
     describe('Rendering fallback template', () => {
-      it('should render fallback template when data are nullish', () => {
+      it('should render fallback template when data is nullish', () => {
         const spectator = createDirective(
           `
           <div *ifNonNullish="data as value; fallback: fallback">{{ value }}</div>

@@ -9,21 +9,21 @@ import { IfNonNullishContext, IfNullish } from './if-non-nullish.types';
 export class IfNonNullishDirective<T = unknown> {
   @Input()
   set ifNonNullish(data: T) {
-    this.hasNoData = data === null || data === undefined;
+    this.hasData = data !== null && data !== undefined;
     this.updateView(data);
   }
 
   @Input()
   set ifNonNullishFallback(fallbackTemplate: TemplateRef<unknown> | IfNullish) {
     this.fallbackTemplate = fallbackTemplate ?? null;
-    if (this.hasNoData) {
+    if (!this.hasData) {
       this.createFallbackView();
     }
   }
 
   private context!: IfNonNullishContext<T>;
 
-  private hasNoData = true;
+  private hasData = true;
 
   private fallbackTemplate: TemplateRef<unknown> | null = null;
 
@@ -56,7 +56,7 @@ export class IfNonNullishDirective<T = unknown> {
   ) {}
 
   private updateView(data: T) {
-    if (!this.hasNoData) {
+    if (this.hasData) {
       this.switchToRegularView(data);
     } else {
       this.switchToFallbackView();

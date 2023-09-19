@@ -63,30 +63,14 @@ describe('IfNonNullishDirective', () => {
       });
     });
 
-    describe('Rendering default value', () => {
-      it('should render default value when data is nullish', () => {
-        const spectator = createDirective('<div *ifNonNullish="data as value; default: default">{{ value }}</div>', {
-          hostProps: { data: null, default: 'Default' },
-        });
-        expect(spectator.query('div')?.textContent).toMatch('Default');
-      });
-
-      it('should render data over default value', () => {
-        const spectator = createDirective('<div *ifNonNullish="data as value; default: default">{{ value }}</div>', {
-          hostProps: { data: 'Data', default: 'Default' },
-        });
-        expect(spectator.query('div')?.textContent).toMatch('Data');
-      });
-    });
-
     describe('Rendering fallback template', () => {
-      it('should render fallback template when data and default value are nullish', () => {
+      it('should render fallback template when data are nullish', () => {
         const spectator = createDirective(
           `
-          <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
+          <div *ifNonNullish="data as value; fallback: fallback">{{ value }}</div>
           <ng-template #fallback><i>Fallback</i></ng-template>
         `,
-          { hostProps: { data: null, default: null } },
+          { hostProps: { data: null } },
         );
         expect(spectator.query('i')?.textContent).toMatch('Fallback');
       });
@@ -133,23 +117,12 @@ describe('IfNonNullishDirective', () => {
       it('should not render fallback template when data is not nullish', () => {
         const spectator = createDirective(
           `
-          <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
+          <div *ifNonNullish="data as value; fallback: fallback">{{ value }}</div>
           <ng-template #fallback><i>Fallback</i></ng-template>
         `,
-          { hostProps: { data: 'Data', default: null } },
+          { hostProps: { data: 'Data' } },
         );
         expect(spectator.query('div')?.textContent).toMatch('Data');
-      });
-
-      it('should not render fallback template when default value is not nullish', () => {
-        const spectator = createDirective(
-          `
-          <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
-          <ng-template #fallback><i>Fallback</i></ng-template>
-        `,
-          { hostProps: { data: null, default: 'Default' } },
-        );
-        expect(spectator.query('div')?.textContent).toMatch('Default');
       });
     });
   });
@@ -175,46 +148,6 @@ describe('IfNonNullishDirective', () => {
         next(null);
         spectator.detectChanges();
         expect(spectator.query('div')).toBeNull();
-
-        next('Data');
-        spectator.detectChanges();
-        expect(spectator.query('div')?.textContent).toMatch('Data');
-      });
-    });
-
-    describe('Rendering default value', () => {
-      it('should render default value over time starting with default value', () => {
-        const { data, next } = getMockData$<string | null>();
-        const spectator = createDirective(
-          '<div *ifNonNullish="data | async as value; default: default">{{ value }}</div>',
-          { hostProps: { data, default: 'Default' } },
-        );
-
-        expect(spectator.query('div')?.textContent).toMatch('Default');
-
-        next('Data');
-        spectator.detectChanges();
-        expect(spectator.query('div')?.textContent).toMatch('Data');
-
-        next(null);
-        spectator.detectChanges();
-        expect(spectator.query('div')?.textContent).toMatch('Default');
-      });
-
-      it('should render default value over time starting with data', () => {
-        const { data, next } = getMockData$<string | null>('Data');
-        const spectator = createDirective(
-          '<div *ifNonNullish="data | async as value; default: default">{{ value }}</div>',
-          { hostProps: { data, default: 'Default' } },
-        );
-
-        next('Data');
-        spectator.detectChanges();
-        expect(spectator.query('div')?.textContent).toMatch('Data');
-
-        next(null);
-        spectator.detectChanges();
-        expect(spectator.query('div')?.textContent).toMatch('Default');
 
         next('Data');
         spectator.detectChanges();
@@ -285,26 +218,6 @@ describe('IfNonNullishDirective', () => {
         expect(spectator.query('i')?.textContent).toMatch('Fallback');
 
         expect(createEmbeddedView).toHaveBeenCalledTimes(1);
-      });
-
-      it('should never render fallback template when default value is provided', () => {
-        const { data, next } = getMockData$<string | null>('Data');
-        const spectator = createDirective(
-          `
-            <div *ifNonNullish="data | async as value; default: default; fallback: fallback">{{ value }}</div>
-            <ng-template #fallback><i>Fallback</i></ng-template>
-          `,
-          { hostProps: { data, default: 'Default' } },
-        );
-        expect(spectator.query('div')?.textContent).toMatch('Data');
-
-        next(null);
-        spectator.detectChanges();
-        expect(spectator.query('div')?.textContent).toMatch('Default');
-
-        next('Data');
-        spectator.detectChanges();
-        expect(spectator.query('div')?.textContent).toMatch('Data');
       });
     });
   });

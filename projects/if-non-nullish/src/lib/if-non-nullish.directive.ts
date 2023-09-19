@@ -9,41 +9,14 @@ import { IfNonNullishContext, IfNullish } from './if-non-nullish.types';
 export class IfNonNullishDirective<T = unknown> {
   @Input()
   set ifNonNullish(data: T) {
-    this.hasNoData = this.isNullish(data);
-    this.updateView(data ?? this.default);
-  }
-
-  // NOTE:
-  // Ideally, this function signature should have been `data: T` and not `data: any`.
-  // But if we do so, TypeScript is not able to determine the actual value of `T`
-  // when `default: ` is not provided in the template:
-  // Here's a code example:
-  //
-  // @Component({
-  //   template: `
-  //     <!-- When default input is defined, value has the expected type (string or number in this example) -->
-  //     <ng-container *ifNonNullish="data as value; default: defaultValue">{{ value }}</ng-container>
-  //
-  //     <!-- But when default input is not defined, value becomes of type any -->
-  //     <ng-container *ifNonNullish="data as value">{{ value }}</ng-container>
-  //   `
-  // })
-  // class AppComponent {
-  //   data!: null | string;
-  //   defaultValue!: null | string | number; // Note that `defaultValue` type extends the `data` type
-  // }
-  @Input()
-  set ifNonNullishDefault(data: any) {
-    this.default = data;
-    if (this.hasNoData) {
-      this.updateView(this.default);
-    }
+    this.hasNoData = data === null || data === undefined;
+    this.updateView(data);
   }
 
   @Input()
-  set ifNonNullishFallback(fallbackTemplate: TemplateRef<any> | IfNullish) {
+  set ifNonNullishFallback(fallbackTemplate: TemplateRef<unknown> | IfNullish) {
     this.fallbackTemplate = fallbackTemplate ?? null;
-    if (this.hasNoData && this.isNullish(this.default)) {
+    if (this.hasNoData) {
       this.createFallbackView();
     }
   }
@@ -52,9 +25,7 @@ export class IfNonNullishDirective<T = unknown> {
 
   private hasNoData = true;
 
-  private default!: T;
-
-  private fallbackTemplate: TemplateRef<any> | null = null;
+  private fallbackTemplate: TemplateRef<unknown> | null = null;
 
   private viewState: 'regular' | 'fallback' | 'clear' = 'clear';
 
@@ -85,7 +56,7 @@ export class IfNonNullishDirective<T = unknown> {
   ) {}
 
   private updateView(data: T) {
-    if (!this.isNullish(data)) {
+    if (!this.hasNoData) {
       this.switchToRegularView(data);
     } else {
       this.switchToFallbackView();
@@ -136,9 +107,5 @@ export class IfNonNullishDirective<T = unknown> {
     }
     this.viewContainerRef.clear();
     this.viewState = 'clear';
-  }
-
-  private isNullish(data: T): boolean {
-    return data === null || data === undefined;
   }
 }

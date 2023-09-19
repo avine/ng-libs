@@ -16,7 +16,10 @@ export class DemoProp<T> {
     return this.values.length;
   }
 
-  constructor(private values: T[], public hideDetails = false) {}
+  constructor(
+    private values: T[],
+    public hideDetails = false,
+  ) {}
 
   next() {
     this.index = (this.index + 1) % this.values.length;

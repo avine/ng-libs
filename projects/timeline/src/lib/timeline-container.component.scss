@@ -69,7 +69,10 @@
     background-color: var(--av-timeline-bullet-background-color);
     color: var(--av-timeline-bullet-color);
     text-align: center;
-    transition: transform ease 250ms, background-color ease 250ms, color ease 250ms;
+    transition:
+      transform ease 250ms,
+      background-color ease 250ms,
+      color ease 250ms;
 
     &::after {
       content: '';

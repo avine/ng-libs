@@ -9,7 +9,7 @@ const DELAY = 1500;
 export const getTodosByUserId = (userId: number): Observable<Todo[]> => {
   return of(cloneTodos(todosDB)).pipe(
     map((todos) => todos.filter((todo) => todo.userId === userId)),
-    delay(DELAY)
+    delay(DELAY),
   );
 };
 

@@ -2,10 +2,7 @@
 
 <div class="layout">
   <div class="output">
-    <h3
-      class="result"
-      *ifNonNullish="data$ | async as value; default: defaultValue$ | async; fallback: fallbackTemplate$ | async"
-    >
+    <h3 class="result" *ifNonNullish="data$ | async as value; fallback: fallbackTemplate$ | async">
       {{ value }}
     </h3>
   </div>
@@ -14,11 +11,6 @@
     <div class="slide">
       <mat-slide-toggle (change)="useData($event.checked)">Data</mat-slide-toggle>
       <h3 class="result">{{ data$ | async }}</h3>
-    </div>
-
-    <div class="slide">
-      <mat-slide-toggle (change)="useDefaultValue($event.checked)">Default value</mat-slide-toggle>
-      <h3 class="result">{{ defaultValue$ | async }}</h3>
     </div>
 
     <div class="slide">

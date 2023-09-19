@@ -43,5 +43,8 @@ export class FormStepperMainDirective {
    */
   main$ = this.service.main$;
 
-  constructor(public template: TemplateRef<any>, private service: FormStepperService) {}
+  constructor(
+    public template: TemplateRef<any>,
+    private service: FormStepperService,
+  ) {}
 }

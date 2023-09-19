@@ -19,7 +19,7 @@ describe('AutocompleteHighlightPipe ', () => {
       spectator = createPipe(`<div [innerHTML]="'${suggestionValue}' | autocompleteHighlight:'${inputValue}'"></div>`);
 
       expect(spectator.element.querySelector('div')?.innerHTML).toBe(highlighted);
-    }
+    },
   );
 
   it('should use config as parameter', () => {
@@ -51,7 +51,7 @@ describe('AutocompleteHighlightPipe ', () => {
             useValue: { tag: 'span', css: 'shiny' },
           },
         ],
-      }
+      },
     );
 
     expect(spectator.element.querySelector('div')?.innerHTML).toBe('<em class="highlight">a</em>');

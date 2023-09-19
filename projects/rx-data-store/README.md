@@ -15,8 +15,8 @@ Now, if you write the following code all the time, then this package is for you.
 Let's say you have the following **data source**:
 
 ```ts
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class UserApiService {
@@ -31,8 +31,8 @@ export class UserApiService {
 Here is the associated **data store** service and the component that consumes it:
 
 ```ts
-import { map, ReplaySubject, tap } from 'rxjs';
 import { Component, Injectable, OnInit } from '@angular/core';
+import { map, ReplaySubject, tap } from 'rxjs';
 
 @Injectable()
 export class UserService {
@@ -45,7 +45,7 @@ export class UserService {
   get() {
     return this.userApiService.get().pipe(
       tap((user) => this._user$.next(user)),
-      map(() => undefined) // Force the developer to get the user data from `user$`
+      map(() => undefined), // Force the developer to get the user data from `user$`
     );
   }
 }

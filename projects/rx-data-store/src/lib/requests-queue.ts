@@ -13,14 +13,17 @@ export class RequestsQueue<T, R> {
    */
   mutations$ = this.mutationsQueue$.pipe(
     mergeMap((mutation$: Observable<Mutation<T, R>>) => mutation$, 1),
-    reduce((mutations, mutation) => {
-      mutations.push(mutation);
-      return mutations;
-    }, [] as Mutation<T, R>[]),
+    reduce(
+      (mutations, mutation) => {
+        mutations.push(mutation);
+        return mutations;
+      },
+      [] as Mutation<T, R>[],
+    ),
     map(
       (mutations) => (data: T) =>
-        mutations.reduce((acc, [response, mutate]) => (mutate ? mutate(acc, response) : acc), data)
-    )
+        mutations.reduce((acc, [response, mutate]) => (mutate ? mutate(acc, response) : acc), data),
+    ),
   );
 
   /**
@@ -44,8 +47,8 @@ export class RequestsQueue<T, R> {
           if (this.requestsCount === 0) {
             this.mutationsQueue$.complete();
           }
-        })
-      )
+        }),
+      ),
     );
   }
 }

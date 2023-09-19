@@ -35,7 +35,7 @@ export class TimelineContainerComponent implements AfterContentInit, OnDestroy {
 
   /** The list of items to display. */
   @Input() set items(items: string[]) {
-    this._items = items.map((content) => ({ content } as TimelineItem));
+    this._items = items.map((content) => ({ content }) as TimelineItem);
   }
 
   protected _pendingFromIndex?: number;

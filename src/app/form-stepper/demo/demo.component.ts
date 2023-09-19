@@ -5,9 +5,9 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import {
-  formatQuicknavValueFromListToHtml,
-  FormStepperContainerComponent,
   FORM_STEPPER_DIRECTIVES,
+  FormStepperContainerComponent,
+  formatQuicknavValueFromListToHtml,
 } from '@avine/ng-form-stepper';
 
 import { ViewSourceComponent } from '../../shared/view-source/view-source.component';
@@ -78,7 +78,7 @@ export class DemoComponent {
         this.formGroup.updateValueAndValidity();
       }
     }),
-    shareReplay(1) // Execute `tap` once for all subscribers using `shareReplay`.
+    shareReplay(1), // Execute `tap` once for all subscribers using `shareReplay`.
   );
 
   // You can customize the values displayed in the `<form-stepper-quicknav>`

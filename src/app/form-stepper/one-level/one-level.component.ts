@@ -37,7 +37,10 @@ export class OneLevelComponent {
 
   isBeingSubmitted = false;
 
-  constructor(private formBuilder: FormBuilder, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {}
 
   onSubmit() {
     this.isBeingSubmitted = true;

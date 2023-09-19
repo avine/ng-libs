@@ -36,7 +36,11 @@ export class FormStepperNextDirective implements AfterViewInit, OnDestroy {
 
   private subscription!: Subscription;
 
-  constructor(private service: FormStepperService, private renderer: Renderer2, private elementRef: ElementRef) {}
+  constructor(
+    private service: FormStepperService,
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+  ) {}
 
   ngAfterViewInit() {
     this.subscription = this.service.state$.subscribe(({ hasNextStep, isStepValid }) => {
@@ -45,7 +49,7 @@ export class FormStepperNextDirective implements AfterViewInit, OnDestroy {
       }
       this.renderer[hasNextStep && isStepValid ? 'removeClass' : 'addClass'](
         this.elementRef.nativeElement,
-        this.fsInactive
+        this.fsInactive,
       );
     });
   }

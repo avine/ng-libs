@@ -95,7 +95,9 @@
       border-radius: calc(var(--section-btn__height) / 2);
       border: 4px solid var(--bg-color);
       background-color: var(--bullet-color);
-      transition: left var(--anim-duration) ease, width var(--anim-duration) ease,
+      transition:
+        left var(--anim-duration) ease,
+        width var(--anim-duration) ease,
         background-color var(--anim-duration) ease;
     }
 
@@ -168,7 +170,9 @@
       text-decoration-color: transparent;
       text-decoration-thickness: 3px;
       text-underline-offset: 0.3em;
-      transition: color var(--anim-duration) ease, text-decoration-color var(--anim-duration) ease;
+      transition:
+        color var(--anim-duration) ease,
+        text-decoration-color var(--anim-duration) ease;
     }
   }
 

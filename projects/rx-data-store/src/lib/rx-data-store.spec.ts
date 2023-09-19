@@ -145,7 +145,7 @@ describe('RxDataStore', () => {
       dataStore.setData('DATA 1');
       await sequence(
         () => dataStore.setData('DATA 2'),
-        () => expect(dataSource).not.toHaveBeenCalled()
+        () => expect(dataSource).not.toHaveBeenCalled(),
       );
     });
 
@@ -179,7 +179,7 @@ describe('RxDataStore', () => {
       // When
       await sequence(
         () => dataStore.updateData((data) => `${data} World!`),
-        () => expect(dataSource).toHaveBeenCalledTimes(1)
+        () => expect(dataSource).toHaveBeenCalledTimes(1),
       );
     });
 
@@ -215,7 +215,7 @@ describe('RxDataStore', () => {
       dataStore.pending();
       await sequence(
         () => dataStore.updateData((data) => data, true),
-        () => expect(consoleError).toHaveBeenCalled()
+        () => expect(consoleError).toHaveBeenCalled(),
       );
     });
   });
@@ -233,7 +233,7 @@ describe('RxDataStore', () => {
       // When
       await sequence(
         () => dataStore.refresh(),
-        () => expect(dataSource).toHaveBeenCalledTimes(2)
+        () => expect(dataSource).toHaveBeenCalledTimes(2),
       );
     });
 
@@ -318,7 +318,7 @@ describe('RxDataStore', () => {
           // When
           .mutation(
             throwError(() => new Error('Oops!')),
-            mutate
+            mutate,
           )
           // Then
           .subscribe({
@@ -449,7 +449,7 @@ describe('RxDataStore', () => {
 
       // When
       await sequence(() =>
-        dataStore.mutation(throwError(() => new Error('Oops!'))).subscribe({ error: () => undefined })
+        dataStore.mutation(throwError(() => new Error('Oops!'))).subscribe({ error: () => undefined }),
       );
     });
   });
@@ -467,7 +467,7 @@ describe('RxDataStore', () => {
       // When
       await sequence(
         () => dataStore.fetch('FETCHED'),
-        () => expect(dataSource).toHaveBeenCalledTimes(1)
+        () => expect(dataSource).toHaveBeenCalledTimes(1),
       );
     });
 
@@ -485,7 +485,7 @@ describe('RxDataStore', () => {
       await sequence(
         () => dataStore.fetch('FETCHED 2'),
         () => dataStore.fetch('FETCHED 1'),
-        () => expect(dataSource).toHaveBeenCalledTimes(2)
+        () => expect(dataSource).toHaveBeenCalledTimes(2),
       );
     });
 
@@ -502,7 +502,7 @@ describe('RxDataStore', () => {
       // When
       await sequence(
         () => dataStore.fetch(),
-        () => expect(_dataSource).toHaveBeenCalledTimes(1)
+        () => expect(_dataSource).toHaveBeenCalledTimes(1),
       );
     });
 
@@ -518,7 +518,7 @@ describe('RxDataStore', () => {
       // When
       await sequence(
         () => dataStore.refresh(),
-        () => expect(dataSource).toHaveBeenCalledTimes(2)
+        () => expect(dataSource).toHaveBeenCalledTimes(2),
       );
     });
 
@@ -537,7 +537,7 @@ describe('RxDataStore', () => {
         () => dataStore.fetch('FETCHED 2'),
         () => dataStore.refresh(),
         () => dataStore.fetch('FETCHED 1'),
-        () => expect(dataSource).toHaveBeenCalledTimes(3)
+        () => expect(dataSource).toHaveBeenCalledTimes(3),
       );
     });
 
@@ -554,7 +554,7 @@ describe('RxDataStore', () => {
       await sequence(
         () => dataStore.clearCache(),
         () => dataStore.fetch('FETCHED'),
-        () => expect(dataSource).toHaveBeenCalledTimes(2)
+        () => expect(dataSource).toHaveBeenCalledTimes(2),
       );
     });
   });
@@ -577,7 +577,7 @@ describe('RxDataStore', () => {
       await sequence(
         () => expect(dataStore.dataSnapshot).toBe('FETCHED'), // Then
         () => dataStore.setData('DATA'), // When
-        () => expect(dataStore.dataSnapshot).toBe('DATA') // Then
+        () => expect(dataStore.dataSnapshot).toBe('DATA'), // Then
       );
     });
 
@@ -790,7 +790,7 @@ describe('RxDataStore', () => {
 
           // Because the data could not be cached, the _dataSource has been triggered 2 times
           expect(_dataSource).toHaveBeenCalledTimes(2);
-        }
+        },
       );
     });
   });

@@ -86,7 +86,7 @@ describe('IfNonNullishDirective', () => {
           <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
           <ng-template #fallback><i>Fallback</i></ng-template>
         `,
-          { hostProps: { data: null, default: null } }
+          { hostProps: { data: null, default: null } },
         );
         expect(spectator.query('i')?.textContent).toMatch('Fallback');
       });
@@ -97,7 +97,7 @@ describe('IfNonNullishDirective', () => {
           <div *ifNonNullish="data as value; fallback: fallback">{{ value }}</div>
           <ng-template #fallback1><i>Fallback 1</i></ng-template>
           <ng-template #fallback2><i>Fallback 2</i></ng-template>
-        `
+        `,
         );
 
         const hostComponent = spectator.hostComponent as HostComponent;
@@ -116,7 +116,7 @@ describe('IfNonNullishDirective', () => {
           `
             <div *ifNonNullish="data as value; fallback: fallback">{{ value }}</div>
             <ng-template #fallback1><i>Fallback 1</i></ng-template>
-          `
+          `,
         );
 
         const hostComponent = spectator.hostComponent as HostComponent;
@@ -136,7 +136,7 @@ describe('IfNonNullishDirective', () => {
           <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
           <ng-template #fallback><i>Fallback</i></ng-template>
         `,
-          { hostProps: { data: 'Data', default: null } }
+          { hostProps: { data: 'Data', default: null } },
         );
         expect(spectator.query('div')?.textContent).toMatch('Data');
       });
@@ -147,7 +147,7 @@ describe('IfNonNullishDirective', () => {
           <div *ifNonNullish="data as value; default: default; fallback: fallback">{{ value }}</div>
           <ng-template #fallback><i>Fallback</i></ng-template>
         `,
-          { hostProps: { data: null, default: 'Default' } }
+          { hostProps: { data: null, default: 'Default' } },
         );
         expect(spectator.query('div')?.textContent).toMatch('Default');
       });
@@ -187,7 +187,7 @@ describe('IfNonNullishDirective', () => {
         const { data, next } = getMockData$<string | null>();
         const spectator = createDirective(
           '<div *ifNonNullish="data | async as value; default: default">{{ value }}</div>',
-          { hostProps: { data, default: 'Default' } }
+          { hostProps: { data, default: 'Default' } },
         );
 
         expect(spectator.query('div')?.textContent).toMatch('Default');
@@ -205,7 +205,7 @@ describe('IfNonNullishDirective', () => {
         const { data, next } = getMockData$<string | null>('Data');
         const spectator = createDirective(
           '<div *ifNonNullish="data | async as value; default: default">{{ value }}</div>',
-          { hostProps: { data, default: 'Default' } }
+          { hostProps: { data, default: 'Default' } },
         );
 
         next('Data');
@@ -230,7 +230,7 @@ describe('IfNonNullishDirective', () => {
             <div *ifNonNullish="data | async as value; fallback: fallback">{{ value }}</div>
             <ng-template #fallback><i>Fallback</i></ng-template>
           `,
-          { hostProps: { data } }
+          { hostProps: { data } },
         );
         expect(spectator.query('i')?.textContent).toMatch('Fallback');
 
@@ -250,7 +250,7 @@ describe('IfNonNullishDirective', () => {
             <div *ifNonNullish="data | async as value; fallback: fallback">{{ value }}</div>
             <ng-template #fallback><i>Fallback</i></ng-template>
           `,
-          { hostProps: { data } }
+          { hostProps: { data } },
         );
         expect(spectator.query('div')?.textContent).toMatch('Data');
 
@@ -270,7 +270,7 @@ describe('IfNonNullishDirective', () => {
             <div *ifNonNullish="data | async as value; fallback: fallback">{{ value }}</div>
             <ng-template #fallback><i>Fallback</i></ng-template>
           `,
-          { hostProps: { data } }
+          { hostProps: { data } },
         );
 
         // Hack: accessing the private property `viewContainerRef` of the directive
@@ -294,7 +294,7 @@ describe('IfNonNullishDirective', () => {
             <div *ifNonNullish="data | async as value; default: default; fallback: fallback">{{ value }}</div>
             <ng-template #fallback><i>Fallback</i></ng-template>
           `,
-          { hostProps: { data, default: 'Default' } }
+          { hostProps: { data, default: 'Default' } },
         );
         expect(spectator.query('div')?.textContent).toMatch('Data');
 

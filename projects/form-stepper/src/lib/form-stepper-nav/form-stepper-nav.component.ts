@@ -101,7 +101,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
     return this.service.state$
       .pipe(
         map(({ stepIndex }) => stepIndex),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(() => (this.isMobileOverlayOpen = false));
   }
@@ -111,7 +111,7 @@ export class FormStepperNavComponent implements OnInit, OnDestroy {
   constructor(
     private service: FormStepperService,
     private breakpointObserver: BreakpointObserver,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {

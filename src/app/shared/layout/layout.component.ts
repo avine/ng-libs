@@ -38,7 +38,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     @Inject(DOCUMENT) private document: Document,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
   ) {}
 
   ngOnInit() {
@@ -51,7 +51,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
           this.drawerMode = 'over';
           this.closeOnNavigationEnd = true;
         }
-      })
+      }),
     );
 
     this.isSidenavOpened$.next(this.drawerMode === 'over' ? false : true);
@@ -65,9 +65,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
           }
 
           this.document.defaultView?.requestAnimationFrame(() =>
-            this.content.getElementRef().nativeElement.scrollTo(0, 0)
+            this.content.getElementRef().nativeElement.scrollTo(0, 0),
           );
-        })
+        }),
     );
   }
 

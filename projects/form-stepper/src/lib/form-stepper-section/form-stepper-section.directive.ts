@@ -129,7 +129,7 @@ export class FormStepperSectionDirective implements AfterContentInit, OnDestroy 
           step.sectionProgression = { count: relativeStepIndex + 1, total: this.stepDirectiveQueryList.length };
         }
         return step;
-      }
+      },
     );
   }
 }

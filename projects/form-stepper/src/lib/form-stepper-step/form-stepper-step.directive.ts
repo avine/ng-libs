@@ -62,5 +62,8 @@ export class FormStepperStepDirective {
 
   getAutoNextOnValueChange = (): boolean => coerceBooleanProperty(this.fsAutoNextOnValueChange);
 
-  constructor(public template: TemplateRef<any>, private service: FormStepperService) {}
+  constructor(
+    public template: TemplateRef<any>,
+    private service: FormStepperService,
+  ) {}
 }

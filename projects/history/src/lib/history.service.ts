@@ -23,7 +23,7 @@ export class HistoryService implements OnDestroy {
       return history;
     }, [] as string[]),
     tap((history) => (this._historySnapshot = history)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private _historySnapshot: string[] = [];
@@ -33,9 +33,9 @@ export class HistoryService implements OnDestroy {
   }
 
   readonly navigation$: Observable<Navigation> = this.history$.pipe(
-    map(([current, previous]) => ({ previous, current } as Navigation)),
+    map(([current, previous]) => ({ previous, current }) as Navigation),
     tap((navigation) => (this._navigationSnapshot = navigation)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private _navigationSnapshot?: Navigation;

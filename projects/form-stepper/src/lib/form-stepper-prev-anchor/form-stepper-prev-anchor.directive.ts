@@ -41,7 +41,11 @@ export class FormStepperPrevAnchorDirective implements AfterViewInit, OnDestroy 
 
   private subscription!: Subscription;
 
-  constructor(private service: FormStepperService, private renderer: Renderer2, private elementRef: ElementRef) {}
+  constructor(
+    private service: FormStepperService,
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+  ) {}
 
   ngAfterViewInit() {
     this.subscription = this.service.state$.subscribe(({ hasPrevStep }) => {
@@ -50,7 +54,7 @@ export class FormStepperPrevAnchorDirective implements AfterViewInit, OnDestroy 
       }
       this.renderer[!this.service.useRouting && !hasPrevStep ? 'addClass' : 'removeClass'](
         this.elementRef.nativeElement,
-        this.fsInactive
+        this.fsInactive,
       );
     });
   }

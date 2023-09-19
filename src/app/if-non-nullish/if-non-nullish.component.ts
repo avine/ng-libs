@@ -31,19 +31,19 @@ export class IfNonNullishComponent {
   data$: Observable<boolean | number | null> = this.interval$.pipe(
     map((i) => (i % 2 ? true : false)),
     map((data) => (this.hasData ? data : null)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   defaultValue$: Observable<boolean | number | null> = this.interval$.pipe(
     map((i) => i % 2),
     map((data) => (this.hasDefaultValue ? data : null)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   fallbackTemplate$: Observable<TemplateRef<any> | null> = this.interval$.pipe(
     map((i) => (i % 2 ? this.fallbackTemplateA : this.fallbackTemplateB)),
     map((data) => (this.hasFallbackTemplate ? data : null)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   useData(value: boolean) {

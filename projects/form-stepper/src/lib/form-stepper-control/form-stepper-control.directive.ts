@@ -48,7 +48,10 @@ export class FormStepperControlDirective implements OnInit, OnDestroy {
     return { ...FORM_STEPPER_CONTROL_ON_ENTER_DEFAULT, ...(this.fsOnEnter ?? {}) };
   }
 
-  constructor(private service: FormStepperService, private elementRef: ElementRef) {}
+  constructor(
+    private service: FormStepperService,
+    private elementRef: ElementRef,
+  ) {}
 
   ngOnInit() {
     this.service.addControlElement(this.elementRef.nativeElement);

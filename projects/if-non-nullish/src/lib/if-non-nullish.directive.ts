@@ -74,12 +74,15 @@ export class IfNonNullishDirective<T = unknown> {
    */
   static ngTemplateContextGuard<T>(
     _directive: IfNonNullishDirective<T>,
-    context: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    context: any, // eslint-disable-line @typescript-eslint/no-explicit-any
   ): context is IfNonNullishContext<Exclude<T, IfNullish>> {
     return true;
   }
 
-  constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<IfNonNullishContext<T>>) {}
+  constructor(
+    private viewContainerRef: ViewContainerRef,
+    private templateRef: TemplateRef<IfNonNullishContext<T>>,
+  ) {}
 
   private updateView(data: T) {
     if (!this.isNullish(data)) {

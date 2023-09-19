@@ -115,7 +115,7 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
       }
     }),
     tap((suggestions) => (this.suggestions = suggestions)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private _focusedSuggestionIndex$ = new BehaviorSubject(-1);
@@ -135,7 +135,7 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
    */
   shouldDisplaySuggestions$ = combineLatest([this.suggestions$, this.areSuggestionsExpected$]).pipe(
     map(([suggestions, areSuggestionsExpected]) => suggestions.length > 0 && areSuggestionsExpected),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   /* ----- */
@@ -154,7 +154,7 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
 
   onFocus(): void {
     this.areSuggestionsExpected$.next(
-      this.inputValue$.value.length >= this.inputMinLength && !this.datalist.includes(this.inputValue)
+      this.inputValue$.value.length >= this.inputMinLength && !this.datalist.includes(this.inputValue),
     );
   }
 
@@ -169,7 +169,7 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
       return;
     }
     this._focusedSuggestionIndex$.next(
-      this._focusedSuggestionIndex$.value > 0 ? this._focusedSuggestionIndex$.value - 1 : this.suggestions.length - 1
+      this._focusedSuggestionIndex$.value > 0 ? this._focusedSuggestionIndex$.value - 1 : this.suggestions.length - 1,
     );
     this.scrollToFocusedSuggestion();
   }
@@ -180,7 +180,7 @@ export class AutocompleteSuggestionsComponent implements AfterViewInit, OnDestro
       return;
     }
     this._focusedSuggestionIndex$.next(
-      this._focusedSuggestionIndex$.value < this.suggestions.length - 1 ? this._focusedSuggestionIndex$.value + 1 : 0
+      this._focusedSuggestionIndex$.value < this.suggestions.length - 1 ? this._focusedSuggestionIndex$.value + 1 : 0,
     );
     this.scrollToFocusedSuggestion();
   }

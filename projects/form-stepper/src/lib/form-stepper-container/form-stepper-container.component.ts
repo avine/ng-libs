@@ -114,7 +114,7 @@ export class FormStepperContainerComponent implements OnInit, AfterContentInit, 
   constructor(
     private service: FormStepperService,
     private elementRef: ElementRef<HTMLElement>,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {

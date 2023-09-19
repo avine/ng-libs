@@ -66,12 +66,12 @@ export class RxDataStore<T, A extends any[] = [], R = any> {
           }
         }),
         catchError(this.handleError.bind(this)),
-        finalize(() => this._pending$.next(false))
+        finalize(() => this._pending$.next(false)),
       );
     }),
     tap((data) => (this._dataSnapshot = data)),
     shareReplay(1),
-    map((data) => this._map(data))
+    map((data) => this._map(data)),
   );
 
   private _pending$ = new BehaviorSubject(false);
@@ -130,7 +130,11 @@ export class RxDataStore<T, A extends any[] = [], R = any> {
    * @param args An array of initial arguments to use when fetching the data.
    * @param useCache Configure cache usage.
    */
-  constructor(private dataSource: (...args: A) => Observable<T>, private args?: A, public useCache = false) {}
+  constructor(
+    private dataSource: (...args: A) => Observable<T>,
+    private args?: A,
+    public useCache = false,
+  ) {}
 
   /**
    * Fetch the data using provided arguments.
@@ -184,7 +188,7 @@ export class RxDataStore<T, A extends any[] = [], R = any> {
     return request$.pipe(
       tap((response) => mutate && this.updateData((data) => mutate(data, response))),
       catchError(this.handleError.bind(this)),
-      finalize(() => this._pending$.next(false))
+      finalize(() => this._pending$.next(false)),
     );
   }
 

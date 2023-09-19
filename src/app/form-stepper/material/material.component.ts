@@ -45,7 +45,7 @@ export class MaterialComponent {
       const nickName = this.formGroup.controls.fullName.controls.nickName;
       nickName.setValidators(haveNickName ? [Validators.required] : []);
       nickName.updateValueAndValidity();
-    })
+    }),
   );
 
   isBeingSubmitted = false;

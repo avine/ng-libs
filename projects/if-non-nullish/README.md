@@ -27,9 +27,9 @@ export class AppModule {}
 Use `ifNonNullish` directive in your `app.component.ts`:
 
 ```ts
+import { Component } from '@angular/core';
 import { interval, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',

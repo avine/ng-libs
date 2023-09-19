@@ -101,11 +101,11 @@ export class FormStepperService implements OnDestroy {
         isOnboarding: stepIndex === onboardingInfo?.index,
         isSummary: stepIndex === summaryInfo?.index,
         progressionInPercent: Math.round(
-          100 - ((lastStepIndex - stepIndex) / (lastStepIndex + (onboardingInfo ? 1 : 0))) * 100
+          100 - ((lastStepIndex - stepIndex) / (lastStepIndex + (onboardingInfo ? 1 : 0))) * 100,
         ),
       };
     }),
-    tap((main) => (this.mainSnapshot = main))
+    tap((main) => (this.mainSnapshot = main)),
   );
 
   mainSnapshot!: FormStepperMain;
@@ -143,7 +143,7 @@ export class FormStepperService implements OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnDestroy() {
@@ -213,7 +213,7 @@ export class FormStepperService implements OnDestroy {
 
   private focusControlElement(element: HTMLElement) {
     const isHtmlFieldElement = [HTMLInputElement, HTMLSelectElement, HTMLTextAreaElement].some(
-      (htmlFieldElement) => element instanceof htmlFieldElement
+      (htmlFieldElement) => element instanceof htmlFieldElement,
     );
 
     if (isHtmlFieldElement) {
@@ -433,7 +433,7 @@ export class FormStepperService implements OnDestroy {
     this.currentStepStatusSubscription = step.control.statusChanges
       .pipe(
         distinctUntilChanged(),
-        map((status) => status === 'VALID')
+        map((status) => status === 'VALID'),
       )
       .subscribe(updateState);
 
